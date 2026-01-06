@@ -9,19 +9,19 @@
   <!-- Autocomplete -->
   <tng-autocomplete
     [options]="options()"
-    [displayWith]="displayCity"
-    placeholder="Search city…"
+    [displayWith]="displayCountry"
+    placeholder="Search country…"
     (search)="onSearch($event)"
     (selected)="onSelected($event)"
     (closed)="onClosed($event)"
   />
 
   <!-- Selected value preview -->
-  @if (selectedCity()) {
+  @if (selectedCountry()) {
     <div class="rounded-md border border-gray-200 bg-gray-50 p-4">
-      <div class="text-sm text-gray-500 mb-1">Selected City</div>
+      <div class="text-sm text-gray-500 mb-1">Selected Country</div>
       <div class="font-medium">
-        {{ displayCity(selectedCity()!) }}
+        {{ displayCountry(selectedCountry()!) }}
       </div>
     </div>
   }

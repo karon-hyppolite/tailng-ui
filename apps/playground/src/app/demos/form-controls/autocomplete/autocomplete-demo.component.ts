@@ -1,11 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TailngAutocompleteComponent } from '@tailng/ui';
+import { Country, COUNTRY_LIST } from '../../util/country-list';
+import { toFlagEmoji } from '../../util/common.util';
 
-interface City {
-  id: number;
-  name: string;
-  country: string;
-}
 
 @Component({
   selector: 'playground-autocomplete-demo',
@@ -14,26 +11,15 @@ interface City {
   templateUrl: './autocomplete-demo.component.html',
 })
 export class AutocompleteDemoComponent {
-  // Full dataset (pretend this comes from an API)
-  private readonly allCities: City[] = [
-    { id: 1, name: 'Bengaluru', country: 'India' },
-    { id: 2, name: 'Chennai', country: 'India' },
-    { id: 3, name: 'Kochi', country: 'India' },
-    { id: 4, name: 'Mumbai', country: 'India' },
-    { id: 5, name: 'Delhi', country: 'India' },
-    { id: 6, name: 'London', country: 'UK' },
-    { id: 7, name: 'Berlin', country: 'Germany' },
-    { id: 8, name: 'Paris', country: 'France' },
-  ];
 
   // Filtered options shown in autocomplete
-  options = signal<City[]>([]);
+  options = signal<Country[]>([]);
 
   // Selected value (for demo display)
-  selectedCity = signal<City | null>(null);
+  selectedCountry = signal<Country | null>(null);
 
   // Display function for input + list
-  displayCity = (city: City) => `${city.name}, ${city.country}`;
+  displayCountry = (country: Country) => `${toFlagEmoji(country.code)} ${country.name}`;
 
   // Called when user types
   onSearch(term: string) {
@@ -45,17 +31,17 @@ export class AutocompleteDemoComponent {
     }
 
     // Simulate API filtering
-    const filtered = this.allCities.filter(city =>
-      city.name.toLowerCase().includes(value) ||
-      city.country.toLowerCase().includes(value)
+    const filtered = COUNTRY_LIST.filter(country =>
+      country.name.toLowerCase().includes(value) ||
+      country.iso.toLowerCase().includes(value)
     );
 
     this.options.set(filtered);
   }
 
   // Called when user selects an option
-  onSelected(city: City) {
-    this.selectedCity.set(city);
+  onSelected(country: Country) {
+    this.selectedCountry.set(country);
   }
 
   onClosed(reason: string) {
