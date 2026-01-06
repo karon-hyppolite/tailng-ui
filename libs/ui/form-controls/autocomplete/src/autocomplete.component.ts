@@ -6,7 +6,8 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { TailngConnectedOverlayComponent, TailngOverlayPanelComponent } from '@tailng/ui';
+import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
+import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 
 // ✅ Fix import path (use your barrel export ideally)

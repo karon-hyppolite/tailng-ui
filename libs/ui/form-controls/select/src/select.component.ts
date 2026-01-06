@@ -6,7 +6,9 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { TailngConnectedOverlayComponent, TailngOptionListComponent, TailngOverlayPanelComponent } from '@tailng/ui';
+import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
+import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
+import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 
