@@ -27,6 +27,12 @@
         "scripts": [],
         "optimization": false
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/docs/**/*.ts", "apps/docs/**/*.html"]
+      }
     }
   }
 }
