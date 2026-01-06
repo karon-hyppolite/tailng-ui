@@ -1,0 +1,32 @@
+{
+  "name": "playground",
+  "projectType": "application",
+  "sourceRoot": "apps/playground/src",
+  "targets": {
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "buildTarget": "playground:build"
+      }
+    },
+    "build": {
+      "executor": "@nx/angular:browser-esbuild",
+      "options": {
+        "outputPath": "dist/apps/playground",
+        "index": "apps/playground/src/index.html",
+        "main": "apps/playground/src/main.ts",
+        "polyfills": [],
+        "tsConfig": "apps/playground/tsconfig.app.json",
+        "assets": [
+          "apps/playground/src/favicon.ico",
+          "apps/playground/src/assets"
+        ],
+        "styles": [
+          "apps/playground/src/styles.css"
+        ],
+        "scripts": [],
+        "optimization": false
+      }
+    }
+  }
+}

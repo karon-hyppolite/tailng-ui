@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tailng/ui": [
+        "libs/ui/src/public-api.ts"
+      ],
+      "@tailng/icons": [
+        "libs/icons/src/public-api.ts"
+      ],
+      "@tailng/theme": [
+        "libs/theme/src/public-api.ts"
+      ],
+      "@tailng/cdk": [
+        "libs/cdk/src/public-api.ts"
+      ]
+    }
+  }
+}

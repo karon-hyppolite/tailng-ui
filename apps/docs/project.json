@@ -1,0 +1,32 @@
+{
+  "name": "docs",
+  "projectType": "application",
+  "sourceRoot": "apps/docs/src",
+  "targets": {
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "buildTarget": "docs:build"
+      }
+    },
+    "build": {
+      "executor": "@nx/angular:browser-esbuild",
+      "options": {
+        "outputPath": "dist/apps/docs",
+        "index": "apps/docs/src/index.html",
+        "main": "apps/docs/src/main.ts",
+        "polyfills": [],
+        "tsConfig": "apps/docs/tsconfig.app.json",
+        "assets": [
+          "apps/docs/src/favicon.ico",
+          "apps/docs/src/assets"
+        ],
+        "styles": [
+          "apps/docs/src/styles.css"
+        ],
+        "scripts": [],
+        "optimization": false
+      }
+    }
+  }
+}

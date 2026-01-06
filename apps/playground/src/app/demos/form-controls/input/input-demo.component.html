@@ -1,0 +1,24 @@
+<div>
+  <h1 class="text-2xl font-bold mb-6">Input</h1>
+  
+  <div class="space-y-6">
+    <section>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Your name</label>
+      <tng-input [(value)]="name" placeholder="Type here..."></tng-input>
+      <p class="text-sm mt-2 text-gray-600">
+        Current value: <span class="font-semibold">{{ name() }}</span>
+      </p>
+    </section>
+
+    <section>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+      <tng-input type="email" placeholder="Enter your email"></tng-input>
+    </section>
+
+    <section>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+      <tng-input type="password" placeholder="Enter password"></tng-input>
+    </section>
+  </div>
+</div>
+

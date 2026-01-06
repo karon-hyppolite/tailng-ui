@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{ --color-primary: #2563eb; }
+body{ margin:0; font-family: Roboto, system-ui, -apple-system, Segoe UI, Arial, sans-serif; background:#fff; }
