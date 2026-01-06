@@ -12,7 +12,7 @@ const sizes: Record<TailngButtonSize, string> = {
 };
 
 const variants: Record<TailngButtonVariant, string> = {
-  solid: 'bg-primary text-white hover:opacity-90',
+  solid: 'bg-primary text-on-primary hover:opacity-90',
   outline: 'border border-gray-300 hover:bg-gray-50',
   ghost: 'hover:bg-gray-100',
 };

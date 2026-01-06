@@ -1,1 +1,1 @@
-module.exports = { theme: { extend: { colors: { primary: '#2563eb' }}}};
+module.exports = { theme: { extend: { }}};
