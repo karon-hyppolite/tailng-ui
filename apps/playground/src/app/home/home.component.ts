@@ -45,7 +45,7 @@ export const categories = [
       { name: 'Progress Spinner', route: '/buttons/progress-spinner', status: 'done', priority: 'medium' },
 
       // Missing but essential indicators
-      { name: 'Skeleton', route: '/buttons/skeleton', status: 'backlog', priority: 'medium' },
+      { name: 'Skeleton', route: '/buttons/skeleton', status: 'done', priority: 'medium' },
     ],
   },
 

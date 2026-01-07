@@ -1,0 +1,35 @@
+@keyframes tng-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Shimmer overlay */
+.tng-skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: tng-skeleton-shimmer 1.25s infinite linear;
+
+  /* Uses current theme via opacity only; users can override by klass */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tng-skeleton-shimmer::after {
+    animation: none;
+  }
+  .animate-pulse {
+    animation: none;
+  }
+}

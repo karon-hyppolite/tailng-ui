@@ -1,31 +1,185 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Skeleton</h1>
+<div class="max-w-4xl space-y-10">
+  <header class="space-y-2">
+    <h2 class="text-base font-semibold text-slate-800">tng-skeleton demo</h2>
+    <p class="text-sm text-slate-600">
+      Features: variants, shimmer/pulse, Tailwind sizing via klass, exact CSS sizing, and theming override.
+    </p>
+  </header>
 
-  <div class="space-y-6 max-w-md">
-    <section>
-      <h2 class="text-lg font-semibold mb-4">Text Variant</h2>
+  <!-- Interactive controls -->
+  <section class="space-y-4 rounded-md border border-border p-4">
+    <h3 class="text-sm font-semibold text-slate-700">Interactive controls</h3>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setVariant('text')">
+        variant: text
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setVariant('rectangular')">
+        variant: rectangular
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setVariant('circular')">
+        variant: circular
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="toggleShimmer()">
+        shimmer: {{ shimmer }}
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('default')">
+        preset: default
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('subtle')">
+        preset: subtle
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('strong')">
+        preset: strong
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('card')">
+        preset: card
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="useExactSize()">
+        use exact size
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="clearExactSize()">
+        clear exact size
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">widthKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="widthKlass"
+          (input)="widthKlass = $any($event.target).value"
+          placeholder="w-full / w-1/2 / w-64"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">heightKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="heightKlass"
+          (input)="heightKlass = $any($event.target).value"
+          placeholder="h-4 / h-8 / h-32"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">klass (theming override)</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="klass"
+          (input)="klass = $any($event.target).value"
+          placeholder="bg-alternate-background/70"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">width (exact CSS)</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="width"
+          (input)="width = $any($event.target).value"
+          placeholder="240px / 60% / 12rem"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">height (exact CSS)</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="height"
+          (input)="height = $any($event.target).value"
+          placeholder="14px / 1rem / 32px"
+        />
+      </div>
+    </div>
+
+    <div class="text-xs text-slate-500">
+      Current:
+      <span class="font-mono">
+        {{ '{' }}
+        variant: "{{ variant }}",
+        shimmer: {{ shimmer }},
+        widthKlass: "{{ widthKlass }}",
+        heightKlass: "{{ heightKlass }}",
+        width: "{{ width }}",
+        height: "{{ height }}",
+        klass: "{{ klass }}"
+        {{ '}' }}
+      </span>
+    </div>
+  </section>
+
+  <!-- Live preview -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Live preview</h3>
+
+    <tng-skeleton
+      [variant]="variant"
+      [shimmer]="shimmer"
+      [widthKlass]="widthKlass"
+      [heightKlass]="heightKlass"
+      [width]="width"
+      [height]="height"
+      [klass]="klass"
+    />
+  </section>
+
+  <!-- Realistic skeleton layouts -->
+  <section class="space-y-6">
+    <h3 class="text-sm font-semibold text-slate-700">Realistic layouts</h3>
+
+    <!-- Profile row -->
+    <div class="flex items-center gap-4 rounded-md border border-border p-4">
+      <tng-skeleton variant="circular" widthKlass="w-12" heightKlass="h-12" [shimmer]="shimmer" />
+      <div class="flex-1 space-y-2">
+        <tng-skeleton widthKlass="w-1/3" heightKlass="h-4" [shimmer]="shimmer" />
+        <tng-skeleton widthKlass="w-2/3" heightKlass="h-3" [shimmer]="shimmer" klass="bg-border/50" />
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="rounded-md border border-border p-4 space-y-3">
+      <tng-skeleton variant="rectangular" heightKlass="h-32" [shimmer]="shimmer" />
+      <tng-skeleton widthKlass="w-2/3" heightKlass="h-4" [shimmer]="shimmer" />
       <div class="space-y-2">
-        <tng-skeleton variant="text" width="100%" height="1rem"></tng-skeleton>
-        <tng-skeleton variant="text" width="80%" height="1rem"></tng-skeleton>
-        <tng-skeleton variant="text" width="60%" height="1rem"></tng-skeleton>
+        <tng-skeleton widthKlass="w-full" heightKlass="h-3" [shimmer]="shimmer" klass="bg-border/50" />
+        <tng-skeleton widthKlass="w-5/6" heightKlass="h-3" [shimmer]="shimmer" klass="bg-border/50" />
+        <tng-skeleton widthKlass="w-3/5" heightKlass="h-3" [shimmer]="shimmer" klass="bg-border/50" />
       </div>
-    </section>
+      <div class="flex gap-2 pt-2">
+        <tng-skeleton variant="rectangular" widthKlass="w-24" heightKlass="h-8" [shimmer]="shimmer" />
+        <tng-skeleton variant="rectangular" widthKlass="w-20" heightKlass="h-8" [shimmer]="shimmer" klass="bg-border/50" />
+      </div>
+    </div>
 
-    <section>
-      <h2 class="text-lg font-semibold mb-4">Circular Variant</h2>
-      <div class="flex items-center gap-4">
-        <tng-skeleton variant="circular" width="3rem" height="3rem"></tng-skeleton>
-        <div class="flex-1 space-y-2">
-          <tng-skeleton variant="text" width="100%" height="1rem"></tng-skeleton>
-          <tng-skeleton variant="text" width="60%" height="1rem"></tng-skeleton>
+    <!-- Table-like -->
+    <div class="rounded-md border border-border p-4 space-y-3">
+      <div class="grid grid-cols-3 gap-3">
+        <tng-skeleton heightKlass="h-4" [shimmer]="shimmer" />
+        <tng-skeleton heightKlass="h-4" [shimmer]="shimmer" />
+        <tng-skeleton heightKlass="h-4" [shimmer]="shimmer" />
+      </div>
+
+      @for (row of [1,2,3,4]; track row) {
+        <div class="grid grid-cols-3 gap-3">
+          <tng-skeleton heightKlass="h-3" widthKlass="w-5/6" [shimmer]="shimmer" klass="bg-border/50" />
+          <tng-skeleton heightKlass="h-3" widthKlass="w-2/3" [shimmer]="shimmer" klass="bg-border/50" />
+          <tng-skeleton heightKlass="h-3" widthKlass="w-1/2" [shimmer]="shimmer" klass="bg-border/50" />
         </div>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-4">Rectangular Variant</h2>
-      <tng-skeleton variant="rectangular" width="100%" height="200px"></tng-skeleton>
-    </section>
-  </div>
+      }
+    </div>
+  </section>
 </div>
-
