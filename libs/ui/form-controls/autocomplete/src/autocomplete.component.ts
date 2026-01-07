@@ -2,16 +2,19 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  forwardRef,
   input,
   output,
   signal,
+  effect,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
-import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
+import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
 
-// ✅ Fix import path (use your barrel export ideally)
-// Example: import { handleListKeyboardEvent } from '@tailng/cdk';
+import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 
 export type AutocompleteCloseReason =
   | 'selection'
@@ -23,26 +26,41 @@ export type AutocompleteCloseReason =
 @Component({
   selector: 'tng-autocomplete',
   standalone: true,
-  imports: [TailngConnectedOverlayComponent, TailngOverlayPanelComponent],
+  imports: [
+    TailngConnectedOverlayComponent,
+    TailngOverlayPanelComponent,
+    TailngOptionListComponent,
+  ],
   templateUrl: './autocomplete.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TailngAutocompleteComponent),
+      multi: true,
+    },
+  ],
 })
-export class TailngAutocompleteComponent<T> {
+export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('listbox', { static: false })
-  listbox?: ElementRef<HTMLElement>;
 
   /* =====================
    * Inputs / Outputs
    * ===================== */
   options = input<T[]>([]);
   placeholder = input<string>('Start typing…');
+
+  /** External disabled input (read-only InputSignal) */
   disabled = input<boolean>(false);
+
   displayWith = input<(item: T) => string>((v) => String(v));
 
+  /** Raw text for filtering / API search (not the form value) */
   readonly search = output<string>();
+
+  /** Optional: non-form usage hook */
   readonly selected = output<T>();
+
   readonly closed = output<AutocompleteCloseReason>();
 
   /* =====================
@@ -51,6 +69,52 @@ export class TailngAutocompleteComponent<T> {
   inputValue = signal('');
   isOpen = signal(false);
   focusedIndex = signal(-1);
+
+  /** eslint-safe + template-safe internal disabled state */
+  protected isDisabled = signal(false);
+
+  /** Form value (selected item) */
+  private value: T | null = null;
+
+  /* =====================
+   * ControlValueAccessor
+   * ===================== */
+  private onChange: (value: T | null) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  constructor() {
+    // Sync external [disabled] -> internal state
+    effect(() => {
+      this.isDisabled.set(this.disabled());
+      if (this.isDisabled()) this.close('programmatic');
+    });
+  }
+
+  writeValue(value: T | null): void {
+    this.value = value;
+
+    if (value == null) {
+      this.inputValue.set('');
+      this.focusedIndex.set(-1);
+      return;
+    }
+
+    this.inputValue.set(this.displayWith()(value));
+    this.focusedIndex.set(-1);
+  }
+
+  registerOnChange(fn: (value: T | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled.set(isDisabled);
+    if (isDisabled) this.close('programmatic');
+  }
 
   /* =====================
    * Display helper
@@ -63,9 +127,8 @@ export class TailngAutocompleteComponent<T> {
    * State Transitions
    * ===================== */
   open(_reason: AutocompleteCloseReason) {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
 
-    // Don’t early return: focus should be able to "re-open" and reset index if needed
     this.isOpen.set(true);
 
     if (this.options().length) {
@@ -88,7 +151,6 @@ export class TailngAutocompleteComponent<T> {
    * Overlay callbacks
    * ===================== */
   onOverlayClosed(reason: AutocompleteCloseReason) {
-    // Overlay can emit 'outside-click' or 'escape'
     this.close(reason);
   }
 
@@ -96,14 +158,28 @@ export class TailngAutocompleteComponent<T> {
    * UI Events
    * ===================== */
   onInput(ev: Event) {
-    const value = (ev.target as HTMLInputElement).value ?? '';
-    this.inputValue.set(value);
-    this.search.emit(value);
+    if (this.isDisabled()) return;
+
+    const text = (ev.target as HTMLInputElement).value ?? '';
+    this.inputValue.set(text);
+
+    // typing clears selection
+    this.value = null;
+    this.onChange(null);
+
+    this.search.emit(text);
     this.open('programmatic');
   }
 
+  onBlur() {
+    this.onTouched();
+    this.close('blur');
+  }
+
   onKeydown(ev: KeyboardEvent) {
-    // If closed, allow ArrowDown/ArrowUp to open
+    if (this.isDisabled()) return;
+
+    // open on arrow
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
       this.open('programmatic');
       return;
@@ -118,14 +194,11 @@ export class TailngAutocompleteComponent<T> {
     switch (action.type) {
       case 'move':
         this.focusedIndex.set(action.index);
-        this.scrollActiveIntoView(action.index);
         break;
 
       case 'select': {
         const item = this.options()[action.index];
-        if (item !== undefined) {
-          this.select(item, action.index);
-        }
+        if (item !== undefined) this.select(item);
         break;
       }
 
@@ -139,24 +212,21 @@ export class TailngAutocompleteComponent<T> {
     }
   }
 
-  select(item: T, _index: number) {
+  select(item: T) {
+    if (this.isDisabled()) return;
+
+    this.value = item;
     this.inputValue.set(this.displayWith()(item));
+
+    this.onChange(item);
+    this.onTouched();
+
     this.selected.emit(item);
+
     this.close('selection');
 
     queueMicrotask(() => {
       this.inputEl.nativeElement.focus();
-    });
-  }
-
-  private scrollActiveIntoView(index: number) {
-    const listbox = this.listbox?.nativeElement;
-    if (!listbox) return;
-    if (index < 0) return;
-
-    queueMicrotask(() => {
-      const el = listbox.querySelector<HTMLElement>(`[data-index="${index}"]`);
-      el?.scrollIntoView({ block: 'nearest' });
     });
   }
 }

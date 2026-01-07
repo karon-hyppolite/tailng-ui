@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TailngSelectComponent } from '@tailng/ui';
 
 interface Country {
@@ -10,7 +11,7 @@ interface Country {
 @Component({
   selector: 'playground-select-demo',
   standalone: true,
-  imports: [TailngSelectComponent],
+  imports: [ReactiveFormsModule, TailngSelectComponent],
   templateUrl: './select-demo.component.html',
 })
 export class SelectDemoComponent {
@@ -24,14 +25,12 @@ export class SelectDemoComponent {
     { code: 'SG', name: 'Singapore', dialCode: '+65' },
   ]);
 
-  selectedCountry = signal<Country | null>(null);
+  // ✅ CVA value source
+  readonly countryCtrl = new FormControl<Country | null>(null);
+
   lastCloseReason = signal<string>('-');
 
   displayCountry = (c: Country) => `${c.name} (${c.dialCode})`;
-
-  onSelected(c: Country) {
-    this.selectedCountry.set(c);
-  }
 
   onClosed(reason: string) {
     this.lastCloseReason.set(reason);
@@ -39,6 +38,8 @@ export class SelectDemoComponent {
   }
 
   clear() {
-    this.selectedCountry.set(null);
+    this.countryCtrl.setValue(null);
+    this.countryCtrl.markAsDirty();
+    this.countryCtrl.markAsTouched();
   }
 }

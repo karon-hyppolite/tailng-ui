@@ -2,12 +2,18 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  effect,
+  forwardRef,
   input,
   output,
   signal,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
+import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
+
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 
 export type ChipsCloseReason =
@@ -20,42 +26,50 @@ export type ChipsCloseReason =
 @Component({
   selector: 'tng-chips',
   standalone: true,
-  imports: [TailngConnectedOverlayComponent, TailngOverlayPanelComponent],
+  imports: [
+    TailngConnectedOverlayComponent,
+    TailngOverlayPanelComponent,
+    TailngOptionListComponent,
+  ],
   templateUrl: './chips.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TailngChipsComponent),
+      multi: true,
+    },
+  ],
 })
-export class TailngChipsComponent<T> {
+export class TailngChipsComponent<T> implements ControlValueAccessor {
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('listbox', { static: false })
-  listbox?: ElementRef<HTMLElement>;
 
   /* =====================
    * Inputs / Outputs
    * ===================== */
-  // current selected chips (controlled)
+
+  /**
+   * Optional: non-forms controlled usage (two-way binding style).
+   * If used with forms, DO NOT bind [value]/(valueChange).
+   */
   value = input<T[]>([]);
 
   // suggestions
   options = input<T[]>([]);
 
   placeholder = input<string>('Add…');
+
+  /**
+   * External disabled input (read-only).
+   * Internal isDisabled is writable for CVA too.
+   */
   disabled = input<boolean>(false);
 
-  // how to render any chip / option
   displayWith = input<(item: T) => string>((v) => String(v));
 
-  // whether user can add arbitrary text as chip
   allowFreeText = input<boolean>(true);
-
-  // convert typed string -> T (only used when allowFreeText is true)
-  // default casts as unknown T (works for string chips)
   parse = input<(raw: string) => T>((raw) => raw as unknown as T);
-
-  // optional: normalize typed text (trim, collapse spaces, etc.)
   normalize = input<(raw: string) => string>((raw) => raw.trim());
-
-  // optional: prevent duplicates (by display text)
   preventDuplicates = input<boolean>(true);
 
   readonly search = output<string>();
@@ -71,6 +85,64 @@ export class TailngChipsComponent<T> {
   isOpen = signal(false);
   focusedIndex = signal(-1);
 
+  protected isDisabled = signal(false);
+
+  /** Authoritative chips list inside component */
+  private chipsValue = signal<T[]>([]);
+
+  /** When true, CVA owns the value (forms mode) */
+  private usingCva = false;
+
+  /* =====================
+   * ControlValueAccessor
+   * ===================== */
+  private onChange: (value: T[]) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  constructor() {
+    // Sync external [disabled] -> internal
+    effect(() => {
+      this.isDisabled.set(this.disabled());
+      if (this.isDisabled()) this.close('programmatic');
+    });
+
+    /**
+     * Sync external [value] -> internal ONLY when NOT in CVA mode.
+     * Prevents overwriting initial form value.
+     */
+    effect(() => {
+      const v = this.value();
+      if (this.usingCva) return;
+      this.chipsValue.set(v);
+    });
+  }
+
+  writeValue(value: T[] | null): void {
+    this.usingCva = true;
+    this.chipsValue.set(value ?? []);
+  }
+
+  registerOnChange(fn: (value: T[]) => void): void {
+    this.usingCva = true;
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled.set(isDisabled);
+    if (isDisabled) this.close('programmatic');
+  }
+
+  /* =====================
+   * Template getter
+   * ===================== */
+  chips(): T[] {
+    return this.chipsValue();
+  }
+
   /* =====================
    * Helpers
    * ===================== */
@@ -82,10 +154,19 @@ export class TailngChipsComponent<T> {
     if (!this.preventDuplicates()) return false;
 
     const nextKey = this.display(next).toLowerCase();
-    return this.value().some((v) => this.display(v).toLowerCase() === nextKey);
+    return this.chipsValue().some(
+      (v) => this.display(v).toLowerCase() === nextKey
+    );
   }
 
   private emitValue(next: T[]) {
+    // internal
+    this.chipsValue.set(next);
+
+    // CVA
+    this.onChange(next);
+
+    // optional non-form output
     this.valueChange.emit(next);
   }
 
@@ -93,7 +174,7 @@ export class TailngChipsComponent<T> {
    * Overlay open/close
    * ===================== */
   open(_reason: ChipsCloseReason) {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
 
     this.isOpen.set(true);
 
@@ -107,6 +188,7 @@ export class TailngChipsComponent<T> {
 
   close(reason: ChipsCloseReason) {
     if (!this.isOpen()) return;
+
     this.isOpen.set(false);
     this.focusedIndex.set(-1);
     this.closed.emit(reason);
@@ -120,16 +202,25 @@ export class TailngChipsComponent<T> {
    * UI events
    * ===================== */
   onInput(ev: Event) {
+    if (this.isDisabled()) return;
+
     const raw = (ev.target as HTMLInputElement).value ?? '';
     this.inputValue.set(raw);
     this.search.emit(raw);
     this.open('programmatic');
   }
 
+  onBlur() {
+    this.onTouched();
+    this.close('blur');
+  }
+
   onKeydown(ev: KeyboardEvent) {
+    if (this.isDisabled()) return;
+
     // Backspace removes last chip when input empty
     if (ev.key === 'Backspace' && !this.inputValue()) {
-      const current = this.value();
+      const current = this.chipsValue();
       if (current.length) {
         ev.preventDefault();
         this.removeAt(current.length - 1);
@@ -141,14 +232,14 @@ export class TailngChipsComponent<T> {
     if (ev.key === 'Enter') {
       ev.preventDefault();
 
-      // If an option is focused and overlay open => select it
+      // If open and focused -> select option
       if (this.isOpen() && this.focusedIndex() >= 0) {
         const item = this.options()[this.focusedIndex()];
         if (item !== undefined) this.selectOption(item);
         return;
       }
 
-      // otherwise try free-text
+      // Otherwise free text
       this.addFromInput();
       return;
     }
@@ -159,7 +250,6 @@ export class TailngChipsComponent<T> {
       return;
     }
 
-    // list keyboard nav (when open)
     if (this.isOpen()) {
       const action = handleListKeyboardEvent(ev, {
         activeIndex: this.focusedIndex(),
@@ -170,7 +260,6 @@ export class TailngChipsComponent<T> {
       switch (action.type) {
         case 'move':
           this.focusedIndex.set(action.index);
-          this.scrollActiveIntoView(action.index);
           break;
 
         case 'select': {
@@ -194,7 +283,7 @@ export class TailngChipsComponent<T> {
    * Chip actions
    * ===================== */
   addFromInput() {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
     if (!this.allowFreeText()) return;
 
     const normalized = this.normalize()(this.inputValue());
@@ -207,7 +296,7 @@ export class TailngChipsComponent<T> {
       return;
     }
 
-    const next = [...this.value(), nextChip];
+    const next = [...this.chipsValue(), nextChip];
     this.emitValue(next);
     this.chipAdded.emit(nextChip);
 
@@ -218,7 +307,8 @@ export class TailngChipsComponent<T> {
   }
 
   selectOption(item: T) {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
+
     if (this.existsAlready(item)) {
       this.inputValue.set('');
       this.close('selection');
@@ -226,7 +316,7 @@ export class TailngChipsComponent<T> {
       return;
     }
 
-    const next = [...this.value(), item];
+    const next = [...this.chipsValue(), item];
     this.emitValue(next);
     this.chipAdded.emit(item);
 
@@ -237,9 +327,9 @@ export class TailngChipsComponent<T> {
   }
 
   removeAt(index: number) {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
 
-    const current = this.value();
+    const current = this.chipsValue();
     if (index < 0 || index >= current.length) return;
 
     const removed = current[index];
@@ -250,27 +340,13 @@ export class TailngChipsComponent<T> {
   }
 
   clearAll() {
-    if (this.disabled()) return;
-    const current = this.value();
+    if (this.isDisabled()) return;
+
+    const current = this.chipsValue();
     if (!current.length) return;
 
-    // emit removals individually (optional behavior)
     for (const item of current) this.chipRemoved.emit(item);
 
     this.emitValue([]);
-  }
-
-  /* =====================
-   * Scroll helper
-   * ===================== */
-  private scrollActiveIntoView(index: number) {
-    const listbox = this.listbox?.nativeElement;
-    if (!listbox) return;
-    if (index < 0) return;
-
-    queueMicrotask(() => {
-      const el = listbox.querySelector<HTMLElement>(`[data-index="${index}"]`);
-      el?.scrollIntoView({ block: 'nearest' });
-    });
   }
 }

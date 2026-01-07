@@ -1,19 +1,25 @@
 <div class="relative">
-  <input
-    #inputEl
-    type="text"
-    class="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-    [value]="inputValue()"
-    [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    (input)="onInput($event)"
-    (focus)="open('programmatic')"
-    (keydown)="onKeydown($event)"
-    autocomplete="off"
-    role="combobox"
-    aria-autocomplete="list"
-    [attr.aria-expanded]="isOpen()"
-  />
+  <div
+    [class.opacity-60]="isDisabled()"
+    [class.pointer-events-none]="isDisabled()"
+  >
+    <input
+      #inputEl
+      type="text"
+      class="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      [value]="inputValue()"
+      [placeholder]="placeholder()"
+      [disabled]="isDisabled()"
+      (input)="onInput($event)"
+      (focus)="open('programmatic')"
+      (blur)="onBlur()"
+      (keydown)="onKeydown($event)"
+      autocomplete="off"
+      role="combobox"
+      aria-autocomplete="list"
+      [attr.aria-expanded]="isOpen()"
+    />
+  </div>
 
   <tng-connected-overlay
     [open]="isOpen()"
@@ -23,27 +29,13 @@
     (closed)="onOverlayClosed($event)"
   >
     <tng-overlay-panel>
-      <div #listbox role="listbox" class="py-1 max-h-60 overflow-auto">
-        @for (item of options(); let i = $index; track i) {
-          <div
-            class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/90 hover:text-white"
-            [class.bg-primary]="i === focusedIndex()"
-            [class.text-white]="i === focusedIndex()"
-            role="option"
-            [attr.aria-selected]="i === focusedIndex()"
-            [attr.data-index]="i"
-            (mousedown)="select(item, i)"
-          >
-            {{ display(item) }}
-          </div>
-        }
-
-        @if (!options().length) {
-          <div class="px-3 py-2 text-sm text-gray-500">
-            No results
-          </div>
-        }
-      </div>
+      <tng-option-list
+        [items]="options()"
+        [activeIndex]="focusedIndex()"
+        [displayWith]="displayWith()"
+        (optionMouseDown)="select($event.item)"
+        (optionHover)="focusedIndex.set($event)"
+      />
     </tng-overlay-panel>
   </tng-connected-overlay>
 </div>

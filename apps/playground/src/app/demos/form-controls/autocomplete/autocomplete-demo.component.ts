@@ -1,27 +1,28 @@
 import { Component, signal } from '@angular/core';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { TailngAutocompleteComponent } from '@tailng/ui';
+
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';
-
 
 @Component({
   selector: 'playground-autocomplete-demo',
   standalone: true,
-  imports: [TailngAutocompleteComponent],
+  imports: [ReactiveFormsModule, TailngAutocompleteComponent],
   templateUrl: './autocomplete-demo.component.html',
 })
 export class AutocompleteDemoComponent {
+  // CVA value lives in a FormControl now
+  countryCtrl = new FormControl<Country | null>(null);
 
   // Filtered options shown in autocomplete
   options = signal<Country[]>([]);
 
-  // Selected value (for demo display)
-  selectedCountry = signal<Country | null>(null);
-
   // Display function for input + list
-  displayCountry = (country: Country) => `${toFlagEmoji(country.code)} ${country.name}`;
+  displayCountry = (country: Country) =>
+    `${toFlagEmoji(country.code)} ${country.name}`;
 
-  // Called when user types
+  // Called when user types (still needed for filtering / API calls)
   onSearch(term: string) {
     const value = term.toLowerCase().trim();
 
@@ -30,18 +31,13 @@ export class AutocompleteDemoComponent {
       return;
     }
 
-    // Simulate API filtering
-    const filtered = COUNTRY_LIST.filter(country =>
-      country.name.toLowerCase().includes(value) ||
-      country.iso.toLowerCase().includes(value)
+    const filtered = COUNTRY_LIST.filter(
+      (country) =>
+        country.name.toLowerCase().includes(value) ||
+        country.iso.toLowerCase().includes(value)
     );
 
     this.options.set(filtered);
-  }
-
-  // Called when user selects an option
-  onSelected(country: Country) {
-    this.selectedCountry.set(country);
   }
 
   onClosed(reason: string) {

@@ -2,9 +2,11 @@
   @if (hasItems()) {
     @for (item of items(); let i = $index; track i) {
       <div
-        class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/90 hover:text-white"
+        class="px-3 py-2 text-sm cursor-pointer select-none"
         [class.bg-primary]="i === activeIndex()"
         [class.text-white]="i === activeIndex()"
+        [class.bg-white]="i !== activeIndex()"
+        [class.text-gray-900]="i !== activeIndex()"
         role="option"
         [attr.aria-selected]="i === activeIndex()"
         [attr.data-index]="i"

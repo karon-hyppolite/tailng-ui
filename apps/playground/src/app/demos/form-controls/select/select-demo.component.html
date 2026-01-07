@@ -11,10 +11,9 @@
 
     <tng-select
       [options]="countries()"
-      [value]="selectedCountry()"
       [displayWith]="displayCountry"
       placeholder="Choose a country…"
-      (selected)="onSelected($event)"
+      [formControl]="countryCtrl"
       (closed)="onClosed($event)"
     />
 
@@ -34,14 +33,14 @@
     </div>
   </div>
 
-  @if (selectedCountry()) {
+  @if (countryCtrl.value) {
     <div class="rounded-md border border-gray-200 bg-gray-50 p-4">
       <div class="text-sm text-gray-500 mb-1">Selected</div>
       <div class="font-medium">
-        {{ displayCountry(selectedCountry()!) }}
+        {{ displayCountry(countryCtrl.value) }}
       </div>
       <div class="text-xs text-gray-500 mt-1">
-        Code: {{ selectedCountry()!.code }}
+        Code: {{ countryCtrl.value.code }}
       </div>
     </div>
   }
