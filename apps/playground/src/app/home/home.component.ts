@@ -8,7 +8,7 @@ export const categories = [
     package: '@tailng/forms',
     components: [
       { name: 'Autocomplete', route: '/forms/autocomplete', status: 'done', priority: 'high' },
-      { name: 'Checkbox', route: '/forms/checkbox', status: 'backlog', priority: 'high' },
+      { name: 'Checkbox', route: '/forms/checkbox', status: 'done', priority: 'high' },
       { name: 'Chips', route: '/forms/chips', status: 'done', priority: 'medium' },
 
       { name: 'Datepicker', route: '/forms/datepicker', status: 'backlog', priority: 'high' },
@@ -18,8 +18,8 @@ export const categories = [
       { name: 'Form Field', route: '/forms/form-field', status: 'backlog', priority: 'high' },
 
       // Split Input
-      { name: 'Text Input', route: '/forms/text-input', status: 'backlog', priority: 'high' },
-      { name: 'Number Input', route: '/forms/number-input', status: 'backlog', priority: 'high' },
+      { name: 'Text Input', route: '/forms/text-input', status: 'done', priority: 'high' },
+      { name: 'Number Input', route: '/forms/number-input', status: 'done', priority: 'high' },
 
       // Essentials
       { name: 'Textarea', route: '/forms/textarea', status: 'backlog', priority: 'high' },
