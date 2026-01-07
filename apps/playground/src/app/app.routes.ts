@@ -116,7 +116,7 @@ export const routes: Routes = [
   {
     path: 'buttons/button-toggle',
     loadComponent: () =>
-      import('./demos/buttons-indicators/button-toggle/button-toggle-demo.component').then(
+      import('./demos/form-controls/button-toggle/button-toggle-demo.component').then(
         (m) => m.ButtonToggleDemoComponent
       ),
   },

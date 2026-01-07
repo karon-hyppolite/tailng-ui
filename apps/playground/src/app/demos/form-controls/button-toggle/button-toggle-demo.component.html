@@ -1,0 +1,71 @@
+<div class="space-y-10 max-w-md">
+  <!-- =====================
+       Reactive Forms (Single)
+       ===================== -->
+  <section class="space-y-2">
+    <h3 class="text-sm font-semibold text-slate-700">
+      Reactive Forms – Single selection
+    </h3>
+
+    <tng-button-toggle
+      [options]="sizeOptions"
+      [formControl]="sizeControl"
+      [allowDeselect]="true"
+      rootKlass="block w-full"
+      groupKlass="w-full"
+    />
+
+
+    <p class="text-xs text-slate-500">
+      Selected size:
+      <span class="font-mono">{{ sizeControl.value }}</span>
+    </p>
+  </section>
+
+  <!-- =====================
+       Reactive Forms (Multiple)
+       ===================== -->
+  <section class="space-y-2">
+    <h3 class="text-sm font-semibold text-slate-700">
+      Reactive Forms – Multiple selection
+    </h3>
+
+    <tng-button-toggle
+      [options]="featureOptions"
+      [multiple]="true"
+      [formControl]="featuresControl"
+      [allowDeselect]="true"
+      rootKlass="block w-full"
+      groupKlass="w-full"
+    />
+
+    <p class="text-xs text-slate-500">
+      Selected features:
+      <span class="font-mono">
+        {{ featuresControl.value | json }}
+      </span>
+    </p>
+  </section>
+
+  <!-- =====================
+       Direct binding (Single)
+       ===================== -->
+  <section class="space-y-2">
+    <h3 class="text-sm font-semibold text-slate-700">
+      Direct binding (no forms)
+    </h3>
+
+    <tng-button-toggle
+      [options]="statusOptions"
+      [value]="status"
+      (valueChange)="status = $event"
+      rootKlass="block w-full"
+      groupKlass="w-full"
+    />
+
+    <p class="text-xs text-slate-500">
+      Selected status:
+      <span class="font-mono">{{ status }}</span>
+    </p>
+  </section>
+</div>

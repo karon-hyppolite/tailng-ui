@@ -12,4 +12,6 @@ export * from '../slide-toggle/src/public-api';
 export * from '../textarea/src/public-api';
 export * from '../text-input/src/public-api';
 export * from '../timepicker/src/public-api';
+export * from '../button-toggle/src/public-api';
+
 
