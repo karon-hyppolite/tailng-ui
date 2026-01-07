@@ -1,9 +1,15 @@
 <button
   [attr.type]="type()"
-  [disabled]="disabled()"
-  [attr.aria-disabled]="disabled() ? true : null"
+  [disabled]="isDisabled()"
+  [attr.aria-disabled]="isDisabled() ? true : null"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-pressed]="pressed() !== null ? pressed() : null"
+  [attr.aria-busy]="loading() ? true : null"
   [class]="classes()"
 >
-  <ng-content />
+  @if (loading()) {
+    <span [class]="spinnerKlass()"></span>
+  } @else {
+    <ng-content />
+  }
 </button>
-

@@ -2,7 +2,10 @@ import type { TailngButtonSize, TailngButtonVariant } from './button.types';
 
 const base =
   'inline-flex items-center justify-center gap-2 font-medium select-none ' +
-  'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary ' +
+  'transition-colors ' +
+  'focus-visible:outline-none ' +
+  'focus-visible:ring-2 focus-visible:ring-primary ' +
+  'focus-visible:ring-offset-2 focus-visible:ring-offset-background ' +
   'disabled:opacity-50 disabled:pointer-events-none';
 
 const sizes: Record<TailngButtonSize, string> = {
@@ -12,11 +15,27 @@ const sizes: Record<TailngButtonSize, string> = {
 };
 
 const variants: Record<TailngButtonVariant, string> = {
-  solid: 'bg-primary text-on-primary hover:opacity-90',
-  outline: 'border border-gray-300 hover:bg-gray-50',
-  ghost: 'hover:bg-gray-100',
+  solid:
+    'bg-primary text-on-primary hover:bg-primary-hover',
+
+  outline:
+    'border border-border text-text bg-background ' +
+    'hover:bg-alternate-background',
+
+  ghost:
+    'text-text hover:bg-alternate-background',
 };
 
-export const buttonClasses = (variant: TailngButtonVariant, size: TailngButtonSize) =>
-  `${base} ${sizes[size]} ${variants[variant]}`;
-
+export const buttonClasses = (
+  variant: TailngButtonVariant,
+  size: TailngButtonSize,
+  opts?: { block?: boolean }
+) =>
+  [
+    base,
+    sizes[size],
+    variants[variant],
+    opts?.block ? 'w-full' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');

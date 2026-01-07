@@ -1,39 +1,140 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Button</h1>
-  
-  <div class="space-y-6">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Button Variants</h2>
-      <div class="flex flex-wrap gap-3">
-        <tng-button>
-          <tng-icon name="bootstrapAlarm"></tng-icon>
-          Default
-        </tng-button>
-        <tng-button variant="outline">Outline</tng-button>
-        <tng-button variant="ghost">Ghost</tng-button>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">With Icons</h2>
-      <div class="flex flex-wrap gap-3">
-        <tng-button>
-          <tng-icon name="bootstrapAlarm"></tng-icon>
-          Action
-        </tng-button>
-        <tng-button variant="outline">
-          <tng-icon name="bootstrapBell"></tng-icon>
-          Notification
-        </tng-button>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Custom Class</h2>
-      <div class="flex flex-wrap gap-3">
-        <tng-button klass="bg-red-500 text-white hover:bg-red-600">Custom Class</tng-button>
-      </div>
-    </section>
+<div class="space-y-10 max-w-3xl">
+  <div class="space-y-1">
+    <h1 class="text-2xl font-bold text-text">Button</h1>
+    <p class="text-sm text-disable">
+      Variants • Sizes • Disabled • Loading • Block • Pressed • Aria • Spinner theming • Custom klass
+    </p>
   </div>
-</div>
 
+  <!-- Variants -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Variants</h2>
+    <div class="flex flex-wrap gap-3">
+      <tng-button variant="solid">
+        <tng-icon name="bootstrapAlarm"></tng-icon>
+        Solid
+      </tng-button>
+
+      <tng-button variant="outline">
+        <tng-icon name="bootstrapBell"></tng-icon>
+        Outline
+      </tng-button>
+
+      <tng-button variant="ghost">
+        <tng-icon name="bootstrapAlarm"></tng-icon>
+        Ghost
+      </tng-button>
+    </div>
+  </section>
+
+  <!-- Sizes -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Sizes</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <tng-button size="sm">Small</tng-button>
+      <tng-button size="md">Medium</tng-button>
+      <tng-button size="lg">Large</tng-button>
+    </div>
+  </section>
+
+  <!-- Disabled -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Disabled</h2>
+    <div class="flex flex-wrap gap-3">
+      <tng-button [disabled]="true">Disabled Solid</tng-button>
+      <tng-button variant="outline" [disabled]="true">Disabled Outline</tng-button>
+      <tng-button variant="ghost" [disabled]="true">Disabled Ghost</tng-button>
+    </div>
+  </section>
+
+  <!-- Loading + spinnerKlass -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Loading (spinnerKlass theming)</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <!-- Default spinner (inherits current text color) -->
+      <tng-button [loading]="true">Saving…</tng-button>
+
+      <!-- Outline loading -->
+      <tng-button variant="outline" [loading]="true">Loading…</tng-button>
+
+      <!-- Custom spinner: uses on-primary color explicitly -->
+      <tng-button
+        [loading]="true"
+        spinnerKlass="h-4 w-4 animate-spin rounded-full border-2 border-on-primary border-t-transparent"
+      >
+        Submit
+      </tng-button>
+
+      <!-- Bigger spinner -->
+      <tng-button
+        variant="ghost"
+        [loading]="true"
+        spinnerKlass="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent"
+      >
+        Sync
+      </tng-button>
+    </div>
+  </section>
+
+  <!-- Block (full width) -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Block (full width)</h2>
+    <div class="space-y-3">
+      <tng-button [block]="true">Block Solid</tng-button>
+      <tng-button variant="outline" [block]="true">Block Outline</tng-button>
+    </div>
+  </section>
+
+  <!-- Aria label for icon-only -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Icon-only + ariaLabel</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <tng-button ariaLabel="Alarm">
+        <tng-icon name="bootstrapAlarm"></tng-icon>
+      </tng-button>
+
+      <tng-button variant="outline" ariaLabel="Notifications">
+        <tng-icon name="bootstrapBell"></tng-icon>
+      </tng-button>
+    </div>
+    <p class="text-xs text-disable">
+      Tip: icon-only buttons should always provide <code>ariaLabel</code>.
+    </p>
+  </section>
+
+  <!-- Pressed (toggle-style) -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Pressed (aria-pressed)</h2>
+    <div class="flex flex-wrap items-center gap-3">
+      <tng-button [pressed]="true">Pressed</tng-button>
+      <tng-button variant="outline" [pressed]="false">Not pressed</tng-button>
+    </div>
+  </section>
+
+  <!-- type -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Button type</h2>
+    <div class="flex flex-wrap gap-3">
+      <tng-button type="button">type="button"</tng-button>
+      <tng-button type="submit">type="submit"</tng-button>
+      <tng-button type="reset" variant="outline">type="reset"</tng-button>
+    </div>
+  </section>
+
+  <!-- Custom klass -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold text-text">Custom klass</h2>
+    <div class="flex flex-wrap gap-3">
+      <tng-button klass="bg-danger text-on-danger hover:bg-danger-hover">
+        Danger (custom klass)
+      </tng-button>
+
+      <tng-button
+        variant="outline"
+        klass="border-primary text-primary hover:bg-alternate-background"
+      >
+        Primary Outline (custom klass)
+      </tng-button>
+    </div>
+  </section>
+</div>

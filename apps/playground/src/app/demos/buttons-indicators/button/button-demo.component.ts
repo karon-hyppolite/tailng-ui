@@ -9,4 +9,3 @@ import { TailngIconComponent } from '@tailng/icons';
   templateUrl: './button-demo.component.html',
 })
 export class ButtonDemoComponent {}
-
