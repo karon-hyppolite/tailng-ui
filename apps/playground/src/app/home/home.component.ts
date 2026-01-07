@@ -29,7 +29,7 @@ export const categories = [
       { name: 'Select', route: '/forms/select', status: 'done', priority: 'high' },
       { name: 'Slider', route: '/forms/slider', status: 'done', priority: 'low' },
       { name: 'Slide Toggle', route: '/forms/slide-toggle', status: 'done', priority: 'medium' },
-      { name: 'Button Toggle', route: '/buttons/button-toggle', status: 'backlog', priority: 'medium' },
+      { name: 'Button Toggle', route: '/buttons/button-toggle', status: 'done', priority: 'medium' },
     ],
   },
 
@@ -38,7 +38,7 @@ export const categories = [
     package: '@tailng/primitives',
     components: [
       { name: 'Button', route: '/buttons/button', status: 'done', priority: 'high' },
-      { name: 'Badge', route: '/buttons/badge', status: 'backlog', priority: 'medium' },
+      { name: 'Badge', route: '/buttons/badge', status: 'done', priority: 'medium' },
       { name: 'Icon', route: '/buttons/icon', status: 'backlog', priority: 'high' },
       { name: 'Ripples', route: '/buttons/ripples', status: 'backlog', priority: 'low' },
       { name: 'Progress Bar', route: '/buttons/progress-bar', status: 'backlog', priority: 'medium' },

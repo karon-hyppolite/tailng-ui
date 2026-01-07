@@ -1,10 +1,238 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Badge</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-badge></tng-badge>
-    </section>
-  </div>
-</div>
+<div class="max-w-3xl space-y-10">
+  <header class="space-y-2">
+    <h2 class="text-base font-semibold text-slate-800">tng-badge demo</h2>
+    <p class="text-sm text-slate-600">
+      Showcasing: value (number/string), max overflow, dot, hide, showZero, positions,
+      overlap, variants, sizes, and class hooks.
+    </p>
+  </header>
 
+  <!-- Controls -->
+  <section class="space-y-3 rounded-md border border-border p-4">
+    <h3 class="text-sm font-semibold text-slate-700">Interactive controls</h3>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="dec()">-</button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="inc()">+</button>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="toggleHidden()">
+        hide: {{ hidden }}
+      </button>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="toggleStatus()">
+        statusText: {{ statusText || 'null' }}
+      </button>
+
+      <span class="text-sm text-slate-600">
+        count={{ count }}, bigCount={{ bigCount }}, zeroCount={{ zeroCount }}
+      </span>
+    </div>
+  </section>
+
+  <!-- 1) Basic numeric value + max overflow -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Numbers + overflow (max)</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="count" variant="danger">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Notifications</button>
+      </tng-badge>
+
+      <tng-badge [value]="bigCount" [max]="99" variant="danger">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Messages (99+)</button>
+      </tng-badge>
+
+      <tng-badge [value]="5" [max]="9" variant="primary">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Small max (9+)</button>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 2) Dot badge -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Dot badge</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge dot variant="primary">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Inbox</button>
+      </tng-badge>
+
+      <tng-badge dot size="sm" variant="success" position="top-left">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Top-left dot</button>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 3) showZero -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">showZero</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <!-- hidden when value=0 by default -->
+      <tng-badge [value]="zeroCount" variant="neutral">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Cart (default)</button>
+      </tng-badge>
+
+      <!-- visible when value=0 -->
+      <tng-badge [value]="zeroCount" showZero variant="neutral">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Cart (showZero)</button>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 4) String value + empty string/null hides -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">String value + empty/null behavior</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="statusText" variant="info">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Release</button>
+      </tng-badge>
+
+      <tng-badge value="BETA" variant="warning">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Program</button>
+      </tng-badge>
+    </div>
+
+    <p class="text-xs text-slate-500">
+      Toggle statusText above to null → badge hides.
+    </p>
+  </section>
+
+  <!-- 5) hide -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">hide (force hide)</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="count" [hide]="hidden" variant="danger">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Hidden toggle</button>
+      </tng-badge>
+
+      <tng-badge [value]="count" hide variant="danger">
+        <button class="rounded-md border border-border px-3 py-2 text-sm">Always hidden</button>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 6) Positions -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Positions</h3>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <tng-badge [value]="3" position="top-right" variant="danger">
+        <div class="rounded-md border border-border p-4 text-sm">top-right</div>
+      </tng-badge>
+
+      <tng-badge [value]="3" position="top-left" variant="danger">
+        <div class="rounded-md border border-border p-4 text-sm">top-left</div>
+      </tng-badge>
+
+      <tng-badge [value]="3" position="bottom-right" variant="danger">
+        <div class="rounded-md border border-border p-4 text-sm">bottom-right</div>
+      </tng-badge>
+
+      <tng-badge [value]="3" position="bottom-left" variant="danger">
+        <div class="rounded-md border border-border p-4 text-sm">bottom-left</div>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 7) overlap on/off -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">overlap: true vs false</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="8" overlap="true" variant="primary">
+        <div class="rounded-md border border-border px-4 py-3 text-sm">overlap=true</div>
+      </tng-badge>
+
+      <tng-badge [value]="8" [overlap]="false" variant="primary">
+        <div class="rounded-md border border-border px-4 py-3 text-sm">overlap=false</div>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 8) Variants -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Variants</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="1" variant="primary"><span class="rounded-md border border-border px-3 py-2 text-sm">primary</span></tng-badge>
+      <tng-badge [value]="1" variant="neutral"><span class="rounded-md border border-border px-3 py-2 text-sm">neutral</span></tng-badge>
+      <tng-badge [value]="1" variant="success"><span class="rounded-md border border-border px-3 py-2 text-sm">success</span></tng-badge>
+      <tng-badge [value]="1" variant="warning"><span class="rounded-md border border-border px-3 py-2 text-sm">warning</span></tng-badge>
+      <tng-badge [value]="1" variant="danger"><span class="rounded-md border border-border px-3 py-2 text-sm">danger</span></tng-badge>
+      <tng-badge [value]="1" variant="info"><span class="rounded-md border border-border px-3 py-2 text-sm">info</span></tng-badge>
+    </div>
+  </section>
+
+  <!-- 9) Sizes -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Sizes</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="7" size="sm" variant="danger">
+        <span class="rounded-md border border-border px-3 py-2 text-sm">sm</span>
+      </tng-badge>
+
+      <tng-badge [value]="7" size="md" variant="danger">
+        <span class="rounded-md border border-border px-3 py-2 text-sm">md</span>
+      </tng-badge>
+
+      <tng-badge dot size="sm" variant="success">
+        <span class="rounded-md border border-border px-3 py-2 text-sm">dot sm</span>
+      </tng-badge>
+
+      <tng-badge dot size="md" variant="success">
+        <span class="rounded-md border border-border px-3 py-2 text-sm">dot md</span>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 10) Class hooks -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Class hooks (badgeKlass / hostKlass / rootKlass)</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge
+        [value]="count"
+        variant="danger"
+        rootKlass="block"
+        hostKlass="relative inline-flex"
+        badgeKlass="shadow-md"
+      >
+        <button class="rounded-md border border-border px-3 py-2 text-sm">
+          badgeKlass=shadow-md
+        </button>
+      </tng-badge>
+
+      <tng-badge
+        value="HOT"
+        variant="warning"
+        badgeKlass="uppercase tracking-wide"
+      >
+        <button class="rounded-md border border-border px-3 py-2 text-sm">
+          uppercase + tracking
+        </button>
+      </tng-badge>
+    </div>
+  </section>
+
+  <!-- 11) Badge-only usage (no projected content) -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Badge-only usage</h3>
+
+    <div class="flex flex-wrap items-center gap-6">
+      <tng-badge [value]="count" variant="danger" rootKlass="inline-flex" hostKlass="relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border">
+        <!-- empty projected content is allowed; hostKlass provides a box -->
+      </tng-badge>
+
+      <tng-badge dot variant="primary" rootKlass="inline-flex" hostKlass="relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border">
+      </tng-badge>
+    </div>
+
+    <p class="text-xs text-slate-500">
+      Badge-only works if you provide a visible host via hostKlass.
+    </p>
+  </section>
+</div>
