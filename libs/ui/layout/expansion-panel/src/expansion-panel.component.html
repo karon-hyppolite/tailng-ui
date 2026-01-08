@@ -1,4 +1,49 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Expansion Panel</p>
-</div>
+<div [class]="rootKlass()">
+  <button
+    type="button"
+    [class]="headerKlass()"
+    [disabled]="disabled()"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggle()"
+    (keydown.enter)="toggle()"
+    (keydown.space)="toggle()"
+  >
+    <span [class]="titleKlass()">
+      <ng-content select="[tngExpansionTitle]"></ng-content>
+    </span>
 
+    <!-- Icon: slot override supported, SVG fallback always available -->
+    <span [class]="iconWrapperKlass()">
+      <ng-content select="[tngExpansionIcon]"></ng-content>
+
+      @if (!hasCustomIcon()) {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          [class]="chevronKlass() + ' ' + chevronRotateKlass()"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      }
+    </span>
+  </button>
+
+  <!-- Grid controls height -->
+  <div [class]="contentOuterKlass() + ' ' + contentRowsKlass()">
+    <!-- MUST be overflow-hidden (no padding here) -->
+    <div [class]="contentClipKlass()">
+      <!-- Put padding here so it collapses cleanly -->
+      <div [class]="resolvedContentBodyKlass()">
+        <ng-content select="[tngExpansionContent]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
