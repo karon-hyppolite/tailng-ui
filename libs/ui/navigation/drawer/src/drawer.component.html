@@ -12,7 +12,13 @@
     class="z-[1001]"
     role="dialog"
     aria-modal="true"
+    tabindex="-1"
     (click)="$event.stopPropagation()"
+    (keydown)="onPanelKeydown($event)"
+    [tngFocusTrap]="open() && trapFocus()"
+    [restoreFocus]="restoreFocus()"
+    [autoCapture]="autoCapture()"
+    [deferCaptureElements]="deferCaptureElements()"
   >
     <ng-content />
   </div>

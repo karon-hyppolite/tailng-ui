@@ -2,7 +2,6 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  HostListener,
   TemplateRef,
   ViewChild,
   computed,
@@ -12,9 +11,9 @@ import {
   signal,
 } from '@angular/core';
 
-import {
-  TailngOverlayCloseReason
-} from '../../../popups-overlays/overlay-ref/src/public-api';
+
+import { TailngOverlayCloseReason } from '../../../popups-overlays/overlay-ref/src/public-api';
+import { TailngFocusTrapDirective } from 'libs/cdk/a11y/focus-trap';
 
 export type TngDrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerCloseReason = TailngOverlayCloseReason;
@@ -22,6 +21,7 @@ export type DrawerCloseReason = TailngOverlayCloseReason;
 @Component({
   selector: 'tng-drawer',
   standalone: true,
+  imports: [TailngFocusTrapDirective],
   templateUrl: './drawer.component.html',
 })
 export class TailngDrawerComponent {
@@ -43,19 +43,20 @@ export class TailngDrawerComponent {
   readonly closeOnBackdropClick = input<boolean>(true);
   readonly closeOnEscape = input<boolean>(true);
 
+  /** Focus trap (a11y) */
+  readonly trapFocus = input<boolean>(true);
+  readonly restoreFocus = input<boolean>(true);
+  readonly autoCapture = input<boolean>(true);
+  readonly deferCaptureElements = input<boolean>(false);
+
   readonly opened = output<void>();
   readonly closed = output<DrawerCloseReason>();
 
   /* =====================
    * Styling (klass-first)
    * ===================== */
-  readonly backdropKlass = input<string>(
-    'fixed inset-0 bg-black/40 backdrop-blur-[1px]'
-  );
-  
-  readonly panelKlass = input<string>(
-    'bg-background shadow-xl outline-none'
-  );
+  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40 backdrop-blur-[1px]');
+  readonly panelKlass = input<string>('bg-background shadow-xl outline-none');
 
   readonly sizeKlass = input<string>('w-80'); // for left/right
   readonly heightKlass = input<string>('h-80'); // for top/bottom
@@ -79,8 +80,7 @@ export class TailngDrawerComponent {
   });
 
   readonly slideClasses = computed(() => {
-    const base =
-      'fixed transition-transform duration-200 ease-in-out will-change-transform';
+    const base = 'fixed transition-transform duration-200 ease-in-out will-change-transform';
 
     switch (this.placement()) {
       case 'left':
@@ -122,8 +122,8 @@ export class TailngDrawerComponent {
     this.closed.emit('outside-click');
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onDocKeydown(ev: KeyboardEvent): void {
+  /** Keep escape handling scoped to drawer (instead of document listener) */
+  onPanelKeydown(ev: KeyboardEvent): void {
     if (!this.open()) return;
     if (!this.closeOnEscape()) return;
     if (ev.defaultPrevented) return;
@@ -133,5 +133,4 @@ export class TailngDrawerComponent {
       this.closed.emit('escape');
     }
   }
-
 }
