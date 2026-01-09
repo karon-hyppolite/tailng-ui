@@ -361,6 +361,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular/cdk@npm:^21.0.6":
+  version: 21.0.6
+  resolution: "@angular/cdk@npm:21.0.6"
+  dependencies:
+    parse5: "npm:^8.0.0"
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^21.0.0 || ^22.0.0
+    "@angular/core": ^21.0.0 || ^22.0.0
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: 10c0/251af16ae26b62b64b758561ecabc603df2899898029edea40e87864d60273c09cd8b595a742eedcd489d90c0418a2c6e6db52798dd30de5383b9b92c1c50c6b
+  languageName: node
+  linkType: hard
+
 "@angular/common@npm:^21.0.0":
   version: 21.0.6
   resolution: "@angular/common@npm:21.0.6"
@@ -12563,6 +12577,7 @@ __metadata:
     "@angular-eslint/eslint-plugin-template": "npm:^21.1.0"
     "@angular-eslint/template-parser": "npm:^21.1.0"
     "@angular/animations": "npm:^21.0.0"
+    "@angular/cdk": "npm:^21.0.6"
     "@angular/common": "npm:^21.0.0"
     "@angular/compiler": "npm:^21.0.0"
     "@angular/compiler-cli": "npm:^21.0.0"

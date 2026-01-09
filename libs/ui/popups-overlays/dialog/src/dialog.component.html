@@ -2,11 +2,18 @@
   <div [class]="backdropKlass()" (click)="onBackdropClick()"></div>
 
   <div
+    #panel
     [class]="panelKlass()"
     role="dialog"
     aria-modal="true"
     [attr.aria-label]="ariaLabel()"
+    tabindex="-1"
     (click)="$event.stopPropagation()"
+    (keydown)="onPanelKeydown($event)"
+    [tngFocusTrap]="isOpen() && trapFocus()"
+    [restoreFocus]="restoreFocus()"
+    [autoCapture]="autoCapture()"
+    [deferCaptureElements]="deferCaptureElements()"
   >
     <!-- Header slot -->
     @if (true) {

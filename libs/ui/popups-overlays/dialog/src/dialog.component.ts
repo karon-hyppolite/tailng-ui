@@ -1,4 +1,17 @@
-import { Component, HostListener, computed, input, output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  runInInjectionContext,
+  viewChild,
+} from '@angular/core';
+import { TailngFocusTrapDirective } from 'libs/cdk/a11y/focus-trap';
 
 export type TngDialogCloseReason =
   | 'confirm'
@@ -10,6 +23,7 @@ export type TngDialogCloseReason =
 @Component({
   selector: 'tng-dialog',
   standalone: true,
+  imports: [TailngFocusTrapDirective],
   templateUrl: './dialog.component.html',
 })
 export class TailngDialogComponent {
@@ -23,7 +37,16 @@ export class TailngDialogComponent {
   /** a11y */
   readonly ariaLabel = input<string>('Dialog');
 
-  /** Klass inputs (Tailng style) */
+  /** Focus trap (a11y) */
+  readonly trapFocus = input<boolean>(true);
+  readonly restoreFocus = input<boolean>(true);
+  readonly autoCapture = input<boolean>(true);
+  readonly deferCaptureElements = input<boolean>(false);
+
+  /** When no tabbables exist, focus the panel */
+  readonly autoFocusPanelWhenEmpty = input<boolean>(true);
+
+  /** Klass inputs */
   readonly backdropKlass = input<string>('fixed inset-0 bg-black/40');
   readonly panelKlass = input<string>(
     [
@@ -45,18 +68,31 @@ export class TailngDialogComponent {
   /** Derived */
   readonly isOpen = computed(() => this.open());
 
-  // Fire "opened" once per open cycle (simple, no stateful overlay ref needed)
+  /** Panel ref */
+  private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panel');
+
+  private readonly injector = inject(Injector);
+
   private didEmitOpened = false;
 
   constructor() {
-    // no-op
+    effect(() => {
+      if (!this.isOpen()) return;
+
+      // ✅ afterNextRender must be called inside injection context
+      runInInjectionContext(this.injector, () => {
+        afterNextRender(() => this.focusPanelIfNoTabbable());
+      });
+    });
   }
 
   ngDoCheck(): void {
-    // tiny lifecycle hook to emit opened when open becomes true
     if (this.isOpen() && !this.didEmitOpened) {
       this.didEmitOpened = true;
       this.opened.emit();
+
+      // Optional extra attempt
+      queueMicrotask(() => this.focusPanelIfNoTabbable());
     }
     if (!this.isOpen() && this.didEmitOpened) {
       this.didEmitOpened = false;
@@ -73,8 +109,7 @@ export class TailngDialogComponent {
     this.requestClose('outside-click');
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onDocKeydown(ev: KeyboardEvent) {
+  onPanelKeydown(ev: KeyboardEvent) {
     if (!this.open()) return;
     if (!this.closeOnEscape()) return;
     if (ev.defaultPrevented) return;
@@ -83,5 +118,50 @@ export class TailngDialogComponent {
       ev.preventDefault();
       this.requestClose('escape');
     }
+  }
+
+  private focusPanelIfNoTabbable(): void {
+    if (!this.isOpen()) return;
+    if (!this.trapFocus()) return;
+    if (!this.autoFocusPanelWhenEmpty()) return;
+
+    const panel = this.panelRef()?.nativeElement;
+    if (!panel) return;
+
+    const active = document.activeElement as HTMLElement | null;
+    if (active && panel.contains(active)) return;
+
+    if (this.hasTabbable(panel)) return;
+
+    panel.focus();
+  }
+
+  private hasTabbable(root: HTMLElement): boolean {
+    const candidates = root.querySelectorAll<HTMLElement>(
+      [
+        'a[href]',
+        'button',
+        'input',
+        'select',
+        'textarea',
+        '[tabindex]',
+        '[contenteditable="true"]',
+      ].join(',')
+    );
+
+    for (const el of Array.from(candidates)) {
+      if (el === root) continue;
+      if (el.hasAttribute('disabled')) continue;
+      if ((el as HTMLInputElement).type === 'hidden') continue;
+
+      const tabindexAttr = el.getAttribute('tabindex');
+      const tabindex = tabindexAttr == null ? 0 : Number(tabindexAttr);
+      if (Number.isNaN(tabindex) || tabindex < 0) continue;
+
+      if (el.getClientRects().length === 0) continue;
+
+      return true;
+    }
+    return false;
   }
 }

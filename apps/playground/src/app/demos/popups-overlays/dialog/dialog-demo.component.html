@@ -1,4 +1,5 @@
 <div class="mx-auto max-w-4xl space-y-8 p-6">
+  <!-- Header -->
   <div class="space-y-1">
     <h1 class="text-xl font-semibold text-foreground">Dialog</h1>
     <p class="text-sm text-muted-foreground">
@@ -6,6 +7,7 @@
     </p>
   </div>
 
+  <!-- Controls -->
   <section class="space-y-3 rounded-lg border border-border bg-background p-4">
     <div class="flex flex-wrap items-center gap-2">
       <button
@@ -16,46 +18,81 @@
       </button>
 
       <button
-  class="rounded-md border border-border bg-background px-3 py-1.5 text-sm disabled:opacity-50 disabled:pointer-events-none"
-  (click)="closeProgrammatic()"
-  [disabled]="closing()"
->
-  Programmatic close (1s)
-</button>
-
+        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm
+               disabled:pointer-events-none disabled:opacity-50"
+        (click)="closeProgrammatic()"
+        [disabled]="closing()"
+      >
+        Programmatic close (1s)
+      </button>
 
       <span class="text-xs text-muted-foreground">
         Last close reason:
-        <code class="rounded bg-slate-100 px-1 text-slate-900">{{ lastReason() }}</code>
+        <code class="rounded bg-slate-100 px-1 text-slate-900">
+          {{ lastReason() }}
+        </code>
       </span>
     </div>
   </section>
 
+  <!-- Dialog -->
   <tng-dialog
     [open]="open()"
     (closed)="onClosed($event)"
     ariaLabel="Confirm action"
   >
+    <!-- Header -->
     <div tngDialogHeader class="flex items-center justify-between">
       <div class="text-sm font-semibold text-foreground">Confirm action</div>
-      <button class="text-sm text-muted-foreground hover:text-foreground" (click)="cancel()">
+
+      <button
+        class="text-sm text-muted-foreground hover:text-foreground"
+        (click)="cancel()"
+        aria-label="Close dialog"
+      >
         ✕
       </button>
     </div>
 
+    <!-- Body -->
     <div class="space-y-2">
-      <div class="text-sm text-foreground">Are you sure you want to continue?</div>
+      <div class="text-sm text-foreground">
+        Are you sure you want to continue?
+      </div>
+
       <div class="text-sm text-muted-foreground">
-        This demo shows close reasons: confirm, cancel, escape, outside-click, programmatic.
+        This demo shows close reasons: confirm, cancel, escape, outside-click,
+        programmatic.
+      </div>
+
+      <!-- Focus trap hint -->
+      <div class="text-xs text-muted-foreground">
+        Focus trap demo:
+        press
+        <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd>
+        /
+        <kbd class="rounded bg-slate-100 px-1 text-slate-900">Shift</kbd>+
+        <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd>
+        — focus will stay inside the dialog.
       </div>
     </div>
 
+    <!-- Footer -->
     <div tngDialogFooter class="flex justify-end gap-2">
-      <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm" (click)="cancel()">
+      <button
+        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        (click)="cancel()"
+      >
         Cancel
       </button>
-      <button class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary" (click)="confirm()">
-        Confirm
+
+      <!-- Initial focus target -->
+      <button
+        tngDialogInitialFocus
+        class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary"
+        (click)="confirm()"
+      >
+        Confirm (initial focus)
       </button>
     </div>
   </tng-dialog>

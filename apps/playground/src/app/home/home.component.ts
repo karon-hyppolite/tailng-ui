@@ -124,15 +124,6 @@ export const categories = [
         priority: 'high',
         internal: true,
       },
-
-      // Useful internal primitive for positioning
-      {
-        name: 'Focus Trap',
-        route: '/overlay-primitives/focus-trap',
-        status: 'backlog',
-        priority: 'medium',
-        internal: true,
-      },
     ],
   },
 

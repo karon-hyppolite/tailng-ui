@@ -299,13 +299,6 @@ export const routes: Routes = [
         (m) => m.OptionListDemoComponent
       ),
   },
-  {
-    path: 'overlay-primitives/focus-trap',
-    loadComponent: () =>
-      import('./demos/overlay-primitives/focus-trap/focus-trap-demo.component').then(
-        (m) => m.FocusTrapDemoComponent
-      ),
-  },
   // Data Table & Structure
   {
     path: 'data/table',
