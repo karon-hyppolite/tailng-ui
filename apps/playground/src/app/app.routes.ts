@@ -214,6 +214,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'navigation/drawer',
+    loadComponent: () =>
+      import('./demos/navigation/drawer/drawer-demo.component').then(
+        (m) => m.DrawerDemoComponent
+      ),
+  },
+  {
     path: 'navigation/stepper',
     loadComponent: () =>
       import('./demos/navigation/stepper/stepper-demo.component').then(

@@ -69,6 +69,7 @@ export const categories = [
     components: [
       { name: 'Menu', route: '/navigation/menu', status: 'done', priority: 'high' },
       { name: 'Sidenav', route: '/navigation/sidenav', status: 'done', priority: 'high' },
+      { name: 'Drawer', route: '/navigation/drawer', status: 'done', priority: 'high' },
       { name: 'Stepper', route: '/navigation/stepper', status: 'done', priority: 'medium' },
       { name: 'Paginator', route: '/navigation/paginator', status: 'backlog', priority: 'medium' },
 

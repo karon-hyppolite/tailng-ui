@@ -1,0 +1,19 @@
+@if (open()) {
+  <!-- Backdrop (below panel) -->
+  <div
+    [class]="backdropKlass()"
+    class="z-[1000]"
+    (click)="onBackdropClick()"
+  ></div>
+
+  <!-- Drawer panel (above backdrop) -->
+  <div
+    [class]="slideClasses() + ' ' + panelKlass()"
+    class="z-[1001]"
+    role="dialog"
+    aria-modal="true"
+    (click)="$event.stopPropagation()"
+  >
+    <ng-content />
+  </div>
+}
