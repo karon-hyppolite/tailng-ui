@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -12,7 +13,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
@@ -22,18 +22,16 @@ import {
   TailngOverlayCloseReason,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
-import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 import { OptionTplContext } from '@tailng/cdk';
 
 export type SelectCloseReason = TailngOverlayCloseReason;
-
 export type SelectValueTplContext<T> = { $implicit: T };
 
 @Component({
   selector: 'tng-select',
   standalone: true,
   imports: [
-    NgTemplateOutlet, // ✅ needed for rendering valueTpl
+    NgTemplateOutlet,
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
     TailngOptionListComponent,
@@ -53,37 +51,35 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
    * Projected templates
    * ===================== */
 
-  // Dropdown option template
   @ContentChild('optionTpl', { read: TemplateRef })
   optionTpl?: TemplateRef<OptionTplContext<T>>;
 
-  // Trigger selected value template
   @ContentChild('valueTpl', { read: TemplateRef })
   valueTpl?: TemplateRef<SelectValueTplContext<T>>;
 
   @ViewChild('triggerEl', { static: true })
   triggerEl!: ElementRef<HTMLElement>;
 
+  // ✅ Delegate list navigation keys to OptionList
+  @ViewChild(TailngOptionListComponent)
+  optionList?: TailngOptionListComponent<T>;
+
   /* =====================
    * Inputs / Outputs
    * ===================== */
   readonly options = input<T[]>([]);
-
   readonly value = input<T | null>(null);
   readonly placeholder = input<string>('Select…');
 
-  /** External disabled input (read-only) */
   readonly disabled = input<boolean>(false);
 
   readonly displayWith = input<(item: T) => string>((v) => String(v));
 
-  /** Optional: non-form usage hook */
   readonly selected = output<T>();
-
   readonly closed = output<SelectCloseReason>();
 
   /* =====================
-   * Theming (section-wise klass inputs)
+   * Theming
    * ===================== */
   readonly rootKlass = input<string>('relative');
 
@@ -116,7 +112,7 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
   private usingCva = false;
 
   /* =====================
-   * ControlValueAccessor
+   * CVA
    * ===================== */
   private onChange: (value: T | null) => void = () => {};
   private onTouched: () => void = () => {};
@@ -164,18 +160,12 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
     return this.selectedValue();
   }
 
-  /* =====================
-   * Trigger classes
-   * ===================== */
   readonly triggerClasses = computed(() =>
-    (
-      this.triggerKlass() +
-      (this.isDisabled() ? ' opacity-60 pointer-events-none' : '')
-    ).trim()
+    (this.triggerKlass() + (this.isDisabled() ? ' opacity-60 pointer-events-none' : '')).trim()
   );
 
   /* =====================
-   * Overlay state transitions
+   * Overlay state
    * ===================== */
   open(_reason: SelectCloseReason) {
     if (this.isDisabled()) return;
@@ -229,45 +219,94 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
 
   onBlur() {
     this.onTouched();
-    this.close('blur');
+    // minimal safer blur (prevents weird immediate refocus issues)
+    queueMicrotask(() => {
+      if (document.activeElement === this.triggerEl.nativeElement) return;
+      this.close('blur');
+    });
   }
 
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
 
-    if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
+    // Escape closes
+    if (ev.key === 'Escape' && this.isOpen()) {
       ev.preventDefault();
-      this.open('programmatic');
+      ev.stopPropagation();
+      this.close('escape');
       return;
     }
 
-    const action = handleListKeyboardEvent(ev, {
-      activeIndex: this.activeIndex(),
-      itemCount: this.options().length,
-      loop: false,
-    });
+    // Open on ArrowDown/ArrowUp when closed (and delegate once mounted)
+    if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
+      ev.preventDefault();
+      ev.stopPropagation();
 
-    switch (action.type) {
-      case 'move':
-        this.activeIndex.set(action.index);
-        break;
+      this.open('programmatic');
 
-      case 'select': {
-        const item = this.options()[action.index];
-        if (item !== undefined) this.select(item);
-        break;
-      }
+      requestAnimationFrame(() => {
+        const replay = this.cloneKeyboardEvent(ev);
+        this.optionList?.onKeydown(replay);
+      });
+      return;
+    }
 
-      case 'close':
-        this.close('escape');
-        break;
+    if (!this.isOpen()) return;
 
-      case 'noop':
+    // Delegate list-navigation keys to OptionList (including Enter)
+    if (!this.isListNavigationKey(ev)) return;
+
+    // ⚠️ DO NOT preventDefault here — OptionList ignores defaultPrevented events
+    ev.stopPropagation();
+    this.optionList?.onKeydown(ev);
+  }
+
+  private isListNavigationKey(ev: KeyboardEvent): boolean {
+    switch (ev.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+      case 'Home':
+      case 'End':
+      case 'PageDown':
+      case 'PageUp':
+      case 'Enter':
+        return true;
       default:
-        break;
+        return false;
     }
   }
 
+  private cloneKeyboardEvent(ev: KeyboardEvent): KeyboardEvent {
+    return new KeyboardEvent(ev.type, {
+      key: ev.key,
+      code: ev.code,
+      location: ev.location,
+      repeat: ev.repeat,
+      ctrlKey: ev.ctrlKey,
+      shiftKey: ev.shiftKey,
+      altKey: ev.altKey,
+      metaKey: ev.metaKey,
+      bubbles: true,
+      cancelable: true,
+    });
+  }
+
+  /* =====================
+   * OptionList wiring
+   * ===================== */
+  onActiveIndexChange(i: number) {
+    this.activeIndex.set(i);
+  }
+
+  requestSelectActive() {
+    const i = this.activeIndex();
+    const item = this.options()[i];
+    if (item !== undefined) this.select(item);
+  }
+
+  /* =====================
+   * Selection
+   * ===================== */
   select(item: T) {
     if (this.isDisabled()) return;
 

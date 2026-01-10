@@ -49,6 +49,10 @@
           [activeIndex]="activeIndex()"
           [displayWith]="displayWith()"
           [optionTemplate]="optionTpl ?? null"
+          [loop]="false"
+          [typeahead]="false"
+          (activeIndexChange)="onActiveIndexChange($event)"
+          (requestSelectActive)="requestSelectActive()"
           (optionMouseDown)="select($event.item)"
           (optionHover)="activeIndex.set($event)"
         />

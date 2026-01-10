@@ -23,6 +23,21 @@ export class SelectDemoComponent {
     { code: 'DE', name: 'Germany', dialCode: '+49' },
     { code: 'FR', name: 'France', dialCode: '+33' },
     { code: 'SG', name: 'Singapore', dialCode: '+65' },
+    { code: 'JP', name: 'Japan', dialCode: '+81' },
+    { code: 'KR', name: 'South Korea', dialCode: '+82' },
+    { code: 'CN', name: 'China', dialCode: '+86' },
+    { code: 'HK', name: 'Hong Kong', dialCode: '+852' },
+    { code: 'TW', name: 'Taiwan', dialCode: '+886' },
+    { code: 'MX', name: 'Mexico', dialCode: '+52' },
+    { code: 'CA', name: 'Canada', dialCode: '+1' },
+    { code: 'AU', name: 'Australia', dialCode: '+61' },
+    { code: 'NZ', name: 'New Zealand', dialCode: '+64' },
+    { code: 'SA', name: 'Saudi Arabia', dialCode: '+966' },
+    { code: 'AE', name: 'UAE', dialCode: '+971' },
+    { code: 'US', name: 'United States', dialCode: '+1' },
+    { code: 'UK', name: 'United Kingdom', dialCode: '+44' },
+    { code: 'DE', name: 'Germany', dialCode: '+49' },
+    { code: 'FR', name: 'France', dialCode: '+33' },
   ]);
 
   // ✅ CVA value source
@@ -52,6 +67,21 @@ export class SelectDemoComponent {
     { code: 'DE', name: 'Germany', dialCode: '+49' },
     { code: 'FR', name: 'France', dialCode: '+33' },
     { code: 'SG', name: 'Singapore', dialCode: '+65' },
+    { code: 'JP', name: 'Japan', dialCode: '+81' },
+    { code: 'KR', name: 'South Korea', dialCode: '+82' },
+    { code: 'CN', name: 'China', dialCode: '+86' },
+    { code: 'HK', name: 'Hong Kong', dialCode: '+852' },
+    { code: 'TW', name: 'Taiwan', dialCode: '+886' },
+    { code: 'MX', name: 'Mexico', dialCode: '+52' },
+    { code: 'CA', name: 'Canada', dialCode: '+1' },
+    { code: 'AU', name: 'Australia', dialCode: '+61' },
+    { code: 'NZ', name: 'New Zealand', dialCode: '+64' },
+    { code: 'SA', name: 'Saudi Arabia', dialCode: '+966' },
+    { code: 'AE', name: 'UAE', dialCode: '+971' },
+    { code: 'US', name: 'United States', dialCode: '+1' },
+    { code: 'UK', name: 'United Kingdom', dialCode: '+44' },
+    { code: 'DE', name: 'Germany', dialCode: '+49' },
+    { code: 'FR', name: 'France', dialCode: '+33' },
   ]);
 
   // ✅ CVA value source
