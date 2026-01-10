@@ -1,20 +1,86 @@
-<div #listbox role="listbox" [class]="containerKlass()">
-  @if (hasItems()) {
-  @for (item of items(); let i = $index; track i) {
-  <div role="option" [class]="optionClasses(i)" [attr.aria-selected]="isActive(i)" [attr.data-index]="i"
-    (mousedown)="onMouseDown(item, i, $event)" (mouseenter)="onMouseEnter(i)">
-    @if (tpl) {
-    <ng-container [ngTemplateOutlet]="tpl"
-      [ngTemplateOutletContext]="{ $implicit: item, index: i, active: isActive(i) }" />
-    } @else {
-    {{ display(item) }}
-    }
+<!-- option-list.component.html -->
+@let active = activeIndex();
 
+@if (modal()) {
+  <tng-overlay-panel
+    [modal]="true"
+    [klass]="panelKlass()"
+    [restoreFocus]="restoreFocus()"
+    [autoCapture]="autoCapture()"
+    [deferCaptureElements]="deferCaptureElements()"
+  >
+    <div
+      #listbox
+      role="listbox"
+      [class]="containerKlass()"
+      [attr.tabindex]="tabindex()"
+      (keydown)="onKeydown($event)"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.aria-labelledby]="ariaLabelledby() || null"
+      [attr.aria-describedby]="ariaDescribedby() || null"
+      [attr.aria-activedescendant]="active >= 0 ? 'tng-opt-' + active : null"
+    >
+      @if (hasItems()) {
+        @for (item of items(); let i = $index; track i) {
+          <div
+            role="option"
+            [id]="'tng-opt-' + i"
+            [class]="optionClasses(i)"
+            [attr.aria-selected]="isActive(i) ? 'true' : 'false'"
+            [attr.data-index]="i"
+            (mousedown)="onMouseDown(item, i, $event)"
+            (mouseenter)="onMouseEnter(i)"
+          >
+            @if (tpl) {
+              <ng-container
+                [ngTemplateOutlet]="tpl"
+                [ngTemplateOutletContext]="{ $implicit: item, index: i, active: isActive(i) }"
+              />
+            } @else {
+              {{ display(item) }}
+            }
+          </div>
+        }
+      } @else {
+        <div [class]="emptyKlass()">{{ emptyText() }}</div>
+      }
+    </div>
+  </tng-overlay-panel>
+} @else {
+  <div
+    #listbox
+    role="listbox"
+    [class]="containerKlass()"
+    [attr.tabindex]="tabindex()"
+    (keydown)="onKeydown($event)"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledby() || null"
+    [attr.aria-describedby]="ariaDescribedby() || null"
+    [attr.aria-activedescendant]="active >= 0 ? 'tng-opt-' + active : null"
+  >
+    @if (hasItems()) {
+      @for (item of items(); let i = $index; track i) {
+        <div
+          role="option"
+          [id]="'tng-opt-' + i"
+          [class]="optionClasses(i)"
+          [attr.aria-selected]="isActive(i) ? 'true' : 'false'"
+          [attr.data-index]="i"
+          (mousedown)="onMouseDown(item, i, $event)"
+          (mouseenter)="onMouseEnter(i)"
+        >
+          @if (tpl) {
+            <ng-container
+              [ngTemplateOutlet]="tpl"
+              [ngTemplateOutletContext]="{ $implicit: item, index: i, active: isActive(i) }"
+            />
+          } @else {
+            {{ display(item) }}
+          }
+        </div>
+      }
+    } @else {
+      <div [class]="emptyKlass()">{{ emptyText() }}</div>
+    }
   </div>
-  }
-  } @else {
-  <div [class]="emptyKlass()">
-    {{ emptyText() }}
-  </div>
-  }
-</div>
+}

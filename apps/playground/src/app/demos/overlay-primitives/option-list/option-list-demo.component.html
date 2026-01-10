@@ -16,10 +16,15 @@
         <tng-option-list
           [items]="options()"
           [activeIndex]="activeIndex()"
+          (activeIndexChange)="activeIndex.set($event)"
           (optionMouseDown)="onSelect($event)"
           (optionHover)="activeIndex.set($event)"
         />
       </tng-overlay-panel>
+
+      <p class="text-xs text-gray-500 mt-2">
+        Tip: click inside the list (or Tab into it) and use ↑/↓, Home/End, PageUp/PageDown.
+      </p>
     </div>
   </section>
 
@@ -33,6 +38,7 @@
           [items]="customOptions"
           [activeIndex]="customActiveIndex()"
           [displayWith]="displayPerson"
+          (activeIndexChange)="customActiveIndex.set($event)"
           (optionMouseDown)="onCustomSelect($event)"
           (optionHover)="customActiveIndex.set($event)"
         />
@@ -49,17 +55,18 @@
         <tng-option-list
           [items]="countryOptions"
           [activeIndex]="countryActiveIndex()"
+          [optionTemplate]="countryTpl"
+          (activeIndexChange)="countryActiveIndex.set($event)"
           (optionMouseDown)="onCountrySelect($event)"
           (optionHover)="countryActiveIndex.set($event)"
         >
-          <ng-template #optionTpl let-item>
+          <ng-template #countryTpl let-item>
             <div class="flex items-center gap-2">
               <span class="opacity-70">({{ item.code }})</span>
               <span class="font-semibold text-red-600">{{ item.name }}</span>
             </div>
           </ng-template>
         </tng-option-list>
-
       </tng-overlay-panel>
     </div>
   </section>
@@ -76,5 +83,129 @@
         />
       </tng-overlay-panel>
     </div>
+  </section>
+
+  <!-- Modal option list -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Modal (Focus-trapped)</h2>
+
+    <p class="text-sm text-gray-600 max-w-md">
+      When <code>modal=true</code>, the option list behaves like a contained picker:
+      focus is trapped inside, keyboard navigation is enabled, and typeahead works.
+      Useful for mobile pickers, command lists, or decision-focused flows.
+    </p>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        (click)="openModalList()"
+      >
+        Open modal option list
+      </button>
+
+      @if (showModalList()) {
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+          (click)="closeModalList()"
+        >
+          Close
+        </button>
+      }
+    </div>
+
+    @if (showModalList()) {
+      <div class="max-w-xs">
+        <tng-option-list
+          modal="true"
+          ariaLabel="Choose an option"
+          [items]="options()"
+          [activeIndex]="activeIndex()"
+          (activeIndexChange)="activeIndex.set($event)"
+          (optionMouseDown)="onSelect($event)"
+          (requestSelectActive)="selectActive()"
+          containerKlass="py-1 max-h-48 overflow-auto"
+        />
+      </div>
+
+      <div class="text-xs text-gray-500">
+        Focus trap demo:
+        press
+        <kbd class="rounded bg-gray-100 px-1">Tab</kbd> /
+        <kbd class="rounded bg-gray-100 px-1">Shift</kbd>+
+        <kbd class="rounded bg-gray-100 px-1">Tab</kbd>,
+        use
+        <kbd class="rounded bg-gray-100 px-1">↑</kbd>
+        <kbd class="rounded bg-gray-100 px-1">↓</kbd>,
+        and press
+        <kbd class="rounded bg-gray-100 px-1">Enter</kbd>
+        to select.
+      </div>
+    }
+  </section>
+
+  <!-- Modal option list -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Modal Lage List (Focus-trapped)</h2>
+
+    <p class="text-sm text-gray-600 max-w-md">
+      When <code>modal=true</code>, the option list behaves like a contained picker:
+      focus is trapped inside, keyboard navigation is enabled, and typeahead works.
+      Useful for mobile pickers, command lists, or decision-focused flows.
+    </p>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        (click)="openModalListLarge()"
+      >
+        Open modal option list
+      </button>
+
+      @if (showModalListLarge()) {
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+          (click)="closeModalListLarge()"
+        >
+          Close
+        </button>
+      }
+    </div>
+
+    @if (showModalListLarge()) {
+      <div class="max-w-xs">
+        <tng-option-list
+          modal="true"
+          ariaLabel="Choose an option"
+          [items]="optionsLarge()"
+          [optionTemplate]="countryTplLarge"
+          [activeIndex]="activeIndexLarge()"
+          (activeIndexChange)="activeIndexLarge.set($event)"
+          (optionMouseDown)="onSelectLarge($event)"
+          (requestSelectActive)="selectActiveLarge()"
+          containerKlass="py-1 max-h-48 overflow-auto"
+        >
+        <ng-template #countryTplLarge let-item>
+          <div class="flex items-center gap-2">
+            <span class="opacity-70">({{ item.code }})</span>
+            <span class="font-semibold text-red-600">{{ item.name }}</span>
+          </div>
+        </ng-template>
+        </tng-option-list>
+      </div>
+
+      <div class="text-xs text-gray-500">
+        Focus trap demo:
+        press
+        <kbd class="rounded bg-gray-100 px-1">Tab</kbd> /
+        <kbd class="rounded bg-gray-100 px-1">Shift</kbd>+
+        <kbd class="rounded bg-gray-100 px-1">Tab</kbd>,
+        use
+        <kbd class="rounded bg-gray-100 px-1">↑</kbd>
+        <kbd class="rounded bg-gray-100 px-1">↓</kbd>,
+        and press
+        <kbd class="rounded bg-gray-100 px-1">Enter</kbd>
+        to select.
+      </div>
+    }
   </section>
 </div>
