@@ -1,3 +1,4 @@
+<!-- chips.component.html -->
 <div [class]="rootKlass()">
   <!-- Chips row + input -->
   <div [class]="containerClasses()">
@@ -9,9 +10,7 @@
             [ngTemplateOutletContext]="{ $implicit: chip, index: i }"
           />
         } @else {
-          <span [class]="chipLabelKlass()">
-            {{ display(chip) }}
-          </span>
+          <span [class]="chipLabelKlass()">{{ display(chip) }}</span>
         }
 
         <button
@@ -64,6 +63,10 @@
           [activeIndex]="focusedIndex()"
           [displayWith]="displayWith()"
           [optionTemplate]="optionTpl ?? null"
+          [loop]="false"
+          [typeahead]="false"
+          (activeIndexChange)="focusedIndex.set($event)"
+          (requestSelectActive)="requestSelectActive()"
           (optionMouseDown)="selectOption($event.item)"
           (optionHover)="focusedIndex.set($event)"
         />

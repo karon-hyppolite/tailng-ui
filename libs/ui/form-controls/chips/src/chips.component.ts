@@ -1,3 +1,5 @@
+// chips.component.ts
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -12,7 +14,6 @@ import {
   computed,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
@@ -22,18 +23,16 @@ import {
   TailngOverlayCloseReason,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
-import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
 import { OptionTplContext } from '@tailng/cdk';
 
 export type ChipsCloseReason = TailngOverlayCloseReason;
-
 export type ChipTplContext<T> = { $implicit: T; index: number };
 
 @Component({
   selector: 'tng-chips',
   standalone: true,
   imports: [
-    NgTemplateOutlet, // ✅ needed for rendering chipTpl
+    NgTemplateOutlet,
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
     TailngOptionListComponent,
@@ -52,22 +51,22 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   /* =====================
    * Projected templates
    * ===================== */
-
-  // Template for each chip rendering
   @ContentChild('chipTpl', { read: TemplateRef })
   chipTpl?: TemplateRef<ChipTplContext<T>>;
 
-  // Template for option list rows (suggestions)
   @ContentChild('optionTpl', { read: TemplateRef })
   optionTpl?: TemplateRef<OptionTplContext<T>>;
 
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
+  // ✅ Delegate list keys to OptionList
+  @ViewChild(TailngOptionListComponent)
+  optionList?: TailngOptionListComponent<T>;
+
   /* =====================
    * Inputs / Outputs
    * ===================== */
-
   readonly value = input<T[]>([]);
   readonly options = input<T[]>([]);
   readonly placeholder = input<string>('Add…');
@@ -87,9 +86,8 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   readonly closed = output<ChipsCloseReason>();
 
   /* =====================
-   * Theming (section-wise klass inputs)
+   * Theming
    * ===================== */
-
   readonly rootKlass = input<string>('relative');
 
   readonly containerKlass = input<string>(
@@ -111,12 +109,8 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   );
 
   readonly chipLabelKlass = input<string>('truncate max-w-[200px]');
-
   readonly removeButtonKlass = input<string>('ml-1 text-disable hover:text-text');
-
-  readonly inputKlass = input<string>(
-    'flex-1 min-w-[140px] px-2 py-2 outline-none bg-transparent'
-  );
+  readonly inputKlass = input<string>('flex-1 min-w-[140px] px-2 py-2 outline-none bg-transparent');
 
   /* =====================
    * Internal State
@@ -146,6 +140,9 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     });
   }
 
+  /* =====================
+   * ControlValueAccessor
+   * ===================== */
   writeValue(value: T[] | null): void {
     this.usingCva = true;
     this.chipsValue.set(value ?? []);
@@ -172,15 +169,10 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     return this.chipsValue();
   }
 
-  readonly placeholderText = computed(() =>
-    this.chipsValue().length ? '' : this.placeholder()
-  );
+  readonly placeholderText = computed(() => (this.chipsValue().length ? '' : this.placeholder()));
 
   readonly containerClasses = computed(() =>
-    (
-      this.containerKlass() +
-      (this.isDisabled() ? ' opacity-60 pointer-events-none' : '')
-    ).trim()
+    (this.containerKlass() + (this.isDisabled() ? ' opacity-60 pointer-events-none' : '')).trim()
   );
 
   /* =====================
@@ -192,11 +184,8 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
 
   private existsAlready(next: T): boolean {
     if (!this.preventDuplicates()) return false;
-
     const nextKey = this.display(next).toLowerCase();
-    return this.chipsValue().some(
-      (v) => this.display(v).toLowerCase() === nextKey
-    );
+    return this.chipsValue().some((v) => this.display(v).toLowerCase() === nextKey);
   }
 
   private emitValue(next: T[]) {
@@ -256,66 +245,111 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
 
   onBlur() {
     this.onTouched();
-    this.close('blur');
+    queueMicrotask(() => {
+      if (document.activeElement === this.inputEl.nativeElement) return;
+      this.close('blur');
+    });
   }
 
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
 
+    // Escape closes
+    if (ev.key === 'Escape' && this.isOpen()) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      this.close('escape');
+      return;
+    }
+
+    // Backspace removes last chip when input empty
     if (ev.key === 'Backspace' && !this.inputValue()) {
       const current = this.chipsValue();
       if (current.length) {
         ev.preventDefault();
+        ev.stopPropagation();
         this.removeAt(current.length - 1);
       }
       return;
     }
 
+    // Enter
     if (ev.key === 'Enter') {
-      ev.preventDefault();
-
-      if (this.isOpen() && this.focusedIndex() >= 0) {
-        const item = this.options()[this.focusedIndex()];
-        if (item !== undefined) this.selectOption(item);
+      // ✅ IMPORTANT: if open, DO NOT preventDefault here — OptionList must see a non-prevented event
+      if (this.isOpen()) {
+        ev.stopPropagation();
+        this.optionList?.onKeydown(ev); // OptionList will preventDefault + emit requestSelectActive
         return;
       }
 
+      ev.preventDefault();
+      ev.stopPropagation();
       this.addFromInput();
       return;
     }
 
+    // Open on arrows when closed (prevent original cursor move),
+    // then delegate a *fresh* event to OptionList after mount.
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
+      ev.preventDefault();
+      ev.stopPropagation();
+
       this.open('programmatic');
+
+      requestAnimationFrame(() => {
+        const replay = this.cloneKeyboardEvent(ev);
+        this.optionList?.onKeydown(replay);
+      });
+
       return;
     }
 
-    if (this.isOpen()) {
-      const action = handleListKeyboardEvent(ev, {
-        activeIndex: this.focusedIndex(),
-        itemCount: this.options().length,
-        loop: false,
-      });
+    if (!this.isOpen()) return;
 
-      switch (action.type) {
-        case 'move':
-          this.focusedIndex.set(action.index);
-          break;
+    // Delegate list-navigation keys (no preventDefault here; OptionList does it)
+    if (!this.isListNavigationKey(ev)) return;
 
-        case 'select': {
-          const item = this.options()[action.index];
-          if (item !== undefined) this.selectOption(item);
-          break;
-        }
+    ev.stopPropagation();
+    this.optionList?.onKeydown(ev);
+  }
 
-        case 'close':
-          this.close('escape');
-          break;
-
-        case 'noop':
-        default:
-          break;
-      }
+  private isListNavigationKey(ev: KeyboardEvent): boolean {
+    switch (ev.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+      case 'Home':
+      case 'End':
+      case 'PageDown':
+      case 'PageUp':
+        return true;
+      default:
+        return false;
     }
+  }
+
+  // Used to replay arrow keys after opening (original event already defaultPrevented)
+  private cloneKeyboardEvent(ev: KeyboardEvent): KeyboardEvent {
+    return new KeyboardEvent(ev.type, {
+      key: ev.key,
+      code: ev.code,
+      location: ev.location,
+      repeat: ev.repeat,
+      ctrlKey: ev.ctrlKey,
+      shiftKey: ev.shiftKey,
+      altKey: ev.altKey,
+      metaKey: ev.metaKey,
+      bubbles: true,
+      cancelable: true,
+    });
+  }
+
+  /* =====================
+   * OptionList wiring
+   * ===================== */
+  requestSelectActive() {
+    const i = this.focusedIndex();
+    const item = this.options()[i];
+    if (item !== undefined) this.selectOption(item);
   }
 
   /* =====================
@@ -329,6 +363,7 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     if (!normalized) return;
 
     const nextChip = this.parse()(normalized);
+
     if (this.existsAlready(nextChip)) {
       this.inputValue.set('');
       this.close('programmatic');
