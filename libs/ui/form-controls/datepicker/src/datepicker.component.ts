@@ -18,9 +18,12 @@ import {
   TailngOverlayCloseReason,
   TailngOverlayRefComponent,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-dayjs.extend(customParseFormat);
+import {
+  computeNextCaretPos,
+  formatDate,
+  parseSmartDate,
+} from './utils/datepicker-input.util';
 
 const MONTHS = [
   { index: 0, label: 'Jan' },
@@ -38,7 +41,6 @@ const MONTHS = [
 ] as const;
 
 const YEAR_WINDOW_SIZE = 10;
-
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
 type CalendarCell = {
@@ -76,6 +78,9 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly displayFormat = input<string>('DD/MM/YYYY');
   readonly previewFormat = input<string>('DD MMM YYYY');
 
+  /** Optional locale for month names (e.g. 'en', 'fr', 'de', 'ml') */
+  readonly locale = input<string | null>(null);
+
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
@@ -88,13 +93,8 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /* =====================
    * Form values
    * ===================== */
-  /** committed value (CVA) */
   private value: Dayjs | null = null;
-
-  /** draft value (while overlay open) */
   readonly draft = signal<Dayjs | null>(null);
-
-  /** input text */
   readonly inputValue = signal('');
 
   private onChange: (value: Date | null) => void = () => {};
@@ -119,16 +119,17 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /* =====================
    * View base
    * ===================== */
-  readonly view = computed(() => {
-    // view is driven by draft (preferred), then committed, else today
-    return (this.draft() ?? this.value ?? dayjs().startOf('day')).startOf('day');
-  });
+  readonly view = computed(() =>
+    (this.draft() ?? this.value ?? dayjs().startOf('day')).startOf('day')
+  );
 
   readonly selectedYear = computed(() => this.view().year());
   readonly selectedMonth = computed(() => this.view().month());
 
-  readonly yearBase = signal<number>(Math.floor(dayjs().year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
-  
+  readonly yearBase = signal<number>(
+    Math.floor(dayjs().year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE
+  );
+
   readonly years = computed(() => {
     const base = this.yearBase();
     return Array.from({ length: YEAR_WINDOW_SIZE }, (_, i) => base + i);
@@ -136,12 +137,14 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
   readonly previewLabel = computed(() => {
     const d = this.draft() ?? this.value;
-    return d ? d.format(this.previewFormat()) : '—';
+    if (!d) return '—';
+    const loc = this.locale();
+    return loc ? d.locale(loc).format(this.previewFormat()) : d.format(this.previewFormat());
   });
 
   readonly calendarCells = computed<CalendarCell[]>(() => {
     const v = this.view().startOf('month');
-    const startDow = v.day(); // 0..6
+    const startDow = v.day();
     const gridStart = v.subtract(startDow, 'day');
 
     const cells: CalendarCell[] = [];
@@ -155,36 +158,33 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     }
     return cells;
   });
-  
+
   canPrevYearWindow = computed(() => !this.isYearWindowBlocked(this.yearBase() - YEAR_WINDOW_SIZE));
   canNextYearWindow = computed(() => !this.isYearWindowBlocked(this.yearBase() + YEAR_WINDOW_SIZE));
-  
+
   private isYearWindowBlocked(nextBase: number): boolean {
-    // If min/max exists, avoid paging into a window where ALL years are disabled.
     const min = this.minD();
     const max = this.maxD();
-  
     if (!min && !max) return false;
-  
+
     const years = Array.from({ length: YEAR_WINDOW_SIZE }, (_, i) => nextBase + i);
     return years.every((y) => this.isYearDisabled(y));
   }
-  
+
   constructor() {
-    // Sync external [disabled]
     effect(() => {
       this.isDisabled.set(this.disabled());
       if (this.isDisabled()) this.close('programmatic');
     });
   }
-  
+
   prevYearWindow(): void {
     if (this.isDisabled()) return;
     const next = this.yearBase() - YEAR_WINDOW_SIZE;
     if (this.isYearWindowBlocked(next)) return;
     this.yearBase.set(next);
   }
-  
+
   nextYearWindow(): void {
     if (this.isDisabled()) return;
     const next = this.yearBase() + YEAR_WINDOW_SIZE;
@@ -209,9 +209,11 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(d);
     this.value = clamped;
     this.draft.set(clamped);
-    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
-    this.inputValue.set(clamped.format(this.displayFormat()));
 
+    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
+
+    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    this.inputValue.set(formatted);
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -234,7 +236,6 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     if (this.isDisabled()) return;
     this.isOpen.set(true);
 
-    // initialize draft from committed when opening
     if (this.draft() == null) this.draft.set(this.value ?? dayjs().startOf('day'));
     const y = (this.draft() ?? this.value ?? dayjs()).year();
     this.yearBase.set(Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
@@ -250,8 +251,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
       this.isOpen.set(false);
       return;
     }
-    if (open) this.open('programmatic');
-    else this.close('programmatic');
+    open ? this.open('programmatic') : this.close('programmatic');
   }
 
   onOverlayClosed(reason: TailngOverlayCloseReason) {
@@ -266,25 +266,59 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   }
 
   /* =====================
-   * Input handling (DD/MM/YYYY)
+   * Input handling (smart)
    * ===================== */
   onInput(ev: Event) {
     if (this.isDisabled()) return;
 
-    const text = (ev.target as HTMLInputElement).value ?? '';
-    this.inputValue.set(text);
+    const input = ev.target as HTMLInputElement;
+    const raw = input.value ?? '';
 
-    const parsed = this.parseByDisplayFormat(text);
-    if (!parsed) {
-      // Don’t overwrite committed immediately with null while typing.
-      // But for form value, we keep it null to show invalid state.
+    const before = raw;
+    const beforeCaret = input.selectionStart ?? before.length;
+
+    const res = parseSmartDate(raw, this.displayFormat(), this.locale() ?? undefined);
+
+    // Keep what user typed while partial/invalid; don't hard-clear.
+    if (res.kind === 'empty') {
+      this.inputValue.set('');
+      this.draft.set(null);
       this.onChange(null);
+      this.onTouched();
       return;
     }
 
-    const clamped = this.clampToBounds(parsed);
+    if (res.kind === 'partial') {
+      this.inputValue.set(raw);
+      // do not emit null onChange while user is mid-typing
+      this.onTouched();
+      return;
+    }
+
+    if (res.kind === 'invalid') {
+      this.inputValue.set(raw);
+      this.onChange(null);
+      this.onTouched();
+      return;
+    }
+
+    // valid
+    const clamped = this.clampToBounds(res.date);
     this.draft.set(clamped);
-    // NOTE: not committing until Confirm (overlay UX). If you want typing to commit immediately, call commit(clamped) here.
+
+    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    this.inputValue.set(formatted);
+
+    // Apply formatting back to input while preserving caret
+    if (formatted !== raw) {
+      input.value = formatted;
+      const nextCaret = computeNextCaretPos(before, beforeCaret, formatted);
+      queueMicrotask(() => input.setSelectionRange(nextCaret, nextCaret));
+    }
+
+    // don’t commit until day click/confirm (your current UX), but
+    // we can still emit null/valid? You already treat typing as draft.
+    // Keep existing behavior: do NOT call onChange here.
     this.onTouched();
   }
 
@@ -334,20 +368,37 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.draft.set(this.clampToBounds(y.set('date', nextDay).startOf('day')));
   }
 
-  selectDay(cell: CalendarCell): void {
+  // day click commits + closes (as you requested)
+  selectDay(cell: { date: Dayjs }) {
     if (this.isDisabled()) return;
 
     const d = cell.date.startOf('day');
     if (!this.isWithinBounds(d)) return;
 
-    this.draft.set(this.clampToBounds(d));
+    const clamped = this.clampToBounds(d);
+    this.draft.set(clamped);
+
+    this.value = clamped;
+
+    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    this.inputValue.set(formatted);
+
+    this.onChange(clamped.toDate());
+    this.onTouched();
+
+    this.close('selection');
   }
 
   cancel(): void {
     if (this.isDisabled()) return;
-    // revert draft -> committed
+
     this.draft.set(this.value);
-    this.inputValue.set(this.value ? this.value.format(this.displayFormat()) : '');
+
+    const formatted = this.value
+      ? formatDate(this.value, this.displayFormat(), this.locale() ?? undefined)
+      : '';
+
+    this.inputValue.set(formatted);
     this.close('blur');
     this.onTouched();
   }
@@ -368,14 +419,16 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(d);
     this.value = clamped;
 
-    this.inputValue.set(clamped.format(this.displayFormat()));
+    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    this.inputValue.set(formatted);
+
     this.onChange(clamped.toDate());
     this.onTouched();
     this.close('selection');
   }
 
   /* =====================
-   * Selection helpers for template
+   * Selection helpers
    * ===================== */
   isMonthSelected(monthIndex0: number): boolean {
     return this.selectedMonth() === monthIndex0;
@@ -387,8 +440,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
   isCellSelected(cell: CalendarCell): boolean {
     const d = this.draft() ?? this.value;
-    if (!d) return false;
-    return cell.date.isSame(d, 'day');
+    return !!d && cell.date.isSame(d, 'day');
   }
 
   isCellDisabled(cell: CalendarCell): boolean {
@@ -425,21 +477,9 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /* =====================
    * Internals
    * ===================== */
-  private parseByDisplayFormat(text: string): Dayjs | null {
-    const fmt = this.displayFormat();
-    const t = text.trim();
-    if (!t) return null;
-  
-    const d = dayjs(t, fmt, true).startOf('day'); // strict parse
-    if (!d.isValid()) return null;
-  
-    return d;
-  }
-
   private clampToBounds(d: Dayjs): Dayjs {
     const min = this.minD();
     const max = this.maxD();
-
     if (min && d.isBefore(min)) return min;
     if (max && d.isAfter(max)) return max;
     return d;
