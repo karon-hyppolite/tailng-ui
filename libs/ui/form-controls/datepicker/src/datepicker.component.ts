@@ -375,20 +375,26 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const f = this.focusedDate();
     if (!f) return false;
     return cell.date.isSame(f, 'day');
-  }
+  }  
   
-
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
   
-    // Escape closes
+    // ---- TAB / SHIFT+TAB → close popup ----
+    if (ev.key === 'Tab' && this.isOpen()) {
+      // Do NOT preventDefault → allow normal focus navigation
+      this.close('blur');
+      return;
+    }
+  
+    // Escape closes without commit
     if (ev.key === 'Escape' && this.isOpen()) {
       ev.preventDefault();
       this.close('escape');
       return;
     }
   
-    // Open on ArrowDown/Enter when closed
+    // Open when closed
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'Enter')) {
       ev.preventDefault();
       this.open('programmatic');
@@ -444,7 +450,6 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
         const f = this.focusedDate();
         if (!f) return;
   
-        // same behavior as day click: commit + close
         const clamped = this.clampToBounds(f);
         this.draft.set(clamped);
   
@@ -452,12 +457,10 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
         this.inputValue.set(clamped.format(this.displayFormat()));
         this.onChange(clamped.toDate());
         this.onTouched();
+  
         this.close('selection');
         return;
       }
-  
-      default:
-        return;
     }
   }  
 
