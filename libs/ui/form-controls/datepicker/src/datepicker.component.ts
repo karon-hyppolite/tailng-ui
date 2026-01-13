@@ -18,6 +18,9 @@ import {
   TailngOverlayCloseReason,
   TailngOverlayRefComponent,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 const MONTHS = [
   { index: 0, label: 'Jan' },
@@ -66,10 +69,12 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /* =====================
    * Inputs
    * ===================== */
-  readonly placeholder = input<string>('DD / MM / YYYY');
   readonly min = input<Date | null>(null);
   readonly max = input<Date | null>(null);
   readonly disabled = input<boolean>(false);
+
+  readonly displayFormat = input<string>('DD/MM/YYYY');
+  readonly previewFormat = input<string>('DD MMM YYYY');
 
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
@@ -131,7 +136,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
   readonly previewLabel = computed(() => {
     const d = this.draft() ?? this.value;
-    return d ? d.format('DD MMM YYYY') : '—';
+    return d ? d.format(this.previewFormat()) : '—';
   });
 
   readonly calendarCells = computed<CalendarCell[]>(() => {
@@ -205,7 +210,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.value = clamped;
     this.draft.set(clamped);
     this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
-    this.inputValue.set(clamped.format('DD/MM/YYYY'));
+    this.inputValue.set(clamped.format(this.displayFormat()));
 
   }
 
@@ -269,7 +274,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const text = (ev.target as HTMLInputElement).value ?? '';
     this.inputValue.set(text);
 
-    const parsed = this.parseDdMmYyyy(text);
+    const parsed = this.parseByDisplayFormat(text);
     if (!parsed) {
       // Don’t overwrite committed immediately with null while typing.
       // But for form value, we keep it null to show invalid state.
@@ -342,7 +347,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     if (this.isDisabled()) return;
     // revert draft -> committed
     this.draft.set(this.value);
-    this.inputValue.set(this.value ? this.value.format('DD/MM/YYYY') : '');
+    this.inputValue.set(this.value ? this.value.format(this.displayFormat()) : '');
     this.close('blur');
     this.onTouched();
   }
@@ -363,7 +368,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(d);
     this.value = clamped;
 
-    this.inputValue.set(clamped.format('DD/MM/YYYY'));
+    this.inputValue.set(clamped.format(this.displayFormat()));
     this.onChange(clamped.toDate());
     this.onTouched();
     this.close('selection');
@@ -420,22 +425,14 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /* =====================
    * Internals
    * ===================== */
-  private parseDdMmYyyy(text: string): Dayjs | null {
-    const m = text.trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    if (!m) return null;
-
-    const dd = Number(m[1]);
-    const mm = Number(m[2]);
-    const yyyy = Number(m[3]);
-
-    if (mm < 1 || mm > 12) return null;
-
-    const d = dayjs().year(yyyy).month(mm - 1).date(dd).startOf('day');
+  private parseByDisplayFormat(text: string): Dayjs | null {
+    const fmt = this.displayFormat();
+    const t = text.trim();
+    if (!t) return null;
+  
+    const d = dayjs(t, fmt, true).startOf('day'); // strict parse
     if (!d.isValid()) return null;
-
-    // strict validation (31/02 etc)
-    if (d.year() !== yyyy || d.month() !== mm - 1 || d.date() !== dd) return null;
-
+  
     return d;
   }
 
