@@ -127,6 +127,15 @@ export const categories = [
       { name: 'Empty State', route: '/data/empty-state', status: 'backlog', priority: 'medium' },
     ],
   },
+
+  {
+    name: 'Utilities',
+    package: '@tailng/ui',
+    components: [
+      { name: 'Code Block', route: '/utilities/code-block', status: 'done', priority: 'medium' },
+      { name: 'Copy Button', route: '/utilities/copy-button', status: 'done', priority: 'medium' },
+    ],
+  },
 ];
 
 

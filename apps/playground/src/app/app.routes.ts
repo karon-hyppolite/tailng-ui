@@ -328,4 +328,19 @@ export const routes: Routes = [
         (m) => m.EmptyStateDemoComponent
       ),
   },
+  // Utilities
+  {
+    path: 'utilities/code-block',
+    loadComponent: () =>
+      import('./demos/utilities/code-block/code-block-demo.component').then(
+        (m) => m.CodeBlockDemoComponent
+      ),
+  },
+  {
+    path: 'utilities/copy-button',
+    loadComponent: () =>
+      import('./demos/utilities/copy-button/copy-button-demo.component').then(
+        (m) => m.CopyButtonDemoComponent
+      ),
+  },
 ];

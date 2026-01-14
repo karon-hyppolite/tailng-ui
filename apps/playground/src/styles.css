@@ -32,5 +32,16 @@
   --border-color-hover: #B0B0B0;
 
   --disable-color: #6c757d;
+
+  /* -----------------------
+   Code highlighting tokens
+   ----------------------- */
+   --code-keyword-color: var(--primary-color);
+   --code-string-color: var(--success-color);
+   --code-comment-color: var(--disable-color);
+   --code-number-color: var(--info-color);
+   --code-tag-color: var(--danger-color);
+   --code-attr-color: var(--warning-color);
+   --code-decorator-color: var(--primary-color-hover);
 }
 body{ margin:0; font-family: Roboto, system-ui, -apple-system, Segoe UI, Arial, sans-serif; background:#fff; }

@@ -15,3 +15,6 @@ export * from '../popups-overlays/src/public-api';
 
 // Data Table & Structure
 export * from '../data-table-structure/src/public-api';
+
+// Utilities
+export * from '../utilities/src/public-api';
