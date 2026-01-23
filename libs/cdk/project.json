@@ -1,0 +1,21 @@
+{
+  "name": "cdk",
+  "projectType": "library",
+  "sourceRoot": "libs/cdk/src",
+  "targets": {
+      "build": {
+        "executor": "@nx/angular:package",
+        "outputs": ["{workspaceRoot}/dist/libs/cdk"],
+        "options": {
+          "project": "libs/cdk/ng-package.json"
+        }
+      },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/cdk/**/*.ts", "libs/cdk/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

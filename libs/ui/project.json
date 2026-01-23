@@ -1,0 +1,21 @@
+{
+  "name": "ui",
+  "projectType": "library",
+  "sourceRoot": "libs/ui/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/ui"],
+      "options": {
+        "project": "libs/ui/ng-package.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/ui/**/*.ts", "libs/ui/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

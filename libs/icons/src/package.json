@@ -1,0 +1,17 @@
+{
+  "name": "@tailng/icons",
+  "version": "0.1.0",
+  "description": "Angular icon components for Tailng",
+  "license": "MIT",
+  "sideEffects": false,
+
+  "peerDependencies": {
+    "@angular/core": "^21.0.0",
+    "@angular/common": "^21.0.0"
+  },
+
+  "dependencies": {
+    "@ng-icons/core": "^30.0.0",
+    "tslib": "^2.6.0"
+  }
+}

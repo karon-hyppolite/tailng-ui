@@ -15,7 +15,8 @@
     "format:write": "nx format:write",
     "docs:build": "nx build docs",
     "docs:prerender": "node tools/prerender-docs.mjs",
-    "docs:seo": "yarn docs:build && yarn docs:prerender"
+    "docs:seo": "yarn docs:build && yarn docs:prerender",
+    "nx": "nx"
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",
@@ -54,12 +55,13 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
+    "ng-packagr": "^21.1.0",
     "nx": "^22.3.0",
     "postcss": "^8.4.38",
     "prettier": "^3.7.4",
     "puppeteer": "^24.35.0",
     "serve-handler": "^6.1.6",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.7.0"
+    "typescript": "^5.9.0"
   }
 }

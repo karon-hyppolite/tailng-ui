@@ -1,0 +1,10 @@
+{
+  "name": "@tailng/theme",
+  "version": "0.1.0",
+  "description": "Tailwind CSS preset for Tailng",
+  "license": "MIT",
+
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
