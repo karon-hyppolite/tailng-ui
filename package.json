@@ -9,17 +9,14 @@
   "scripts": {
     "docs": "nx serve docs",
     "playground": "nx serve playground",
-
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "format:check": "nx format:check",
     "format:write": "nx format:write",
-
     "docs:build": "nx build docs",
     "docs:prerender": "node tools/prerender-docs.mjs",
     "docs:seo": "yarn docs:build && yarn docs:prerender"
   },
-  
   "dependencies": {
     "@angular/animations": "^21.0.0",
     "@angular/cdk": "^21.0.6",
@@ -44,6 +41,8 @@
     "@angular-eslint/eslint-plugin-template": "^21.1.0",
     "@angular-eslint/template-parser": "^21.1.0",
     "@angular/compiler-cli": "^21.0.0",
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^2.29.8",
     "@nx/angular": "^22.3.0",
     "@nx/eslint-plugin": "^22.3.3",
     "@nx/workspace": "^22.3.0",
