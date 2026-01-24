@@ -4,18 +4,13 @@
   "sourceRoot": "libs/ui/src",
   "targets": {
     "build": {
+      "dependsOn": ["^build"],
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/ui"],
       "options": {
-        "project": "libs/ui/ng-package.json"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["libs/ui/**/*.ts", "libs/ui/**/*.html"]
+        "project": "libs/ui/ng-package.json",
+        "tsConfig": "libs/ui/tsconfig.lib.json"
       }
     }
-  },
-  "tags": []
+  }
 }
