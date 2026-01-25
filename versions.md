@@ -1,6 +1,12 @@
 # Version Details
 ## Version: 0.1.5
 ## Date: 2026-01-07
+BRANCH_NAME=main
+BUILD_VERSION=v0.1.5-main
+
+# Version Details
+## Version: 0.1.5
+## Date: 2026-01-07
 BRANCH_NAME=development
 BUILD_VERSION=v0.1.5-development
 
