@@ -1,0 +1,21 @@
+{
+  "name": "icons",
+  "projectType": "library",
+  "sourceRoot": "libs/icons/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/icons"],
+      "options": {
+        "project": "libs/icons/ng-package.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/icons/**/*.ts", "libs/icons/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TailngSelectComponent } from '@tailng/ui';
+import { TailngSelectComponent } from '@tociva/tailng-ui';
 
 interface Country {
   code: string;
@@ -40,7 +40,7 @@ export class SelectDemoComponent {
     { code: 'FR', name: 'France', dialCode: '+33' },
   ]);
 
-  // ✅ CVA value source
+  // CVA value source
   readonly countryCtrl = new FormControl<Country | null>(null);
 
   lastCloseReason = signal<string>('-');
@@ -84,7 +84,7 @@ export class SelectDemoComponent {
     { code: 'FR', name: 'France', dialCode: '+33' },
   ]);
 
-  // ✅ CVA value source
+  // CVA value source
   readonly countryCtrl2 = new FormControl<Country | null>(null);
 
   displayCountry2 = (c: Country) => `${c.name} (${c.dialCode})`;

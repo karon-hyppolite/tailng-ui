@@ -1,0 +1,172 @@
+name: "PROD - Release & Deploy (Tailng)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Comma list (remove what you don’t want): cdk,theme,icons,ui,docs"
+        required: true
+        default: "cdk,theme,icons,ui,docs"
+      release_type:
+        description: "minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
+        required: true
+        type: choice
+        options: [minor, major]
+      npm_tag:
+        description: "npm dist-tag"
+        required: true
+        default: "latest"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      # ------------------------------------
+      # MAIN BRANCH SAFETY
+      # ------------------------------------
+      - name: Ensure running on main branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "This workflow must be run from main branch"
+            exit 1
+          fi
+
+      # ------------------------------------
+      # CHECKOUT
+      # ------------------------------------
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.GH_PAT }}
+
+      # ------------------------------------
+      # NODE AND YARN
+      # ------------------------------------
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+
+      # IMPORTANT: upgrade npm for Trusted Publishing + provenance
+      - name: Upgrade npm
+        run: |
+          npm i -g npm@latest
+          npm --version
+
+      - name: Enable Corepack and Yarn 4.12.0
+        run: |
+          corepack enable
+          corepack prepare yarn@4.12.0 --activate
+          corepack yarn --version
+          which yarn
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: corepack yarn install --immutable
+
+      # ------------------------------------
+      # INPUT VALIDATION
+      # ------------------------------------
+      - name: Validate inputs
+        run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
+
+      - name: Export TARGETS
+        run: echo "TARGETS=,${{ inputs.targets }}," >> $GITHUB_ENV
+
+      # ------------------------------------
+      # GIT IDENTITY
+      # ------------------------------------
+      - name: Set Git user
+        run: |
+          git config --global user.email "prince.francis@tociva.com"
+          git config --global user.name "Tociva Technologies"
+
+      # ------------------------------------
+      # VERSION BUMP
+      # ------------------------------------
+      - name: Bump versions
+        run: node tools/release/bump-versions.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.release_type }}"
+
+      # ------------------------------------
+      # COMMIT VERSION CHANGES
+      # ------------------------------------
+      - name: Commit and push version changes
+        run: |
+          git add package.json libs/*/package.json || true
+          git commit -m "chore(release): ${{ inputs.release_type }} (${{ inputs.targets }}) [skip ci]" || echo "Nothing to commit"
+          git push origin HEAD:${GITHUB_REF_NAME}
+
+      # ------------------------------------
+      # DOCS
+      # ------------------------------------
+      - name: Build docs if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "corepack yarn docs:seo"
+
+      - name: Deploy docs to Cloudflare Pages
+        if: contains(env.TARGETS, ',docs,')
+        run: |
+          corepack yarn dlx wrangler pages deploy dist/apps/docs \
+            --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} \
+            --branch main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+
+      # ------------------------------------
+      # BUILD PACKAGES
+      # ------------------------------------
+      - name: Build selected packages
+        run: node tools/release/build-selected.mjs "${{ inputs.targets }}"
+
+      - name: Verify build output
+        run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
+
+      # ------------------------------------
+      # PUBLISH
+      # ------------------------------------
+      - name: Publish selected packages
+        run: node tools/release/publish-selected.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.npm_tag }}"
+
+      # ------------------------------------
+      # TAG AND RELEASE
+      # ------------------------------------
+      - name: Tag release
+        run: node tools/release/tag-release.mjs
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.ROOT_TAG }}
+          name: Release ${{ env.ROOT_TAG }}
+          body: |
+            Release Details
+            Version: ${{ env.ROOT_VERSION }}
+            Release Type: ${{ inputs.release_type }}
+            Targets: ${{ inputs.targets }}
+            npm Tag: ${{ inputs.npm_tag }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

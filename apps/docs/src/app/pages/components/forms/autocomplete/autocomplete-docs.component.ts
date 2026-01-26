@@ -9,13 +9,7 @@ import {
 @Component({
   standalone: true,
   selector: 'docs-autocomplete',
-  templateUrl:'./autocomplete-docs.component.html',
-  imports: [
-    TailngStepperComponent,
-    TailngStepComponent,
-    TailngStepPanelComponent,
-    TailngCodeBlockComponent,
-  ]
+  templateUrl: './autocomplete-docs.component.html',
 })
 export class AutocompleteDocsComponent {
   isCodeExpanded = signal(false);

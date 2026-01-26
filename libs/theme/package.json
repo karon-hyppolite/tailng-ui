@@ -1,0 +1,17 @@
+{
+  "name": "@tociva/tailng-theme",
+  "version": "0.6.0",
+  "description": "Tailwind CSS preset for Tailng",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tociva/tailng.git"
+  },
+  "homepage": "https://github.com/tociva/tailng",
+  "bugs": {
+    "url": "https://github.com/tociva/tailng/issues"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

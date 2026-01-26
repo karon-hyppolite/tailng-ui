@@ -1,0 +1,29 @@
+{
+  "name": "@tociva/tailng-cdk",
+  "version": "0.6.0",
+  "description": "Headless Angular utilities and primitives for Tailng",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tociva/tailng.git"
+  },
+  "homepage": "https://github.com/tociva/tailng",
+  "bugs": {
+    "url": "https://github.com/tociva/tailng/issues"
+  },
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "^21.0.0",
+    "@angular/common": "^21.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.6.0"
+  },
+  "keywords": [
+    "angular",
+    "cdk",
+    "headless",
+    "signals",
+    "tailng"
+  ]
+}

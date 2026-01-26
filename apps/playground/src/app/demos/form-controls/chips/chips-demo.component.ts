@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { TailngChipsComponent } from '@tailng/ui';
+import { TailngChipsComponent } from '@tociva/tailng-ui';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';
 
@@ -13,12 +13,12 @@ import { toFlagEmoji } from '../../util/common.util';
   templateUrl: './chips-demo.component.html',
 })
 export class ChipsDemoComponent {
-  // ✅ CVA value source
+  // CVA value source
   readonly countriesCtrl = new FormControl<Country[]>(
     [COUNTRY_LIST.find((c) => c.code === 'IN')!],
     { nonNullable: true }
   );
-  // ✅ CVA value source
+  // CVA value source
   readonly countriesCtrl2 = new FormControl<Country[]>(
     [COUNTRY_LIST.find((c) => c.code === 'IN')!],
     { nonNullable: true }

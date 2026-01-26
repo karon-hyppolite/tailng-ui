@@ -1,5 +1,5 @@
 import { Component, signal } from "@angular/core";
-import { TailngColComponent, TailngTableComponent, TailngCellDefDirective, TailngHeaderDefDirective, TailngSort, TailngSortHeaderDirective, TailngSortIconComponent } from "@tailng/ui";
+import { TailngColComponent, TailngTableComponent, TailngCellDefDirective, TailngHeaderDefDirective, TailngSort, TailngSortHeaderDirective, TailngSortIconComponent } from "@tociva/tailng-ui";
 
 type Txn = {
   id: string;
@@ -17,7 +17,7 @@ type Txn = {
     TailngColComponent,
     TailngCellDefDirective,
     TailngHeaderDefDirective,
-    // ✅ directive + icon
+    // directive + icon
     TailngSortHeaderDirective,
     TailngSortIconComponent,
   ],
@@ -35,7 +35,7 @@ export class SortHeaderDemoComponent {
 
   readonly sort = signal<TailngSort>({ active: '', direction: '' });
 
-  // ✅ bind function references (no arrow functions in template)
+  // bind function references (no arrow functions in template)
   readonly dateValue = (r: Txn) => r.date;
   readonly descValue = (r: Txn) => r.description;
   readonly amountValue = (r: Txn) => r.amount;

@@ -1,25 +1,33 @@
 {
   "name": "tailng",
   "private": true,
-  "version": "0.1.5",
+  "version": "0.6.0",
   "packageManager": "yarn@4.12.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tociva/tailng.git"
+  },
   "engines": {
     "node": "^20.19.0 || ^22.12.0 || ^24.0.0"
   },
   "scripts": {
     "docs": "nx serve docs",
     "playground": "nx serve playground",
-
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "format:check": "nx format:check",
     "format:write": "nx format:write",
 
     "docs:build": "nx build docs",
-    "docs:prerender": "node tools/prerender-docs.mjs",
-    "docs:seo": "yarn docs:build && yarn docs:prerender"
+    "docs:prerender": "node tools/prerender/prerender-docs.mjs",
+    "docs:seo": "yarn docs:build && yarn docs:prerender",
+
+    "playground:build": "nx build playground",
+    "playground:prerender": "node tools/prerender/prerender-playground.mjs",
+    "playground:seo": "yarn playground:build && yarn playground:prerender",
+    
+    "nx": "nx"
   },
-  
   "dependencies": {
     "@angular/animations": "^21.0.0",
     "@angular/cdk": "^21.0.6",
@@ -33,6 +41,7 @@
     "@ng-icons/core": "^30.0.0",
     "dayjs": "^1.11.19",
     "rxjs": "^7.8.1",
+    "shiki": "^3.21.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
@@ -44,6 +53,8 @@
     "@angular-eslint/eslint-plugin-template": "^21.1.0",
     "@angular-eslint/template-parser": "^21.1.0",
     "@angular/compiler-cli": "^21.0.0",
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^2.29.8",
     "@nx/angular": "^22.3.0",
     "@nx/eslint-plugin": "^22.3.3",
     "@nx/workspace": "^22.3.0",
@@ -55,12 +66,13 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
+    "ng-packagr": "^21.1.0",
     "nx": "^22.3.0",
     "postcss": "^8.4.38",
     "prettier": "^3.7.4",
     "puppeteer": "^24.35.0",
     "serve-handler": "^6.1.6",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.7.0"
+    "typescript": "^5.9.0"
   }
 }
