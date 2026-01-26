@@ -23,16 +23,12 @@ export class TailngTextInputComponent implements ControlValueAccessor {
   /* ─────────────────────────
    * Inputs (public API)
    * ───────────────────────── */
-
   id = input<string>('');
   name = input<string>('');
 
   placeholder = input<string>('');
-  klass = input<string>('');
 
-  type = input<
-    'text' | 'email' | 'password' | 'search' | 'tel' | 'url'
-  >('text');
+  type = input<'text' | 'email' | 'password' | 'search' | 'tel' | 'url'>('text');
 
   disabled = input(false);
   readonly = input(false);
@@ -44,10 +40,23 @@ export class TailngTextInputComponent implements ControlValueAccessor {
   maxlength = input<number | null>(null);
   pattern = input<string | null>(null);
 
+  /**
+   * Prefix: non-clickable by default (safer UX).
+   * If you want clickable prefix, set prefixClickable=true and use a <button tngPrefix>.
+   */
+  prefixClickable = input<boolean>(false);
+
+  /* ─────────────────────────
+   * Klass hooks (theming)
+   * ───────────────────────── */
+  rootKlass = input<string>('');
+  inputKlass = input<string>('');
+  prefixKlass = input<string>('');
+  suffixKlass = input<string>('');
+
   /* ─────────────────────────
    * Internal value handling
    * ───────────────────────── */
-
   private readonly _value = signal<string>('');
   readonly value = computed(() => this._value());
 
@@ -57,11 +66,8 @@ export class TailngTextInputComponent implements ControlValueAccessor {
   /* ─────────────────────────
    * Disabled state (forms + input)
    * ───────────────────────── */
-
   private readonly _formDisabled = signal(false);
-  readonly isDisabled = computed(
-    () => this.disabled() || this._formDisabled(),
-  );
+  readonly isDisabled = computed(() => this.disabled() || this._formDisabled());
 
   setDisabledState(isDisabled: boolean): void {
     this._formDisabled.set(isDisabled);
@@ -70,7 +76,6 @@ export class TailngTextInputComponent implements ControlValueAccessor {
   /* ─────────────────────────
    * ControlValueAccessor
    * ───────────────────────── */
-
   writeValue(value: string | null): void {
     this._value.set(value ?? '');
   }
@@ -84,28 +89,44 @@ export class TailngTextInputComponent implements ControlValueAccessor {
   }
 
   /* ─────────────────────────
-   * Styling
+   * Klass finals (defaults + overrides)
    * ───────────────────────── */
-
-  classes = computed(() =>
-    (
-      `h-10 w-full rounded-md px-3 text-sm ` +
-      `border border-border bg-background text-foreground ` +
-      `placeholder:text-muted ` +
-      `focus-visible:outline-none ` +
-      `focus-visible:ring-2 focus-visible:ring-primary ` +
-      `focus-visible:ring-offset-2 focus-visible:ring-offset-background ` +
-      `disabled:opacity-50 disabled:pointer-events-none ` +
-      `read-only:bg-muted/30 read-only:text-muted ` +
-      this.klass()
-    ).trim(),
+  readonly rootKlassFinal = computed(() =>
+    this.join(
+      'flex h-10 w-full items-center rounded-md border border-border bg-background text-foreground',
+      'focus-within:border-transparent',
+      'focus-within:ring-2 focus-within:ring-primary',
+      'focus-within:ring-offset-1 focus-within:ring-offset-background',
+      this.isDisabled() ? 'pointer-events-none opacity-50' : '',
+      this.readonly() ? 'bg-muted/30 text-muted' : '',
+      this.rootKlass(),
+    ),
   );
-  
+
+  readonly inputKlassFinal = computed(() =>
+    this.join(
+      'h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-muted',
+      this.inputKlass(),
+    ),
+  );
+
+  readonly prefixKlassFinal = computed(() =>
+    this.join(
+      // spacing is provided by projected element classes; wrapper stays minimal
+      this.prefixClickable() ? '' : 'pointer-events-none',
+      this.prefixKlass(),
+    ),
+  );
+
+  readonly suffixKlassFinal = computed(() =>
+    this.join(
+      this.suffixKlass(),
+    ),
+  );
 
   /* ─────────────────────────
    * IME-safe input handling
    * ───────────────────────── */
-
   private composing = false;
 
   onCompositionStart(): void {
@@ -130,5 +151,9 @@ export class TailngTextInputComponent implements ControlValueAccessor {
 
   onBlur(): void {
     this.onTouched();
+  }
+
+  private join(...parts: Array<string | null | undefined>): string {
+    return parts.map((p) => (p ?? '').trim()).filter(Boolean).join(' ');
   }
 }

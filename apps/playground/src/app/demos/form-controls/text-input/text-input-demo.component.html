@@ -16,6 +16,26 @@
     <pre class="text-xs bg-gray-50 border rounded p-3 overflow-auto">
 Value: {{ form.value | json }}
 </pre>
+<section>
+  <label class="block text-sm font-medium text-gray-700 mb-2">
+    Search Input
+  </label>
+
+  <tng-text-input
+    formControlName="search"
+    placeholder="Search…"
+  >
+    <tng-icon
+      tngPrefix
+      name="bootstrapSearch"
+      class="ml-3 text-gray-400"
+    ></tng-icon>
+  </tng-text-input>
+
+  @if (searchCtrl.touched && searchCtrl.invalid) {
+    <p class="text-sm mt-2 text-red-600">Search is required</p>
+  }
+</section>
   </form>
 </div>
 

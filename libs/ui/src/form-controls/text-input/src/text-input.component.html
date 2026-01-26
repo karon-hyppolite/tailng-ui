@@ -1,19 +1,29 @@
-<input
-  [id]="id() || null"
-  [name]="name() || null"
-  [type]="type()"
-  [disabled]="isDisabled()"
-  [readOnly]="readonly()"
-  [placeholder]="placeholder()"
-  [autocomplete]="autocomplete()"
-  [class]="classes()"
-  [value]="value()"
-  [attr.inputmode]="inputmode() || null"
-  [attr.minlength]="minlength() ?? null"
-  [attr.maxlength]="maxlength() ?? null"
-  [attr.pattern]="pattern() ?? null"
-  (input)="onInput($event)"
-  (blur)="onBlur()"
-  (compositionstart)="onCompositionStart()"
-  (compositionend)="onCompositionEnd($event)"
-/>
+<div [class]="rootKlassFinal()">
+  <span [class]="prefixKlassFinal()">
+    <ng-content select="[tngPrefix]"></ng-content>
+  </span>
+
+  <input
+    [id]="id() || null"
+    [name]="name() || null"
+    [type]="type()"
+    [disabled]="isDisabled()"
+    [readOnly]="readonly()"
+    [placeholder]="placeholder()"
+    [autocomplete]="autocomplete()"
+    [class]="inputKlassFinal()"
+    [value]="value()"
+    [attr.inputmode]="inputmode() || null"
+    [attr.minlength]="minlength() ?? null"
+    [attr.maxlength]="maxlength() ?? null"
+    [attr.pattern]="pattern() ?? null"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    (compositionstart)="onCompositionStart()"
+    (compositionend)="onCompositionEnd($event)"
+  />
+
+  <span [class]="suffixKlassFinal()">
+    <ng-content select="[tngSuffix]"></ng-content>
+  </span>
+</div>

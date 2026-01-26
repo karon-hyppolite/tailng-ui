@@ -8,6 +8,7 @@ import {
   TailngTextInputComponent,
 } from '@tociva/tailng-ui';
 import { docsNav } from '../../data/nav';
+import { TailngIconComponent } from '@tociva/tailng-icons';
 
 @Component({
   standalone: true,
@@ -21,6 +22,7 @@ import { docsNav } from '../../data/nav';
     TailngSidenavComponent,
     TailngTextInputComponent,
     ReactiveFormsModule,
+    TailngIconComponent,
   ],
   templateUrl: './docs-shell.component.html',
 })
