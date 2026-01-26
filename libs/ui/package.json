@@ -16,8 +16,7 @@
     "@angular/core": "^21.0.0",
     "@angular/common": "^21.0.0",
     "@angular/forms": "^21.0.0",
-    "@tociva/tailng-cdk": "^0.6.0",
-    "dayjs": "^1.11.19"
+    "@tociva/tailng-cdk": "^0.6.0"
   },
   "dependencies": {
     "tslib": "^2.6.0"

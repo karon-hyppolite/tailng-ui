@@ -18,7 +18,6 @@ npm install @tociva/tailng-ui
 - `@angular/common`: ^21.0.0
 - `@angular/forms`: ^21.0.0
 - `@tociva/tailng-cdk`: ^0.1.0
-- `dayjs`: ^1.11.19
 
 ## Features
 

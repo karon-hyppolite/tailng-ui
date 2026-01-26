@@ -6,11 +6,11 @@ import {
   computed,
   effect,
   forwardRef,
+  inject,
   input,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import dayjs, { Dayjs } from 'dayjs';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
@@ -24,6 +24,8 @@ import {
   formatDate,
   parseSmartDate,
 } from './utils/datepicker-input.util';
+import { TNG_DATE_ADAPTER, TngDateAdapter } from './adapters/tng-date-adapter';
+import { TailngNativeDateAdapter } from './adapters/native-date.adapter';
 
 const MONTHS = [
   { index: 0, label: 'Jan' },
@@ -44,7 +46,7 @@ const YEAR_WINDOW_SIZE = 10;
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
 type CalendarCell = {
-  date: Dayjs;
+  date: Date;
   label: string;
   isOutsideMonth: boolean;
 };
@@ -81,6 +83,8 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   /** Optional locale for month names (e.g. 'en', 'fr', 'de', 'ml') */
   readonly locale = input<string | null>(null);
 
+  readonly dateAdapter = input<TngDateAdapter | null>(null);
+
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
@@ -90,11 +94,18 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly isOpen = signal(false);
   readonly isDisabled = signal(false);
 
+  private readonly injectedAdapter = inject(TNG_DATE_ADAPTER, { optional: true });
+  private readonly nativeAdapter = inject(TailngNativeDateAdapter);
+
+  readonly adapter = computed(
+    () => this.dateAdapter() ?? this.injectedAdapter ?? this.nativeAdapter,
+  );
+
   /* =====================
    * Form values
    * ===================== */
-  private value: Dayjs | null = null;
-  readonly draft = signal<Dayjs | null>(null);
+  private value: Date | null = null;
+  readonly draft = signal<Date | null>(null);
   readonly inputValue = signal('');
 
   private onChange: (value: Date | null) => void = () => {};
@@ -107,30 +118,30 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly weekdays = WEEKDAYS;
   
 
-  readonly focusedDate = signal<Dayjs | null>(null);
+  readonly focusedDate = signal<Date | null>(null);
 
   /* =====================
    * Derived bounds
    * ===================== */
   private readonly minD = computed(() =>
-    this.min() ? dayjs(this.min()!).startOf('day') : null
+    this.min() ? this.adapter().startOfDay(this.min()!) : null
   );
   private readonly maxD = computed(() =>
-    this.max() ? dayjs(this.max()!).startOf('day') : null
+    this.max() ? this.adapter().startOfDay(this.max()!) : null
   );
 
   /* =====================
    * View base
    * ===================== */
   readonly view = computed(() =>
-    (this.draft() ?? this.value ?? dayjs().startOf('day')).startOf('day')
+    (this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()))
   );
 
-  readonly selectedYear = computed(() => this.view().year());
-  readonly selectedMonth = computed(() => this.view().month());
+  readonly selectedYear = computed(() => this.adapter().year(this.view()!));
+  readonly selectedMonth = computed(() => this.adapter().month(this.view()!));
 
   readonly yearBase = signal<number>(
-    Math.floor(dayjs().year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE
+    Math.floor(this.adapter().year(new Date()) / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE
   );
 
   readonly years = computed(() => {
@@ -142,21 +153,21 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const d = this.draft() ?? this.value;
     if (!d) return '—';
     const loc = this.locale();
-    return loc ? d.locale(loc).format(this.previewFormat()) : d.format(this.previewFormat());
+    return loc ? this.adapter().format(d, this.previewFormat(), loc) : this.adapter().format(d, this.previewFormat());
   });
 
   readonly calendarCells = computed<CalendarCell[]>(() => {
-    const v = this.view().startOf('month');
-    const startDow = v.day();
-    const gridStart = v.subtract(startDow, 'day');
+    const v = this.adapter().startOfMonth(this.view()!);
+    const startDow = this.adapter().day(v);
+    const gridStart = this.adapter().addDays(v, -startDow);
 
     const cells: CalendarCell[] = [];
     for (let i = 0; i < 42; i++) {
-      const d = gridStart.add(i, 'day');
+      const d = this.adapter().addDays(gridStart, i);
       cells.push({
         date: d,
-        label: String(d.date()),
-        isOutsideMonth: d.month() !== v.month(),
+        label: String(this.adapter().date(d)),
+        isOutsideMonth: this.adapter().month(d) !== this.adapter().month(v),
       });
     }
     return cells;
@@ -206,16 +217,16 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
       return;
     }
 
-    const d = dayjs(value).startOf('day');
-    if (!d.isValid()) return;
+    const d = this.adapter().startOfDay(new Date(value));
+    if (!this.adapter().isValid(d)) return;
 
     const clamped = this.clampToBounds(d);
     this.value = clamped;
     this.draft.set(clamped);
 
-    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
+    this.yearBase.set(Math.floor(this.adapter().year(clamped) / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
 
-    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    const formatted = this.adapter().format(clamped, this.displayFormat(), this.locale() ?? undefined);
     this.inputValue.set(formatted);
   }
 
@@ -239,11 +250,11 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     if (this.isDisabled()) return;
     this.isOpen.set(true);
   
-    if (this.draft() == null) this.draft.set(this.value ?? dayjs().startOf('day'));
-    const current = (this.draft() ?? this.value ?? dayjs()).startOf('day');
+    if (this.draft() == null) this.draft.set(this.value ?? this.adapter().startOfDay(new Date()));
+    const current = (this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()));
   
     // year window sync (existing)
-    const y = current.year();
+    const y = this.adapter().year(current);
     this.yearBase.set(Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
   
     // keyboard focus starts from current draft/value
@@ -287,7 +298,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const before = raw;
     const beforeCaret = input.selectionStart ?? before.length;
 
-    const res = parseSmartDate(raw, this.displayFormat(), this.locale() ?? undefined);
+    const res = parseSmartDate(raw, this.displayFormat(), this.adapter(), this.locale() ?? undefined);
 
     // Keep what user typed while partial/invalid; don't hard-clear.
     if (res.kind === 'empty') {
@@ -316,7 +327,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(res.date);
     this.draft.set(clamped);
 
-    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    const formatted = this.adapter().format(clamped, this.displayFormat(), this.locale() ?? undefined);
     this.inputValue.set(formatted);
 
     // Apply formatting back to input while preserving caret
@@ -336,8 +347,8 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  private setFocusedDate(next: Dayjs) {
-    const d = next.startOf('day');
+  private setFocusedDate(next: Date) {
+    const d = this.adapter().startOfDay(next);
   
     // clamp to bounds
     const clamped = this.clampToBounds(d);
@@ -348,33 +359,33 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.draft.set(clamped);
   
     // Keep year window aligned
-    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
+    this.yearBase.set(Math.floor(this.adapter().year(clamped) / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
   }
   
   private moveFocusedByDays(delta: number) {
-    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
-    this.setFocusedDate(base.add(delta, 'day'));
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()));
+    this.setFocusedDate(this.adapter().addDays(base, delta));
   }
   
   private moveFocusedByMonths(delta: number) {
-    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
-    this.setFocusedDate(base.add(delta, 'month'));
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()));
+    this.setFocusedDate(this.adapter().addMonths(base, delta));
   }
   
   private moveFocusedToStartOfMonth() {
-    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
-    this.setFocusedDate(base.startOf('month'));
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()));
+    this.setFocusedDate(this.adapter().startOfMonth(base));
   }
   
   private moveFocusedToEndOfMonth() {
-    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
-    this.setFocusedDate(base.endOf('month').startOf('day'));
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? this.adapter().startOfDay(new Date()));
+    this.setFocusedDate(this.adapter().endOfMonth(base));
   }
   
   isCellFocused(cell: CalendarCell): boolean {
     const f = this.focusedDate();
     if (!f) return false;
-    return cell.date.isSame(f, 'day');
+    return this.adapter().isSameDay(cell.date, f);
   }  
   
   onKeydown(ev: KeyboardEvent) {
@@ -454,8 +465,8 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
         this.draft.set(clamped);
   
         this.value = clamped;
-        this.inputValue.set(clamped.format(this.displayFormat()));
-        this.onChange(clamped.toDate());
+        this.inputValue.set(this.adapter().format(clamped, this.displayFormat(), this.locale() ?? undefined));
+        this.onChange(clamped);
         this.onTouched();
   
         this.close('selection');
@@ -470,32 +481,32 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   selectMonth(monthIndex0: number): void {
     if (this.isDisabled()) return;
 
-    const base = this.draft() ?? this.value ?? dayjs().startOf('day');
-    const day = base.date();
+    const base = this.draft() ?? this.value ?? this.adapter().startOfDay(new Date());
+    const day = this.adapter().date(base);
 
-    const m = base.set('month', monthIndex0).set('date', 1);
-    const nextDay = Math.min(day, m.daysInMonth());
+    const m = this.adapter().setMonth(base, monthIndex0);
+    const nextDay = Math.min(day, this.adapter().daysInMonth(m));
 
-    this.draft.set(this.clampToBounds(m.set('date', nextDay).startOf('day')));
+    this.draft.set(this.clampToBounds(this.adapter().setDate(m, nextDay)));
   }
 
   selectYear(year: number): void {
     if (this.isDisabled()) return;
 
-    const base = this.draft() ?? this.value ?? dayjs().startOf('day');
-    const day = base.date();
+    const base = this.draft() ?? this.value ?? this.adapter().startOfDay(new Date());
+    const day = this.adapter().date(base);
 
-    const y = base.set('year', year).set('date', 1);
-    const nextDay = Math.min(day, y.daysInMonth());
+    const y = this.adapter().setYear(base, year);
+    const nextDay = Math.min(day, this.adapter().daysInMonth(y));
 
-    this.draft.set(this.clampToBounds(y.set('date', nextDay).startOf('day')));
+    this.draft.set(this.clampToBounds(this.adapter().setDate(y, nextDay)));
   }
 
   // day click commits + closes (as you requested)
-  selectDay(cell: { date: Dayjs }) {
+  selectDay(cell: { date: Date }) {
     if (this.isDisabled()) return;
 
-    const d = cell.date.startOf('day');
+    const d = this.adapter().startOfDay(cell.date);
     if (!this.isWithinBounds(d)) return;
 
     const clamped = this.clampToBounds(d);
@@ -503,10 +514,10 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
     this.value = clamped;
 
-    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    const formatted = this.adapter().format(clamped, this.displayFormat(), this.locale() ?? undefined);
     this.inputValue.set(formatted);
 
-    this.onChange(clamped.toDate());
+    this.onChange(clamped);
     this.onTouched();
 
     this.close('selection');
@@ -518,7 +529,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.draft.set(this.value);
 
     const formatted = this.value
-      ? formatDate(this.value, this.displayFormat(), this.locale() ?? undefined)
+      ? this.adapter().format(this.value, this.displayFormat(), this.locale() ?? undefined)
       : '';
 
     this.inputValue.set(formatted);
@@ -542,10 +553,10 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(d);
     this.value = clamped;
 
-    const formatted = formatDate(clamped, this.displayFormat(), this.locale() ?? undefined);
+    const formatted = this.adapter().format(clamped, this.displayFormat(), this.locale() ?? undefined);
     this.inputValue.set(formatted);
 
-    this.onChange(clamped.toDate());
+    this.onChange(clamped);
     this.onTouched();
     this.close('selection');
   }
@@ -563,7 +574,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
   isCellSelected(cell: CalendarCell): boolean {
     const d = this.draft() ?? this.value;
-    return !!d && cell.date.isSame(d, 'day');
+    return !!d && this.adapter().isSameDay(cell.date, d);
   }
 
   isCellDisabled(cell: CalendarCell): boolean {
@@ -576,11 +587,11 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     if (!min && !max) return false;
 
     const y = this.selectedYear();
-    const start = dayjs().year(y).month(monthIndex0).date(1).startOf('day');
-    const end = start.endOf('month');
+    const start = this.adapter().startOfDay(this.adapter().setYear(this.adapter().setMonth(new Date(), monthIndex0), y));
+    const end = this.adapter().endOfMonth(start);
 
-    if (min && end.isBefore(min)) return true;
-    if (max && start.isAfter(max)) return true;
+    if (min && this.adapter().isBeforeDay(end, min)) return true;
+    if (max && this.adapter().isAfterDay(start, max)) return true;
     return false;
   }
 
@@ -589,30 +600,30 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const max = this.maxD();
     if (!min && !max) return false;
 
-    const start = dayjs().year(year).month(0).date(1).startOf('day');
-    const end = start.endOf('year');
+    const start = this.adapter().startOfDay(this.adapter().setYear(this.adapter().setMonth(new Date(), 0), year));
+    const end = this.adapter().endOfYear(start);
 
-    if (min && end.isBefore(min)) return true;
-    if (max && start.isAfter(max)) return true;
+    if (min && this.adapter().isBeforeDay(end, min)) return true;
+    if (max && this.adapter().isAfterDay(start, max)) return true;
     return false;
   }
 
   /* =====================
    * Internals
    * ===================== */
-  private clampToBounds(d: Dayjs): Dayjs {
+  private clampToBounds(d: Date): Date {
     const min = this.minD();
     const max = this.maxD();
-    if (min && d.isBefore(min)) return min;
-    if (max && d.isAfter(max)) return max;
+    if (min && this.adapter().isBeforeDay(d, min)) return min;
+    if (max && this.adapter().isAfterDay(d, max)) return max;
     return d;
   }
 
-  private isWithinBounds(d: Dayjs): boolean {
+  private isWithinBounds(d: Date): boolean {
     const min = this.minD();
     const max = this.maxD();
-    if (min && d.isBefore(min, 'day')) return false;
-    if (max && d.isAfter(max, 'day')) return false;
+    if (min && this.adapter().isBeforeDay(d, min)) return false;
+    if (max && this.adapter().isAfterDay(d, max)) return false;
     return true;
   }
 }

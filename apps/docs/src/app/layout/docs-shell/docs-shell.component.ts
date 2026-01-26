@@ -1,13 +1,13 @@
-import { Component, computed, effect, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { docsNav } from '../../data/nav';
 import {
   TailngAccordionComponent,
   TailngExpansionPanelComponent,
   TailngSidenavComponent,
   TailngTextInputComponent,
-} from '@tailng/ui';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+} from '@tociva/tailng-ui';
+import { docsNav } from '../../data/nav';
 
 @Component({
   standalone: true,

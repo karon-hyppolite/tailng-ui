@@ -1,13 +1,10 @@
-import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-
-dayjs.extend(customParseFormat);
+import { TngDateAdapter } from "../adapters";
 
 export type ParseResult =
   | { kind: 'empty' }
   | { kind: 'partial' } // user is still typing; do not error hard
   | { kind: 'invalid' } // definitely not a date
-  | { kind: 'valid'; date: Dayjs };
+  | { kind: 'valid'; date: Date };
 
 const DATE_TOKENS = ['YYYY', 'YY', 'MMMM', 'MMM', 'MM', 'M', 'DD', 'D'] as const;
 type DateToken = (typeof DATE_TOKENS)[number];
@@ -88,49 +85,47 @@ function isLikelyPartial(raw: string): boolean {
 export function parseSmartDate(
   raw: string,
   displayFormat: string,
+  adapter: TngDateAdapter,
   locale?: string
 ): ParseResult {
   const text = raw.trim();
   if (!text) return { kind: 'empty' };
 
-  const base = locale ? dayjs(text).locale(locale) : dayjs(text);
+  // 1) strict as-is parse
+  const direct = adapter.parse(text, displayFormat, locale);
+  if (direct && adapter.isValid(direct)) {
+    return { kind: 'valid', date: adapter.startOfDay(direct) };
+  }
 
-  // 1) strict as-is
-  const direct = locale
-    ? dayjs(text, displayFormat, locale, true)
-    : dayjs(text, displayFormat, true);
-
-  if (direct.isValid()) return { kind: 'valid', date: direct.startOf('day') };
-
-  // If user is still typing, don't mark invalid aggressively.
+  // If user is still typing, don't mark invalid aggressively
   if (isLikelyPartial(text)) return { kind: 'partial' };
 
-  // 2) normalized parse
+  // 2) normalized parse (strip literals)
   const normFmt = normalizeFormat(displayFormat);
   const normInput = normalizeInputAlphaNum(text);
   if (!normInput) return { kind: 'empty' };
 
-  const normalized = locale
-    ? dayjs(normInput, normFmt, locale, true)
-    : dayjs(normInput, normFmt, true);
+  const normalized = adapter.parse(normInput, normFmt, locale);
+  if (normalized && adapter.isValid(normalized)) {
+    return { kind: 'valid', date: adapter.startOfDay(normalized) };
+  }
 
-  if (normalized.isValid()) return { kind: 'valid', date: normalized.startOf('day') };
-
-  // If contains letters, assume user may still be typing month name (Ma, May, ...)
+  // If contains letters, assume month still being typed (Ma, May, etc.)
   if (hasLetters(text) && text.length < 10) return { kind: 'partial' };
 
   return { kind: 'invalid' };
 }
 
 /**
- * Format a Dayjs date using displayFormat and locale.
+ * Format a Date using displayFormat and locale.
  */
 export function formatDate(
-  date: Dayjs,
+  date: Date,
   displayFormat: string,
+  adapter: TngDateAdapter,
   locale?: string
 ): string {
-  return locale ? date.locale(locale).format(displayFormat) : date.format(displayFormat);
+  return adapter.format(date, displayFormat, locale);
 }
 
 /**
