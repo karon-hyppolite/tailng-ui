@@ -84,3 +84,9 @@
 /components/data/tree
 /components/data/virtual-scroll
 /components/data/empty-state
+
+# -------------------------
+# Utilities
+# -------------------------
+/components/utilities/code-block
+/components/utilities/copy-button
