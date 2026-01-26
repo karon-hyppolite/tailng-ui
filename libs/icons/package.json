@@ -3,6 +3,14 @@
   "version": "0.5.0",
   "description": "Angular icon components for Tailng",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tociva/tailng.git"
+  },
+  "homepage": "https://github.com/tociva/tailng",
+  "bugs": {
+    "url": "https://github.com/tociva/tailng/issues"
+  },
   "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "^21.0.0",
