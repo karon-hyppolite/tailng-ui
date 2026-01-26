@@ -37,8 +37,8 @@ jobs:
       - name: Install dependencies with Yarn
         run: yarn install --frozen-lockfile
 
-      - name: Build Angular App (production)
-        run: yarn build
+      - name: Build + Prerender Playground (SEO)
+        run: yarn playground:seo
 
       - name: Write deployment info (optional)
         run: |

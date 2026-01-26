@@ -17,9 +17,15 @@
     "lint": "nx run-many -t lint",
     "format:check": "nx format:check",
     "format:write": "nx format:write",
+
     "docs:build": "nx build docs",
-    "docs:prerender": "node tools/prerender-docs.mjs",
+    "docs:prerender": "node tools/prerender/prerender-docs.mjs",
     "docs:seo": "yarn docs:build && yarn docs:prerender",
+
+    "playground:build": "nx build playground",
+    "playground:prerender": "node tools/prerender/prerender-playground.mjs",
+    "playground:seo": "yarn playground:build && yarn playground:prerender",
+    
     "nx": "nx"
   },
   "dependencies": {

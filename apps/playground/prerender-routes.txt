@@ -1,0 +1,63 @@
+/
+# Form Controls
+/forms/autocomplete
+/forms/checkbox
+/forms/chips
+/forms/datepicker
+/forms/form-field
+/forms/radio-button
+/forms/select
+/forms/slider
+/forms/slide-toggle
+/forms/timepicker
+/forms/text-input
+/forms/number-input
+/forms/textarea
+/forms/file-upload
+
+# Buttons & Indicators
+/buttons/button
+/buttons/button-toggle
+/buttons/badge
+/buttons/icon
+/buttons/ripples
+/buttons/progress-bar
+/buttons/progress-spinner
+/buttons/skeleton
+
+# Layout
+/layout/card
+/layout/divider
+/layout/expansion-panel
+/layout/tabs
+/layout/accordion
+
+# Navigation
+/navigation/menu
+/navigation/sidenav
+/navigation/drawer
+/navigation/stepper
+/navigation/paginator
+/navigation/breadcrumbs
+
+# Popups & Overlays
+/overlay/dialog
+/overlay/snackbar
+/overlay/tooltip
+/overlay/popover
+
+# Overlay Primitives
+/overlay-primitives/connected-overlay
+/overlay-primitives/option-list
+
+# Data Table & Structure
+/data/table
+/data/sort-header
+/data/filter-header
+/data/tree
+/data/virtual-scroll
+/data/empty-state
+
+# Utilities
+/utilities/code-block
+/utilities/copy-button
