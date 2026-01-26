@@ -95,6 +95,9 @@ export class TailngNativeDateAdapter implements TngDateAdapter {
     const yyyy = String(this.year(date));
 
     if (format === 'DD/MM/YYYY') return `${dd}/${mm}/${yyyy}`;
+    if (format === 'MM/DD/YYYY') return `${mm}/${dd}/${yyyy}`;
+    if (format === 'DD-MM-YYYY') return `${dd}-${mm}-${yyyy}`;
+    if (format === 'MM-DD-YYYY') return `${mm}-${dd}-${yyyy}`;
 
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     if (format === 'DD MMM YYYY') return `${dd} ${months[this.month(date)]} ${yyyy}`;
@@ -112,6 +115,51 @@ export class TailngNativeDateAdapter implements TngDateAdapter {
 
       const dd = Number(m[1]);
       const mm = Number(m[2]);
+      const yyyy = Number(m[3]);
+
+      const d = new Date(yyyy, mm - 1, dd);
+      if (!this.isValid(d)) return null;
+      if (this.month(d) !== mm - 1 || this.date(d) !== dd) return null;
+
+      return this.startOfDay(d);
+    }
+
+    if (format === 'MM/DD/YYYY') {
+      const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (!m) return null;
+
+      const mm = Number(m[1]);
+      const dd = Number(m[2]);
+      const yyyy = Number(m[3]);
+
+      const d = new Date(yyyy, mm - 1, dd);
+      if (!this.isValid(d)) return null;
+      if (this.month(d) !== mm - 1 || this.date(d) !== dd) return null;
+
+      return this.startOfDay(d);
+    }
+
+    if (format === 'DD-MM-YYYY') {
+      const m = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (!m) return null;
+
+      const dd = Number(m[1]);
+      const mm = Number(m[2]);
+      const yyyy = Number(m[3]);
+
+      const d = new Date(yyyy, mm - 1, dd);
+      if (!this.isValid(d)) return null;
+      if (this.month(d) !== mm - 1 || this.date(d) !== dd) return null;
+
+      return this.startOfDay(d);
+    }
+
+    if (format === 'MM-DD-YYYY') {
+      const m = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (!m) return null;
+
+      const mm = Number(m[1]);
+      const dd = Number(m[2]);
       const yyyy = Number(m[3]);
 
       const d = new Date(yyyy, mm - 1, dd);
