@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import {
-  TailngTabsComponent,
-  TailngTabComponent,
-  TailngTabPanelComponent,
-} from '@tociva/tailng-ui';
+import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
 
 @Component({
   standalone: true,
   selector: 'docs-text-input',
   templateUrl: './text-input-docs.component.html',
-  imports: [TailngTabsComponent, TailngTabComponent, TailngTabPanelComponent],
+  imports: [ComponentShellComponent],
 })
 export class TextInputDocsComponent {}

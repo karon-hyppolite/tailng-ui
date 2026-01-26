@@ -1,70 +1,17 @@
-<tng-tabs
-      defaultValue="overview"
-      rootKlass="px-5 pt-5"
-      listKlass="inline-flex gap-10 p-0 w-full border-b cursor-pointer"
-      panelKlass="pt-4"
-    >
-      <tng-tab
-        value="overview"
-        tabKlass="px-3 py-1.5 text-sm font-medium"
-        activeKlass="border-b-2 border-primary"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
-      >
-      <div class="min-w-40 text-center pb-1">
-        OVERVIEW
-      </div>
-      </tng-tab>
+<docs-component-shell>
+  <div overview>
+    Overview content.
+  </div>
 
-      <tng-tab
-        value="api"
-        tabKlass="px-3 py-1.5 text-sm font-medium"
-        activeKlass="border-b-2 border-primary"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
-      >
-      <div class="min-w-40 text-center pb-1">
-        API
-      </div>
-      </tng-tab>
+  <div api>
+    API content.
+  </div>
 
-      <tng-tab
-        value="styling"
-        tabKlass="px-3 py-1.5 text-sm font-medium"
-        activeKlass="border-b-2 border-primary"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
-      >
-      <div class="min-w-40 text-center pb-1">
-        STYLING
-      </div>
-      </tng-tab>
-      <tng-tab value="examples"
-      tabKlass="px-3 text-sm py-1.5 font-medium"
-      activeKlass="border-b-2 border-primary"
-      inactiveKlass="text-slate-600 hover:text-slate-900">
-      <div class="min-w-40 text-center pb-1">
-        EXAMPLES
-      </div>
-      </tng-tab>
+  <div styling>
+    Styling content.
+  </div>
 
-      <tng-tab-panel value="overview">
-        <div class="bg-background p-4">
-          Overview content.
-        </div>
-      </tng-tab-panel>
-
-      <tng-tab-panel value="api">
-        <div class="bg-background p-4">
-          API content.
-        </div>
-      </tng-tab-panel>
-
-      <tng-tab-panel value="styling">
-        <div class="bg-background p-4">
-          Styling content.
-        </div>
-      </tng-tab-panel>
-      <tng-tab-panel value="examples">
-        <div class="bg-background p-4">
-          Examples content.
-        </div>
-      </tng-tab-panel>
-    </tng-tabs>
+  <div examples>
+    Examples content.
+  </div>
+</docs-component-shell>
