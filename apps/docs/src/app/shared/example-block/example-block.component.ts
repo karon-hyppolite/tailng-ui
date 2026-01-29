@@ -1,4 +1,4 @@
-import { Component, Directive, inject, input, signal } from '@angular/core';
+import { Component, computed, Directive, inject, input, signal } from '@angular/core';
 import { TailngCodeBlockComponent, TailngExpansionPanelComponent, TailngTabComponent, TailngTabPanelComponent, TailngTabsComponent } from '@tociva/tailng-ui';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 import { ShikiHighlighterService } from '../shiki-highlighter.service';
@@ -45,9 +45,14 @@ export class ExampleBlockComponent {
   readonly htmlContent = input<string>('');
   readonly tsContent = input<string>('');
   readonly styleContent = input<string>('');
+  readonly klass = input<string>('');
 
   // State
   readonly isCodePanelOpen = signal(false);
+
+  readonly finalKlass = computed(() => {
+    return ['rounded-xl border border-border bg-background p-6 shadow-sm space-y-4 mt-6', this.klass()].join(' ');
+  });
 
   toggleCodePanel(): void {
     this.isCodePanelOpen.update((v) => !v);

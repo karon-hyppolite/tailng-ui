@@ -1,39 +1,25 @@
-<div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+<div [class]="finalKlass()">
   <!-- Title Section -->
-  <div class="flex items-center gap-2">
+  <div class="flex items-center justify-between px-6 pt-6">
     <ng-content select="[tngExampleTitle]"></ng-content>
-    @if (docLink()) {
-      <button
-        type="button"
-        class="p-2 rounded hover:bg-gray-100"
-        title="Copy link"
-        (click)="copyDocLink()"
-      >
-        <tng-icon name="bootstrapLink45deg"></tng-icon>
-      </button>
-    }
-    <button
-      type="button"
-      class="p-2 rounded hover:bg-gray-100"
-      title="View code"
-      (click)="toggleCodePanel()"
-    >
-      <tng-icon [name]="isCodePanelOpen() ? 'bootstrapCodeSlash' : 'bootstrapCode'"></tng-icon>
-    </button>
-    @if (stackBlitzLink()) {
-      <button
-        type="button"
-        class="p-2 rounded hover:bg-gray-100"
-        title="Open in StackBlitz"
-        (click)="openStackBlitz()"
-      >
-        <tng-icon name="bootstrapShare"></tng-icon>
-      </button>
-    }
+    <div class="flex items-center gap-7">
+      @if (docLink()) {
+      <tng-icon name="bootstrapLink45deg" size="1.5em" title="Copy link" (click)="copyDocLink()"
+        klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"></tng-icon>
+      }
+
+      <tng-icon [name]="isCodePanelOpen() ? 'bootstrapCodeSlash' : 'bootstrapCode'" size="1.5em" title="View code"
+        (click)="toggleCodePanel()" klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"></tng-icon>
+
+      @if (stackBlitzLink()) {
+      <tng-icon name="bootstrapShare" size="1em" title="Open in StackBlitz" (click)="openStackBlitz()"
+        klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"></tng-icon>
+      }
+    </div>
   </div>
 
   <!-- Code Panel -->
-  <tng-expansion-panel rootKlass="border-0" headerKlass="hidden" [open]="isCodePanelOpen()">
+  <tng-expansion-panel rootKlass="border-0 mt-4" headerKlass="hidden" [open]="isCodePanelOpen()">
     <tng-tabs defaultValue="html" tngExpansionContent>
       <tng-tab
         value="html"
