@@ -5,6 +5,15 @@ import { ShikiHighlighterService } from '../shiki-highlighter.service';
 import { TngShikiAdapter } from '../tng-shiki.adapter';
 
 /**
+ * Directive to mark title content for projection
+ */
+@Directive({
+  selector: '[tngExampleTitle]',
+  standalone: true,
+})
+export class TailngExampleTitleDirective {}
+
+/**
  * Directive to mark demo content for projection
  */
 @Directive({

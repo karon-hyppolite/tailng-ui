@@ -4,7 +4,7 @@ import { TailngBadgeComponent, TailngCodeBlockComponent, TailngCopyButtonCompone
    TailngTextInputComponent } from '@tociva/tailng-ui';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
-import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';
+import { ExampleBlockComponent, TailngExampleDemoDirective, TailngExampleTitleDirective } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
@@ -21,6 +21,7 @@ import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../.
     TailngCopyButtonComponent,
     ExampleBlockComponent,
     TailngExampleDemoDirective,
+    TailngExampleTitleDirective,
 ],
 })
 export class TextInputStylingComponent {

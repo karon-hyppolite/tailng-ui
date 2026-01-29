@@ -1,7 +1,7 @@
 <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
   <!-- Title Section -->
   <div class="flex items-center gap-2">
-    <span>Title Section</span>
+    <ng-content select="[tngExampleTitle]"></ng-content>
     @if (docLink()) {
       <button
         type="button"
