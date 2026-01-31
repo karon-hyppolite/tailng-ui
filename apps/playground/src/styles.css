@@ -2,17 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* your custom styles below */
-/* Default theme */
-html { 
+
+/* -------------------------------------------------------
+   App base styles
+-------------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
   background: var(--background-color);
   color: var(--text-color);
 }
 
-/* App base */
 body {
   margin: 0;
-  font-family: var(--font-sans, Roboto, system-ui, -apple-system, Segoe UI, Arial, sans-serif);
-  background: var(--background-color);
-  color: var(--text-color);
+  font-family: var(--font-sans);
+}
+
+/* Consistent box model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

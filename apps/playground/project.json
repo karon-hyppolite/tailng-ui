@@ -22,7 +22,7 @@
           "apps/playground/src/assets"
         ],
         "styles": [
-          "dist/libs/theme/tokens/index.css",
+          "libs/theme/src/tokens/index.css",
           "apps/playground/src/styles.css"
         ],
         "scripts": [],

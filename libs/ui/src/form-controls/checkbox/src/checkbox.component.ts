@@ -39,7 +39,7 @@ export class TailngCheckboxComponent implements ControlValueAccessor {
   readonly inputKlass = input<string>('');
 
   /** Label <span> */
-  readonly labelKlass = input<string>('text-sm text-text');
+  readonly labelKlass = input<string>('text-sm text-fg');
 
   private readonly _value = signal(false);
   readonly value = computed(() => this._value());

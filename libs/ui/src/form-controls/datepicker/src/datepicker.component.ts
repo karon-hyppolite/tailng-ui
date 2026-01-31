@@ -144,7 +144,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly toggleKlassFinal = computed(() =>
     this.join(
       'absolute inset-y-0 right-0 flex w-10 items-center justify-center',
-      'rounded-r-md text-text hover:bg-alternate-background',
+      'rounded-r-md text-fg hover:bg-alternate-background',
       this.toggleKlass(),
     ),
   );
@@ -178,7 +178,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.join('grid h-full grid-cols-[64px_1fr_64px]', this.panelLayoutKlass()),
   );
   readonly monthRailKlassFinal = computed(() =>
-    this.join('bg-background p-1 text-text', this.monthRailKlass()),
+    this.join('bg-background p-1 text-fg', this.monthRailKlass()),
   );
   readonly monthListKlassFinal = computed(() =>
     this.join('space-y-0.5', this.monthListKlass()),
@@ -234,14 +234,14 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly cancelKlassFinal = computed(() =>
     this.join(
       'rounded-md border border-border bg-background',
-      'px-3 py-1.5 text-[11px] font-semibold text-text',
+      'px-3 py-1.5 text-[11px] font-semibold text-fg',
       'shadow-sm hover:bg-alternate-background active:translate-y-[1px]',
       this.cancelKlass(),
     ),
   );
   readonly confirmKlassFinal = computed(() =>
     this.join(
-      'rounded-md bg-text',
+      'rounded-md bg-fg',
       'px-3 py-1.5 text-[11px] font-semibold text-background',
       'shadow-sm hover:opacity-95 active:translate-y-[1px]',
       this.confirmKlass(),
@@ -249,7 +249,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   );
   readonly yearRailKlassFinal = computed(() =>
     this.join(
-      'bg-background p-1 text-text flex flex-col',
+      'bg-background p-1 text-fg flex flex-col',
       this.yearRailKlass(),
     ),
   );

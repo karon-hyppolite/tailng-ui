@@ -1,22 +1,36 @@
 import { Injectable, effect, signal } from '@angular/core';
 
-export type TailngTheme = 'light' | 'dark';
+export type TailngTheme = 'default';
+export type TailngMode = 'light' | 'dark' | 'night';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly theme = signal<TailngTheme>('light');
+  readonly theme = signal<TailngTheme>('default');
+  readonly mode = signal<TailngMode>('light');
 
   constructor() {
     effect(() => {
-      const t = this.theme();
+      const html = document.documentElement;
 
-      const el = document.documentElement; // <html>
-      el.classList.remove('theme-light', 'theme-dark');
-      el.classList.add(`theme-${t}`);
+      // --- Theme (brand) ---
+      html.classList.remove('theme-default');
+      html.classList.add(`theme-${this.theme()}`);
+
+      // --- Mode (appearance) ---
+      html.classList.remove('mode-light', 'mode-dark', 'mode-night');
+      html.classList.add(`mode-${this.mode()}`);
     });
   }
 
-  set(theme: TailngTheme) {
+  setTheme(theme: TailngTheme) {
     this.theme.set(theme);
+  }
+
+  setMode(mode: TailngMode) {
+    this.mode.set(mode);
+  }
+
+  toggleDark() {
+    this.mode.set(this.mode() === 'dark' ? 'light' : 'dark');
   }
 }

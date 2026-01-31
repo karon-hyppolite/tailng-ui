@@ -74,7 +74,7 @@
                   <button
                     type="button"
                     [class]="monthItemKlassFinal()"
-                    [class.bg-text]="isMonthSelected(m.index)"
+                    [class.bg-fg]="isMonthSelected(m.index)"
                     [class.text-background]="isMonthSelected(m.index)"
                     [class.opacity-40]="isMonthDisabled(m.index)"
                     [disabled]="isMonthDisabled(m.index)"
@@ -105,10 +105,10 @@
                   <button
                     type="button"
                     [class]="dayCellKlassFinal()"
-                    [class.text-text]="cell.isOutsideMonth"
-                    [class.hover:bg-text]="!isCellDisabled(cell) && !isCellSelected(cell)"
+                    [class.text-fg]="cell.isOutsideMonth"
+                    [class.hover:bg-fg]="!isCellDisabled(cell) && !isCellSelected(cell)"
                     [class.hover:text-background]="!isCellDisabled(cell) && !isCellSelected(cell)"
-                    [class.bg-text]="isCellSelected(cell)"
+                    [class.bg-fg]="isCellSelected(cell)"
                     [class.text-background]="isCellSelected(cell)"
                     [class.opacity-40]="isCellDisabled(cell)"
                     [class.ring-2]="isCellFocused(cell) && !isCellSelected(cell)"
@@ -166,7 +166,7 @@
                   <button
                     type="button"
                     [class]="yearItemKlassFinal()"
-                    [class.bg-text]="isYearSelected(y)"
+                    [class.bg-fg]="isYearSelected(y)"
                     [class.text-background]="isYearSelected(y)"
                     [class.opacity-40]="isYearDisabled(y)"
                     [disabled]="isYearDisabled(y)"

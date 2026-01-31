@@ -306,7 +306,7 @@ export class TailngButtonToggleComponent<T extends TailngButtonToggleValue>
         ? 'text-disable bg-background ' + this.disabledButtonKlass()
         : active
           ? 'bg-primary text-on-primary ' + this.activeButtonKlass()
-          : 'bg-on-primary text-text hover:bg-alternate-background ' +
+          : 'bg-on-primary text-fg hover:bg-alternate-background ' +
             this.inactiveButtonKlass();
 
     return `${this.baseBtn()} ${state}`.trim();

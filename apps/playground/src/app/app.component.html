@@ -8,7 +8,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-sm text-disable">TailNG</div>
-          <h1 class="text-base sm:text-lg font-semibold text-text">Playground</h1>
+          <h1 class="text-base sm:text-lg font-semibold text-fg">Playground</h1>
         </div>
       </div>
 
@@ -16,31 +16,67 @@
         <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
 
           <button tngMenuTrigger type="button"
-            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-text">
+            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-fg">
             Themes
             <span class="text-xs">▼</span>
           </button>
 
           <ng-template tngMenuTemplate>
             <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-text hover:text-background" (click)="changeTheme('light')">
+                     hover:bg-fg hover:text-background" (click)="changeTheme('default')">
+              Default
+            </button>
+
+            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
+                     hover:bg-fg hover:text-background" (click)="changeTheme('slate')">
+              Slate
+            </button>
+
+            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
+                     hover:bg-fg hover:text-background" (click)="changeTheme('indigo')">
+              Indigo
+            </button>
+
+            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
+                     hover:bg-fg hover:text-background" (click)="changeTheme('emerald')">
+              Emerald
+            </button>
+
+            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
+                     hover:bg-fg hover:text-background" (click)="changeTheme('rose')">
+              Rose
+            </button>
+          </ng-template>
+
+        </tng-menu>
+        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+
+          <button tngMenuTrigger type="button"
+            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-fg">
+            Modes
+            <span class="text-xs">▼</span>
+          </button>
+
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
+                     hover:bg-fg hover:text-background" (click)="changeMode('light')">
               Light
             </button>
 
             <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-text hover:text-background" (click)="changeTheme('dark')">
+                     hover:bg-fg hover:text-background" (click)="changeMode('dark')">
               Dark
             </button>
           </ng-template>
 
         </tng-menu>
         <a routerLink="/"
-          class="px-3 py-2 rounded-md text-sm text-text hover:text-text hover:bg-alternate-background transition"
+          class="px-3 py-2 rounded-md text-sm text-fg hover:text-fg hover:bg-alternate-background transition"
           routerLinkActive="text-primary bg-primary/10" [routerLinkActiveOptions]="{ exact: true }">
           Home
         </a>
         <a href="https://tailng.com" target="_blank" rel="noreferrer"
-          class="px-3 py-2 rounded-md text-sm text-text hover:text-text hover:bg-alternate-background transition">
+          class="px-3 py-2 rounded-md text-sm text-fg hover:text-fg hover:bg-alternate-background transition">
           tailng.com
         </a>
       </div>
@@ -64,7 +100,7 @@
                 <div class="mt-1 space-y-1">
                   @for (component of category.components; track component.name) {
                   <a [routerLink]="component.route"
-                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-text hover:bg-alternate-background transition"
+                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-fg hover:bg-alternate-background transition"
                     routerLinkActive="bg-primary/10 text-primary font-medium"
                     [routerLinkActiveOptions]="{ exact: false }">
                     <span class="h-2 w-2 rounded-full bg-disable"></span>
@@ -94,7 +130,7 @@
   <footer class="border-t border-border bg-background">
     <div
       class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-      <div class="text-sm text-text">
+      <div class="text-sm text-fg">
         © {{ year }} TailNG
       </div>
       <div class="text-sm text-disable">

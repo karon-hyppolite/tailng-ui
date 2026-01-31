@@ -40,7 +40,7 @@ export class TailngRadioButtonComponent implements ControlValueAccessor {
   readonly inputKlass = input<string>('');
 
   /** Label <span> */
-  readonly labelKlass = input<string>('text-sm text-text');
+  readonly labelKlass = input<string>('text-sm text-fg');
 
   private readonly _formValue = signal<string | null>(null);
   readonly isChecked = computed(() => this._formValue() === this.value());
