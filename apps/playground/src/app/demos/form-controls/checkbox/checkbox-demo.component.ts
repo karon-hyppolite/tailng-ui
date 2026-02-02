@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TailngCheckboxComponent } from '@tociva/tailng-ui';
+import { TailngCheckboxComponent } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-checkbox-demo',

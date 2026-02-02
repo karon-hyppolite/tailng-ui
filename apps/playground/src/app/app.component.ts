@@ -6,9 +6,9 @@ import {
   TailngMenuComponent,
   TailngMenuItemDirective,
   TailngMenuTemplateDirective,
-  TailngSlideToggleComponent,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/navigation';
 import { TailngTheme, ThemeService } from './shared/theme.service';
+import { TailngSlideToggleComponent } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-root',

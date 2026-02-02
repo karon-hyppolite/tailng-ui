@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, signal } from '@angular/core';
-import { TailngConnectedOverlayComponent } from '@tociva/tailng-ui';
-import { TailngOverlayPanelComponent } from '@tociva/tailng-ui';
+import { TailngConnectedOverlayComponent, TailngOverlayPanelComponent } from '@tociva/tailng-ui/popups-overlays';
 
 @Component({
   selector: 'playground-connected-overlay-demo',

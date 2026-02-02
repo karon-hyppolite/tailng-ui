@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngButtonComponent } from '@tociva/tailng-ui';
+import { TailngButtonComponent } from '@tociva/tailng-ui/buttons-indicators';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 
 @Component({

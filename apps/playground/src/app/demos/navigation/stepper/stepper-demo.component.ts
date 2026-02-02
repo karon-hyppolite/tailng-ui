@@ -3,7 +3,7 @@ import {
   TailngStepperComponent,
   TailngStepComponent,
   TailngStepPanelComponent,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/navigation';
 
 @Component({
   selector: 'playground-stepper-demo',

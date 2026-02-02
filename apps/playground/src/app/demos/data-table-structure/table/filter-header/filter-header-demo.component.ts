@@ -8,8 +8,8 @@ import {
   TailngFilterPanelComponent,
   TailngFilterTriggerDirective,
   TailngSortHeaderDirective,
-} from '@tociva/tailng-ui';
-import type { TailngColumnFilterMeta } from '@tociva/tailng-ui';
+  TailngColumnFilterMeta,
+} from '@tociva/tailng-ui/data-table-structure';
 
 type InvoiceRow = {
   id: string;

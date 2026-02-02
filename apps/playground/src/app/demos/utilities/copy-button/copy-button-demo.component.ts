@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngCopyButtonComponent } from '@tociva/tailng-ui';
+import { TailngCopyButtonComponent } from '@tociva/tailng-ui/utilities';
 import { TailngIconComponent } from "@tociva/tailng-icons";
 
 @Component({

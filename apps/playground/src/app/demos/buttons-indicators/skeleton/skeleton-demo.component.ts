@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngSkeletonComponent } from '@tociva/tailng-ui';
+import { TailngSkeletonComponent } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   selector: 'playground-skeleton-demo',

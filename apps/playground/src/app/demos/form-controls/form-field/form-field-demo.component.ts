@@ -15,7 +15,7 @@ import {
   TailngSlideToggleComponent,
   TailngSliderComponent,
   TailngFileUploadComponent,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/form-controls';
 
 type Item = { id: number; name: string };
 

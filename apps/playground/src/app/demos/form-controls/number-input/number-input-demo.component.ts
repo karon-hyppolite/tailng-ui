@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TailngNumberInputComponent } from '@tociva/tailng-ui';
+import { TailngNumberInputComponent } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-number-input-demo',

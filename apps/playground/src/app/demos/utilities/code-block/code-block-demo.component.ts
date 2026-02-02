@@ -1,11 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  TailngBadgeComponent,
-  TailngButtonComponent,
   TailngCodeBlockComponent,
   TailngCopyButtonComponent,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/utilities';
+import { TailngBadgeComponent, TailngButtonComponent } from '@tociva/tailng-ui/buttons-indicators';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 

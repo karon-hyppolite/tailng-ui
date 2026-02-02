@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngTreeComponent } from '@tociva/tailng-ui';
+import { TailngTreeComponent } from '@tociva/tailng-ui/data-table-structure';
 
 @Component({
   selector: 'playground-tree-demo',

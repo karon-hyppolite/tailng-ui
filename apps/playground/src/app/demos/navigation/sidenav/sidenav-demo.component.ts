@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { TailngSidenavComponent, TailngSidenavFooterSlotDirective, TailngSidenavHeaderSlotDirective } from '@tociva/tailng-ui';
+import { TailngSidenavComponent, TailngSidenavFooterSlotDirective, 
+  TailngSidenavHeaderSlotDirective } from '@tociva/tailng-ui/navigation';
 
 @Component({
   selector: 'playground-sidenav-demo',

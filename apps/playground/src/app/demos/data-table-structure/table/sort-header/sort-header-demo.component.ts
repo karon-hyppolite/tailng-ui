@@ -1,5 +1,6 @@
 import { Component, signal } from "@angular/core";
-import { TailngColComponent, TailngTableComponent, TailngCellDefDirective, TailngHeaderDefDirective, TailngSort, TailngSortHeaderDirective, TailngSortIconComponent } from "@tociva/tailng-ui";
+import { TailngColComponent, TailngTableComponent, TailngCellDefDirective, 
+  TailngHeaderDefDirective, TailngSort, TailngSortHeaderDirective, TailngSortIconComponent } from "@tociva/tailng-ui/data-table-structure";
 
 type Txn = {
   id: string;

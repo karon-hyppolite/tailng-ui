@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TailngPaginatorComponent, TngPaginatorChange } from '@tociva/tailng-ui';
+import { TailngPaginatorComponent, TngPaginatorChange } from '@tociva/tailng-ui/navigation';
 
 type Item = { id: number; name: string; group: string };
 

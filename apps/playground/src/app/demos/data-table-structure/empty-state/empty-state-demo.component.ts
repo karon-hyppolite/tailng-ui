@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngEmptyStateComponent } from '@tociva/tailng-ui';
+import { TailngEmptyStateComponent } from '@tociva/tailng-ui/data-table-structure';
 
 @Component({
   selector: 'playground-empty-state-demo',

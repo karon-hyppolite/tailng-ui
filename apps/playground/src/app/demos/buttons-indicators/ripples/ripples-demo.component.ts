@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngRippleDirective } from '@tociva/tailng-ui';
+import { TailngRippleDirective } from '@tociva/tailng-ui/buttons-indicators';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 
 @Component({

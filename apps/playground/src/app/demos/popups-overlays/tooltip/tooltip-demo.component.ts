@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngTooltipComponent } from '@tociva/tailng-ui';
+import { TailngTooltipComponent } from '@tociva/tailng-ui/popups-overlays';
 
 @Component({
   selector: 'playground-tooltip-demo',

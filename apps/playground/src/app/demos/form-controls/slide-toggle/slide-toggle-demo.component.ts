@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngSlideToggleComponent } from '@tociva/tailng-ui';
+import { TailngSlideToggleComponent } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-slide-toggle-demo',

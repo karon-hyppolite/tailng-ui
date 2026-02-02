@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   TailngButtonToggleComponent,
   TailngButtonToggleOption,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-button-toggle-demo',

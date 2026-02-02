@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngCardComponent } from '@tociva/tailng-ui';
+import { TailngCardComponent } from '@tociva/tailng-ui/layout';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 
 @Component({
