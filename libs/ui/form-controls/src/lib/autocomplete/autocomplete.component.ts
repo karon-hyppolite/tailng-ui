@@ -17,13 +17,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { OptionTplContext } from '@tociva/tailng-cdk';
 
-import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
-import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
-import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import {
-  TailngOverlayCloseReason,
+  TailngConnectedOverlayComponent,
+  TailngOptionListComponent,
+  TailngOverlayPanelComponent,
   TailngOverlayRefComponent,
-} from '../../../popups-overlays/overlay-ref/src/public-api';
+  type TailngOverlayCloseReason,
+} from '../../../../popups-overlays/src/public-api';
 
 export type AutocompleteCloseReason = TailngOverlayCloseReason;
 

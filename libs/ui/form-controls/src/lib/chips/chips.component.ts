@@ -15,13 +15,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
-import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
-import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
 import {
+  TailngConnectedOverlayComponent,
+  TailngOptionListComponent,
+  TailngOverlayPanelComponent,
   TailngOverlayRefComponent,
-  TailngOverlayCloseReason,
-} from '../../../popups-overlays/overlay-ref/src/public-api';
+  type TailngOverlayCloseReason,
+} from '../../../../popups-overlays/src/public-api';
 
 import { OptionTplContext } from '@tociva/tailng-cdk';
 

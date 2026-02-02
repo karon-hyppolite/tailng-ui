@@ -12,12 +12,12 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
-import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import {
-  TailngOverlayCloseReason,
+  TailngConnectedOverlayComponent,
+  TailngOverlayPanelComponent,
   TailngOverlayRefComponent,
-} from '../../../popups-overlays/overlay-ref/src/public-api';
+  type TailngOverlayCloseReason,
+} from '../../../../popups-overlays/src/public-api';
 
 import { TailngNativeDateAdapter } from './adapters/native-date.adapter';
 import { TNG_DATE_ADAPTER, TngDateAdapter } from './adapters/tng-date-adapter';
