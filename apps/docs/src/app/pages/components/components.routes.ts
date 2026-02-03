@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { formsRoutes } from './forms.routes';
-import { buttonsRoutes } from './buttons.routes';
-import { layoutRoutes } from './layout.routes';
-import { navigationRoutes } from './navigation.routes';
-import { overlayRoutes } from './overlay.routes';
-import { overlayPrimitivesRoutes } from './overlay-primitives.routes';
-import { dataRoutes } from './data.routes';
-import { utilitiesRoutes } from './utilities.routes';
-import { installationRoutes } from './installation.routes';
+import { formsRoutes } from './forms/forms.routes';
+import { buttonsRoutes } from './buttons/buttons.routes';
+import { layoutRoutes } from './layout/layout.routes';
+import { navigationRoutes } from './navigation/navigation.routes';
+import { overlayRoutes } from './overlay/overlay.routes';
+import { overlayPrimitivesRoutes } from './overlay-primitives/overlay-primitives.routes';
+import { dataRoutes } from './data/data.routes';
+import { utilitiesRoutes } from './utilities/utilities.routes';
+import { installationRoutes } from '../installation/installation.routes';
 
 export const componentsRoutes: Routes = [
   {
     path: 'components',
     loadComponent: () =>
-      import('../layout/docs-shell/docs-shell.component').then((m) => m.DocsShellComponent),
+      import('../../layout/docs-shell/docs-shell.component').then((m) => m.DocsShellComponent),
     children: [
       // /components (intro + left menu)
       {
         path: '',
         loadComponent: () =>
-          import('../pages/components/components-home/components-home.component').then(
+          import('./components-home/components-home.component').then(
             (m) => m.ComponentsHomeComponent,
           ),
         data: {

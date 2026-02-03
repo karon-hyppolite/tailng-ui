@@ -4,7 +4,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/badge',
     loadComponent: () =>
-      import('../pages/components/buttons/badge/badge-docs.component').then((m) => m.BadgeDocsComponent),
+      import('./badge/badge-docs.component').then((m) => m.BadgeDocsComponent),
     children: [
       {
         path: '',
@@ -14,26 +14,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/badge/overview/badge-overview.component').then(
+          import('./badge/overview/badge-overview.component').then(
             (m) => m.BadgeOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/badge/api/badge-api.component').then((m) => m.BadgeApiComponent),
+          import('./badge/api/badge-api.component').then((m) => m.BadgeApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/badge/styling/badge-styling.component').then(
+          import('./badge/styling/badge-styling.component').then(
             (m) => m.BadgeStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/badge/examples/badge-examples.component').then(
+          import('./badge/examples/badge-examples.component').then(
             (m) => m.BadgeExamplesComponent,
           ),
       },
@@ -43,7 +43,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/tag',
     loadComponent: () =>
-      import('../pages/components/buttons/tag/tag-docs.component').then((m) => m.TagDocsComponent),
+      import('./tag/tag-docs.component').then((m) => m.TagDocsComponent),
     children: [
       {
         path: '',
@@ -53,26 +53,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/tag/overview/tag-overview.component').then(
+          import('./tag/overview/tag-overview.component').then(
             (m) => m.TagOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/tag/api/tag-api.component').then((m) => m.TagApiComponent),
+          import('./tag/api/tag-api.component').then((m) => m.TagApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/tag/styling/tag-styling.component').then(
+          import('./tag/styling/tag-styling.component').then(
             (m) => m.TagStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/tag/examples/tag-examples.component').then(
+          import('./tag/examples/tag-examples.component').then(
             (m) => m.TagExamplesComponent,
           ),
       },
@@ -82,7 +82,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/button',
     loadComponent: () =>
-      import('../pages/components/buttons/button/button-docs.component').then((m) => m.ButtonDocsComponent),
+      import('./button/button-docs.component').then((m) => m.ButtonDocsComponent),
     children: [
       {
         path: '',
@@ -92,26 +92,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/button/overview/button-overview.component').then(
+          import('./button/overview/button-overview.component').then(
             (m) => m.ButtonOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/button/api/button-api.component').then((m) => m.ButtonApiComponent),
+          import('./button/api/button-api.component').then((m) => m.ButtonApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/button/styling/button-styling.component').then(
+          import('./button/styling/button-styling.component').then(
             (m) => m.ButtonStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/button/examples/button-examples.component').then(
+          import('./button/examples/button-examples.component').then(
             (m) => m.ButtonExamplesComponent,
           ),
       },
@@ -121,7 +121,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/icon',
     loadComponent: () =>
-      import('../pages/components/buttons/icon/icon-docs.component').then((m) => m.IconDocsComponent),
+      import('./icon/icon-docs.component').then((m) => m.IconDocsComponent),
     children: [
       {
         path: '',
@@ -131,26 +131,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/icon/overview/icon-overview.component').then(
+          import('./icon/overview/icon-overview.component').then(
             (m) => m.IconOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/icon/api/icon-api.component').then((m) => m.IconApiComponent),
+          import('./icon/api/icon-api.component').then((m) => m.IconApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/icon/styling/icon-styling.component').then(
+          import('./icon/styling/icon-styling.component').then(
             (m) => m.IconStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/icon/examples/icon-examples.component').then(
+          import('./icon/examples/icon-examples.component').then(
             (m) => m.IconExamplesComponent,
           ),
       },
@@ -160,7 +160,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/ripples',
     loadComponent: () =>
-      import('../pages/components/buttons/ripples/ripples-docs.component').then((m) => m.RipplesDocsComponent),
+      import('./ripples/ripples-docs.component').then((m) => m.RipplesDocsComponent),
     children: [
       {
         path: '',
@@ -170,26 +170,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/ripples/overview/ripples-overview.component').then(
+          import('./ripples/overview/ripples-overview.component').then(
             (m) => m.RipplesOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/ripples/api/ripples-api.component').then((m) => m.RipplesApiComponent),
+          import('./ripples/api/ripples-api.component').then((m) => m.RipplesApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/ripples/styling/ripples-styling.component').then(
+          import('./ripples/styling/ripples-styling.component').then(
             (m) => m.RipplesStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/ripples/examples/ripples-examples.component').then(
+          import('./ripples/examples/ripples-examples.component').then(
             (m) => m.RipplesExamplesComponent,
           ),
       },
@@ -199,7 +199,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/progress-bar',
     loadComponent: () =>
-      import('../pages/components/buttons/progress-bar/progress-bar-docs.component').then(
+      import('./progress-bar/progress-bar-docs.component').then(
         (m) => m.ProgressBarDocsComponent,
       ),
     children: [
@@ -211,28 +211,28 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-bar/overview/progress-bar-overview.component').then(
+          import('./progress-bar/overview/progress-bar-overview.component').then(
             (m) => m.ProgressBarOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-bar/api/progress-bar-api.component').then(
+          import('./progress-bar/api/progress-bar-api.component').then(
             (m) => m.ProgressBarApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-bar/styling/progress-bar-styling.component').then(
+          import('./progress-bar/styling/progress-bar-styling.component').then(
             (m) => m.ProgressBarStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-bar/examples/progress-bar-examples.component').then(
+          import('./progress-bar/examples/progress-bar-examples.component').then(
             (m) => m.ProgressBarExamplesComponent,
           ),
       },
@@ -242,7 +242,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/progress-spinner',
     loadComponent: () =>
-      import('../pages/components/buttons/progress-spinner/progress-spinner-docs.component').then(
+      import('./progress-spinner/progress-spinner-docs.component').then(
         (m) => m.ProgressSpinnerDocsComponent,
       ),
     children: [
@@ -254,28 +254,28 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-spinner/overview/progress-spinner-overview.component').then(
+          import('./progress-spinner/overview/progress-spinner-overview.component').then(
             (m) => m.ProgressSpinnerOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-spinner/api/progress-spinner-api.component').then(
+          import('./progress-spinner/api/progress-spinner-api.component').then(
             (m) => m.ProgressSpinnerApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-spinner/styling/progress-spinner-styling.component').then(
+          import('./progress-spinner/styling/progress-spinner-styling.component').then(
             (m) => m.ProgressSpinnerStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/progress-spinner/examples/progress-spinner-examples.component').then(
+          import('./progress-spinner/examples/progress-spinner-examples.component').then(
             (m) => m.ProgressSpinnerExamplesComponent,
           ),
       },
@@ -285,7 +285,7 @@ export const buttonsRoutes: Routes = [
   {
     path: 'buttons/skeleton',
     loadComponent: () =>
-      import('../pages/components/buttons/skeleton/skeleton-docs.component').then((m) => m.SkeletonDocsComponent),
+      import('./skeleton/skeleton-docs.component').then((m) => m.SkeletonDocsComponent),
     children: [
       {
         path: '',
@@ -295,26 +295,26 @@ export const buttonsRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/buttons/skeleton/overview/skeleton-overview.component').then(
+          import('./skeleton/overview/skeleton-overview.component').then(
             (m) => m.SkeletonOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/buttons/skeleton/api/skeleton-api.component').then((m) => m.SkeletonApiComponent),
+          import('./skeleton/api/skeleton-api.component').then((m) => m.SkeletonApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/buttons/skeleton/styling/skeleton-styling.component').then(
+          import('./skeleton/styling/skeleton-styling.component').then(
             (m) => m.SkeletonStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/buttons/skeleton/examples/skeleton-examples.component').then(
+          import('./skeleton/examples/skeleton-examples.component').then(
             (m) => m.SkeletonExamplesComponent,
           ),
       },

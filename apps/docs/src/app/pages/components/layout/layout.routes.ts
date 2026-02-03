@@ -4,7 +4,7 @@ export const layoutRoutes: Routes = [
   {
     path: 'layout/accordion',
     loadComponent: () =>
-      import('../pages/components/layout/accordion/accordion-docs.component').then(
+      import('./accordion/accordion-docs.component').then(
         (m) => m.AccordionDocsComponent,
       ),
     children: [
@@ -16,28 +16,28 @@ export const layoutRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/layout/accordion/overview/accordion-overview.component').then(
+          import('./accordion/overview/accordion-overview.component').then(
             (m) => m.AccordionOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/layout/accordion/api/accordion-api.component').then(
+          import('./accordion/api/accordion-api.component').then(
             (m) => m.AccordionApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/layout/accordion/styling/accordion-styling.component').then(
+          import('./accordion/styling/accordion-styling.component').then(
             (m) => m.AccordionStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/layout/accordion/examples/accordion-examples.component').then(
+          import('./accordion/examples/accordion-examples.component').then(
             (m) => m.AccordionExamplesComponent,
           ),
       },
@@ -47,7 +47,7 @@ export const layoutRoutes: Routes = [
   {
     path: 'layout/card',
     loadComponent: () =>
-      import('../pages/components/layout/card/card-docs.component').then((m) => m.CardDocsComponent),
+      import('./card/card-docs.component').then((m) => m.CardDocsComponent),
     children: [
       {
         path: '',
@@ -57,26 +57,26 @@ export const layoutRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/layout/card/overview/card-overview.component').then(
+          import('./card/overview/card-overview.component').then(
             (m) => m.CardOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/layout/card/api/card-api.component').then((m) => m.CardApiComponent),
+          import('./card/api/card-api.component').then((m) => m.CardApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/layout/card/styling/card-styling.component').then(
+          import('./card/styling/card-styling.component').then(
             (m) => m.CardStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/layout/card/examples/card-examples.component').then(
+          import('./card/examples/card-examples.component').then(
             (m) => m.CardExamplesComponent,
           ),
       },
@@ -86,7 +86,7 @@ export const layoutRoutes: Routes = [
   {
     path: 'layout/divider',
     loadComponent: () =>
-      import('../pages/components/layout/divider/divider-docs.component').then((m) => m.DividerDocsComponent),
+      import('./divider/divider-docs.component').then((m) => m.DividerDocsComponent),
     children: [
       {
         path: '',
@@ -96,26 +96,26 @@ export const layoutRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/layout/divider/overview/divider-overview.component').then(
+          import('./divider/overview/divider-overview.component').then(
             (m) => m.DividerOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/layout/divider/api/divider-api.component').then((m) => m.DividerApiComponent),
+          import('./divider/api/divider-api.component').then((m) => m.DividerApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/layout/divider/styling/divider-styling.component').then(
+          import('./divider/styling/divider-styling.component').then(
             (m) => m.DividerStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/layout/divider/examples/divider-examples.component').then(
+          import('./divider/examples/divider-examples.component').then(
             (m) => m.DividerExamplesComponent,
           ),
       },
@@ -125,7 +125,7 @@ export const layoutRoutes: Routes = [
   {
     path: 'layout/expansion-panel',
     loadComponent: () =>
-      import('../pages/components/layout/expansion-panel/expansion-panel-docs.component').then(
+      import('./expansion-panel/expansion-panel-docs.component').then(
         (m) => m.ExpansionPanelDocsComponent,
       ),
     children: [
@@ -137,28 +137,28 @@ export const layoutRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/layout/expansion-panel/overview/expansion-panel-overview.component').then(
+          import('./expansion-panel/overview/expansion-panel-overview.component').then(
             (m) => m.ExpansionPanelOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/layout/expansion-panel/api/expansion-panel-api.component').then(
+          import('./expansion-panel/api/expansion-panel-api.component').then(
             (m) => m.ExpansionPanelApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/layout/expansion-panel/styling/expansion-panel-styling.component').then(
+          import('./expansion-panel/styling/expansion-panel-styling.component').then(
             (m) => m.ExpansionPanelStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/layout/expansion-panel/examples/expansion-panel-examples.component').then(
+          import('./expansion-panel/examples/expansion-panel-examples.component').then(
             (m) => m.ExpansionPanelExamplesComponent,
           ),
       },
@@ -168,7 +168,7 @@ export const layoutRoutes: Routes = [
   {
     path: 'layout/tabs',
     loadComponent: () =>
-      import('../pages/components/layout/tabs/tabs-docs.component').then((m) => m.TabsDocsComponent),
+      import('./tabs/tabs-docs.component').then((m) => m.TabsDocsComponent),
     children: [
       {
         path: '',
@@ -178,26 +178,26 @@ export const layoutRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/layout/tabs/overview/tabs-overview.component').then(
+          import('./tabs/overview/tabs-overview.component').then(
             (m) => m.TabsOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/layout/tabs/api/tabs-api.component').then((m) => m.TabsApiComponent),
+          import('./tabs/api/tabs-api.component').then((m) => m.TabsApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/layout/tabs/styling/tabs-styling.component').then(
+          import('./tabs/styling/tabs-styling.component').then(
             (m) => m.TabsStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/layout/tabs/examples/tabs-examples.component').then(
+          import('./tabs/examples/tabs-examples.component').then(
             (m) => m.TabsExamplesComponent,
           ),
       },

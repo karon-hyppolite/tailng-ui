@@ -4,7 +4,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/breadcrumbs',
     loadComponent: () =>
-      import('../pages/components/navigation/breadcrumbs/breadcrumbs-docs.component').then(
+      import('./breadcrumbs/breadcrumbs-docs.component').then(
         (m) => m.BreadcrumbsDocsComponent,
       ),
     children: [
@@ -16,28 +16,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/overview/breadcrumbs-overview.component').then(
+          import('./breadcrumbs/overview/breadcrumbs-overview.component').then(
             (m) => m.BreadcrumbsOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/api/breadcrumbs-api.component').then(
+          import('./breadcrumbs/api/breadcrumbs-api.component').then(
             (m) => m.BreadcrumbsApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/styling/breadcrumbs-styling.component').then(
+          import('./breadcrumbs/styling/breadcrumbs-styling.component').then(
             (m) => m.BreadcrumbsStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/examples/breadcrumbs-examples.component').then(
+          import('./breadcrumbs/examples/breadcrumbs-examples.component').then(
             (m) => m.BreadcrumbsExamplesComponent,
           ),
       },
@@ -47,7 +47,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/drawer',
     loadComponent: () =>
-      import('../pages/components/navigation/drawer/drawer-docs.component').then((m) => m.DrawerDocsComponent),
+      import('./drawer/drawer-docs.component').then((m) => m.DrawerDocsComponent),
     children: [
       {
         path: '',
@@ -57,26 +57,26 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/overview/drawer-overview.component').then(
+          import('./drawer/overview/drawer-overview.component').then(
             (m) => m.DrawerOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/api/drawer-api.component').then((m) => m.DrawerApiComponent),
+          import('./drawer/api/drawer-api.component').then((m) => m.DrawerApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/styling/drawer-styling.component').then(
+          import('./drawer/styling/drawer-styling.component').then(
             (m) => m.DrawerStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/examples/drawer-examples.component').then(
+          import('./drawer/examples/drawer-examples.component').then(
             (m) => m.DrawerExamplesComponent,
           ),
       },
@@ -86,7 +86,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/menu',
     loadComponent: () =>
-      import('../pages/components/navigation/menu/menu-docs.component').then((m) => m.MenuDocsComponent),
+      import('./menu/menu-docs.component').then((m) => m.MenuDocsComponent),
     children: [
       {
         path: '',
@@ -96,26 +96,26 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/overview/menu-overview.component').then(
+          import('./menu/overview/menu-overview.component').then(
             (m) => m.MenuOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/api/menu-api.component').then((m) => m.MenuApiComponent),
+          import('./menu/api/menu-api.component').then((m) => m.MenuApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/styling/menu-styling.component').then(
+          import('./menu/styling/menu-styling.component').then(
             (m) => m.MenuStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/examples/menu-examples.component').then(
+          import('./menu/examples/menu-examples.component').then(
             (m) => m.MenuExamplesComponent,
           ),
       },
@@ -125,7 +125,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/paginator',
     loadComponent: () =>
-      import('../pages/components/navigation/paginator/paginator-docs.component').then(
+      import('./paginator/paginator-docs.component').then(
         (m) => m.PaginatorDocsComponent,
       ),
     children: [
@@ -137,28 +137,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/overview/paginator-overview.component').then(
+          import('./paginator/overview/paginator-overview.component').then(
             (m) => m.PaginatorOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/api/paginator-api.component').then(
+          import('./paginator/api/paginator-api.component').then(
             (m) => m.PaginatorApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/styling/paginator-styling.component').then(
+          import('./paginator/styling/paginator-styling.component').then(
             (m) => m.PaginatorStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/examples/paginator-examples.component').then(
+          import('./paginator/examples/paginator-examples.component').then(
             (m) => m.PaginatorExamplesComponent,
           ),
       },
@@ -168,7 +168,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/sidenav',
     loadComponent: () =>
-      import('../pages/components/navigation/sidenav/sidenav-docs.component').then(
+      import('./sidenav/sidenav-docs.component').then(
         (m) => m.SidenavDocsComponent,
       ),
     children: [
@@ -180,28 +180,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/overview/sidenav-overview.component').then(
+          import('./sidenav/overview/sidenav-overview.component').then(
             (m) => m.SidenavOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/api/sidenav-api.component').then(
+          import('./sidenav/api/sidenav-api.component').then(
             (m) => m.SidenavApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/styling/sidenav-styling.component').then(
+          import('./sidenav/styling/sidenav-styling.component').then(
             (m) => m.SidenavStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/examples/sidenav-examples.component').then(
+          import('./sidenav/examples/sidenav-examples.component').then(
             (m) => m.SidenavExamplesComponent,
           ),
       },
@@ -211,7 +211,7 @@ export const navigationRoutes: Routes = [
   {
     path: 'navigation/stepper',
     loadComponent: () =>
-      import('../pages/components/navigation/stepper/stepper-docs.component').then(
+      import('./stepper/stepper-docs.component').then(
         (m) => m.StepperDocsComponent,
       ),
     children: [
@@ -223,28 +223,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/overview/stepper-overview.component').then(
+          import('./stepper/overview/stepper-overview.component').then(
             (m) => m.StepperOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/api/stepper-api.component').then(
+          import('./stepper/api/stepper-api.component').then(
             (m) => m.StepperApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/styling/stepper-styling.component').then(
+          import('./stepper/styling/stepper-styling.component').then(
             (m) => m.StepperStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/examples/stepper-examples.component').then(
+          import('./stepper/examples/stepper-examples.component').then(
             (m) => m.StepperExamplesComponent,
           ),
       },

@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { autocompleteRoutes } from '../pages/components/forms/autocomplete/autocomplete.routes';
-import { checkboxRoutes } from '../pages/components/forms/checkbox/checkbox.routes';
-import { chipsRoutes } from '../pages/components/forms/chips/chips.routes';
-import { datepickerRoutes } from '../pages/components/forms/datepicker/datepicker.routes';
-import { timepickerRoutes } from '../pages/components/forms/timepicker/timepicker.routes';
-import { formFieldRoutes } from '../pages/components/forms/form-field/form-field.routes';
-import { textInputRoutes } from '../pages/components/forms/text-input/text-input.routes';
-import { numberInputRoutes } from '../pages/components/forms/number-input/number-input.routes';
-import { textareaRoutes } from '../pages/components/forms/textarea/textarea.routes';
-import { fileUploadRoutes } from '../pages/components/forms/file-upload/file-upload.routes';
-import { radioButtonRoutes } from '../pages/components/forms/radio-button/radio-button.routes';
-import { selectRoutes } from '../pages/components/forms/select/select.routes';
-import { sliderRoutes } from '../pages/components/forms/slider/slider.routes';
-import { slideToggleRoutes } from '../pages/components/forms/slide-toggle/slide-toggle.routes';
-import { buttonToggleRoutes } from '../pages/components/forms/button-toggle/button-toggle.routes';
+import { autocompleteRoutes } from './autocomplete/autocomplete.routes';
+import { checkboxRoutes } from './checkbox/checkbox.routes';
+import { chipsRoutes } from './chips/chips.routes';
+import { datepickerRoutes } from './datepicker/datepicker.routes';
+import { timepickerRoutes } from './timepicker/timepicker.routes';
+import { formFieldRoutes } from './form-field/form-field.routes';
+import { textInputRoutes } from './text-input/text-input.routes';
+import { numberInputRoutes } from './number-input/number-input.routes';
+import { textareaRoutes } from './textarea/textarea.routes';
+import { fileUploadRoutes } from './file-upload/file-upload.routes';
+import { radioButtonRoutes } from './radio-button/radio-button.routes';
+import { selectRoutes } from './select/select.routes';
+import { sliderRoutes } from './slider/slider.routes';
+import { slideToggleRoutes } from './slide-toggle/slide-toggle.routes';
+import { buttonToggleRoutes } from './button-toggle/button-toggle.routes';
 
 export const formsRoutes: Routes = [
   {
     path: 'forms/autocomplete',
     loadComponent: () =>
-      import('../pages/components/forms/autocomplete/autocomplete-docs.component').then(
+      import('./autocomplete/autocomplete-docs.component').then(
         (m) => m.AutocompleteDocsComponent,
       ),
     children: autocompleteRoutes,
@@ -28,7 +28,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/checkbox',
     loadComponent: () =>
-      import('../pages/components/forms/checkbox/checkbox-docs.component').then(
+      import('./checkbox/checkbox-docs.component').then(
         (m) => m.CheckboxDocsComponent,
       ),
     children: checkboxRoutes,
@@ -37,14 +37,14 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/chips',
     loadComponent: () =>
-      import('../pages/components/forms/chips/chips-docs.component').then((m) => m.ChipsDocsComponent),
+      import('./chips/chips-docs.component').then((m) => m.ChipsDocsComponent),
     children: chipsRoutes,
     data: { title: 'Chips – tailng', description: 'Chips input for tailng.' },
   },
   {
     path: 'forms/datepicker',
     loadComponent: () =>
-      import('../pages/components/forms/datepicker/datepicker-docs.component').then(
+      import('./datepicker/datepicker-docs.component').then(
         (m) => m.DatepickerDocsComponent,
       ),
     children: datepickerRoutes,
@@ -53,7 +53,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/timepicker',
     loadComponent: () =>
-      import('../pages/components/forms/timepicker/timepicker-docs.component').then(
+      import('./timepicker/timepicker-docs.component').then(
         (m) => m.TimepickerDocsComponent,
       ),
     children: timepickerRoutes,
@@ -62,7 +62,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/form-field',
     loadComponent: () =>
-      import('../pages/components/forms/form-field/form-field-docs.component').then(
+      import('./form-field/form-field-docs.component').then(
         (m) => m.FormFieldDocsComponent,
       ),
     children: formFieldRoutes,
@@ -74,7 +74,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/text-input',
     loadComponent: () =>
-      import('../pages/components/forms/text-input/text-input-docs.component').then(
+      import('./text-input/text-input-docs.component').then(
         (m) => m.TextInputDocsComponent,
       ),
     children: textInputRoutes,
@@ -83,7 +83,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/number-input',
     loadComponent: () =>
-      import('../pages/components/forms/number-input/number-input-docs.component').then(
+      import('./number-input/number-input-docs.component').then(
         (m) => m.NumberInputDocsComponent,
       ),
     children: numberInputRoutes,
@@ -92,7 +92,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/textarea',
     loadComponent: () =>
-      import('../pages/components/forms/textarea/textarea-docs.component').then(
+      import('./textarea/textarea-docs.component').then(
         (m) => m.TextareaDocsComponent,
       ),
     children: textareaRoutes,
@@ -101,7 +101,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/file-upload',
     loadComponent: () =>
-      import('../pages/components/forms/file-upload/file-upload-docs.component').then(
+      import('./file-upload/file-upload-docs.component').then(
         (m) => m.FileUploadDocsComponent,
       ),
     children: fileUploadRoutes,
@@ -110,7 +110,7 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/radio-button',
     loadComponent: () =>
-      import('../pages/components/forms/radio-button/radio-button-docs.component').then(
+      import('./radio-button/radio-button-docs.component').then(
         (m) => m.RadioButtonDocsComponent,
       ),
     children: radioButtonRoutes,
@@ -119,21 +119,21 @@ export const formsRoutes: Routes = [
   {
     path: 'forms/select',
     loadComponent: () =>
-      import('../pages/components/forms/select/select-docs.component').then((m) => m.SelectDocsComponent),
+      import('./select/select-docs.component').then((m) => m.SelectDocsComponent),
     children: selectRoutes,
     data: { title: 'Select – tailng', description: 'Select control for tailng.' },
   },
   {
     path: 'forms/slider',
     loadComponent: () =>
-      import('../pages/components/forms/slider/slider-docs.component').then((m) => m.SliderDocsComponent),
+      import('./slider/slider-docs.component').then((m) => m.SliderDocsComponent),
     children: sliderRoutes,
     data: { title: 'Slider – tailng', description: 'Slider control for tailng.' },
   },
   {
     path: 'forms/slide-toggle',
     loadComponent: () =>
-      import('../pages/components/forms/slide-toggle/slide-toggle-docs.component').then(
+      import('./slide-toggle/slide-toggle-docs.component').then(
         (m) => m.SlideToggleDocsComponent,
       ),
     children: slideToggleRoutes,
@@ -143,7 +143,7 @@ export const formsRoutes: Routes = [
   {
     path: 'buttons/button-toggle',
     loadComponent: () =>
-      import('../pages/components/forms/button-toggle/button-toggle-docs.component').then(
+      import('./button-toggle/button-toggle-docs.component').then(
         (m) => m.ButtonToggleDocsComponent,
       ),
     children: buttonToggleRoutes,
