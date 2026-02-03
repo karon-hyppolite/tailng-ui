@@ -8,9 +8,13 @@
       </div>
     }
 
-    <!-- keep copy button OUTSIDE <pre> whitespace flow -->
-    <span (click)="copyCode()" [class]="copyklass()">
-      {{ copyLabel() }}
+    <!-- Copy area: projected content -->
+    <span (click)="copyCode()" [class]="copyKlassFinal()">
+      @if (copied()) {
+        <ng-content select="[tngCopied]"></ng-content>
+      } @else {
+        <ng-content select="[tngCopy]"></ng-content>
+      }
     </span>
 
     <!-- IMPORTANT: no extra indentation/newlines inside <pre> -->

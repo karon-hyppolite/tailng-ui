@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, input, viewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, input, viewChild, inject, signal, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TngCodeHighlighter, TngCodeLanguage } from './code-highlighter.type';
 
@@ -7,7 +7,7 @@ import { TngCodeHighlighter, TngCodeLanguage } from './code-highlighter.type';
   standalone: true,
   templateUrl: './code-block.component.html',
 })
-export class TngCodeBlock {
+export class TngCodeBlock implements OnDestroy {
   private sanitizer = inject(DomSanitizer);
 
   // -------------------------
@@ -19,6 +19,9 @@ export class TngCodeBlock {
   wrap = input<boolean>(false);
   highlighter = input<TngCodeHighlighter | null>(null);
 
+  // Copy UX
+  copyResetMs = input<number>(5000);
+
   // -------------------------
   // klass hooks
   // -------------------------
@@ -27,6 +30,9 @@ export class TngCodeBlock {
   gutterKlass = input<string>('');
   preKlass = input<string>('');
   codeKlass = input<string>('');
+
+  // Copy button klass (merged with defaults in copyKlassFinal)
+  copyKlass = input<string>('');
 
   private projectedEl = viewChild<ElementRef<HTMLElement>>('projected');
 
@@ -45,21 +51,12 @@ export class TngCodeBlock {
     Array.from({ length: this.lines() }, (_, i) => i + 1),
   );
 
-  /**
-   * IMPORTANT:
-   * - Without highlighter: return escaped string (safe)
-   * - With highlighter: return SafeHtml via bypassSecurityTrustHtml
-   *   because Shiki uses inline styles which Angular sanitization strips.
-   */
   readonly renderedHtml = computed((): string | SafeHtml => {
     const text = this.code();
     if (!text) return '';
 
     const highlighter = this.highlighter();
-    if (!highlighter){
-      const escaped = this.escapeHtml(text);
-      return escaped;
-    }
+    if (!highlighter) return this.escapeHtml(text);
 
     const html = highlighter.highlight(text, this.language());
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -95,6 +92,32 @@ export class TngCodeBlock {
 
   readonly codeKlassFinal = computed(() => this.join('block', this.codeKlass()));
 
+  readonly copyKlassFinal = computed(() =>
+    this.join(
+      'absolute top-2 right-2 px-2 py-1 rounded cursor-pointer text-black text-xs bg-bg/80 border border-border',
+      this.copyKlass(),
+    ),
+  );
+
+  copied = signal(false);
+  private copyTimer: ReturnType<typeof setTimeout> | null = null;
+
+  copyCode() {
+    const text = this.code();
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+      this.copied.set(true);
+
+      if (this.copyTimer) clearTimeout(this.copyTimer);
+      this.copyTimer = setTimeout(() => this.copied.set(false), this.copyResetMs());
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.copyTimer) clearTimeout(this.copyTimer);
+  }
+
   private join(...parts: Array<string | null | undefined>): string {
     return parts.map((p) => (p ?? '').trim()).filter(Boolean).join(' ');
   }
@@ -107,18 +130,4 @@ export class TngCodeBlock {
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
   }
-  
-copyklass = input<string>(
-  'absolute top-2 right-2 px-1 py-1 rounded cursor-pointer text-black text-xs'
-);
-
-copyLabel = input<string>('Copy');
-
-copied = signal(false);
-copyCode() {
-  navigator.clipboard.writeText(this.code()).then(() => {
-    this.copied.set(true);
-    setTimeout(() => this.copied.set(false), 2000);
-  });
-}
 }

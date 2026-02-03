@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'docs-code-block',
+  selector: 'code-block-docs',
   templateUrl: './code-block.component.html',
 })
-export class CodeBlockComponent {}
+export class CodeBlockDocsComponent {}

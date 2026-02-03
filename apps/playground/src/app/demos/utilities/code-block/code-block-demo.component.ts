@@ -1,10 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  TngCodeBlock,
-  TngCopyButton,
-} from '@tociva/tailng-ui/utilities';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 import { TngBadge, TngButton } from '@tociva/tailng-ui/buttons-indicators';
+import {
+  TngCodeBlock
+} from '@tociva/tailng-ui/utilities';
 import { DemoShikiHighlighterService } from '../../../shared/demo-shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
@@ -14,9 +14,9 @@ import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
   imports: [
     RouterLink,
     TngCodeBlock,
-    TngCopyButton,
     TngBadge,
     TngButton,
+    TngIcon,
   ],
   templateUrl: './code-block-demo.component.html',
 })
