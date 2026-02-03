@@ -16,12 +16,20 @@
           [size]="copySize()"
           [resetAfterMs]="copyResetMs()"
         >
-          <!-- default content -->
-          <ng-content select="[tngCopy]"></ng-content>
-
-          <!-- copied content -->
+          <!-- DEFAULT state -->
+          @if (hasCustomCopy()) {
+            <ng-content select="[tngCopy]"></ng-content>
+          } @else {
+            Copy
+          }
+    
+          <!-- COPIED state -->
           <span tngCopied>
-            <ng-content select="[tngCopied]"></ng-content>
+            @if (hasCustomCopied()) {
+              <ng-content select="[tngCopied]"></ng-content>
+            } @else {
+              Copied
+            }
           </span>
         </tng-copy-button>
       </div>
