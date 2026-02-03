@@ -3,28 +3,28 @@
    Apply by setting: <html class="theme-default"> */
 
 :where(html.theme-default, .theme-default) {
-  /* Primary (blue) */
-  --primary-color: #2563eb;        /* blue-600 */
-  --primary-color-hover: #1d4ed8;  /* blue-700 */
-  --on-primary-color: #ffffff;
+  /* Primary */
+  --primary-color: #12284b;
+  --primary-color-hover: #3f5b86;
+  --on-primary-color: #FDF6EC;
 
-  /* Danger (red) */
-  --danger-color: #dc2626;         /* red-600 */
-  --danger-color-hover: #b91c1c;   /* red-700 */
-  --on-danger-color: #ffffff;
+  /* Danger */
+  --danger-color: #DC3545;
+  --danger-color-hover: #b72d3a;
+  --on-danger-color: #FFFFFF;
 
-  /* Warning (amber) */
-  --warning-color: #f59e0b;        /* amber-500 */
-  --warning-color-hover: #d97706;  /* amber-600 */
-  --on-warning-color: #020617;     /* near-slate-950 */
+  /* Warning */
+  --warning-color: #FFC107;
+  --warning-color-hover: #e0a800;
+  --on-warning-color: #1A1A1A;
 
-  /* Success (green) */
-  --success-color: #16a34a;        /* green-600 */
-  --success-color-hover: #15803d;  /* green-700 */
-  --on-success-color: #ffffff;
+  /* Success */
+  --success-color: #28A745;
+  --success-color-hover: #208638;
+  --on-success-color: #FFFFFF;
 
-  /* Info (cyan) */
-  --info-color: #0891b2;           /* cyan-600 */
-  --info-color-hover: #0e7490;     /* cyan-700 */
-  --on-info-color: #ffffff;
+  /* Info */
+  --info-color: #17A2B8;
+  --info-color-hover: #117686;
+  --on-info-color: #FFFFFF;
 }
