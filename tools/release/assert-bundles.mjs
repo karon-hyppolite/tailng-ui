@@ -133,9 +133,40 @@ function assertUiSpecific() {
   }
 }
 
+function assertCdkPackage() {
+  const root = libDist("cdk");
+  if (!exists(root)) fail(`Missing dist folder: ${root}`);
+
+  const pkgJson = path.join(root, "package.json");
+  if (!exists(pkgJson)) fail(`cdk: missing package.json in dist`);
+
+  const typesDir = path.join(root, "types");
+  if (!exists(typesDir)) fail(`cdk: missing types folder`);
+
+  const dtsFiles = listFiles(typesDir, (f) => f.endsWith(".d.ts"));
+  if (dtsFiles.length === 0) fail(`cdk: no .d.ts files found`);
+
+  const fesmDir = path.join(root, "fesm2022");
+  if (!exists(fesmDir)) fail(`cdk: missing fesm2022 folder`);
+
+  const mjsFiles = listFiles(fesmDir, (f) => f.endsWith(".mjs"));
+  if (mjsFiles.length === 0) fail(`cdk: no .mjs files found`);
+
+  // Require at least ONE non-trivial bundle (guards against total stub publish)
+  const hasRealBundle = mjsFiles.some((f) => stat(f).size > 700);
+
+  if (!hasRealBundle) {
+    fail(
+      `cdk: all bundles are tiny — this looks like a broken build (sizes: ${mjsFiles
+        .map((f) => stat(f).size)
+        .join(", ")})`
+    );
+  }
+}
+
 const wants = (t) => selected.has(t);
 
-if (wants("cdk")) assertAngularPackage("cdk", THRESHOLDS.cdk);
+if (wants("cdk")) assertCdkPackage();
 if (wants("icons")) assertAngularPackage("icons", THRESHOLDS.icons);
 if (wants("ui")) {
   assertAngularPackage("ui", THRESHOLDS.ui);
