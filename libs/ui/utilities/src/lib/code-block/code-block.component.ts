@@ -1,32 +1,46 @@
-import { Component, ElementRef, computed, input, viewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, input, viewChild, inject, signal, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TngCodeHighlighter, TngCodeLanguage } from './code-highlighter.type';
+import { TngCopyButton } from '../copy-button/copy-button.component';
+import { contentChild } from '@angular/core';
+
+type CopyButtonVariant = 'ghost' | 'outline' | 'solid';
+type CopyButtonSize = 'sm' | 'md';
 
 @Component({
   selector: 'tng-code-block',
   standalone: true,
   templateUrl: './code-block.component.html',
+  imports: [TngCopyButton],
 })
-export class TngCodeBlock {
+export class TngCodeBlock implements OnDestroy {
   private sanitizer = inject(DomSanitizer);
 
-  // -------------------------
-  // API
-  // -------------------------
+  private copySlot = contentChild('[tngCopy]', { read: ElementRef });
+  private copiedSlot = contentChild('[tngCopied]', { read: ElementRef });
+
+  readonly hasCustomCopy = computed(() => !!this.copySlot());
+  readonly hasCustomCopied = computed(() => !!this.copiedSlot());
+
   content = input<string | null>(null);
   language = input<TngCodeLanguage>('text');
   showLineNumbers = input<boolean>(false);
   wrap = input<boolean>(false);
   highlighter = input<TngCodeHighlighter | null>(null);
 
-  // -------------------------
-  // klass hooks
-  // -------------------------
+  // code-block styling hooks
   rootKlass = input<string>('');
   bodyKlass = input<string>('');
   gutterKlass = input<string>('');
   preKlass = input<string>('');
   codeKlass = input<string>('');
+
+  // copy button config (styling/behavior controlled by implementer via inputs)
+  showCopy = input<boolean>(true);
+  copyVariant = input<CopyButtonVariant>('ghost');
+  copySize = input<CopyButtonSize>('sm');
+  copyResetMs = input<number>(1500);
+  copyWrapperKlass = input<string>('absolute top-2 right-2'); // position wrapper if needed
 
   private projectedEl = viewChild<ElementRef<HTMLElement>>('projected');
 
@@ -41,24 +55,16 @@ export class TngCodeBlock {
     return text ? text.split(/\r\n|\r|\n/).length : 0;
   });
 
-  readonly lineNumbers = computed(() =>
-    Array.from({ length: this.lines() }, (_, i) => i + 1),
-  );
+  readonly lineNumbers = computed(() => Array.from({ length: this.lines() }, (_, i) => i + 1));
 
-  /**
-   * IMPORTANT:
-   * - Without highlighter: return escaped string (safe)
-   * - With highlighter: return SafeHtml via bypassSecurityTrustHtml
-   *   because Shiki uses inline styles which Angular sanitization strips.
-   */
   readonly renderedHtml = computed((): string | SafeHtml => {
     const text = this.code();
     if (!text) return '';
 
-    const h = this.highlighter();
-    if (!h) return this.escapeHtml(text);
+    const highlighter = this.highlighter();
+    if (!highlighter) return this.escapeHtml(text);
 
-    const html = h.highlight(text, this.language());
+    const html = highlighter.highlight(text, this.language());
     return this.sanitizer.bypassSecurityTrustHtml(html);
   });
 
@@ -92,6 +98,25 @@ export class TngCodeBlock {
 
   readonly codeKlassFinal = computed(() => this.join('block', this.codeKlass()));
 
+  copied = signal(false);
+  private copyTimer: ReturnType<typeof setTimeout> | null = null;
+
+  copyCode() {
+    const text = this.code();
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+      this.copied.set(true);
+
+      if (this.copyTimer) clearTimeout(this.copyTimer);
+      this.copyTimer = setTimeout(() => this.copied.set(false), this.copyResetMs());
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.copyTimer) clearTimeout(this.copyTimer);
+  }
+
   private join(...parts: Array<string | null | undefined>): string {
     return parts.map((p) => (p ?? '').trim()).filter(Boolean).join(' ');
   }
@@ -103,20 +128,5 @@ export class TngCodeBlock {
       .replaceAll('>', '&gt;')
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
-  }
-  
-copyklass = input<string>(
-  'absolute top-2 right-2 px-1 py-1 rounded cursor-pointer text-black text-xs'
-);
-
-copyLabel = input<string>('Copy');
-
-  text = input<string>('');
-  copied = signal(false);
-  copyCode() {
-    navigator.clipboard.writeText(this.text()).then(() => {
-      this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 2000);
-    });
   }
 }

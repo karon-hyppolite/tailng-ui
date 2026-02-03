@@ -3,12 +3,12 @@
    Apply by setting: <html class="mode-light"> */
 
 :where(html.mode-light, .mode-light) {
-  --background-color: #ffffff;
-  --alternate-background-color: #f8fafc;
-  --text-color: #0f172a;
+  --background-color: #FFFFFF;
+  --alternate-background-color: #f8f9fa;
+  --text-color: #1A1A1A;
 
-  --border-color: #e2e8f0;
-  --border-color-hover: #cbd5e1;
+  --border-color: #E0E0E0;
+  --border-color-hover: #B0B0B0;
 
-  --disable-color: #64748b;
+  --disable-color: #6c757d;
 }

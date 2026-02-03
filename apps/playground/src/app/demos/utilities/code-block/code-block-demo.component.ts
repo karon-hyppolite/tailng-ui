@@ -1,11 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TngIcon } from '@tociva/tailng-icons/icon';
+import { TngBadge, TngButton } from '@tociva/tailng-ui/primitives';
 import {
-  TngCodeBlock,
-  TngCopyButton,
+  TngCodeBlock
 } from '@tociva/tailng-ui/utilities';
-import { TngBadge, TngButton } from '@tociva/tailng-ui/buttons-indicators';
-import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
+import { DemoShikiHighlighterService } from '../../../shared/demo-shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
 @Component({
@@ -14,15 +14,15 @@ import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
   imports: [
     RouterLink,
     TngCodeBlock,
-    TngCopyButton,
     TngBadge,
     TngButton,
+    TngIcon,
   ],
   templateUrl: './code-block-demo.component.html',
 })
 export class CodeBlockDemoComponent {
 
-  private shiki = inject(ShikiHighlighterService);
+  private shiki = inject(DemoShikiHighlighterService);
 
   readonly highlighter = new TngShikiAdapter(this.shiki);
   

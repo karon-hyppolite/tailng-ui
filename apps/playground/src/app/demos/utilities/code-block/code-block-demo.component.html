@@ -23,29 +23,11 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="inlineExample()" [showLineNumbers]="true" 
-        [highlighter]="highlighter"
-        language="typescript"
-        rootKlass="bg-white"
-      />
-
-      <!-- copy overlay (material style) -->
-      <!-- <div class="absolute right-2 top-2 z-10">
-        <tng-copy-button variant="outline" [text]="inlineExample()">
-    <i class="bi bi-clipboard"></i>
-    <span>Copy</span>
-
-    <span tngCopied>
-      <i class="bi bi-check2"></i>
-      <span>Copied</span>
-    </span>
-  </tng-copy-button> -->
-        <!-- <tng-copy-button [text]="inlineExample()">
-           <tng-icon name="bootstrapCopy" klass="bg-alternate-background"></tng-icon>
-          <i class="bi bi-clipboard"></i>
-          <span tngCopied><i class="bi bi-check2"></i></span>
-        </tng-copy-button>
-      </div> -->
+      <tng-code-block [content]="inlineExample()" [highlighter]="highlighter" language="typescript"
+        [copyResetMs]="5000" copyVariant="outline">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+        <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
+      </tng-code-block>
     </div>
   </div>
 
@@ -57,17 +39,12 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="klassSignalSnippet()" [showLineNumbers]="true" 
-        [highlighter]="highlighter"
-        language="typescript"
-      />
+      <tng-code-block [content]="klassSignalSnippet()" [showLineNumbers]="true" [highlighter]="highlighter"
+        language="typescript" rootKlass="bg-bg" [copyResetMs]="2000">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+        <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
+      </tng-code-block>
 
-      <div class="absolute right-3 top-3">
-        <tng-copy-button [text]="klassSignalSnippet()">
-          <i class="bi bi-clipboard"></i>
-          <span tngCopied><i class="bi bi-check2"></i></span>
-        </tng-copy-button>
-      </div>
     </div>
   </div>
 
@@ -79,17 +56,12 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="klassSignalSnippet()" [wrap]="true" 
-        [highlighter]="highlighter"
-        language="typescript"
-      />
+      <tng-code-block [content]="klassSignalSnippet()" [wrap]="true" [highlighter]="highlighter" language="typescript"
+        rootKlass="bg-bg" [copyResetMs]="2000">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+        <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
+      </tng-code-block>
 
-      <div class="absolute right-3 top-3">
-        <tng-copy-button [text]="klassSignalSnippet()">
-          <i class="bi bi-clipboard"></i>
-          <span tngCopied><i class="bi bi-check2"></i></span>
-        </tng-copy-button>
-      </div>
     </div>
   </div>
 
@@ -101,17 +73,11 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="jsonSnippet()" [showLineNumbers]="true" [wrap]="true" 
-        [highlighter]="highlighter"
-        language="json"
-      />
-
-      <div class="absolute right-3 top-3">
-        <tng-copy-button [text]="jsonSnippet()">
-          <i class="bi bi-clipboard"></i>
-          <span tngCopied><i class="bi bi-check2"></i></span>
-        </tng-copy-button>
-      </div>
+      <tng-code-block [content]="jsonSnippet()" [showLineNumbers]="true" [wrap]="true" [highlighter]="highlighter"
+        language="json" rootKlass="bg-bg" [copyResetMs]="2000">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+        <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
+      </tng-code-block>
     </div>
   </div>
 
@@ -123,24 +89,30 @@
     </div>
 
     <div class="relative">
-      <tng-code-block
-        [content]="smallSnippet()"
-        [wrap]="true"
-        rootKlass="rounded-xl border border-slate-200 bg-white"
-        preKlass="text-sm leading-7"
-      />
+      <tng-code-block [content]="smallSnippet()" [wrap]="true" rootKlass="rounded-xl border border-slate-200 bg-bg"
+        preKlass="text-sm leading-7" rootKlass="bg-bg" [copyResetMs]="2000">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+        <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
+      </tng-code-block>
+    </div>
+  </div>
 
-      <div class="absolute right-3 top-3">
-        <tng-copy-button [text]="smallSnippet()">
-          <i class="bi bi-clipboard"></i>
-          <span tngCopied><i class="bi bi-check2"></i></span>
-        </tng-copy-button>
-      </div>
+  <!-- Default copy button example -->
+  <div class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-base font-semibold text-slate-900">Default copy button</h2>
+      <tng-badge variant="neutral">theming</tng-badge>
+    </div>
+
+    <div class="relative">
+      <tng-code-block [content]="smallSnippet()" [wrap]="true" rootKlass="rounded-xl border border-slate-200 bg-bg"
+        preKlass="text-sm leading-7" rootKlass="bg-bg" [copyResetMs]="2000">
+      </tng-code-block>
     </div>
   </div>
 
   <!-- Roadmap -->
-  <div class="rounded-xl border border-slate-200 bg-white p-5">
+  <div class="rounded-xl border border-slate-200 bg-bg p-5">
     <h2 class="text-base font-semibold text-slate-900">Possible next features</h2>
 
     <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700">
@@ -157,12 +129,8 @@
         Explore components
       </tng-button>
 
-      <a
-        class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
-        href="https://github.com/tociva/tailng"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a class="rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+        href="https://github.com/tociva/tailng" target="_blank" rel="noreferrer">
         Contribute on GitHub
       </a>
     </div>

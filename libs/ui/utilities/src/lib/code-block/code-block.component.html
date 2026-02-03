@@ -8,14 +8,35 @@
       </div>
     }
 
-    <pre [class]="preKlassFinal()">
-      <span (click)="copyCode()" [class]="copyklass()">
-  {{ copyLabel() }}
-</span>
+    @if (showCopy()) {
+      <div [class]="copyWrapperKlass()">
+        <tng-copy-button
+          [text]="code()"
+          [variant]="copyVariant()"
+          [size]="copySize()"
+          [resetAfterMs]="copyResetMs()"
+        >
+          <!-- DEFAULT state -->
+          @if (hasCustomCopy()) {
+            <ng-content select="[tngCopy]"></ng-content>
+          } @else {
+            Copy
+          }
+    
+          <!-- COPIED state -->
+          <span tngCopied>
+            @if (hasCustomCopied()) {
+              <ng-content select="[tngCopied]"></ng-content>
+            } @else {
+              Copied
+            }
+          </span>
+        </tng-copy-button>
+      </div>
+    }
 
-<code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code>
+    <pre [class]="preKlassFinal()"><code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code></pre>
 
-<span #projected class="hidden"><ng-content></ng-content></span>
-    </pre>
+    <span #projected class="hidden"><ng-content></ng-content></span>
   </div>
 </div>
