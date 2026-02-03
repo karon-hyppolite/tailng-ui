@@ -1,38 +1,38 @@
 import { Component, ElementRef, computed, input, viewChild, inject, signal, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TngCodeHighlighter, TngCodeLanguage } from './code-highlighter.type';
+import { TngCopyButton } from '../copy-button/copy-button.component';
+type CopyButtonVariant = 'ghost' | 'outline' | 'solid';
+type CopyButtonSize = 'sm' | 'md';
 
 @Component({
   selector: 'tng-code-block',
   standalone: true,
   templateUrl: './code-block.component.html',
+  imports: [TngCopyButton],
 })
 export class TngCodeBlock implements OnDestroy {
   private sanitizer = inject(DomSanitizer);
 
-  // -------------------------
-  // API
-  // -------------------------
   content = input<string | null>(null);
   language = input<TngCodeLanguage>('text');
   showLineNumbers = input<boolean>(false);
   wrap = input<boolean>(false);
   highlighter = input<TngCodeHighlighter | null>(null);
 
-  // Copy UX
-  copyResetMs = input<number>(5000);
-
-  // -------------------------
-  // klass hooks
-  // -------------------------
+  // code-block styling hooks
   rootKlass = input<string>('');
   bodyKlass = input<string>('');
   gutterKlass = input<string>('');
   preKlass = input<string>('');
   codeKlass = input<string>('');
 
-  // Copy button klass (merged with defaults in copyKlassFinal)
-  copyKlass = input<string>('');
+  // copy button config (styling/behavior controlled by implementer via inputs)
+  showCopy = input<boolean>(true);
+  copyVariant = input<CopyButtonVariant>('ghost');
+  copySize = input<CopyButtonSize>('sm');
+  copyResetMs = input<number>(1500);
+  copyWrapperKlass = input<string>('absolute top-2 right-2'); // position wrapper if needed
 
   private projectedEl = viewChild<ElementRef<HTMLElement>>('projected');
 
@@ -47,9 +47,7 @@ export class TngCodeBlock implements OnDestroy {
     return text ? text.split(/\r\n|\r|\n/).length : 0;
   });
 
-  readonly lineNumbers = computed(() =>
-    Array.from({ length: this.lines() }, (_, i) => i + 1),
-  );
+  readonly lineNumbers = computed(() => Array.from({ length: this.lines() }, (_, i) => i + 1));
 
   readonly renderedHtml = computed((): string | SafeHtml => {
     const text = this.code();
@@ -91,13 +89,6 @@ export class TngCodeBlock implements OnDestroy {
   );
 
   readonly codeKlassFinal = computed(() => this.join('block', this.codeKlass()));
-
-  readonly copyKlassFinal = computed(() =>
-    this.join(
-      'absolute top-2 right-2 px-2 py-1 rounded cursor-pointer text-black text-xs bg-bg/80 border border-border',
-      this.copyKlass(),
-    ),
-  );
 
   copied = signal(false);
   private copyTimer: ReturnType<typeof setTimeout> | null = null;

@@ -8,16 +8,25 @@
       </div>
     }
 
-    <!-- Copy area: projected content -->
-    <span (click)="copyCode()" [class]="copyKlassFinal()">
-      @if (copied()) {
-        <ng-content select="[tngCopied]"></ng-content>
-      } @else {
-        <ng-content select="[tngCopy]"></ng-content>
-      }
-    </span>
+    @if (showCopy()) {
+      <div [class]="copyWrapperKlass()">
+        <tng-copy-button
+          [text]="code()"
+          [variant]="copyVariant()"
+          [size]="copySize()"
+          [resetAfterMs]="copyResetMs()"
+        >
+          <!-- default content -->
+          <ng-content select="[tngCopy]"></ng-content>
 
-    <!-- IMPORTANT: no extra indentation/newlines inside <pre> -->
+          <!-- copied content -->
+          <span tngCopied>
+            <ng-content select="[tngCopied]"></ng-content>
+          </span>
+        </tng-copy-button>
+      </div>
+    }
+
     <pre [class]="preKlassFinal()"><code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code></pre>
 
     <span #projected class="hidden"><ng-content></ng-content></span>

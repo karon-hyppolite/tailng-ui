@@ -23,9 +23,9 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="inlineExample()" [showLineNumbers]="true" [highlighter]="highlighter"
-        language="typescript" rootKlass="bg-white" [copyResetMs]="2000">
-         <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
+      <tng-code-block [content]="inlineExample()" [highlighter]="highlighter" language="typescript"
+        [copyResetMs]="5000" copyVariant="outline">
+        <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
         <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
       </tng-code-block>
     </div>
@@ -56,8 +56,8 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="klassSignalSnippet()" [wrap]="true" [highlighter]="highlighter"
-        language="typescript" rootKlass="bg-white" [copyResetMs]="2000">
+      <tng-code-block [content]="klassSignalSnippet()" [wrap]="true" [highlighter]="highlighter" language="typescript"
+        rootKlass="bg-white" [copyResetMs]="2000">
         <tng-icon name="bootstrapCopy" tngCopy></tng-icon>
         <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCopied></tng-icon>
       </tng-code-block>
