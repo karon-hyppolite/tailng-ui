@@ -25,3 +25,16 @@ body {
 *::after {
   box-sizing: border-box;
 }
+
+/* Generic approach for many Shiki integrations */
+.shiki .line-number {
+  display: none !important;
+}
+
+/* For integrations that use CSS counters */
+.shiki code {
+  counter-reset: none !important;
+}
+.shiki .line::before {
+  content: none !important;
+}

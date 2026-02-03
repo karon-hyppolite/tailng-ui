@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createHighlighter, type Highlighter } from 'shiki';
 
 @Injectable({ providedIn: 'root' })
-export class ShikiHighlighterService {
+export class DemoShikiHighlighterService {
   private highlighter: Highlighter | null = null;
 
   async init(): Promise<void> {
@@ -14,16 +14,17 @@ export class ShikiHighlighterService {
     });
   }
 
-  toHtml(code: string, lang: string, theme: 'github-dark' | 'github-light' = 'github-dark'): string {
+  toHtml(code: string, lang: string, theme: 'github-dark' | 'github-light' = 'github-light'): string {
     if (!this.highlighter) {
       // fallback: no highlight yet
       return this.escapeHtml(code);
     }
 
-    return this.highlighter.codeToHtml(code, {
+    const html = this.highlighter.codeToHtml(code, {
       lang,
       theme,
     });
+    return html;
   }
 
   private escapeHtml(s: string): string {

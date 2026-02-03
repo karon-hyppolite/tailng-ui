@@ -1,5 +1,5 @@
 import type { TngCodeHighlighter, TngCodeLanguage } from '@tociva/tailng-ui/utilities';
-import { ShikiHighlighterService } from './shiki-highlighter.service';
+import { DemoShikiHighlighterService } from './demo-shiki-highlighter.service';
 
 const langMap: Record<TngCodeLanguage, string> = {
   text: 'text',
@@ -12,7 +12,7 @@ const langMap: Record<TngCodeLanguage, string> = {
 };
 
 export class TngShikiAdapter implements TngCodeHighlighter {
-  constructor(private readonly shiki: ShikiHighlighterService) {}
+  constructor(private readonly shiki: DemoShikiHighlighterService) {}
 
   highlight(code: string, language: TngCodeLanguage): string {
     const html = this.shiki.toHtml(code, langMap[language], 'github-light');

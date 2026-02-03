@@ -6,7 +6,7 @@ import { bootstrapAlarm, bootstrapBell, bootstrapCheck2Circle, bootstrapClipboar
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
-import { ShikiHighlighterService } from './app/shared/shiki-highlighter.service';
+import { DemoShikiHighlighterService } from './app/shared/demo-shiki-highlighter.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -21,7 +21,7 @@ bootstrapApplication(AppComponent, {
     }),
 
     provideAppInitializer(() => {
-      const shiki = inject(ShikiHighlighterService);
+      const shiki = inject(DemoShikiHighlighterService);
       return shiki.init(); // can return Promise<void>
     }),
   ],

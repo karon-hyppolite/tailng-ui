@@ -55,10 +55,13 @@ export class TngCodeBlock {
     const text = this.code();
     if (!text) return '';
 
-    const h = this.highlighter();
-    if (!h) return this.escapeHtml(text);
+    const highlighter = this.highlighter();
+    if (!highlighter){
+      const escaped = this.escapeHtml(text);
+      return escaped;
+    }
 
-    const html = h.highlight(text, this.language());
+    const html = highlighter.highlight(text, this.language());
     return this.sanitizer.bypassSecurityTrustHtml(html);
   });
 
@@ -111,12 +114,11 @@ copyklass = input<string>(
 
 copyLabel = input<string>('Copy');
 
-  text = input<string>('');
-  copied = signal(false);
-  copyCode() {
-    navigator.clipboard.writeText(this.text()).then(() => {
-      this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 2000);
-    });
-  }
+copied = signal(false);
+copyCode() {
+  navigator.clipboard.writeText(this.code()).then(() => {
+    this.copied.set(true);
+    setTimeout(() => this.copied.set(false), 2000);
+  });
+}
 }

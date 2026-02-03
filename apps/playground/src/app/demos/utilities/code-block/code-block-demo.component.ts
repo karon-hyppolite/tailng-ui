@@ -5,7 +5,7 @@ import {
   TngCopyButton,
 } from '@tociva/tailng-ui/utilities';
 import { TngBadge, TngButton } from '@tociva/tailng-ui/buttons-indicators';
-import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
+import { DemoShikiHighlighterService } from '../../../shared/demo-shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
 @Component({
@@ -22,7 +22,7 @@ import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 })
 export class CodeBlockDemoComponent {
 
-  private shiki = inject(ShikiHighlighterService);
+  private shiki = inject(DemoShikiHighlighterService);
 
   readonly highlighter = new TngShikiAdapter(this.shiki);
   

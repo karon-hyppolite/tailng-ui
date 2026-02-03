@@ -8,14 +8,14 @@
       </div>
     }
 
-    <pre [class]="preKlassFinal()">
-      <span (click)="copyCode()" [class]="copyklass()">
-  {{ copyLabel() }}
-</span>
+    <!-- keep copy button OUTSIDE <pre> whitespace flow -->
+    <span (click)="copyCode()" [class]="copyklass()">
+      {{ copyLabel() }}
+    </span>
 
-<code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code>
+    <!-- IMPORTANT: no extra indentation/newlines inside <pre> -->
+    <pre [class]="preKlassFinal()"><code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code></pre>
 
-<span #projected class="hidden"><ng-content></ng-content></span>
-    </pre>
+    <span #projected class="hidden"><ng-content></ng-content></span>
   </div>
 </div>
