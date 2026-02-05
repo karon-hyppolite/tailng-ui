@@ -16,11 +16,10 @@ import {
   bootstrapSearch,
   bootstrapShare,
   bootstrapSunFill,
-  bootstrapX
+  bootstrapX,
+  bootstrapCheck2Circle
 } from '@ng-icons/bootstrap-icons';
 import { provideIcons } from '@ng-icons/core';
-import { provideAppInitializer, inject } from '@angular/core';
-import { bootstrapList, bootstrapSearch, bootstrapGithub, bootstrapCheck, bootstrapX, bootstrapCodeSlash, bootstrapLink45deg, bootstrapShare, bootstrapCode, bootstrapCopy, bootstrapPalette, bootstrapListUl, bootstrapArrowLeft, bootstrapArrowRight, bootstrapCheck2Circle } from '@ng-icons/bootstrap-icons';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
