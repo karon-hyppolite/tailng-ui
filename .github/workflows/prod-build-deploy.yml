@@ -38,14 +38,15 @@ jobs:
           fi
 
       # ------------------------------------
-      # CHECKOUT
+      # CHECKOUT (uses built-in GITHUB_TOKEN)
       # ------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
-          token: ${{ secrets.GH_PAT }}
+          # token defaults to GITHUB_TOKEN; explicit is fine too:
+          # token: ${{ github.token }}
 
       # ------------------------------------
       # NODE AND YARN (Node 20 for reliable ng-packagr output)
@@ -126,7 +127,7 @@ jobs:
         if: contains(env.TARGETS, ',docs,')
         run: |
           yarn dlx wrangler pages deploy dist/apps/docs \
-            --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} \
+            --project-name ${{ vars.CF_DOCS_PROJECT_NAME }} \
             --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
@@ -143,20 +144,18 @@ jobs:
 
       # ------------------------------------
       # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
-      # - Ensures expected dist files exist (fesm2022 + types)
-      # - Optionally checks minimum file sizes so stubbed outputs fail CI
       # ------------------------------------
       - name: Sanity check built bundles
         run: node tools/release/assert-bundles.mjs "${{ inputs.targets }}"
 
       # ------------------------------------
-      # OPTIONAL BUT USEFUL: npm pack dry-run per target (catches missing files/.npmignore issues)
+      # OPTIONAL BUT USEFUL: npm pack dry-run per target
       # ------------------------------------
       - name: npm pack dry-run (selected targets)
         run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
 
       # ------------------------------------
-      # PUBLISH
+      # PUBLISH (npm Trusted Publishing via OIDC)
       # ------------------------------------
       - name: Publish selected packages
         run: node tools/release/publish-selected.mjs \

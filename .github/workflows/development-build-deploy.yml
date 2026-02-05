@@ -23,11 +23,11 @@ jobs:
           - name: docs
             build: docs:seo
             dist: dist/apps/docs
-            project_secret: CF_DOCS_PROJECT_NAME
+            project_var: CF_DOCS_PROJECT_NAME
           - name: playground
             build: playground:seo
             dist: dist/apps/playground
-            project_secret: CF_PLAYGROUND_PROJECT_NAME
+            project_var: CF_PLAYGROUND_PROJECT_NAME
 
     steps:
       - name: Checkout source
@@ -64,7 +64,7 @@ jobs:
       - name: Deploy to Cloudflare Pages with Wrangler
         run: |
           yarn dlx wrangler pages deploy ${{ matrix.target.dist }} \
-            --project-name "${{ secrets[matrix.target.project_secret] }}" \
+            --project-name "${{ vars[matrix.target.project_var] }}" \
             --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
