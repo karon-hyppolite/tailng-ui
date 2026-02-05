@@ -20,9 +20,9 @@ import {
   TngOverlayPanel,
   TngOverlayRef,
   type TngOverlayCloseReason,
-} from '@tociva/tailng-ui/overlay';
+} from '@tailng-ui/tailng-ui/overlay';
 
-import { OptionTplContext } from '@tociva/tailng-cdk/util';
+import { OptionTplContext } from '@tailng-ui/tailng-cdk/util';
 
 export type SelectCloseReason = TngOverlayCloseReason;
 export type SelectValueTplContext<T> = { $implicit: T };

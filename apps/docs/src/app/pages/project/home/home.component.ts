@@ -1,6 +1,6 @@
 import { Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TngBadge, TngButton } from '@tociva/tailng-ui/primitives';
+import { TngBadge, TngButton } from '@tailng-ui/tailng-ui/primitives';
 
 @Component({
   standalone: true,
@@ -11,8 +11,8 @@ import { TngBadge, TngButton } from '@tociva/tailng-ui/primitives';
 })
 export class HomeComponent {
   links = {
-    github: 'https://github.com/tociva/tailng',
-    npm: 'https://www.npmjs.com/package/@tociva/tailng-ui',
+    github: 'https://github.com/tailng/tailng-ui',
+    npm: 'https://www.npmjs.com/package/@tailng-ui/tailng-ui',
     demo: 'https://tailng.dev',
     tociva: 'https://tociva.com',
   } as const;

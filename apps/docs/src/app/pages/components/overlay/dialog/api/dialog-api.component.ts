@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tociva/tailng-ui/table';
-import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
+import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -21,7 +21,7 @@ export class DialogApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   readonly importExample = () =>
-    `import { TngDialog, TngDialogCloseReason } from '@tociva/tailng-ui/overlay';`;
+    `import { TngDialog, TngDialogCloseReason } from '@tailng-ui/tailng-ui/overlay';`;
 
   private readonly inputSeed: DisplayDetails[] = [
     { property: 'open', type: 'boolean', default: 'false', description: 'Controlled open state' },

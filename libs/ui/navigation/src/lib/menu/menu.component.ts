@@ -16,7 +16,7 @@ import {
   TngOverlayPanel,
   TngOverlayRef,
   type TngOverlayCloseReason,
-} from '@tociva/tailng-ui/overlay';
+} from '@tailng-ui/tailng-ui/overlay';
 
 export type MenuCloseReason = TngOverlayCloseReason;
 

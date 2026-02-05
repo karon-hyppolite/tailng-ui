@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngDivider } from '@tociva/tailng-ui/layout';
+import { TngDivider } from '@tailng-ui/tailng-ui/layout';
 
 @Component({
   selector: 'playground-divider-demo',

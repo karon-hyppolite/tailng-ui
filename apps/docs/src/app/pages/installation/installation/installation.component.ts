@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { TngCard } from '@tociva/tailng-ui/layout';
-import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+import { TngCard } from '@tailng-ui/tailng-ui/layout';
+import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
-import { TngButtonToggle, TngButtonToggleOption } from '@tociva/tailng-ui/form';
+import { TngButtonToggle, TngButtonToggleOption } from '@tailng-ui/tailng-ui/form';
 
 @Component({
   standalone: true,
@@ -48,8 +48,8 @@ cd tailng-starter`;
   readonly npmCdk = `npm i @angular/cdk`;
 
   // Tailng packages
-  readonly yarnTailng = `yarn add @tociva/tailng-cdk @tociva/tailng-theme @tociva/tailng-icons @tociva/tailng-ui`;
-  readonly npmTailng = `npm i @tociva/tailng-cdk @tociva/tailng-theme @tociva/tailng-icons @tociva/tailng-ui`;
+  readonly yarnTailng = `yarn add @tailng-ui/tailng-cdk @tailng-ui/tailng-theme @tailng-ui/tailng-icons @tailng-ui/tailng-ui`;
+  readonly npmTailng = `npm i @tailng-ui/tailng-cdk @tailng-ui/tailng-theme @tailng-ui/tailng-icons @tailng-ui/tailng-ui`;
 
   // Tailwind install
   readonly yarnTailwind = `yarn add -D tailwindcss@^3.4 postcss autoprefixer
@@ -69,20 +69,20 @@ module.exports = {
 
   // Tailwind config
   readonly tailwindConfig = `// tailwind.config.js
-const tailngPreset = require("@tociva/tailng-theme/tailwind/tailng.preset.cjs");
+const tailngPreset = require("@tailng-ui/tailng-theme/tailwind/tailng.preset.cjs");
 
 module.exports = {
   presets: [tailngPreset],
   content: [
     "./src/**/*.{html,ts}",
-    "./node_modules/@tociva/tailng-ui/**/*.{mjs,js}",
-    "./node_modules/@tociva/tailng-icons/**/*.{mjs,js}",
+    "./node_modules/@tailng-ui/tailng-ui/**/*.{mjs,js}",
+    "./node_modules/@tailng-ui/tailng-icons/**/*.{mjs,js}",
   ],
 };`;
 
   // Global styles
   readonly globalStyles = `/* src/styles.css */
-@import "@tociva/tailng-theme/tokens/index.css";
+@import "@tailng-ui/tailng-theme/tokens/index.css";
 
 @tailwind base;
 @tailwind components;

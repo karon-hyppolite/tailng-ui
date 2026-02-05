@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngDialog, TngDialogCloseReason } from '@tociva/tailng-ui/overlay';
+import { TngDialog, TngDialogCloseReason } from '@tailng-ui/tailng-ui/overlay';
 
 @Component({
   selector: 'playground-dialog-demo',

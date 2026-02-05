@@ -1,15 +1,15 @@
 {
-  "name": "@tociva/tailng-theme",
+  "name": "@tailng-ui/tailng-theme",
   "version": "0.18.0",
   "description": "TailNG theme tokens (CSS) + Tailwind preset/plugin helpers",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tociva/tailng.git"
+    "url": "https://github.com/tailng/tailng-ui"
   },
-  "homepage": "https://github.com/tociva/tailng",
+  "homepage": "https://github.com/tailng/tailng-ui",
   "bugs": {
-    "url": "https://github.com/tociva/tailng/issues"
+    "url": "https://github.com/tailng/tailng-ui/issues"
   },
   "sideEffects": [
     "*.css",

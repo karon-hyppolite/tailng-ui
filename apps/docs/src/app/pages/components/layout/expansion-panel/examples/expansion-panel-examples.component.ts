@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngExpansionPanel } from '@tociva/tailng-ui/layout';
+import { TngExpansionPanel } from '@tailng-ui/tailng-ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

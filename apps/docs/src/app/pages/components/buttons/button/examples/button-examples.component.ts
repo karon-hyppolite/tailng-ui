@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngButton } from '@tociva/tailng-ui/primitives';
+import { TngButton } from '@tailng-ui/tailng-ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

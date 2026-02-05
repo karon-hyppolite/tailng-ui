@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TngDatepicker } from '@tociva/tailng-ui/form';
-import { TngTag } from '@tociva/tailng-ui/primitives';
+import { TngDatepicker } from '@tailng-ui/tailng-ui/form';
+import { TngTag } from '@tailng-ui/tailng-ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

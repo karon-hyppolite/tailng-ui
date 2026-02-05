@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class TngInfo {
   readonly docsUrl = 'https://tailng.dev';
-  readonly githubUrl = 'https://github.com/tociva/tailng';
+  readonly githubUrl = 'https://github.com/tailng/tailng-ui';
 }

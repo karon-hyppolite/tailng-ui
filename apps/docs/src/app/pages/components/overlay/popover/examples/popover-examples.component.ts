@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngPopover } from '@tociva/tailng-ui/overlay';
+import { TngPopover } from '@tailng-ui/tailng-ui/overlay';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

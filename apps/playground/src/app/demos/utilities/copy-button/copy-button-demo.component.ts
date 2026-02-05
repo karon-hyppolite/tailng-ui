@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { TngCopyButton } from '@tociva/tailng-ui/utilities';
-import { TngIcon } from "@tociva/tailng-icons/icon";
+import { TngCopyButton } from '@tailng-ui/tailng-ui/utilities';
+import { TngIcon } from "@tailng-ui/tailng-icons/icon";
 
 @Component({
   selector: 'playground-copy-button-demo',
@@ -9,5 +9,5 @@ import { TngIcon } from "@tociva/tailng-icons/icon";
   templateUrl: './copy-button-demo.component.html',
 })
 export class CopyButtonDemoComponent {
-    readonly code = signal(`npm install @tociva/tailng-ui`);
+    readonly code = signal(`npm install @tailng-ui/tailng-ui`);
 }

@@ -1,6 +1,6 @@
 // table-demo.component.ts
 import { Component, signal } from '@angular/core';
-import { TngCol, TngCellDef, TngTable } from '@tociva/tailng-ui/table';
+import { TngCol, TngCellDef, TngTable } from '@tailng-ui/tailng-ui/table';
 
 type Txn = {
   id: string;

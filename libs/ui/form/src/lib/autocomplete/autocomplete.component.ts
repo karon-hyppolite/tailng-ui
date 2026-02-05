@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { OptionTplContext } from '@tociva/tailng-cdk/util';
+import { OptionTplContext } from '@tailng-ui/tailng-cdk/util';
 
 import {
   TngConnectedOverlay,
@@ -23,7 +23,7 @@ import {
   TngOverlayPanel,
   TngOverlayRef,
   type TngOverlayCloseReason,
-} from '@tociva/tailng-ui/overlay';
+} from '@tailng-ui/tailng-ui/overlay';
 
 export type AutocompleteCloseReason = TngOverlayCloseReason;
 

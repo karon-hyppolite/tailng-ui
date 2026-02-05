@@ -3,7 +3,7 @@ import {
   TngStepper,
   TngStep,
   TngStepPanel,
-} from '@tociva/tailng-ui/navigation';
+} from '@tailng-ui/tailng-ui/navigation';
 
 @Component({
   selector: 'playground-stepper-demo',

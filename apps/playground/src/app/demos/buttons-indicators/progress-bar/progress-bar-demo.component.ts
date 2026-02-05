@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngProgressBar } from '@tociva/tailng-ui/primitives';
+import { TngProgressBar } from '@tailng-ui/tailng-ui/primitives';
 
 @Component({
   selector: 'playground-progress-bar-demo',

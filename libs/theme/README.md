@@ -1,15 +1,15 @@
-# @tociva/tailng-theme
+# @tailng-ui/tailng-theme
 
 Tailwind CSS preset and design tokens for Tailng components.
 
 ## Overview
 
-`@tociva/tailng-theme` provides a shared Tailwind CSS configuration used by Tailng components and applications. It defines colors, typography, spacing, border radius, and other design tokens in a reusable preset that ensures consistency across your application.
+`@tailng-ui/tailng-theme` provides a shared Tailwind CSS configuration used by Tailng components and applications. It defines colors, typography, spacing, border radius, and other design tokens in a reusable preset that ensures consistency across your application.
 
 ## Installation
 
 ```bash
-npm install @tociva/tailng-theme
+npm install @tailng-ui/tailng-theme
 ```
 
 ## Peer Dependencies
@@ -34,7 +34,7 @@ Add the preset to your `tailwind.config.js`:
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   presets: [
-    require('@tociva/tailng-theme/tailwind/preset'),
+    require('@tailng-ui/tailng-theme/tailwind/preset'),
   ],
   content: [
     './src/**/*.{html,ts}',
@@ -54,7 +54,7 @@ Extend the preset with your own theme:
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   presets: [
-    require('@tociva/tailng-theme/tailwind/preset'),
+    require('@tailng-ui/tailng-theme/tailwind/preset'),
   ],
   theme: {
     extend: {
@@ -96,7 +96,7 @@ Define your theme variables in your global CSS:
 Import and use design tokens in TypeScript:
 
 ```typescript
-import { tailngTokens } from '@tociva/tailng-theme';
+import { tailngTokens } from '@tailng-ui/tailng-theme';
 
 // Use tokens programmatically
 const radius = tailngTokens.radius.md; // '0.25rem'
@@ -131,7 +131,7 @@ The preset extends Tailwind's default theme with:
 
 ```javascript
 module.exports = {
-  presets: [require('@tociva/tailng-theme/tailwind/preset')],
+  presets: [require('@tailng-ui/tailng-theme/tailwind/preset')],
   theme: {
     extend: {
       colors: {
@@ -154,9 +154,9 @@ module.exports = {
 
 ## Related Packages
 
-- [`@tociva/tailng-ui`](../ui/README.md) - UI components that use this theme
-- [`@tociva/tailng-icons`](../icons/README.md) - Icon components
-- [`@tociva/tailng-cdk`](../cdk/README.md) - Component development kit
+- [`@tailng-ui/tailng-ui`](../ui/README.md) - UI components that use this theme
+- [`@tailng-ui/tailng-icons`](../icons/README.md) - Icon components
+- [`@tailng-ui/tailng-cdk`](../cdk/README.md) - Component development kit
 
 ## License
 

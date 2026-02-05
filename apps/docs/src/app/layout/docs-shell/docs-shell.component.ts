@@ -4,11 +4,11 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
   TngAccordion,
   TngExpansionPanel,
-} from '@tociva/tailng-ui/layout';
-import { TngTextInput } from '@tociva/tailng-ui/form';
-import { TngSidenav } from '@tociva/tailng-ui/navigation';
+} from '@tailng-ui/tailng-ui/layout';
+import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngSidenav } from '@tailng-ui/tailng-ui/navigation';
 import { docsNav } from '../../data/nav';
-import { TngIcon } from '@tociva/tailng-icons/icon';
+import { TngIcon } from '@tailng-ui/tailng-icons/icon';
 
 @Component({
   standalone: true,

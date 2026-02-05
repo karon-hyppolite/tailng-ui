@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngTag } from '@tociva/tailng-ui/primitives';
-import { TngNumberInput } from '@tociva/tailng-ui/form';
+import { TngTag } from '@tailng-ui/tailng-ui/primitives';
+import { TngNumberInput } from '@tailng-ui/tailng-ui/form';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -40,7 +40,7 @@ export class NumberInputOverviewComponent {
     () => `
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngNumberInput } from '@tociva/tailng-ui/form';
+import { TngNumberInput } from '@tailng-ui/tailng-ui/form';
 
 @Component({
   selector: 'number-input-demo',

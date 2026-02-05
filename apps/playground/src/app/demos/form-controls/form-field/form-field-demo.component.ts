@@ -15,7 +15,7 @@ import {
   TngSlideToggle,
   TngSlider,
   TngFileUpload,
-} from '@tociva/tailng-ui/form';
+} from '@tailng-ui/tailng-ui/form';
 
 type Item = { id: number; name: string };
 

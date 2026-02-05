@@ -47,10 +47,10 @@ const writeJson = (p, j) => fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n
 
 // 2) bump selected libs versions
 const libs = [
-  ["cdk", "libs/cdk/package.json", "@tociva/tailng-cdk"],
-  ["theme", "libs/theme/package.json", "@tociva/tailng-theme"],
-  ["icons", "libs/icons/package.json", "@tociva/tailng-icons"],
-  ["ui", "libs/ui/package.json", "@tociva/tailng-ui"],
+  ["cdk", "libs/cdk/package.json", "@tailng-ui/tailng-cdk"],
+  ["theme", "libs/theme/package.json", "@tailng-ui/tailng-theme"],
+  ["icons", "libs/icons/package.json", "@tailng-ui/tailng-icons"],
+  ["ui", "libs/ui/package.json", "@tailng-ui/tailng-ui"],
 ];
 
 for (const [key, path, label] of libs) {
@@ -71,8 +71,8 @@ if (has("ui")) {
   const iconsV = readJson("libs/icons/package.json").version;
 
   ui.peerDependencies ||= {};
-  if (ui.peerDependencies["@tociva/tailng-cdk"]) ui.peerDependencies["@tociva/tailng-cdk"] = `^${cdkV}`;
-  if (ui.peerDependencies["@tociva/tailng-icons"]) ui.peerDependencies["@tociva/tailng-icons"] = `^${iconsV}`;
+  if (ui.peerDependencies["@tailng-ui/tailng-cdk"]) ui.peerDependencies["@tailng-ui/tailng-cdk"] = `^${cdkV}`;
+  if (ui.peerDependencies["@tailng-ui/tailng-icons"]) ui.peerDependencies["@tailng-ui/tailng-icons"] = `^${iconsV}`;
 
   writeJson(uiPath, ui);
   console.log(`[peerDeps] ui: cdk=^${cdkV}, icons=^${iconsV}`);

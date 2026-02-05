@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngDrawer } from '@tociva/tailng-ui/navigation';
+import { TngDrawer } from '@tailng-ui/tailng-ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class DrawerOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngDrawer } from '@tociva/tailng-ui/navigation';
+    () => `import { TngDrawer } from '@tailng-ui/tailng-ui/navigation';
 open = signal(false);`,
   );
 }

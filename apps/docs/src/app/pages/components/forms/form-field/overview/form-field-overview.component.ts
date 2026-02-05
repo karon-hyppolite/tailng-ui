@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TngFormField, TngTextInput } from '@tociva/tailng-ui/form';
-import { TngTag } from '@tociva/tailng-ui/primitives';
+import { TngFormField, TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngTag } from '@tailng-ui/tailng-ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

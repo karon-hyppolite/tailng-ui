@@ -1,15 +1,15 @@
-# @tociva/tailng-cdk
+# @tailng-ui/tailng-cdk
 
 Headless Angular utilities and primitives for building accessible, interactive components.
 
 ## Overview
 
-`@tociva/tailng-cdk` provides logic-only building blocks for Angular applications. This package contains utilities for accessibility, keyboard navigation, focus management, and component primitives that power the Tailng UI component library.
+`@tailng-ui/tailng-cdk` provides logic-only building blocks for Angular applications. This package contains utilities for accessibility, keyboard navigation, focus management, and component primitives that power the Tailng UI component library.
 
 ## Installation
 
 ```bash
-npm install @tociva/tailng-cdk
+npm install @tailng-ui/tailng-cdk
 ```
 
 ## Peer Dependencies
@@ -32,7 +32,7 @@ Manage focus trapping in modals, dialogs, and overlays:
 
 ```typescript
 import { Component } from '@angular/core';
-import { TngFocusTrap } from '@tociva/tailng-cdk';
+import { TngFocusTrap } from '@tailng-ui/tailng-cdk';
 
 @Component({
   selector: 'app-modal',
@@ -53,7 +53,7 @@ export class ModalComponent {}
 Handle keyboard navigation in lists and menus:
 
 ```typescript
-import { keyboardNavigation } from '@tociva/tailng-cdk';
+import { keyboardNavigation } from '@tailng-ui/tailng-cdk';
 
 // Use in your component to handle arrow key navigation
 const state = keyboardNavigation({
@@ -66,7 +66,7 @@ const state = keyboardNavigation({
 Utilities for managing option list state and context:
 
 ```typescript
-import { OptionTplContext } from '@tociva/tailng-cdk';
+import { OptionTplContext } from '@tailng-ui/tailng-cdk';
 
 // Type for option template context
 type MyOption = { id: string; label: string };
@@ -83,7 +83,7 @@ const context: OptionTplContext<MyOption> = {
 Scroll elements into view:
 
 ```typescript
-import { scrollActiveIntoView } from '@tociva/tailng-cdk';
+import { scrollActiveIntoView } from '@tailng-ui/tailng-cdk';
 
 scrollActiveIntoView({
   container: elementRef.nativeElement,
@@ -108,9 +108,9 @@ scrollActiveIntoView({
 
 ## Related Packages
 
-- [`@tociva/tailng-ui`](../ui/README.md) - UI components built on top of this CDK
-- [`@tociva/tailng-icons`](../icons/README.md) - Icon components
-- [`@tociva/tailng-theme`](../theme/README.md) - Tailwind CSS theme preset
+- [`@tailng-ui/tailng-ui`](../ui/README.md) - UI components built on top of this CDK
+- [`@tailng-ui/tailng-icons`](../icons/README.md) - Icon components
+- [`@tailng-ui/tailng-theme`](../theme/README.md) - Tailwind CSS theme preset
 
 ## License
 

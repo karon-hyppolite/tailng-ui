@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tociva/tailng-ui/table';
-import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
+import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -15,7 +15,7 @@ type displayDetails = { property: string; type: string; default?: string; descri
 export class SlideToggleApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
-  readonly importExample = computed(() => `import { TngSlideToggle } from '@tociva/tailng-ui/form';`);
+  readonly importExample = computed(() => `import { TngSlideToggle } from '@tailng-ui/tailng-ui/form';`);
   private readonly seed: displayDetails[] = [
     { property: 'id', type: 'string', default: "''", description: 'Input id' },
     { property: 'name', type: 'string', default: "''", description: 'Input name' },

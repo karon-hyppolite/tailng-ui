@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngTab, TngTabPanel, TngTabs } from '@tociva/tailng-ui/layout';
+import { TngTab, TngTabPanel, TngTabs } from '@tailng-ui/tailng-ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -22,6 +22,6 @@ export class TabsOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngTabs, TngTab, TngTabPanel } from '@tociva/tailng-ui/layout';`,
+    () => `import { TngTabs, TngTab, TngTabPanel } from '@tailng-ui/tailng-ui/layout';`,
   );
 }

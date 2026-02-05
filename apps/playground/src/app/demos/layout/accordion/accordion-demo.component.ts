@@ -5,7 +5,7 @@ import {
   TngExpansionIconClose,
   TngExpansionIconOpen,
   TngExpansionPanel,
-} from '@tociva/tailng-ui/layout';
+} from '@tailng-ui/tailng-ui/layout';
 
 @Component({
   selector: 'playground-accordion-demo',

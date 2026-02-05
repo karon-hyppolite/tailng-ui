@@ -1,15 +1,15 @@
 {
-  "name": "@tociva/tailng-cdk",
+  "name": "@tailng-ui/tailng-cdk",
   "version": "0.18.0",
   "description": "Headless Angular utilities and primitives for Tailng",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tociva/tailng.git"
+    "url": "https://github.com/tailng/tailng-ui"
   },
-  "homepage": "https://github.com/tociva/tailng",
+  "homepage": "https://github.com/tailng/tailng-ui",
   "bugs": {
-    "url": "https://github.com/tociva/tailng/issues"
+    "url": "https://github.com/tailng/tailng-ui/issues"
   },
   "sideEffects": false,
   "peerDependencies": {

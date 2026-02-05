@@ -13,7 +13,7 @@ import {
   TngOverlayRef,
   TngConnectedOverlay,
   TngOverlayPanel,
-} from '@tociva/tailng-ui/overlay';
+} from '@tailng-ui/tailng-ui/overlay';
 
 @Component({
   selector: 'tng-filter-panel',

@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngSidenav, TngSidenavFooterSlot, TngSidenavHeaderSlot } from '@tociva/tailng-ui/navigation';
+import { TngSidenav, TngSidenavFooterSlot, TngSidenavHeaderSlot } from '@tailng-ui/tailng-ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
