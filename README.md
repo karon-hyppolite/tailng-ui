@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg" width="128" alt="TailNG logo" />
+</div>
+
 # TailNG – Angular 21
 
 Nx + Angular 21 + Tailwind starter for TailNG.

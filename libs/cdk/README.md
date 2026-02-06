@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg" width="80" alt="TailNG" />
+</p>
+
 # @tailng-ui/cdk
 
 Headless Angular utilities and primitives for building accessible, interactive components.

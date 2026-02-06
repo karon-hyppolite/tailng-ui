@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg" width="80" alt="TailNG" />
+</p>
+
 # @tailng-ui/theme
 
 Tailwind CSS preset and design tokens for Tailng components.

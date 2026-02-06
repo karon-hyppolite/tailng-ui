@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
     return serveHandler(req, res, { public: DIST_DIR });
   }
 
-  // SPA fallback: always serve index.html for routes
+  // SPA fallback
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.end(indexHtml);
@@ -55,16 +55,43 @@ const server = http.createServer((req, res) => {
 
 await new Promise((resolve) => server.listen(PORT, resolve));
 
-const browser = await puppeteer.launch({ headless: 'new',
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
- });
+const browser = await puppeteer.launch({
+  headless: 'new',
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+});
 const page = await browser.newPage();
+
+/* ---------------------------------------------
+ * PATCH: absolutize known build assets
+ * ------------------------------------------- */
+const absolutizeAssets = (html) =>
+  html
+    // stylesheet
+    .replace(/href=["'](styles\.css(?:\?[^"']*)?)["']/g, 'href="/$1"')
+
+    // main entry
+    .replace(/src=["'](main\.js(?:\?[^"']*)?)["']/g, 'src="/$1"')
+
+    // Vite / Rollup chunks (modulepreload + script)
+    .replace(/href=["'](chunk-[^"']+\.js(?:\?[^"']*)?)["']/g, 'href="/$1"')
+    .replace(/src=["'](chunk-[^"']+\.js(?:\?[^"']*)?)["']/g, 'src="/$1"')
+
+    // other root-level build assets (fonts, maps, images, etc.)
+    .replace(
+      /href=["']([^"']+\.(?:css|js|map|woff2?|ttf|svg|png|jpe?g|webp)(?:\?[^"']*)?)["']/g,
+      (m, v) =>
+        v.startsWith('/') || v.startsWith('http') || v.startsWith('//')
+          ? m
+          : `href="/${v}"`
+    );
 
 for (const route of routes) {
   const url = `http://localhost:${PORT}${route}`;
   await page.goto(url, { waitUntil: 'networkidle0' });
 
-  const html = await page.content();
+  let html = await page.content();
+
+  html = absolutizeAssets(html);
 
   const dir = path.join(DIST_DIR, route === '/' ? '' : route);
   fs.mkdirSync(dir, { recursive: true });
