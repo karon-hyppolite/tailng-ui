@@ -11,8 +11,8 @@ import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/exa
 export class IconOverviewComponent {
   readonly basicHtml = computed(
     () => `
-<tng-icon name="bootstrapAlarm" [size]="24" klass="text-primary"></tng-icon>
-<tng-icon name="bootstrapBell" size="1.5em" klass="text-fg"></tng-icon>
+<tng-icon name="bootstrapAlarm" [size]="24" iconKlass="text-primary"></tng-icon>
+<tng-icon name="bootstrapBell" size="1.5em" iconKlass="text-fg"></tng-icon>
 `,
   );
 

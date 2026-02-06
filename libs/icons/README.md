@@ -104,14 +104,14 @@ Icons use `currentColor`, so you can style them with Tailwind:
 
 - **`name`** (required): `string` - Icon name from the `@ng-icons` registry
 - **`size`**: `number | string` - Icon size. Number is treated as pixels, string is passed as-is (e.g., '1em', '20px', '1.25rem'). Default: `'1em'`
-- **`klass`**: `string` - Additional CSS classes for the host element
+- **`iconKlass`**: `string` - Additional CSS classes for the host element
 - **`decorative`**: `boolean` - Whether the icon is decorative. If `true`, `aria-hidden` is set. Default: `true`
 - **`ariaLabel`**: `string` - Accessibility label (used when `decorative` is `false`)
 
 #### Computed Properties
 
 - **`normalizedSize`**: Converts size to CSS string
-- **`classes`**: Computed class string including Tailwind utilities
+- **`iconKlassFinal`**: Computed class string including Tailwind utilities
 - **`ariaHidden`**: `'true' | null` based on decorative state
 - **`computedAriaLabel`**: Computed aria-label based on decorative state
 
