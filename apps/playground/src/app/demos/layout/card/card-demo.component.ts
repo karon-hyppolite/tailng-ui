@@ -15,14 +15,10 @@ export class CardDemoComponent {
   contentKlass = '';
   footerKlass = '';
 
-  // back-compat / simple override
-  klass = '';
-
   setPreset(p: 'default' | 'soft' | 'outlined' | 'interactive') {
     switch (p) {
       case 'default':
         this.rootKlass = '';
-        this.klass = '';
         this.headerKlass = '';
         this.contentKlass = '';
         this.footerKlass = '';
@@ -30,19 +26,16 @@ export class CardDemoComponent {
 
       case 'soft':
         this.rootKlass = 'bg-alternate-background/40';
-        this.klass = '';
         break;
 
       case 'outlined':
-        this.rootKlass = '';
-        this.klass = 'shadow-none';
+        this.rootKlass = 'shadow-none';
         break;
 
       case 'interactive':
       default:
         this.rootKlass =
           'transition-shadow hover:shadow-md focus-within:shadow-md';
-        this.klass = '';
         break;
     }
   }

@@ -36,16 +36,6 @@
       </div>
 
       <div class="space-y-1">
-        <div class="text-xs text-slate-500">klass (extra override)</div>
-        <input
-          class="w-full rounded-md border border-border px-3 py-2 text-sm"
-          [value]="klass"
-          (input)="klass = $any($event.target).value"
-          placeholder="shadow-none, rounded-md, etc."
-        />
-      </div>
-
-      <div class="space-y-1">
         <div class="text-xs text-slate-500">headerKlass</div>
         <input
           class="w-full rounded-md border border-border px-3 py-2 text-sm"
@@ -80,8 +70,7 @@
         rootKlass: "{{ rootKlass }}",
         headerKlass: "{{ headerKlass }}",
         contentKlass: "{{ contentKlass }}",
-        footerKlass: "{{ footerKlass }}",
-        klass: "{{ klass }}"
+        footerKlass: "{{ footerKlass }}"
         {{ '}' }}
       </span>
     </div>
@@ -92,7 +81,6 @@
     <!-- 1) Content only -->
     <tng-card
       [rootKlass]="rootKlass"
-      [klass]="klass"
       [headerKlass]="headerKlass"
       [contentKlass]="contentKlass"
       [footerKlass]="footerKlass"
