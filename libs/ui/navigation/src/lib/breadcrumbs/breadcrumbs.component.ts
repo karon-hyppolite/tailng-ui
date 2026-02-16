@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngBreadcrumbsSlot } from './breadcrumbs.slots';
 
 export type TngBreadcrumbItem = {
   label: string;
@@ -39,17 +42,37 @@ export class TngBreadcrumbs {
   readonly ariaLabel = input<string>('Breadcrumb');
 
   /* =====================
-   * Klass inputs (Tailng style)
+   * Slot hooks (micro styling)
    * ===================== */
-  readonly rootKlass = input<string>('flex items-center text-sm text-muted-foreground');
-  readonly listKlass = input<string>('flex items-center flex-wrap gap-1');
-  readonly itemKlass = input<string>('inline-flex items-center');
+  readonly slot = input<TngSlotMap<TngBreadcrumbsSlot>>({});
 
-  readonly linkKlass = input<string>('text-primary hover:underline');
-  readonly currentKlass = input<string>('text-foreground font-medium');
-  readonly disabledKlass = input<string>('opacity-60 pointer-events-none');
+  readonly rootClassFinal = computed(() =>
+    this.toClassString(this.slotClass('root'), 'flex items-center text-sm text-muted-foreground'),
+  );
 
-  readonly separatorKlass = input<string>('mx-2 text-slate-400');
+  readonly listClassFinal = computed(() =>
+    this.toClassString(this.slotClass('list'), 'flex items-center flex-wrap gap-1'),
+  );
+
+  readonly itemClassFinal = computed(() =>
+    this.toClassString(this.slotClass('item'), 'inline-flex items-center'),
+  );
+
+  readonly linkClassFinal = computed(() =>
+    this.toClassString(this.slotClass('link'), 'text-primary hover:underline'),
+  );
+
+  readonly currentClassFinal = computed(() =>
+    this.toClassString(this.slotClass('current'), 'text-foreground font-medium'),
+  );
+
+  readonly disabledClassFinal = computed(() =>
+    this.toClassString(this.slotClass('disabled'), 'opacity-60 pointer-events-none'),
+  );
+
+  readonly separatorClassFinal = computed(() =>
+    this.toClassString(this.slotClass('separator'), 'mx-2 text-slate-400'),
+  );
 
   /* =====================
    * Derived
@@ -77,14 +100,24 @@ export class TngBreadcrumbs {
   }
 
   itemClasses(item: TngBreadcrumbItem, i: number): string {
-    const base = this.itemKlass();
-    const disabled = item.disabled ? ` ${this.disabledKlass()}` : '';
+    const base = this.itemClassFinal();
+    const disabled = item.disabled ? ` ${this.disabledClassFinal()}` : '';
     return `${base}${disabled}`.trim();
   }
 
   labelClasses(item: TngBreadcrumbItem, i: number): string {
     const isCurrent = this.isCurrent(i);
-    return (isCurrent ? this.currentKlass() : this.linkKlass()).trim();
+    return (isCurrent ? this.currentClassFinal() : this.linkClassFinal()).trim();
+  }
+
+  private slotClass(key: TngBreadcrumbsSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 
   relFor(item: TngBreadcrumbItem): string | null {

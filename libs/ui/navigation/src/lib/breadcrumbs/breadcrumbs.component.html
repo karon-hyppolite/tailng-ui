@@ -1,5 +1,5 @@
-<nav [attr.aria-label]="ariaLabel()" [class]="rootKlass()">
-  <ol [class]="listKlass()">
+<nav [attr.aria-label]="ariaLabel()" [class]="rootClassFinal()">
+  <ol [class]="listClassFinal()">
     @for (item of resolvedItems(); track $index; let i = $index; let last = $last) {
       <li [class]="itemClasses(item, i)">
         <!-- Internal route -->
@@ -33,7 +33,7 @@
         }
 
         @if (!last) {
-          <span [class]="separatorKlass()">{{ separator() }}</span>
+          <span [class]="separatorClassFinal()">{{ separator() }}</span>
         }
       </li>
     }

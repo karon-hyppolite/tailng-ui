@@ -1,4 +1,5 @@
 export * from './breadcrumbs/breadcrumbs.component';
+export * from './breadcrumbs/breadcrumbs.slots';
 export * from './drawer/drawer.component';
 export * from './drawer/drawer.slots';
 export * from './menu/menu.component';

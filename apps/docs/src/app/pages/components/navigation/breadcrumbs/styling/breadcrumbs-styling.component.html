@@ -2,21 +2,123 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-breadcrumbs</span> exposes rootKlass, listKlass, itemKlass, linkKlass, currentKlass, disabledKlass, separatorKlass.
+      <span class="font-mono">tng-breadcrumbs</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">root</span>, <span class="font-mono">list</span>, <span class="font-mono">item</span>,
+      <span class="font-mono">link</span>, <span class="font-mono">current</span>, <span class="font-mono">disabled</span>,
+      <span class="font-mono">separator</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">linkKlass / currentKlass / separatorKlass</h3>
-    <p class="text-sm text-fg">Style links, current item, and separator.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="styledHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">root slot</h3>
+      <tng-tag label="root"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root nav wrapper. Default: flex items-center text-sm text-muted-foreground.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rootSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" [slot]="{ root: 'flex items-center gap-2 text-base text-muted-foreground' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">list slot</h3>
+      <tng-tag label="ol"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Ordered list. Default: flex items-center flex-wrap gap-1.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="listSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" [slot]="{ list: 'flex items-center gap-2 flex-wrap' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">item slot</h3>
+      <tng-tag label="li"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Each list item. Default: inline-flex items-center.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="itemSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" [slot]="{ item: 'inline-flex items-center gap-1' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">link slot</h3>
+      <tng-tag label="a"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Clickable links. Default: text-primary hover:underline.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="linkSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" [slot]="{ link: 'text-blue-600 hover:text-blue-800 hover:underline' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">current slot</h3>
+      <tng-tag label="current"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Current page (last or explicit). Default: text-foreground font-medium.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="currentSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" [slot]="{ current: 'text-foreground font-semibold' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">disabled slot</h3>
+      <tng-tag label="disabled"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Disabled items. Default: opacity-60 pointer-events-none.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="disabledSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="itemsWithDisabled()" [slot]="{ disabled: 'opacity-50 cursor-not-allowed' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">separator slot</h3>
+      <tng-tag label="between"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Separator between items. Default: mx-2 text-slate-400.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="separatorSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="items()" separator="→" [slot]="{ separator: 'mx-2 text-slate-500' }"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
+      <tng-tag label="link + current + separator"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Combine link, current, and separator for a custom look.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <tng-breadcrumbs
           [items]="items()"
-          rootKlass="flex items-center text-sm"
-          linkKlass="text-primary hover:underline"
-          currentKlass="text-foreground font-semibold"
-          separatorKlass="mx-2 text-slate-500"
+          [slot]="{ link: 'text-primary hover:underline', current: 'text-foreground font-semibold', separator: 'mx-2 text-slate-500' }"
         ></tng-breadcrumbs>
       </div>
     </docs-example-block>

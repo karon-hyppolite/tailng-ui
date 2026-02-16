@@ -23,18 +23,19 @@ export class BreadcrumbsApiComponent implements AfterViewInit {
     { property: 'separator', type: 'string', default: "'/'", description: 'Separator between items' },
     { property: 'ariaLabel', type: 'string', default: "'Breadcrumb'", description: 'a11y label' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'flex items-center text-sm...'", description: 'Root' },
-    { property: 'listKlass', type: 'string', default: "'flex items-center flex-wrap gap-1'", description: 'List' },
-    { property: 'itemKlass', type: 'string', default: "'inline-flex items-center'", description: 'Item' },
-    { property: 'linkKlass', type: 'string', default: "'text-primary hover:underline'", description: 'Link' },
-    { property: 'currentKlass', type: 'string', default: "'text-foreground font-medium'", description: 'Current item' },
-    { property: 'disabledKlass', type: 'string', default: "'opacity-60 pointer-events-none'", description: 'Disabled item' },
-    { property: 'separatorKlass', type: 'string', default: "'mx-2 text-slate-400'", description: 'Separator' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngBreadcrumbsSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.root', type: 'string', default: "'flex items-center text-sm...'", description: 'Root nav' },
+    { property: 'slot.list', type: 'string', default: "'flex items-center flex-wrap gap-1'", description: 'List (ol)' },
+    { property: 'slot.item', type: 'string', default: "'inline-flex items-center'", description: 'Item (li)' },
+    { property: 'slot.link', type: 'string', default: "'text-primary hover:underline'", description: 'Clickable link' },
+    { property: 'slot.current', type: 'string', default: "'text-foreground font-medium'", description: 'Current item' },
+    { property: 'slot.disabled', type: 'string', default: "'opacity-60 pointer-events-none'", description: 'Disabled item' },
+    { property: 'slot.separator', type: 'string', default: "'mx-2 text-slate-400'", description: 'Separator' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';
