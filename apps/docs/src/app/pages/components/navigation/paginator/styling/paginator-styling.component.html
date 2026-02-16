@@ -2,13 +2,40 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-paginator</span> exposes rootKlass, leftKlass, rightKlass, buttonKlass, activePageKlass, pageKlass, selectKlass, separatorKlass.
+      <span class="font-mono">tng-paginator</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">root</span>, <span class="font-mono">left</span>, <span class="font-mono">right</span>,
+      <span class="font-mono">button</span>, <span class="font-mono">page</span>, <span class="font-mono">activePage</span>,
+      <span class="font-mono">select</span>, <span class="font-mono">separator</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">activePageKlass / pageKlass</h3>
-    <p class="text-sm text-fg">Style the active page button vs inactive.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="pageKlassHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">root slot</h3>
+      <tng-tag label="root"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: flex flex-wrap items-center justify-between gap-3 text-sm.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rootSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="50"
+          [page]="page()"
+          [pageSize]="10"
+          (change)="onChange($event)"
+          [slot]="{ root: 'flex flex-wrap items-center justify-between gap-4 text-sm' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">left slot</h3>
+      <tng-tag label="range"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Left section (range text). Default: text-muted-foreground.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="leftSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <tng-paginator
@@ -17,8 +44,112 @@
           [pageSize]="10"
           (change)="onChange($event)"
           [hidePageSize]="true"
-          activePageKlass="bg-primary text-on-primary rounded-full px-3"
-          pageKlass="rounded-full border border-border px-3 py-1.5 text-sm hover:bg-slate-50"
+          [slot]="{ left: 'text-primary font-medium' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">right slot</h3>
+      <tng-tag label="controls"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Right section (controls). Default: flex flex-wrap items-center gap-2.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rightSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="50"
+          [page]="page()"
+          [pageSize]="10"
+          (change)="onChange($event)"
+          [hidePageSize]="true"
+          [slot]="{ right: 'flex flex-wrap items-center gap-3' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">button slot</h3>
+      <tng-tag label="nav"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">First/prev/next/last buttons. Default: rounded-md border...</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="buttonSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="50"
+          [page]="page()"
+          [pageSize]="10"
+          (change)="onChange($event)"
+          [hidePageSize]="true"
+          [slot]="{ button: 'rounded-lg px-3 py-1.5 text-sm border border-primary bg-bg hover:bg-primary/10 disabled:opacity-50' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">select slot</h3>
+      <tng-tag label="page size"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Page size dropdown. Default: rounded-md border border-border...</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="selectSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="100"
+          [page]="pageWithSelect()"
+          [pageSize]="pageSizeWithSelect()"
+          (change)="onChangeSelect($event)"
+          [slot]="{ select: 'rounded-lg border-2 border-primary bg-bg px-2.5 py-1.5' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">separator slot</h3>
+      <tng-tag label="ellipsis"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Ellipsis between page numbers when windowed. Default: px-2 text-muted-foreground.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="separatorSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="100"
+          [page]="pageWithSeparator()"
+          [pageSize]="5"
+          (change)="onChangeSeparator($event)"
+          [hidePageSize]="true"
+          [maxPages]="5"
+          [slot]="{ separator: 'px-2 text-primary font-bold' }"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">page / activePage slots</h3>
+      <tng-tag label="pills"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style page number buttons and the active page. Default: bordered buttons, active = bg-primary.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="pillsHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="50"
+          [page]="page()"
+          [pageSize]="10"
+          (change)="onChange($event)"
+          [hidePageSize]="true"
+          [slot]="{ page: 'rounded-full border border-border px-3 py-1.5 text-sm hover:bg-slate-50', activePage: 'bg-primary text-on-primary rounded-full px-3' }"
         ></tng-paginator>
       </div>
     </docs-example-block>

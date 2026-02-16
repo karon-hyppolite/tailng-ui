@@ -6,6 +6,7 @@ export * from './menu/menu.slots';
 export * from './menu/menu-item.directive';
 export * from './menu/menu-template.directive';
 export * from './paginator/paginator.component';
+export * from './paginator/paginator.slots';
 export * from './sidenav/sidenav.component';
 export * from './sidenav/sidenav.slots';
 export * from './sidenav/sidenav-slots.directive';

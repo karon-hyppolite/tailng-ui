@@ -1,4 +1,7 @@
 import { Component, computed, input, output } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngPaginatorSlot } from './paginator.slots';
 
 export type TngPaginatorChange = {
   page: number; // 1-based
@@ -35,29 +38,41 @@ export class TngPaginator {
   readonly maxPages = input<number>(7);
 
   /* =====================
-   * Klass inputs (Tailng)
+   * Slot hooks (micro styling)
    * ===================== */
-  readonly rootKlass = input<string>('flex flex-wrap items-center justify-between gap-3 text-sm');
-  readonly leftKlass = input<string>('text-muted-foreground');
-  readonly rightKlass = input<string>('flex flex-wrap items-center gap-2');
+  readonly slot = input<TngSlotMap<TngPaginatorSlot>>({});
 
-  readonly buttonKlass = input<string>(
-    'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none'
+  readonly rootClassFinal = computed(() =>
+    this.slotClass('root') || 'flex flex-wrap items-center justify-between gap-3 text-sm',
   );
 
-  readonly activePageKlass = input<string>(
-    'bg-primary text-on-primary border-primary hover:bg-primary'
+  readonly leftClassFinal = computed(() =>
+    this.slotClass('left') || 'text-muted-foreground',
   );
 
-  readonly pageKlass = input<string>(
-    'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50'
+  readonly rightClassFinal = computed(() =>
+    this.slotClass('right') || 'flex flex-wrap items-center gap-2',
   );
 
-  readonly selectKlass = input<string>(
-    'rounded-md border border-border bg-bg px-2 py-1.5 text-sm'
+  readonly buttonClassFinal = computed(() =>
+    this.slotClass('button') || 'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none',
   );
 
-  readonly separatorKlass = input<string>('mx-2 text-slate-400');
+  readonly pageClassFinal = computed(() =>
+    this.slotClass('page') || 'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50',
+  );
+
+  readonly activePageClassFinal = computed(() =>
+    this.slotClass('activePage') || 'bg-primary text-on-primary border-primary hover:bg-primary',
+  );
+
+  readonly selectClassFinal = computed(() =>
+    this.slotClass('select') || 'rounded-md border border-border bg-bg px-2 py-1.5 text-sm',
+  );
+
+  readonly separatorClassFinal = computed(() =>
+    this.slotClass('separator') || 'px-2 text-muted-foreground',
+  );
 
   /* =====================
    * Outputs
@@ -181,8 +196,12 @@ export class TngPaginator {
   }
 
   pageBtnClasses(p: number) {
-    const base = this.pageKlass();
-    const active = this.isActive(p) ? ` ${this.activePageKlass()}` : '';
+    const base = this.pageClassFinal();
+    const active = this.isActive(p) ? ` ${this.activePageClassFinal()}` : '';
     return (base + active).trim();
+  }
+
+  private slotClass(key: TngPaginatorSlot): TngSlotValue {
+    return this.slot()?.[key];
   }
 }

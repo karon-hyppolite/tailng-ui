@@ -25,14 +25,16 @@ export class PaginatorApiComponent implements AfterViewInit {
     { property: 'hidePageSize', type: 'boolean', default: 'false', description: 'Hide page size selector' },
     { property: 'maxPages', type: 'number', default: '7', description: 'Max visible page buttons' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'flex flex-wrap...'", description: 'Root' },
-    { property: 'leftKlass', type: 'string', default: "'text-muted-foreground'", description: 'Left (range text)' },
-    { property: 'rightKlass', type: 'string', default: "'flex flex-wrap...'", description: 'Right (controls)' },
-    { property: 'buttonKlass', type: 'string', default: '...', description: 'First/prev/next/last buttons' },
-    { property: 'activePageKlass', type: 'string', default: "'bg-primary...'", description: 'Active page button' },
-    { property: 'pageKlass', type: 'string', default: '...', description: 'Page number buttons' },
-    { property: 'selectKlass', type: 'string', default: '...', description: 'Page size select' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngPaginatorSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.root', type: 'string', default: "'flex flex-wrap...'", description: 'Root wrapper' },
+    { property: 'slot.left', type: 'string', default: "'text-muted-foreground'", description: 'Left (range text)' },
+    { property: 'slot.right', type: 'string', default: "'flex flex-wrap...'", description: 'Right (controls)' },
+    { property: 'slot.button', type: 'string', default: '...', description: 'First/prev/next/last buttons' },
+    { property: 'slot.page', type: 'string', default: '...', description: 'Page number buttons' },
+    { property: 'slot.activePage', type: 'string', default: "'bg-primary...'", description: 'Active page button' },
+    { property: 'slot.select', type: 'string', default: '...', description: 'Page size select' },
+    { property: 'slot.separator', type: 'string', default: "'px-2 text-muted-foreground'", description: 'Ellipsis separator' },
   ];
   private readonly outputSeed: DisplayDetails[] = [
     { property: 'pageChange', type: 'number', default: '', description: 'Emitted when page changes' },
@@ -41,7 +43,7 @@ export class PaginatorApiComponent implements AfterViewInit {
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

@@ -1,6 +1,6 @@
-<div [class]="rootKlass()">
+<div [class]="rootClassFinal()">
   <!-- Left: range -->
-  <div [class]="leftKlass()">
+  <div [class]="leftClassFinal()">
     @if (count() > 0) {
       Showing <span class="text-foreground">{{ rangeStart() }}</span>–<span class="text-foreground">{{ rangeEnd() }}</span>
       of <span class="text-foreground">{{ count() }}</span>
@@ -10,12 +10,12 @@
   </div>
 
   <!-- Right: controls -->
-  <div [class]="rightKlass()">
+  <div [class]="rightClassFinal()">
     @if (!hidePageSize()) {
       <div class="flex items-center gap-2">
         <span class="text-xs text-muted-foreground">Rows</span>
         <select
-          [class]="selectKlass()"
+          [class]="selectClassFinal()"
           [value]="pageSize()"
           (change)="onPageSizeSelect($any($event.target).value)"
         >
@@ -26,11 +26,11 @@
       </div>
     }
 
-    <button type="button" [class]="buttonKlass()" (click)="first()" [disabled]="clampedPage() <= 1">
+    <button type="button" [class]="buttonClassFinal()" (click)="first()" [disabled]="clampedPage() <= 1">
       «
     </button>
 
-    <button type="button" [class]="buttonKlass()" (click)="prev()" [disabled]="clampedPage() <= 1">
+    <button type="button" [class]="buttonClassFinal()" (click)="prev()" [disabled]="clampedPage() <= 1">
       ‹
     </button>
 
@@ -38,7 +38,7 @@
     <div class="flex items-center gap-1">
       @for (p of pages(); track $index) {
         @if (p === '…') {
-          <span class="px-2 text-muted-foreground">…</span>
+          <span [class]="separatorClassFinal()">…</span>
         } @else {
           <button
             type="button"
@@ -52,11 +52,11 @@
       }
     </div>
 
-    <button type="button" [class]="buttonKlass()" (click)="next()" [disabled]="clampedPage() >= totalPages()">
+    <button type="button" [class]="buttonClassFinal()" (click)="next()" [disabled]="clampedPage() >= totalPages()">
       ›
     </button>
 
-    <button type="button" [class]="buttonKlass()" (click)="last()" [disabled]="clampedPage() >= totalPages()">
+    <button type="button" [class]="buttonClassFinal()" (click)="last()" [disabled]="clampedPage() >= totalPages()">
       »
     </button>
   </div>
