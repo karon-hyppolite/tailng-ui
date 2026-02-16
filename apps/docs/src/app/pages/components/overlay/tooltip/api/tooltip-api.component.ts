@@ -31,14 +31,15 @@ export class TooltipApiComponent implements AfterViewInit {
     { property: 'opened', type: 'void', description: 'Emitted when tooltip opens' },
     { property: 'closed', type: 'TngTooltipCloseReason', description: 'Emitted when tooltip closes (escape | blur | programmatic)' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'panelKlass', type: 'string', default: "'px-3 py-2 text-xs text-foreground'", description: 'Inner content padding/text' },
-    { property: 'surfaceKlass', type: 'string', default: "'rounded-md border border-border bg-bg shadow-md'", description: 'Outer panel (border, shadow)' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngTooltipSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.panel', type: 'string', default: "'px-3 py-2 text-xs text-foreground'", description: 'Inner content padding/text' },
+    { property: 'slot.surface', type: 'string', default: "'rounded-md border border-border bg-bg shadow-md'", description: 'Outer panel (border, shadow)' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';

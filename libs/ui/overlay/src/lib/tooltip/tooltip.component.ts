@@ -11,9 +11,11 @@ import {
   signal,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 
 import { TngConnectedOverlay } from '../connected-overlay/connected-overlay.component';
 import { TngOverlayPanel } from '../overlay-panel/overlay-panel.component';
+import { TngTooltipSlot } from './tooltip.slots';
 
 export type TngTooltipPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
 export type TngTooltipCloseReason = 'escape' | 'blur' | 'programmatic';
@@ -52,9 +54,21 @@ export class TngTooltip {
   readonly hideDelay = input<number>(100);
   readonly disabled = input<boolean>(false);
 
-  /** Klass */
-  readonly panelKlass = input<string>('px-3 py-2 text-xs text-foreground');
-  readonly surfaceKlass = input<string>('rounded-md border border-border bg-bg shadow-md');
+  /** Slot hooks (micro styling) */
+  readonly slot = input<TngSlotMap<TngTooltipSlot>>({});
+
+  readonly panelClassFinal = computed(() =>
+    this.toClassString(this.slotClass('panel'), 'px-3 py-2 text-xs text-foreground'),
+  );
+
+  readonly surfaceClassFinal = computed(() =>
+    this.toClassString(this.slotClass('surface'), 'rounded-md border border-border bg-bg shadow-md'),
+  );
+
+  /** Combined for overlay-panel slot.panel */
+  readonly overlayPanelSlot = computed(() => ({
+    panel: `${this.surfaceClassFinal()} ${this.panelClassFinal()}`.trim(),
+  }));
 
   /** Events */
   readonly opened = output<void>();
@@ -133,5 +147,15 @@ export class TngTooltip {
       ev.preventDefault();
       this.requestClose('escape');
     }
+  }
+
+  private slotClass(key: TngTooltipSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 }

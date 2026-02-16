@@ -13,3 +13,4 @@ export * from './snackbar/snackbar-host.component';
 export * from './snackbar/snackbar.slots';
 export * from './snackbar/snackbar.types';
 export * from './tooltip/tooltip.component';
+export * from './tooltip/tooltip.slots';

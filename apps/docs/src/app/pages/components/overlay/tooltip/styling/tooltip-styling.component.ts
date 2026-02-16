@@ -1,24 +1,22 @@
 import { Component, computed } from '@angular/core';
 import { TngTooltip } from '@tailng-ui/ui/overlay';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
   selector: 'docs-tooltip-styling',
   templateUrl: './tooltip-styling.component.html',
-  imports: [TngTooltip, ExampleBlockComponent, TngExampleDemo],
+  imports: [TngTooltip, TngTag, ExampleBlockComponent, TngExampleDemo],
 })
 export class TooltipStylingComponent {
-  readonly themedHtml = computed(
-    () => `
-<tng-tooltip
-  text="Delete item (irreversible)"
-  placement="top-start"
-  surfaceKlass="rounded-md border border-border bg-bg shadow-md"
-  panelKlass="px-3 py-2 text-xs text-foreground"
->
-  <button>Delete</button>
-</tng-tooltip>
-`,
+  readonly panelSlotHtml = computed(
+    () => `<tng-tooltip [slot]="{ panel: 'px-4 py-3 text-sm' }" text="..."><button>Hover</button></tng-tooltip>`,
+  );
+  readonly surfaceSlotHtml = computed(
+    () => `<tng-tooltip [slot]="{ surface: 'rounded-xl border-2 border-primary shadow-lg' }" text="..."><button>Hover</button></tng-tooltip>`,
+  );
+  readonly combinedSlotHtml = computed(
+    () => `<tng-tooltip [slot]="{ panel: 'px-4 py-3', surface: 'rounded-xl border-2' }" text="..."><button>Hover</button></tng-tooltip>`,
   );
 }

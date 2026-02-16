@@ -15,8 +15,7 @@
       </tng-tooltip>
 
       <tng-tooltip text="Delete item (irreversible)" placement="top-start"
-        surfaceKlass="rounded-md border border-border bg-bg shadow-md"
-        panelKlass="px-3 py-2 text-xs"
+        [slot]="{ surface: 'rounded-md border border-border bg-bg shadow-md', panel: 'px-3 py-2 text-xs' }"
       >
         <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
           Delete
