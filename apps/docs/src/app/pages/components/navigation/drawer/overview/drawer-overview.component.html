@@ -3,7 +3,7 @@
     <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
       <h2 class="text-base font-semibold text-primary">Overview</h2>
       <p class="text-sm leading-6 text-muted">
-        <span class="font-mono text-primary/20">tng-drawer</span> is a slide-out panel (left, right, top, bottom). Control visibility with <span class="font-mono text-primary/20">[open]</span>; handle <span class="font-mono text-primary/20">(closed)</span> to set open to false. Closes on backdrop click and Escape by default. Supports focus trap. Use <span class="font-mono text-primary/20">placement</span> and class hooks (backdropKlass, panelKlass, sizeKlass, heightKlass).
+        <span class="font-mono text-primary/20">tng-drawer</span> is a slide-out panel (left, right, top, bottom). Control visibility with <span class="font-mono text-primary/20">[open]</span>; handle <span class="font-mono text-primary/20">(closed)</span> to set open to false. Closes on backdrop click and Escape by default. Supports focus trap. Use <span class="font-mono text-primary/20">placement</span> and slot-based styling (backdrop, panel, size, height).
       </p>
     </div>
     <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
@@ -31,7 +31,7 @@
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Placement</div>
-          <p class="text-xs leading-5 text-muted">placement: left | right | top | bottom. sizeKlass / heightKlass for dimensions.</p>
+          <p class="text-xs leading-5 text-muted">placement: left | right | top | bottom. slot.size / slot.height for dimensions.</p>
         </div>
       </div>
     </div>

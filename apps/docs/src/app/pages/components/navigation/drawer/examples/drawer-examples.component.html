@@ -31,7 +31,7 @@
         <tng-drawer [open]="openRight()" (closed)="openRight.set(false)" placement="right">
           <div class="p-4">Right drawer. <button type="button" class="rounded border px-2 py-1 text-sm" (click)="openRight.set(false)">Close</button></div>
         </tng-drawer>
-        <tng-drawer [open]="openBottom()" (closed)="openBottom.set(false)" placement="bottom" heightKlass="h-48">
+        <tng-drawer [open]="openBottom()" (closed)="openBottom.set(false)" placement="bottom" [slot]="{ height: 'h-48' }">
           <div class="p-4">Bottom drawer. <button type="button" class="rounded border px-2 py-1 text-sm" (click)="openBottom.set(false)">Close</button></div>
         </tng-drawer>
       </div>

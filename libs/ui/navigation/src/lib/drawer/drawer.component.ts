@@ -10,9 +10,12 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 
 import { TngOverlayCloseReason } from '@tailng-ui/ui/overlay';
 import { TngFocusTrap } from '@tailng-ui/cdk/a11y';
+
+import { TngDrawerSlot } from './drawer.slots';
 
 export type TngDrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerCloseReason = TngOverlayCloseReason;
@@ -52,13 +55,43 @@ export class TngDrawer {
   readonly closed = output<DrawerCloseReason>();
 
   /* =====================
-   * Styling (klass-first)
+   * Slot hooks (micro styling)
    * ===================== */
-  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40 backdrop-blur-[1px]');
-  readonly panelKlass = input<string>('bg-bg shadow-xl outline-none');
+  slot = input<TngSlotMap<TngDrawerSlot>>({});
 
-  readonly sizeKlass = input<string>('w-80'); // for left/right
-  readonly heightKlass = input<string>('h-80'); // for top/bottom
+  readonly backdropClassFinal = computed(() =>
+    this.slotClass('backdrop') || 'fixed inset-0 bg-black/40 backdrop-blur-[1px]',
+  );
+
+  readonly panelClassFinal = computed(() =>
+    this.cx(
+      'bg-bg shadow-xl outline-none',
+      this.slotClass('panel'),
+    ),
+  );
+
+  readonly sizeClassFinal = computed(() =>
+    this.slotClass('size') || 'w-80',
+  );
+
+  readonly heightClassFinal = computed(() =>
+    this.slotClass('height') || 'h-80',
+  );
+
+  readonly panelClasses = computed(() => {
+    const placement = this.placement();
+    const sizeOrHeight =
+      placement === 'left' || placement === 'right'
+        ? this.sizeClassFinal()
+        : this.heightClassFinal();
+    return [
+      this.slideClasses(),
+      this.panelClassFinal(),
+      sizeOrHeight,
+    ]
+      .filter(Boolean)
+      .join(' ');
+  });
 
   /* =====================
    * Internal
@@ -131,5 +164,17 @@ export class TngDrawer {
       ev.preventDefault();
       this.closed.emit('escape');
     }
+  }
+
+  private slotClass(key: TngDrawerSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
   }
 }

@@ -1,5 +1,6 @@
 export * from './breadcrumbs/breadcrumbs.component';
 export * from './drawer/drawer.component';
+export * from './drawer/drawer.slots';
 export * from './menu/menu.component';
 export * from './menu/menu.slots';
 export * from './menu/menu-item.directive';

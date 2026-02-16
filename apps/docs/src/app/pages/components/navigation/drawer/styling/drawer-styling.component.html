@@ -2,17 +2,90 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-drawer</span> exposes backdropKlass, panelKlass, sizeKlass (left/right), heightKlass (top/bottom).
+      <span class="font-mono">tng-drawer</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">backdrop</span>, <span class="font-mono">panel</span>, <span class="font-mono">size</span> (left/right), <span class="font-mono">height</span> (top/bottom).
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">panelKlass / sizeKlass</h3>
-    <p class="text-sm text-fg">Style the panel and width (e.g. w-96) or height.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">backdrop slot</h3>
+      <tng-tag label="overlay"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Backdrop overlay. Default: fixed inset-0 bg-black/40 backdrop-blur-[1px].</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="backdropSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="open.set(true)">Open</button>
-        <tng-drawer [open]="open()" (closed)="open.set(false)" panelKlass="bg-bg border-l border-border shadow-xl" sizeKlass="w-72">
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openBackdrop.set(true)">Open</button>
+        <tng-drawer [open]="openBackdrop()" (closed)="openBackdrop.set(false)" [slot]="{ backdrop: 'fixed inset-0 bg-black/60' }">
+          <div class="p-4">Darker backdrop.</div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panel slot</h3>
+      <tng-tag label="panel"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Panel base classes. Default: bg-bg shadow-xl outline-none.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openPanel.set(true)">Open</button>
+        <tng-drawer [open]="openPanel()" (closed)="openPanel.set(false)" [slot]="{ panel: 'bg-bg border-l border-border shadow-xl' }">
+          <div class="p-4">Custom panel styles.</div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">size slot</h3>
+      <tng-tag label="width"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Width for left/right placement. Default: w-80.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="sizeSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openSize.set(true)">Open</button>
+        <tng-drawer [open]="openSize()" (closed)="openSize.set(false)" placement="right" [slot]="{ size: 'w-72' }">
+          <div class="p-4">Narrower right drawer.</div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">height slot</h3>
+      <tng-tag label="height"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Height for top/bottom placement. Default: h-80.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="heightSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openHeight.set(true)">Open</button>
+        <tng-drawer [open]="openHeight()" (closed)="openHeight.set(false)" placement="bottom" [slot]="{ height: 'h-48' }">
+          <div class="p-4">Shorter bottom drawer.</div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
+      <tng-tag label="panel + size"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Combine panel and size for custom look.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openCombined.set(true)">Open</button>
+        <tng-drawer [open]="openCombined()" (closed)="openCombined.set(false)" [slot]="{ panel: 'bg-bg border-l border-border shadow-xl', size: 'w-72' }">
           <div class="p-4">Custom panel and width.</div>
         </tng-drawer>
       </div>

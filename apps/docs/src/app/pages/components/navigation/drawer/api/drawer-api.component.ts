@@ -24,11 +24,12 @@ export class DrawerApiComponent implements AfterViewInit {
     { property: 'closeOnEscape', type: 'boolean', default: 'true', description: 'Close on Escape' },
     { property: 'trapFocus', type: 'boolean', default: 'true', description: 'Focus trap when open' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'backdropKlass', type: 'string', default: 'fixed inset-0...', description: 'Backdrop' },
-    { property: 'panelKlass', type: 'string', default: "'bg-bg shadow-xl outline-none'", description: 'Panel' },
-    { property: 'sizeKlass', type: 'string', default: "'w-80'", description: 'Width (left/right)' },
-    { property: 'heightKlass', type: 'string', default: "'h-80'", description: 'Height (top/bottom)' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngDrawerSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.backdrop', type: 'string', default: 'fixed inset-0...', description: 'Backdrop overlay' },
+    { property: 'slot.panel', type: 'string', default: "'bg-bg shadow-xl outline-none'", description: 'Panel' },
+    { property: 'slot.size', type: 'string', default: "'w-80'", description: 'Width (left/right)' },
+    { property: 'slot.height', type: 'string', default: "'h-80'", description: 'Height (top/bottom)' },
   ];
   private readonly outputSeed: DisplayDetails[] = [
     { property: 'opened', type: 'void', default: '', description: 'Emitted when drawer opens' },
@@ -36,7 +37,7 @@ export class DrawerApiComponent implements AfterViewInit {
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

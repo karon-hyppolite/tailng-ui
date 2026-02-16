@@ -22,7 +22,7 @@ export class DrawerExamplesComponent {
   readonly placementHtml = computed(
     () => `
 <tng-drawer [open]="open()" (closed)="open.set(false)" placement="right">...</tng-drawer>
-<tng-drawer [open]="open()" (closed)="open.set(false)" placement="bottom" heightKlass="h-48">...</tng-drawer>
+<tng-drawer [open]="open()" (closed)="open.set(false)" placement="bottom" [slot]="{ height: 'h-48' }">...</tng-drawer>
 `,
   );
 }
