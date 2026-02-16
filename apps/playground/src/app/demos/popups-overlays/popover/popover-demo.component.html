@@ -55,7 +55,7 @@
         [open]="controlledOpen()"
         (openChange)="controlledOpen.set($event)"
         placement="bottom-start"
-        panelKlass="p-3"
+        [slot]="{ panel: 'p-3' }"
       >
         <button tngPopoverTrigger class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary">
           Controlled trigger

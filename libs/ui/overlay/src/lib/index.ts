@@ -9,6 +9,7 @@ export * from './dialog/dialog-initial-focus.directive';
 export * from './option-list/option-list.component';
 export * from './option-list/option-list.slots';
 export * from './popover/popover.component';
+export * from './popover/popover.slots';
 export * from './snackbar/snackbar-host.component';
 export * from './snackbar/snackbar.slots';
 export * from './snackbar/snackbar.types';

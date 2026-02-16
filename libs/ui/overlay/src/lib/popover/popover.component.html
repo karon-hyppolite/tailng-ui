@@ -1,8 +1,8 @@
-<div [class]="rootKlass()">
+<div [class]="rootClassFinal()">
   <button
     #triggerEl
     type="button"
-    [class]="triggerKlass()"
+    [class]="triggerClassFinal()"
     aria-haspopup="dialog"
     [attr.aria-expanded]="isOpen()"
     (click)="onTriggerClick()"
@@ -26,7 +26,7 @@
       [closeOnEscape]="closeOnEscape()"
       (closed)="onOverlayClosed($event)"
     >
-      <tng-overlay-panel [slot]="{ panel: panelKlass() }">
+      <tng-overlay-panel [slot]="overlayPanelSlot()">
         @if (contentTpl) {
           <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
         } @else {

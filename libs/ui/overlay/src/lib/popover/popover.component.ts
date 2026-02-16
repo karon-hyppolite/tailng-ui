@@ -1,9 +1,11 @@
 import { Component, ContentChild, ElementRef, TemplateRef, ViewChild, computed, effect, input, output, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 
 import { TngConnectedOverlay } from '../connected-overlay/connected-overlay.component';
 import { TngOverlayPanel } from '../overlay-panel/overlay-panel.component';
 import { TngOverlayRef } from '../overlay-ref/overlay-ref.component';
+import { TngPopoverSlot } from './popover.slots';
 
 export type TngPopoverPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
 export type TngPopoverCloseReason = 'outside-click' | 'escape' | 'programmatic';
@@ -40,9 +42,19 @@ export class TngPopover {
   readonly closeOnOutsideClick = input<boolean>(true);
   readonly closeOnEscape = input<boolean>(true);
 
-  readonly rootKlass = input<string>('relative inline-flex');
-  readonly triggerKlass = input<string>('inline-flex');
-  readonly panelKlass = input<string>('p-2');
+  /** Slot hooks (micro styling) */
+  readonly slot = input<TngSlotMap<TngPopoverSlot>>({});
+
+  readonly rootClassFinal = computed(() =>
+    this.toClassString(this.slotClass('root'), 'relative inline-flex'),
+  );
+  readonly triggerClassFinal = computed(() =>
+    this.toClassString(this.slotClass('trigger'), 'inline-flex'),
+  );
+  readonly panelClassFinal = computed(() =>
+    this.toClassString(this.slotClass('panel'), 'p-2'),
+  );
+  readonly overlayPanelSlot = computed(() => ({ panel: this.panelClassFinal() }));
 
   readonly opened = output<void>();
   readonly closed = output<TngPopoverCloseReason>();
@@ -91,5 +103,15 @@ export class TngPopover {
 
   onTriggerClick() {
     this.toggle();
+  }
+
+  private slotClass(key: TngPopoverSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 }

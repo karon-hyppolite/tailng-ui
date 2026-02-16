@@ -23,7 +23,7 @@ export class PopoverExamplesComponent {
   );
   readonly controlledHtml = computed(
     () => `
-<tng-popover [open]="popoverOpen()" (openChange)="popoverOpen.set($event)" placement="bottom-start" panelKlass="p-3">
+<tng-popover [open]="popoverOpen()" (openChange)="popoverOpen.set($event)" placement="bottom-start" [slot]="{ panel: 'p-3' }">
   <button tngPopoverTrigger>Controlled trigger</button>
   <div tngPopoverContent>...</div>
 </tng-popover>

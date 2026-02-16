@@ -31,15 +31,16 @@ export class PopoverApiComponent implements AfterViewInit {
     { property: 'closed', type: 'TngPopoverCloseReason', description: 'Emitted when popover closes (outside-click | escape | programmatic)' },
     { property: 'openChange', type: 'boolean', description: 'Emitted when open state changes (for controlled usage)' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'relative inline-flex'", description: 'Root wrapper' },
-    { property: 'triggerKlass', type: 'string', default: "'inline-flex'", description: 'Trigger button' },
-    { property: 'panelKlass', type: 'string', default: "'p-2'", description: 'Panel content wrapper' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngPopoverSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.root', type: 'string', default: "'relative inline-flex'", description: 'Root wrapper' },
+    { property: 'slot.trigger', type: 'string', default: "'inline-flex'", description: 'Trigger button' },
+    { property: 'slot.panel', type: 'string', default: "'p-2'", description: 'Panel content wrapper' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';
