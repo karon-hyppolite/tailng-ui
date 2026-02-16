@@ -1,5 +1,7 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngSnackbarItem, TngSnackbarIntent } from './snackbar.types';
+import { TngSnackbarSlot } from './snackbar.slots';
 
 export type TngSnackbarPosition =
   | 'top-left'
@@ -28,39 +30,42 @@ export class TngSnackbarHost {
   readonly dismiss = output<{ id: string; reason: 'timeout' | 'dismiss' | 'action' }>();
 
   /* =====================
-   * Klass inputs
+   * Slot hooks (micro styling)
    * ===================== */
-  readonly hostKlass = input<string>('fixed z-[1100] flex flex-col gap-2 p-4');
-  readonly itemKlass = input<string>(
-    'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-md border border-border bg-bg shadow-lg'
-  );
-  readonly itemInnerKlass = input<string>('flex items-start gap-3 px-4 py-3');
-  readonly messageKlass = input<string>('text-sm text-foreground');
-  readonly actionKlass = input<string>('text-sm font-medium text-primary hover:underline');
-  readonly dismissBtnKlass = input<string>('text-muted-foreground hover:text-foreground');
+  readonly slot = input<TngSlotMap<TngSnackbarSlot>>({});
 
-  /** Intent -> klass mapping */
-  readonly intentKlass = input<(intent: TngSnackbarIntent) => string>((intent) => {
-    switch (intent) {
-      case 'success':
-        return 'border-success/30';
-      case 'info':
-        return 'border-info/30';
-      case 'warning':
-        return 'border-warning/30';
-      case 'error':
-        return 'border-danger/30';
-      case 'default':
-      default:
-        return '';
-    }
-  });
+  readonly hostClassFinal = computed(() =>
+    this.toClassString(this.slotClass('host'), 'fixed z-[1100] flex flex-col gap-2 p-4'),
+  );
+
+  readonly itemClassFinal = computed(() =>
+    this.toClassString(
+      this.slotClass('item'),
+      'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-md border border-border bg-bg shadow-lg',
+    ),
+  );
+
+  readonly itemInnerClassFinal = computed(() =>
+    this.toClassString(this.slotClass('itemInner'), 'flex items-start gap-3 px-4 py-3'),
+  );
+
+  readonly messageClassFinal = computed(() =>
+    this.toClassString(this.slotClass('message'), 'text-sm text-foreground'),
+  );
+
+  readonly actionClassFinal = computed(() =>
+    this.toClassString(this.slotClass('action'), 'text-sm font-medium text-primary hover:underline'),
+  );
+
+  readonly dismissBtnClassFinal = computed(() =>
+    this.toClassString(this.slotClass('dismissBtn'), 'text-muted-foreground hover:text-foreground'),
+  );
 
   /* =====================
    * Derived / internal
    * ===================== */
   readonly hostPositionKlass = computed(() => {
-    const base = this.hostKlass();
+    const base = this.hostClassFinal();
     switch (this.position()) {
       case 'top-left':
         return `${base} top-0 left-0 items-start`;
@@ -109,8 +114,38 @@ export class TngSnackbarHost {
 
   itemClasses(item: TngSnackbarItem): string {
     const intent = item.intent ?? 'default';
-    const intentCls = this.intentKlass()(intent);
-    return `${this.itemKlass()} ${intentCls}`.trim();
+    const intentCls = this.intentClassFor(intent);
+    return `${this.itemClassFinal()} ${intentCls}`.trim();
+  }
+
+  private slotClass(key: TngSnackbarSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private intentClassFor(intent: TngSnackbarIntent): string {
+    const key: TngSnackbarSlot | null =
+      intent === 'success' ? 'intentSuccess' :
+      intent === 'info' ? 'intentInfo' :
+      intent === 'warning' ? 'intentWarning' :
+      intent === 'error' ? 'intentError' : null;
+    if (!key) return '';
+    return this.toClassString(this.slotClass(key), this.defaultIntentClass(intent));
+  }
+
+  private defaultIntentClass(intent: TngSnackbarIntent): string {
+    switch (intent) {
+      case 'success': return 'border-success/30';
+      case 'info': return 'border-info/30';
+      case 'warning': return 'border-warning/30';
+      case 'error': return 'border-danger/30';
+      default: return '';
+    }
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 
   onDismiss(id: string) {

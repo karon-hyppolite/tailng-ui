@@ -3,7 +3,7 @@
     <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
       <h2 class="text-base font-semibold text-primary">Overview</h2>
       <p class="text-sm leading-6 text-muted">
-        <span class="font-mono text-primary/20">tng-snackbar-host</span> shows transient, non-blocking notifications. You control the list via <span class="font-mono text-primary/20">items</span> (<span class="font-mono text-primary/20">TngSnackbarItem[]</span>) and handle <span class="font-mono text-primary/20">dismiss</span> to remove items. Each item has <span class="font-mono text-primary/20">id</span>, <span class="font-mono text-primary/20">message</span>, optional <span class="font-mono text-primary/20">intent</span> (default | success | info | warning | error), <span class="font-mono text-primary/20">actionLabel</span>, and <span class="font-mono text-primary/20">durationMs</span> (auto-dismiss). Use <span class="font-mono text-primary/20">position</span> and <span class="font-mono text-primary/20">max</span>. Class hooks: hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, intentKlass.
+        <span class="font-mono text-primary/20">tng-snackbar-host</span> shows transient, non-blocking notifications. You control the list via <span class="font-mono text-primary/20">items</span> (<span class="font-mono text-primary/20">TngSnackbarItem[]</span>) and handle <span class="font-mono text-primary/20">dismiss</span> to remove items. Each item has <span class="font-mono text-primary/20">id</span>, <span class="font-mono text-primary/20">message</span>, optional <span class="font-mono text-primary/20">intent</span> (default | success | info | warning | error), <span class="font-mono text-primary/20">actionLabel</span>, and <span class="font-mono text-primary/20">durationMs</span> (auto-dismiss). Use <span class="font-mono text-primary/20">position</span> and <span class="font-mono text-primary/20">max</span>. Slot-based styling: host, item, itemInner, message, action, dismissBtn, intentSuccess/Info/Warning/Error.
       </p>
     </div>
     <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
@@ -36,8 +36,8 @@
           <p class="text-xs leading-5 text-muted">intent: default | success | info | warning | error. actionLabel for a button; durationMs for auto-dismiss (0 = no auto-dismiss).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
-          <div class="text-sm font-semibold text-primary/20">Class hooks</div>
-          <p class="text-xs leading-5 text-muted">hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, intentKlass (function per intent).</p>
+          <div class="text-sm font-semibold text-primary/20">Slot styling</div>
+          <p class="text-xs leading-5 text-muted">host, item, itemInner, message, action, dismissBtn, intentSuccess/Info/Warning/Error.</p>
         </div>
       </div>
     </div>

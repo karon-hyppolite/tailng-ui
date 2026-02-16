@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngSnackbarHost, TngSnackbarItem, TngSnackbarIntent } from '@tailng-ui/ui/overlay';
+import { TngSnackbarHost, TngSnackbarItem } from '@tailng-ui/ui/overlay';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -8,44 +9,46 @@ const uid = () => Math.random().toString(36).slice(2, 9);
   standalone: true,
   selector: 'docs-snackbar-styling',
   templateUrl: './snackbar-styling.component.html',
-  imports: [TngSnackbarHost, ExampleBlockComponent, TngExampleDemo],
+  imports: [TngSnackbarHost, TngTag, ExampleBlockComponent, TngExampleDemo],
 })
 export class SnackbarStylingComponent {
-  readonly themedItems = signal<TngSnackbarItem[]>([]);
-
-  readonly customIntentKlass = (intent: TngSnackbarIntent): string => {
-    switch (intent) {
-      case 'success': return 'border-green-500/50';
-      case 'info': return 'border-blue-500/50';
-      case 'warning': return 'border-amber-500/50';
-      case 'error': return 'border-red-500/50';
-      default: return '';
-    }
-  };
-
-  readonly themedHtml = computed(
-    () => `
-<tng-snackbar-host
-  [items]="items()"
-  position="bottom-center"
-  itemKlass="... rounded-lg border-2 ..."
-  [intentKlass]="customIntentKlass"
-  (dismiss)="onDismiss($event)"
-/>
-`,
+  readonly items = signal<TngSnackbarItem[]>([]);
+  readonly hostSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ host: 'fixed z-[1100] flex flex-col gap-3 p-4' }">...</tng-snackbar-host>`,
+  );
+  readonly itemSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ item: '... rounded-lg border-2 ...' }">...</tng-snackbar-host>`,
+  );
+  readonly itemInnerSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ itemInner: 'flex items-center gap-4 px-4 py-3' }">...</tng-snackbar-host>`,
+  );
+  readonly messageSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ message: 'text-sm font-medium' }">...</tng-snackbar-host>`,
+  );
+  readonly actionSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ action: 'text-primary font-semibold hover:underline' }">...</tng-snackbar-host>`,
+  );
+  readonly dismissBtnSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ dismissBtn: 'text-muted hover:text-foreground' }">...</tng-snackbar-host>`,
+  );
+  readonly intentSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ intentSuccess: 'border-green-500/50', ... }">...</tng-snackbar-host>`,
+  );
+  readonly themedSlotHtml = computed(
+    () => `<tng-snackbar-host [slot]="{ item: '... rounded-lg border-2', intentSuccess: 'border-green-500/50', ... }">...</tng-snackbar-host>`,
   );
 
-  showThemed(): void {
+  showSnackbar(intent: 'default' | 'success' | 'info' | 'warning' | 'error' = 'default'): void {
     const item: TngSnackbarItem = {
       id: uid(),
-      message: 'Themed snackbar (success)',
-      intent: 'success',
+      message: `Snackbar (${intent})`,
+      intent,
       durationMs: 4000,
     };
-    this.themedItems.set([item, ...this.themedItems()].slice(0, 2));
+    this.items.set([item, ...this.items()].slice(0, 3));
   }
 
-  onThemedDismiss(ev: { id: string; reason: 'timeout' | 'dismiss' | 'action' }): void {
-    this.themedItems.set(this.themedItems().filter((x) => x.id !== ev.id));
+  onDismiss(ev: { id: string; reason: 'timeout' | 'dismiss' | 'action' }): void {
+    this.items.set(this.items().filter((x) => x.id !== ev.id));
   }
 }

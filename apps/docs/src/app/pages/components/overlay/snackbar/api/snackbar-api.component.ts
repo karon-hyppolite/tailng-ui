@@ -33,20 +33,24 @@ export class SnackbarApiComponent implements AfterViewInit {
     { property: 'actionLabel', type: 'string', description: 'Optional action button label' },
     { property: 'durationMs', type: 'number', description: 'Auto-dismiss delay (ms); 0 or undefined = no auto-dismiss' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'hostKlass', type: 'string', default: "'fixed z-[1100] flex flex-col gap-2 p-4'", description: 'Host container (position added by component)' },
-    { property: 'itemKlass', type: 'string', default: "'pointer-events-auto w-[min(28rem,...)] rounded-md border...'", description: 'Each snackbar item' },
-    { property: 'itemInnerKlass', type: 'string', default: "'flex items-start gap-3 px-4 py-3'", description: 'Inner content row' },
-    { property: 'messageKlass', type: 'string', default: "'text-sm text-foreground'", description: 'Message text' },
-    { property: 'actionKlass', type: 'string', default: "'text-sm font-medium text-primary hover:underline'", description: 'Action button' },
-    { property: 'dismissBtnKlass', type: 'string', default: "'text-muted-foreground hover:text-foreground'", description: 'Dismiss (×) button' },
-    { property: 'intentKlass', type: '(intent: TngSnackbarIntent) => string', default: '(function)', description: 'Returns extra class per intent (e.g. border color)' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngSnackbarSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.host', type: 'string', default: "'fixed z-[1100] flex flex-col...'", description: 'Host container' },
+    { property: 'slot.item', type: 'string', default: "'pointer-events-auto w-[min(28rem,...)]...'", description: 'Each snackbar item' },
+    { property: 'slot.itemInner', type: 'string', default: "'flex items-start gap-3 px-4 py-3'", description: 'Inner content row' },
+    { property: 'slot.message', type: 'string', default: "'text-sm text-foreground'", description: 'Message text' },
+    { property: 'slot.action', type: 'string', default: "'text-sm font-medium text-primary...'", description: 'Action button' },
+    { property: 'slot.dismissBtn', type: 'string', default: "'text-muted-foreground...'", description: 'Dismiss (×) button' },
+    { property: 'slot.intentSuccess', type: 'string', default: "'border-success/30'", description: 'Extra class when intent=success' },
+    { property: 'slot.intentInfo', type: 'string', default: "'border-info/30'", description: 'Extra class when intent=info' },
+    { property: 'slot.intentWarning', type: 'string', default: "'border-warning/30'", description: 'Extra class when intent=warning' },
+    { property: 'slot.intentError', type: 'string', default: "'border-danger/30'", description: 'Extra class when intent=error' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
   readonly itemRows = signal<DisplayDetails[]>(this.itemSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';

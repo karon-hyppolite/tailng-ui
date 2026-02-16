@@ -2,26 +2,117 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-snackbar-host</span> exposes hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, and intentKlass (function that returns a class string per intent).
+      <span class="font-mono">tng-snackbar-host</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">host</span>, <span class="font-mono">item</span>, <span class="font-mono">itemInner</span>,
+      <span class="font-mono">message</span>, <span class="font-mono">action</span>, <span class="font-mono">dismissBtn</span>,
+      <span class="font-mono">intentSuccess</span>, <span class="font-mono">intentInfo</span>, <span class="font-mono">intentWarning</span>, <span class="font-mono">intentError</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Custom item / intent</h3>
-    <p class="text-sm text-fg">Override itemKlass and intentKlass for themed snackbars.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">host slot</h3>
+      <tng-tag label="container"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Host container. Default: fixed z-[1100] flex flex-col gap-2 p-4 (position added by component).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="hostSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border px-3 py-1.5 text-sm" (click)="showSnackbar()">Show</button>
+        <tng-snackbar-host [items]="items()" [slot]="{ host: 'fixed z-[1100] flex flex-col gap-3 p-4' }" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">item slot</h3>
+      <tng-tag label="toast"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Each snackbar item. Default: pointer-events-auto w-[min(28rem,...)] rounded-md border...</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="itemSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border px-3 py-1.5 text-sm" (click)="showSnackbar()">Show</button>
+        <tng-snackbar-host [items]="items()" [slot]="{ item: 'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-lg border-2 border-border bg-bg shadow-lg' }" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">itemInner slot</h3>
+      <tng-tag label="content row"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Inner content row. Default: flex items-start gap-3 px-4 py-3.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="itemInnerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border px-3 py-1.5 text-sm" (click)="showSnackbar()">Show</button>
+        <tng-snackbar-host [items]="items()" [slot]="{ itemInner: 'flex items-center gap-4 px-4 py-3' }" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">message / action / dismissBtn slots</h3>
+      <tng-tag label="text"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Message text, action button, and dismiss (×) button.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="messageSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border px-3 py-1.5 text-sm" (click)="showSnackbar()">Show</button>
+        <tng-snackbar-host [items]="items()" [slot]="{ message: 'text-sm font-medium', action: 'text-primary font-semibold', dismissBtn: 'text-muted hover:text-foreground' }" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">intent slots (success, info, warning, error)</h3>
+      <tng-tag label="intent"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Extra class per intent. Use intentSuccess, intentInfo, intentWarning, intentError.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="intentSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <div class="flex gap-2">
-          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="showThemed()">
-            Show themed
-          </button>
+          <button class="rounded-md border px-3 py-1.5 text-sm" (click)="showSnackbar('success')">Success</button>
+          <button class="rounded-md border px-3 py-1.5 text-sm" (click)="showSnackbar('error')">Error</button>
         </div>
         <tng-snackbar-host
-          [items]="themedItems()"
+          [items]="items()"
+          [slot]="{ intentSuccess: 'border-green-500/50', intentError: 'border-red-500/50' }"
           position="bottom-center"
-          itemKlass="pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-lg border-2 border-border bg-bg shadow-lg"
-          [intentKlass]="customIntentKlass"
-          (dismiss)="onThemedDismiss($event)"
+          (dismiss)="onDismiss($event)"
+        />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
+      <tng-tag label="themed"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Combine item and intent slots for fully themed snackbars.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border px-3 py-1.5 text-sm" (click)="showSnackbar('success')">Show themed</button>
+        <tng-snackbar-host
+          [items]="items()"
+          [slot]="{
+            item: 'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-lg border-2 border-border bg-bg shadow-lg',
+            intentSuccess: 'border-green-500/50',
+            intentInfo: 'border-blue-500/50',
+            intentWarning: 'border-amber-500/50',
+            intentError: 'border-red-500/50'
+          }"
+          position="bottom-center"
+          (dismiss)="onDismiss($event)"
         />
       </div>
     </docs-example-block>
