@@ -3,7 +3,7 @@
   <div class="space-y-1">
     <h1 class="text-xl font-semibold text-foreground">Stepper</h1>
     <p class="text-sm text-muted-foreground">
-      Headless stepper with controlled/uncontrolled index, linear gating, orientation, and klass hooks.
+      Headless stepper with controlled/uncontrolled index, linear gating, orientation, and slot-based styling.
     </p>
   </div>
 
@@ -43,19 +43,16 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Theming (pills)</h2>
 
-    <tng-stepper defaultIndex="0" headerKlass="inline-flex gap-1 rounded-lg bg-slate-100 p-1" panelWrapKlass="pt-4">
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900">
+    <tng-stepper defaultIndex="0" [slot]="{ header: 'inline-flex gap-1 rounded-lg bg-slate-100 p-1', panelWrap: 'pt-4' }">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }">
         One
       </tng-step>
 
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }">
         Two
       </tng-step>
 
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }">
         Three
       </tng-step>
 
@@ -195,20 +192,16 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Vertical</h2>
 
-    <tng-stepper orientation="vertical" defaultIndex="0" rootKlass="grid gap-6 md:grid-cols-[240px_1fr]"
-      headerVerticalKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2" panelWrapKlass="pt-0">
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50">
+    <tng-stepper orientation="vertical" defaultIndex="0" [slot]="{ root: 'grid gap-6 md:grid-cols-[240px_1fr]', headerVertical: 'flex flex-col gap-1 rounded-lg border border-border bg-bg p-2', panelWrap: 'pt-0' }">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }">
         Details
       </tng-step>
 
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }">
         Address
       </tng-step>
 
-      <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50">
+      <tng-step [slot]="{ step: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }">
         Done
       </tng-step>
 
@@ -231,11 +224,9 @@
     <h2 class="text-sm font-semibold text-foreground">Material-like stepper</h2>
 
     <tng-stepper [activeIndex]="materialIndex()" (activeIndexChange)="materialIndex.set($event)" defaultIndex="0"
-      rootKlass="w-full" headerKlass="relative flex items-start justify-between gap-0" panelWrapKlass="pt-8">
+      [slot]="{ root: 'w-full', header: 'relative flex items-start justify-between gap-0', panelWrap: 'pt-8' }">
       <!-- Step 1 -->
-      <tng-step stepKlass="relative flex flex-1 flex-col items-center gap-3"
-        activeKlass="text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-blue-600 [&_.tng-connector]:bg-blue-600"
-        inactiveKlass="text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700 [&_.tng-connector]:bg-slate-300">
+      <tng-step [slot]="{ step: 'relative flex flex-1 flex-col items-center gap-3', active: 'text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-blue-600 [&_.tng-connector]:bg-blue-600', inactive: 'text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700 [&_.tng-connector]:bg-slate-300' }">
         <!-- connector to next (starts after circle, behind it) -->
         <span class="tng-connector pointer-events-none absolute right-0 top-7 z-0 h-[3px]
                  left-[calc(50%+28px)] -translate-y-1/2 rounded-full"></span>
@@ -256,9 +247,7 @@
       </tng-step>
 
       <!-- Step 2 -->
-      <tng-step stepKlass="relative flex flex-1 flex-col items-center gap-3"
-        activeKlass="text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-slate-900 [&_.tng-connector]:bg-blue-600"
-        inactiveKlass="text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700 [&_.tng-connector]:bg-slate-300">
+      <tng-step [slot]="{ step: 'relative flex flex-1 flex-col items-center gap-3', active: 'text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-slate-900 [&_.tng-connector]:bg-blue-600', inactive: 'text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700 [&_.tng-connector]:bg-slate-300' }">
         <!-- connector to next (starts after circle, behind it) -->
         <span class="tng-connector pointer-events-none absolute right-0 top-7 z-0 h-[3px]
                  left-[calc(50%+28px)] -translate-y-1/2 rounded-full"></span>
@@ -276,9 +265,7 @@
       </tng-step>
 
       <!-- Step 3 -->
-      <tng-step stepKlass="relative flex flex-1 flex-col items-center gap-3"
-        activeKlass="text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-slate-900"
-        inactiveKlass="text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700">
+      <tng-step [slot]="{ step: 'relative flex flex-1 flex-col items-center gap-3', active: 'text-blue-600 [&_.tng-circle]:bg-blue-600 [&_.tng-circle]:text-white [&_.tng-label]:text-slate-900', inactive: 'text-slate-600 [&_.tng-circle]:bg-slate-200 [&_.tng-circle]:text-slate-700 [&_.tng-label]:text-slate-700' }">
         <div class="tng-circle relative z-10 grid h-14 w-14 place-items-center rounded-full text-2xl font-semibold">
           3
         </div>

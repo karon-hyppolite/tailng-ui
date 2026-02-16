@@ -1,16 +1,16 @@
-<div [class]="rootKlass()">
+<div [class]="rootClassFinal()">
   <!-- Step headers -->
   <div
     role="tablist"
     [attr.aria-orientation]="orientationAttr()"
-    [class]="headerResolvedKlass()"
+    [class]="headerClassFinal()"
     (keydown)="onKeydown($event)"
   >
     <ng-content select="tng-step"></ng-content>
   </div>
 
   <!-- Panels -->
-  <div [class]="panelWrapKlass()">
+  <div [class]="panelWrapClassFinal()">
     <ng-content select="tng-step-panel"></ng-content>
   </div>
 </div>

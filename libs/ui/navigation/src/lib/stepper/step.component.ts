@@ -9,7 +9,9 @@ import {
   signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngStepper } from './stepper.component';
+import { TngStepSlot } from './step.slots';
 
 @Component({
   selector: 'tng-step',
@@ -34,15 +36,10 @@ export class TngStep {
   complete = input(false, { transform: booleanAttribute });
 
   /* =====================
-   * Klass hooks
+   * Slot hooks (micro styling)
    * ===================== */
 
-  stepKlass = input<string>(
-    'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium border border-transparent'
-  );
-  activeKlass = input<string>('bg-primary text-on-primary');
-  inactiveKlass = input<string>('bg-bg text-muted-foreground hover:text-foreground hover:bg-slate-50');
-  disabledKlass = input<string>('opacity-50 cursor-not-allowed');
+  slot = input<TngSlotMap<TngStepSlot>>({});
 
   /* =====================
    * Internal
@@ -86,10 +83,19 @@ export class TngStep {
 
   @HostBinding('class')
   get klass() {
-    if (this.disabled()) return `${this.stepKlass()} ${this.disabledKlass()}`.trim();
+    const step = this.slotClass('step') || 'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium border border-transparent';
+    const disabled = this.slotClass('disabled') || 'opacity-50 cursor-not-allowed';
+    const active = this.slotClass('active') || 'bg-primary text-on-primary';
+    const inactive = this.slotClass('inactive') || 'bg-bg text-muted-foreground hover:text-foreground hover:bg-slate-50';
+
+    if (this.disabled()) return `${step} ${disabled}`.trim();
     return this.stepper.isActive(this.index())
-      ? `${this.stepKlass()} ${this.activeKlass()}`.trim()
-      : `${this.stepKlass()} ${this.inactiveKlass()}`.trim();
+      ? `${step} ${active}`.trim()
+      : `${step} ${inactive}`.trim();
+  }
+
+  private slotClass(key: TngStepSlot): TngSlotValue {
+    return this.slot()?.[key];
   }
 
   /* =====================

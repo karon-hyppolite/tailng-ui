@@ -10,5 +10,7 @@ export * from './sidenav/sidenav.component';
 export * from './sidenav/sidenav.slots';
 export * from './sidenav/sidenav-slots.directive';
 export * from './stepper/stepper.component';
+export * from './stepper/stepper.slots';
 export * from './stepper/step.component';
+export * from './stepper/step.slots';
 export * from './stepper/step-panel.component';

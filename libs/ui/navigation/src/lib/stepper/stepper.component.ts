@@ -9,7 +9,9 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngStep } from './step.component';
+import { TngStepperSlot } from './stepper.slots';
 
 export type TngStepperOrientation = 'horizontal' | 'vertical';
 
@@ -46,13 +48,10 @@ export class TngStepper {
   activeIndexChange = output<number>();
 
   /* =====================
-   * Klass hooks
+   * Slot hooks (micro styling)
    * ===================== */
 
-  rootKlass = input<string>('w-full');
-  headerKlass = input<string>('flex gap-2');
-  headerVerticalKlass = input<string>('flex flex-col gap-2');
-  panelWrapKlass = input<string>('pt-4');
+  slot = input<TngSlotMap<TngStepperSlot>>({});
 
   /* =====================
    * Children
@@ -192,12 +191,27 @@ export class TngStepper {
     return true;
   }
 
+  private slotClass(key: TngStepperSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
   /* =====================
    * Computed
    * ===================== */
 
-  readonly headerResolvedKlass = computed(() =>
-    this.orientation() === 'vertical' ? this.headerVerticalKlass() : this.headerKlass()
+  readonly rootClassFinal = computed(() =>
+    this.slotClass('root') || 'w-full',
+  );
+
+  readonly headerClassFinal = computed(() => {
+    if (this.orientation() === 'vertical') {
+      return this.slotClass('headerVertical') || 'flex flex-col gap-2';
+    }
+    return this.slotClass('header') || 'flex gap-2';
+  });
+
+  readonly panelWrapClassFinal = computed(() =>
+    this.slotClass('panelWrap') || 'pt-4',
   );
 
   readonly orientationAttr = computed(() =>

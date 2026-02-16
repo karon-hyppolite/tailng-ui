@@ -24,24 +24,30 @@ export class StepperApiComponent implements AfterViewInit {
     { property: 'linear', type: 'boolean', default: 'false', description: 'Require complete before next' },
     { property: 'orientation', type: 'TngStepperOrientation', default: "'horizontal'", description: 'horizontal | vertical' },
   ];
-  private readonly stepperKlassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'w-full'", description: 'Root' },
-    { property: 'headerKlass', type: 'string', default: "'flex gap-2'", description: 'Step headers (horizontal)' },
-    { property: 'headerVerticalKlass', type: 'string', default: "'flex flex-col gap-2'", description: 'Step headers (vertical)' },
-    { property: 'panelWrapKlass', type: 'string', default: "'pt-4'", description: 'Panel wrapper' },
+  private readonly stepperSlotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngStepperSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.root', type: 'string', default: "'w-full'", description: 'Root wrapper' },
+    { property: 'slot.header', type: 'string', default: "'flex gap-2'", description: 'Step headers (horizontal)' },
+    { property: 'slot.headerVertical', type: 'string', default: "'flex flex-col gap-2'", description: 'Step headers (vertical)' },
+    { property: 'slot.panelWrap', type: 'string', default: "'pt-4'", description: 'Panel wrapper' },
   ];
   private readonly stepInputSeed: DisplayDetails[] = [
     { property: 'label', type: 'string', default: "''", description: 'Optional label' },
     { property: 'disabled', type: 'boolean', default: 'false', description: 'Disable step' },
     { property: 'complete', type: 'boolean', default: 'false', description: 'Mark complete (linear mode)' },
-    { property: 'stepKlass', type: 'string', default: '...', description: 'Step button base' },
-    { property: 'activeKlass', type: 'string', default: "'bg-primary text-on-primary'", description: 'Active state' },
-    { property: 'inactiveKlass', type: 'string', default: '...', description: 'Inactive state' },
+  ];
+  private readonly stepSlotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngStepSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.step', type: 'string', default: "'inline-flex items-center...'", description: 'Step button base' },
+    { property: 'slot.active', type: 'string', default: "'bg-primary text-on-primary'", description: 'Active state' },
+    { property: 'slot.inactive', type: 'string', default: "'bg-bg text-muted...'", description: 'Inactive state' },
+    { property: 'slot.disabled', type: 'string', default: "'opacity-50 cursor-not-allowed'", description: 'Disabled state' },
   ];
 
   readonly stepperInputRows = signal<DisplayDetails[]>(this.stepperInputSeed);
-  readonly stepperKlassRows = signal<DisplayDetails[]>(this.stepperKlassSeed);
+  readonly stepperSlotRows = signal<DisplayDetails[]>(this.stepperSlotSeed);
   readonly stepInputRows = signal<DisplayDetails[]>(this.stepInputSeed);
+  readonly stepSlotRows = signal<DisplayDetails[]>(this.stepSlotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';

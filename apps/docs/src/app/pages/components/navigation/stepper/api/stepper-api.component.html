@@ -15,10 +15,10 @@
         </tng-table>
       </div>
     </section>
-    <section id="stepper-klass" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">TngStepper class hooks</h3>
+    <section id="stepper-slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">TngStepper styling (slot)</h3>
       <div class="rounded-md border text-fg">
-        <tng-table [rows]="stepperKlassRows()">
+        <tng-table [rows]="stepperSlotRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
           <tng-col id="type" header="Type" [value]="type"></tng-col>
           <tng-col id="default" header="Default" [value]="default"></tng-col>
@@ -27,9 +27,20 @@
       </div>
     </section>
     <section id="step-inputs" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">TngStep</h3>
+      <h3 class="text-base font-semibold text-primary">TngStep inputs</h3>
       <div class="rounded-md border text-fg">
         <tng-table [rows]="stepInputRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+    <section id="step-slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">TngStep styling (slot)</h3>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="stepSlotRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
           <tng-col id="type" header="Type" [value]="type"></tng-col>
           <tng-col id="default" header="Default" [value]="default"></tng-col>
@@ -46,8 +57,9 @@
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#stepper-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStepper</a></li>
-      <li><a href="#stepper-klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Stepper class hooks</a></li>
-      <li><a href="#step-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStep</a></li>
+      <li><a href="#stepper-slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStepper styling (slot)</a></li>
+      <li><a href="#step-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStep inputs</a></li>
+      <li><a href="#step-slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStep styling (slot)</a></li>
       <li><a href="#step-panel" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngStepPanel</a></li>
     </ul>
   </aside>
