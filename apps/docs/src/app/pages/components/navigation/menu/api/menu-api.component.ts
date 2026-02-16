@@ -33,11 +33,12 @@ export class MenuApiComponent implements AfterViewInit {
     { property: 'closeOnItemClick', type: 'boolean', default: 'true', description: 'Close when tngMenuItem is clicked' },
   ];
 
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'relative inline-block'", description: 'Root wrapper' },
-    { property: 'triggerKlass', type: 'string', default: "'inline-flex'", description: 'Trigger button wrapper' },
-    { property: 'panelKlass', type: 'string', default: "'p-1'", description: 'Menu panel' },
-    { property: 'backdropKlass', type: 'string', default: "'fixed inset-0 bg-black/40 z-[999]'", description: 'Backdrop when modal' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngMenuSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.container', type: 'string', default: "'relative inline-block'", description: 'Root wrapper' },
+    { property: 'slot.trigger', type: 'string', default: "'inline-flex'", description: 'Trigger button' },
+    { property: 'slot.panel', type: 'string', default: "'p-1'", description: 'Menu panel' },
+    { property: 'slot.backdrop', type: 'string', default: "'fixed inset-0 bg-black/40 z-[999]'", description: 'Backdrop when modal' },
   ];
 
   private readonly outputSeed: DisplayDetails[] = [
@@ -46,7 +47,7 @@ export class MenuApiComponent implements AfterViewInit {
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
 
   readonly property = (r: DisplayDetails) => r.property;

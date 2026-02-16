@@ -24,7 +24,7 @@ export class MenuExamplesComponent {
 
   readonly placementHtml = computed(
     () => `
-<tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+<tng-menu placement="bottom-end" [slot]="{ panel: 'p-1 min-w-48' }">
   <button tngMenuTrigger>Actions</button>
   <ng-template tngMenuTemplate>...</ng-template>
 </tng-menu>
@@ -33,7 +33,7 @@ export class MenuExamplesComponent {
 
   readonly modalHtml = computed(
     () => `
-<tng-menu [modal]="true" panelKlass="p-2 min-w-48">
+<tng-menu [modal]="true" [slot]="{ panel: 'p-2 min-w-48' }">
   <button tngMenuTrigger>Open modal menu</button>
   <ng-template tngMenuTemplate>...</ng-template>
 </tng-menu>

@@ -2,21 +2,101 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-menu</span> exposes rootKlass, triggerKlass, panelKlass, and backdropKlass (when modal).
+      <span class="font-mono">tng-menu</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">container</span>, <span class="font-mono">trigger</span>, <span class="font-mono">panel</span>, <span class="font-mono">backdrop</span>.
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">panelKlass / triggerKlass</h3>
-    <p class="text-sm text-fg">Style the dropdown panel and the trigger wrapper.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="panelHtml()"
-    >
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: relative inline-block.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-menu panelKlass="p-2 min-w-48 rounded-lg border border-border bg-bg shadow-lg" triggerKlass="rounded-md bg-primary px-3 py-2 text-sm text-on-primary">
+        <tng-menu [slot]="{ container: 'relative inline-block' }">
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Menu</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Item</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">trigger slot</h3>
+      <tng-tag label="button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Trigger button. Default: inline-flex.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="triggerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu [slot]="{ trigger: 'rounded-md bg-primary px-3 py-2 text-sm text-on-primary' }">
+          <button tngMenuTrigger type="button">Styled trigger</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Item</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panel slot</h3>
+      <tng-tag label="dropdown"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Menu panel. Default: p-1. Overlay panel adds base bg/border; extend with padding, min-width, shadow.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu [slot]="{ panel: 'p-2 min-w-48 rounded-lg border border-border' }">
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Menu</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Edit</button>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Delete</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">backdrop slot</h3>
+      <tng-tag label="modal"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Backdrop (when modal=true). Default: fixed inset-0 bg-black/40 z-[999].</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="backdropSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu [modal]="true" [slot]="{ backdrop: 'fixed inset-0 bg-primary/20 z-[999]' }">
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Modal menu</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Option A</button>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Option B</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu
+          [slot]="{
+            container: 'relative inline-block',
+            trigger: 'rounded-md bg-primary px-3 py-2 text-sm text-on-primary',
+            panel: 'p-2 min-w-48 rounded-lg border border-border bg-bg shadow-lg'
+          }"
+        >
           <button tngMenuTrigger type="button">Actions</button>
           <ng-template tngMenuTemplate>
             <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Edit</button>

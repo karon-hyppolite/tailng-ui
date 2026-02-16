@@ -10,6 +10,7 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 
 import {
   TngConnectedOverlay,
@@ -20,6 +21,7 @@ import {
 
 export type MenuCloseReason = TngOverlayCloseReason;
 
+import { TngMenuSlot } from './menu.slots';
 import { TngMenuTemplate } from './menu-template.directive';
 
 export type TngMenuPlacement =
@@ -63,13 +65,39 @@ export class TngMenu {
   readonly closeOnEscape = input<boolean>(true);
   readonly closeOnItemClick = input<boolean>(true);
 
-  readonly rootKlass = input<string>('relative inline-block');
-  readonly triggerKlass = input<string>('inline-flex');
-  readonly panelKlass = input<string>('p-1');
-  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40 z-[999]');
+  /** Slot-based micro styling */
+  slot = input<TngSlotMap<TngMenuSlot>>({});
+
+  readonly containerClassFinal = computed(() =>
+    this.cx('relative inline-block', this.slotClass('container')),
+  );
+
+  readonly triggerClassFinal = computed(() =>
+    this.cx('inline-flex', this.slotClass('trigger')),
+  );
+
+  readonly panelClassFinal = computed(() =>
+    this.slotClass('panel') || 'p-1',
+  );
+
+  readonly backdropClassFinal = computed(() =>
+    this.slotClass('backdrop') || 'fixed inset-0 bg-black/40 z-[999]',
+  );
 
   readonly opened = output<void>();
   readonly closed = output<MenuCloseReason>();
+
+  private slotClass(key: TngMenuSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   readonly isOpen = signal(false);
 
@@ -92,7 +120,9 @@ export class TngMenu {
 
   onOverlayOpened(): void {
     this.opened.emit();
-  }close(reason: MenuCloseReason): void {
+  }
+
+  close(reason: MenuCloseReason): void {
     if (!this.isOpen()) return;
   
     this.isOpen.set(false);

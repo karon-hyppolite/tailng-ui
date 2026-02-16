@@ -32,7 +32,7 @@
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+        <tng-menu placement="bottom-end" [slot]="{ panel: 'p-1 min-w-48' }">
           <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Actions ▼</button>
           <ng-template tngMenuTemplate>
             <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Edit</button>
@@ -53,7 +53,7 @@
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-menu [modal]="true" panelKlass="p-2 min-w-48">
+        <tng-menu [modal]="true" [slot]="{ panel: 'p-2 min-w-48' }">
           <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Open modal menu</button>
           <ng-template tngMenuTemplate>
             <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Option A</button>

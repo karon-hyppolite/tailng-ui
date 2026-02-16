@@ -1,10 +1,10 @@
 
-<div [class]="rootKlass()">
+<div [class]="containerClassFinal()">
   <!-- Trigger -->
   <button
     #triggerEl
     type="button"
-    [class]="triggerKlass()"
+    [class]="triggerClassFinal()"
     aria-haspopup="menu"
     [attr.aria-expanded]="isOpen()"
     [attr.aria-controls]="isOpen() ? menuId() : null"
@@ -28,14 +28,14 @@
       [offset]="offset()"
       [width]="width()"
       [hasBackdrop]="modal()"
-      [backdropClass]="backdropKlass()"
+      [backdropClass]="backdropClassFinal()"
       [closeOnOutsideClick]="effectiveCloseOnOutsideClick()"
       [closeOnEscape]="effectiveCloseOnEscape()"
       [closeOnInsideClick]="false"
       (closed)="overlayRef.close($event)"
 
     >
-      <tng-overlay-panel [slot]="{ panel: panelKlass() }" [modal]="modal()">
+      <tng-overlay-panel [slot]="{ panel: panelClassFinal() }" [modal]="modal()">
         <div [id]="menuId()" role="menu">
           @if (menuTemplate) {
             <ng-container [ngTemplateOutlet]="menuTemplate!" />

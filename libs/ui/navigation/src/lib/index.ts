@@ -1,6 +1,7 @@
 export * from './breadcrumbs/breadcrumbs.component';
 export * from './drawer/drawer.component';
 export * from './menu/menu.component';
+export * from './menu/menu.slots';
 export * from './menu/menu-item.directive';
 export * from './menu/menu-template.directive';
 export * from './paginator/paginator.component';

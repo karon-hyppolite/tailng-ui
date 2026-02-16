@@ -8,9 +8,7 @@
         @if (mobileOpen()) {
           <tng-menu
             placement="bottom-start"
-            rootKlass="md:hidden"
-            panelKlass="fixed left-0 z-30 max-h-screen w-80 bg-bg p-2 overflow-y-auto border-r"
-            klass="h-full"
+            [slot]="{ container: 'md:hidden', trigger: 'h-full', panel: 'fixed left-0 z-30 max-h-screen w-80 bg-bg p-2 overflow-y-auto border-r' }"
           >
             <tng-icon tngMenuTrigger name="bootstrapList" [slot]="{ icon: 'text-2xl' }"></tng-icon>
 
@@ -99,7 +97,7 @@
         </nav>
       </div>
       <div class="flex items-center gap-2 md:gap-4">
-        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48" rootKlass="md:me-1 text-xl">
+        <tng-menu placement="bottom-end" [slot]="{ container: 'md:me-1 text-xl', panel: 'p-1 min-w-48' }">
           <tng-icon tngMenuTrigger name="bootstrapPalette"></tng-icon>
           <ng-template tngMenuTemplate>
             @for (theme of docsThemeService.themeList; track theme.id) {
@@ -124,8 +122,7 @@
         </tng-slide-toggle>
         <tng-menu
           placement="bottom-end"
-          panelKlass="fixed right-0 z-30 w-30 bg-bg p-2 overflow-y-auto border-r"
-          triggerKlass="text-sm sm text-fg hover:text-fg  inline-flex items-center gap-1"
+          [slot]="{ panel: 'fixed right-0 z-30 w-30 bg-bg p-2 overflow-y-auto border-r', trigger: 'text-sm sm text-fg hover:text-fg inline-flex items-center gap-1' }"
         >
           <span tngMenuTrigger class="rounded-xl cursor-pointer">
             <svg
