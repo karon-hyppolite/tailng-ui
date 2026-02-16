@@ -1,5 +1,5 @@
 <nav
-  [class]="classes()"
+  [class]="containerClasses()"
   [attr.data-collapsed]="dataCollapsed()"
   aria-label="Primary navigation"
 >
@@ -9,12 +9,12 @@
   </div>
 
   <!-- Main navigation -->
-  <div [class]="contentKlass()">
+  <div [class]="contentClassFinal()">
     <ng-content></ng-content>
   </div>
 
   <!-- Footer slot -->
-  <div [class]="footerKlass()">
+  <div [class]="footerClassFinal()">
     <ng-content select="[tngSidenavFooter]"></ng-content>
   </div>
 </nav>

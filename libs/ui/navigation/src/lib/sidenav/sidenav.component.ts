@@ -1,4 +1,7 @@
 import { Component, input, computed } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngSidenavSlot } from './sidenav.slots';
 
 @Component({
   selector: 'tng-sidenav',
@@ -12,24 +15,41 @@ export class TngSidenav {
   readonly collapsed = input<boolean>(false);
 
   /* =====================
-   * Tailwind class inputs
+   * Slot hooks (micro styling)
    * ===================== */
-  readonly rootKlass = input<string>(
-    'group h-full bg-bg border-r border-border flex flex-col ' +
-    'transition-[width] duration-200 ease-in-out will-change-[width]'
+  slot = input<TngSlotMap<TngSidenavSlot>>({});
+
+  readonly containerClassFinal = computed(() =>
+    this.cx(
+      'group h-full bg-bg border-r border-border flex flex-col',
+      'transition-[width] duration-200 ease-in-out will-change-[width]',
+      this.slotClass('container'),
+    ),
   );
-  
-  readonly expandedKlass = input<string>('w-64');
-  readonly collapsedKlass = input<string>('w-16');
 
-  readonly contentKlass = input<string>('flex-1 overflow-auto');
-  readonly footerKlass = input<string>('border-t border-border');
+  readonly expandedClassFinal = computed(() =>
+    this.cx('w-64', this.slotClass('expanded')),
+  );
 
-  /* =====================
-   * Computed
-   * ===================== */
-  readonly classes = computed(() =>
-    [this.rootKlass(), this.collapsed() ? this.collapsedKlass() : this.expandedKlass()].join(' ')
+  readonly collapsedClassFinal = computed(() =>
+    this.cx('w-16', this.slotClass('collapsed')),
+  );
+
+  readonly contentClassFinal = computed(() =>
+    this.cx('flex-1 overflow-auto', this.slotClass('content')),
+  );
+
+  readonly footerClassFinal = computed(() =>
+    this.cx('border-t border-border', this.slotClass('footer')),
+  );
+
+  readonly containerClasses = computed(() =>
+    [
+      this.containerClassFinal(),
+      this.collapsed() ? this.collapsedClassFinal() : this.expandedClassFinal(),
+    ]
+      .filter(Boolean)
+      .join(' '),
   );
 
   /**
@@ -37,4 +57,16 @@ export class TngSidenav {
    * `data-[collapsed=true]:...`
    */
   readonly dataCollapsed = computed(() => (this.collapsed() ? 'true' : 'false'));
+
+  private slotClass(key: TngSidenavSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

@@ -2,23 +2,90 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-sidenav</span> exposes rootKlass, expandedKlass, collapsedKlass, contentKlass, footerKlass. Use <span class="font-mono">group</span> and <span class="font-mono">group-data-[collapsed=true]:...</span> on projected content to hide labels when collapsed.
+      <span class="font-mono">tng-sidenav</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">container</span>, <span class="font-mono">expanded</span>, <span class="font-mono">collapsed</span>, <span class="font-mono">content</span>, <span class="font-mono">footer</span>.
+      Use <span class="font-mono">group</span> and <span class="font-mono">group-data-[collapsed=true]:...</span> on projected content to hide labels when collapsed.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">expandedKlass / collapsedKlass</h3>
-    <p class="text-sm text-fg">Control width in each state.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="base"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root nav base classes. Default: group h-full bg-bg border-r border-border flex flex-col + transition.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex h-32 overflow-hidden rounded-md border border-border">
+          <tng-sidenav [slot]="{ container: 'group h-full bg-slate-50 border-r' }">
+            <div tngSidenavHeader class="px-3 py-2 font-semibold">Nav</div>
+            <div class="p-2"><a class="block rounded px-2 py-1 text-sm hover:bg-slate-200">Link</a></div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Content</div>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">expanded / collapsed slots</h3>
+      <tng-tag label="width"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Control width in each state. Default: w-64 expanded, w-16 collapsed.</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="widthHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <div class="flex h-40 overflow-hidden rounded-md border border-border">
-          <tng-sidenav [collapsed]="collapsed()" expandedKlass="w-48" collapsedKlass="w-14">
+          <tng-sidenav [collapsed]="collapsed()" [slot]="{ expanded: 'w-48', collapsed: 'w-14' }">
             <div tngSidenavHeader class="px-3 py-2 font-semibold">Nav</div>
             <div class="p-2"><a class="block rounded px-2 py-1 text-sm hover:bg-slate-100">Link</a></div>
           </tng-sidenav>
           <div class="flex-1 p-4 text-sm text-muted">Content</div>
         </div>
         <button type="button" class="mt-2 rounded border border-border px-3 py-2 text-sm" (click)="collapsed.set(!collapsed())">Toggle</button>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">content slot</h3>
+      <tng-tag label="scroll"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Main content wrapper. Default: flex-1 overflow-auto.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="contentSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex h-32 overflow-hidden rounded-md border border-border">
+          <tng-sidenav [slot]="{ content: 'flex-1 overflow-y-auto' }">
+            <div tngSidenavHeader class="px-3 py-2 font-semibold">Nav</div>
+            <div class="p-2"><a class="block rounded px-2 py-1 text-sm hover:bg-slate-100">Link</a></div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Content</div>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">footer slot</h3>
+      <tng-tag label="footer"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Footer wrapper. Default: border-t border-border.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="footerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex h-40 overflow-hidden rounded-md border border-border">
+          <tng-sidenav [slot]="{ footer: 'border-t border-primary/20 px-3 py-2' }">
+            <div tngSidenavHeader class="px-3 py-2 font-semibold">Nav</div>
+            <div class="p-2"><a class="block rounded px-2 py-1 text-sm hover:bg-slate-100">Link</a></div>
+            <div tngSidenavFooter class="text-xs text-muted-foreground">Footer</div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Content</div>
+        </div>
       </div>
     </docs-example-block>
   </div>

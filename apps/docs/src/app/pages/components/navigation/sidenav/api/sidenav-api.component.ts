@@ -21,16 +21,17 @@ export class SidenavApiComponent implements AfterViewInit {
   private readonly inputSeed: DisplayDetails[] = [
     { property: 'collapsed', type: 'boolean', default: 'false', description: 'Narrow (icon) vs expanded width' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: 'group h-full...', description: 'Root nav element' },
-    { property: 'expandedKlass', type: 'string', default: "'w-64'", description: 'Width when expanded' },
-    { property: 'collapsedKlass', type: 'string', default: "'w-16'", description: 'Width when collapsed' },
-    { property: 'contentKlass', type: 'string', default: "'flex-1 overflow-auto'", description: 'Main content wrapper' },
-    { property: 'footerKlass', type: 'string', default: "'border-t border-border'", description: 'Footer wrapper' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngSidenavSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.container', type: 'string', default: '(base classes)', description: 'Root nav base' },
+    { property: 'slot.expanded', type: 'string', default: "'w-64'", description: 'Width when expanded' },
+    { property: 'slot.collapsed', type: 'string', default: "'w-16'", description: 'Width when collapsed' },
+    { property: 'slot.content', type: 'string', default: "'flex-1 overflow-auto'", description: 'Main content wrapper' },
+    { property: 'slot.footer', type: 'string', default: "'border-t border-border'", description: 'Footer wrapper' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';
