@@ -1,9 +1,9 @@
 @if (open()) {
-  <div [class]="backdropKlass()" (click)="onBackdropClick()"></div>
+  <div [class]="backdropClassFinal()" (click)="onBackdropClick()"></div>
 
   <div
     #panel
-    [class]="panelKlass()"
+    [class]="panelClassFinal()"
     role="dialog"
     aria-modal="true"
     [attr.aria-label]="ariaLabel()"
@@ -17,18 +17,18 @@
   >
     <!-- Header slot -->
     @if (true) {
-      <div [class]="headerWrapKlass()">
+      <div [class]="headerWrapClassFinal()">
         <ng-content select="[tngDialogHeader]"></ng-content>
       </div>
     }
 
     <!-- Body -->
-    <div [class]="bodyWrapKlass()">
+    <div [class]="bodyWrapClassFinal()">
       <ng-content></ng-content>
     </div>
 
     <!-- Footer slot -->
-    <div [class]="footerWrapKlass()">
+    <div [class]="footerWrapClassFinal()">
       <ng-content select="[tngDialogFooter]"></ng-content>
     </div>
   </div>

@@ -4,6 +4,7 @@ export * from './overlay-panel/overlay-panel.component';
 export * from './overlay-panel/overlay-panel.slots';
 export { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 export * from './dialog/dialog.component';
+export * from './dialog/dialog.slots';
 export * from './dialog/dialog-initial-focus.directive';
 export * from './option-list/option-list.component';
 export * from './option-list/option-list.slots';

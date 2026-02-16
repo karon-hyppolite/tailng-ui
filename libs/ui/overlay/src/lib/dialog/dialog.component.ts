@@ -11,7 +11,10 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngFocusTrap } from '@tailng-ui/cdk/a11y';
+
+import { TngDialogSlot } from './dialog.slots';
 
 export type TngDialogCloseReason =
   | 'confirm'
@@ -46,20 +49,35 @@ export class TngDialog {
   /** When no tabbables exist, focus the panel */
   readonly autoFocusPanelWhenEmpty = input<boolean>(true);
 
-  /** Klass inputs */
-  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40');
-  readonly panelKlass = input<string>(
-    [
-      'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-      'w-[min(32rem,calc(100vw-2rem))]',
-      'max-h-[calc(100vh-2rem)] overflow-auto',
-      'rounded-lg border border-border bg-bg shadow-xl outline-none',
-    ].join(' ')
+  /** Slot hooks (micro styling) */
+  readonly slot = input<TngSlotMap<TngDialogSlot>>({});
+
+  private readonly panelDefault = [
+    'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+    'w-[min(32rem,calc(100vw-2rem))]',
+    'max-h-[calc(100vh-2rem)] overflow-auto',
+    'rounded-lg border border-border bg-bg shadow-xl outline-none',
+  ].join(' ');
+
+  readonly backdropClassFinal = computed(() =>
+    this.toClassString(this.slotClass('backdrop'), 'fixed inset-0 bg-black/40'),
   );
 
-  readonly headerWrapKlass = input<string>('border-b border-border px-4 py-3');
-  readonly bodyWrapKlass = input<string>('px-4 py-4');
-  readonly footerWrapKlass = input<string>('border-t border-border px-4 py-3');
+  readonly panelClassFinal = computed(() =>
+    this.toClassString(this.slotClass('panel'), this.panelDefault),
+  );
+
+  readonly headerWrapClassFinal = computed(() =>
+    this.toClassString(this.slotClass('headerWrap'), 'border-b border-border px-4 py-3'),
+  );
+
+  readonly bodyWrapClassFinal = computed(() =>
+    this.toClassString(this.slotClass('bodyWrap'), 'px-4 py-4'),
+  );
+
+  readonly footerWrapClassFinal = computed(() =>
+    this.toClassString(this.slotClass('footerWrap'), 'border-t border-border px-4 py-3'),
+  );
 
   /** Outputs */
   readonly closed = output<TngDialogCloseReason>();
@@ -134,6 +152,16 @@ export class TngDialog {
     if (this.hasTabbable(panel)) return;
 
     panel.focus();
+  }
+
+  private slotClass(key: TngDialogSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 
   private hasTabbable(root: HTMLElement): boolean {

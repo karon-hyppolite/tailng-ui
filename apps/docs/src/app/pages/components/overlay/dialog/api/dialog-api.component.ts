@@ -40,17 +40,18 @@ export class DialogApiComponent implements AfterViewInit {
     { property: 'opened', type: 'void', default: '', description: 'Emitted when dialog has opened' },
   ];
 
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'backdropKlass', type: 'string', default: "'fixed inset-0 bg-black/40'", description: 'Backdrop overlay' },
-    { property: 'panelKlass', type: 'string', default: 'centered panel…', description: 'Dialog panel (position, size, border, shadow)' },
-    { property: 'headerWrapKlass', type: 'string', default: "'border-b border-border px-4 py-3'", description: 'Header wrapper' },
-    { property: 'bodyWrapKlass', type: 'string', default: "'px-4 py-4'", description: 'Body wrapper' },
-    { property: 'footerWrapKlass', type: 'string', default: "'border-t border-border px-4 py-3'", description: 'Footer wrapper' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngDialogSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.backdrop', type: 'string', default: "'fixed inset-0 bg-black/40'", description: 'Backdrop overlay' },
+    { property: 'slot.panel', type: 'string', default: 'centered panel…', description: 'Dialog panel (position, size, border, shadow)' },
+    { property: 'slot.headerWrap', type: 'string', default: "'border-b border-border px-4 py-3'", description: 'Header wrapper' },
+    { property: 'slot.bodyWrap', type: 'string', default: "'px-4 py-4'", description: 'Body wrapper' },
+    { property: 'slot.footerWrap', type: 'string', default: "'border-t border-border px-4 py-3'", description: 'Footer wrapper' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
   readonly outputRows = signal<DisplayDetails[]>(this.outputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

@@ -2,34 +2,105 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-dialog</span> exposes backdropKlass, panelKlass, headerWrapKlass, bodyWrapKlass, and footerWrapKlass.
-      Default panel is centered, max-width 32rem, with border and shadow.
+      <span class="font-mono">tng-dialog</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">backdrop</span>, <span class="font-mono">panel</span>,
+      <span class="font-mono">headerWrap</span>, <span class="font-mono">bodyWrap</span>,
+      <span class="font-mono">footerWrap</span>. Default panel is centered, max-width 32rem.
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">backdropKlass / panelKlass</h3>
-    <p class="text-sm text-fg">Customize overlay and dialog panel.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="panelHtml()"
-    >
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">backdrop slot</h3>
+      <tng-tag label="overlay"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Backdrop overlay. Default: fixed inset-0 bg-black/40.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="backdropSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open.set(true)">
-          Open styled dialog
-        </button>
-        <tng-dialog
-          [open]="open()"
-          (closed)="open.set(false)"
-          backdropKlass="fixed inset-0 bg-primary/20"
-          panelKlass="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 rounded-xl border-2 border-primary bg-bg p-4 shadow-xl"
-        >
-          <div tngDialogHeader class="border-0 p-0 font-semibold">Custom panel</div>
-          <p class="text-sm text-muted">backdropKlass and panelKlass overrides.</p>
-          <div tngDialogFooter class="border-0 justify-end p-0 pt-2">
-            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open.set(false)">Close</button>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openBackdrop.set(true)">Open</button>
+        <tng-dialog [open]="openBackdrop()" (closed)="openBackdrop.set(false)" [slot]="{ backdrop: 'fixed inset-0 bg-black/60' }">
+          <div tngDialogHeader class="font-semibold">Darker backdrop</div>
+          <p class="text-sm text-muted">backdrop slot example.</p>
+          <div tngDialogFooter><button type="button" class="rounded border px-3 py-2 text-sm" (click)="openBackdrop.set(false)">Close</button></div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panel slot</h3>
+      <tng-tag label="modal"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Dialog panel. Default: centered, w-[min(32rem,...)], rounded-lg border shadow.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openPanel.set(true)">Open</button>
+        <tng-dialog [open]="openPanel()" (closed)="openPanel.set(false)" [slot]="{ panel: 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 rounded-xl border-2 border-primary bg-bg shadow-xl p-0' }">
+          <div tngDialogHeader class="font-semibold">Custom panel</div>
+          <p class="text-sm text-muted">panel slot: w-80, rounded-xl, border-2.</p>
+          <div tngDialogFooter><button type="button" class="rounded border px-3 py-2 text-sm" (click)="openPanel.set(false)">Close</button></div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">headerWrap slot</h3>
+      <tng-tag label="header"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Header section. Default: border-b border-border px-4 py-3.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="headerWrapSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openHeader.set(true)">Open</button>
+        <tng-dialog [open]="openHeader()" (closed)="openHeader.set(false)" [slot]="{ headerWrap: 'border-b border-primary bg-primary/10 px-4 py-3' }">
+          <div tngDialogHeader class="font-semibold">Styled header</div>
+          <p class="text-sm text-muted">headerWrap slot with primary border.</p>
+          <div tngDialogFooter><button type="button" class="rounded border px-3 py-2 text-sm" (click)="openHeader.set(false)">Close</button></div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">bodyWrap slot</h3>
+      <tng-tag label="body"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Body section. Default: px-4 py-4.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="bodyWrapSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openBody.set(true)">Open</button>
+        <tng-dialog [open]="openBody()" (closed)="openBody.set(false)" [slot]="{ bodyWrap: 'px-6 py-6' }">
+          <div tngDialogHeader class="font-semibold">More padding</div>
+          <p class="text-sm text-muted">bodyWrap slot: px-6 py-6.</p>
+          <div tngDialogFooter><button type="button" class="rounded border px-3 py-2 text-sm" (click)="openBody.set(false)">Close</button></div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">footerWrap slot</h3>
+      <tng-tag label="footer"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Footer section. Default: border-t border-border px-4 py-3.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="footerWrapSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openFooter.set(true)">Open</button>
+        <tng-dialog [open]="openFooter()" (closed)="openFooter.set(false)" [slot]="{ footerWrap: 'border-t border-primary px-4 py-3 flex justify-end gap-2' }">
+          <div tngDialogHeader class="font-semibold">Footer styles</div>
+          <p class="text-sm text-muted">footerWrap with flex layout.</p>
+          <div tngDialogFooter>
+            <button type="button" class="rounded border px-3 py-2 text-sm" (click)="openFooter.set(false)">Cancel</button>
+            <button type="button" class="rounded bg-primary px-3 py-2 text-sm text-on-primary" (click)="openFooter.set(false)">OK</button>
           </div>
         </tng-dialog>
       </div>
@@ -37,28 +108,30 @@
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">headerWrapKlass / footerWrapKlass</h3>
-    <p class="text-sm text-fg">Style header and footer wrappers (padding, borders).</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="headerFooterHtml()"
-    >
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
+      <tng-tag label="backdrop + panel + header + footer"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Combine multiple slots for a fully themed dialog.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="open2.set(true)">
-          Open dialog
-        </button>
+        <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="openCombined.set(true)">Open styled</button>
         <tng-dialog
-          [open]="open2()"
-          (closed)="open2.set(false)"
-          headerWrapKlass="border-b border-primary bg-primary/10 px-4 py-3"
-          footerWrapKlass="border-t border-primary px-4 py-3 flex justify-end gap-2"
+          [open]="openCombined()"
+          (closed)="openCombined.set(false)"
+          [slot]="{
+            backdrop: 'fixed inset-0 bg-primary/20',
+            panel: 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 rounded-xl border-2 border-primary bg-bg shadow-xl',
+            headerWrap: 'border-b border-primary bg-primary/10 px-4 py-3',
+            footerWrap: 'border-t border-primary px-4 py-3 flex justify-end gap-2'
+          }"
         >
-          <div tngDialogHeader class="font-semibold">Styled header/footer</div>
-          <p class="text-sm text-muted">headerWrapKlass and footerWrapKlass.</p>
+          <div tngDialogHeader class="font-semibold">Fully themed</div>
+          <p class="text-sm text-muted">Custom backdrop, panel, header, footer.</p>
           <div tngDialogFooter>
-            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open2.set(false)">OK</button>
+            <button type="button" class="rounded border px-3 py-2 text-sm" (click)="openCombined.set(false)">Cancel</button>
+            <button type="button" class="rounded bg-primary px-3 py-2 text-sm text-on-primary" (click)="openCombined.set(false)">OK</button>
           </div>
         </tng-dialog>
       </div>
