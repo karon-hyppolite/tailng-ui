@@ -1,6 +1,12 @@
 /
 
 # -------------------------
+# Top-level
+# -------------------------
+/theme
+/icons
+
+# -------------------------
 # Getting Started
 # -------------------------
 /components/getting-started/installation
