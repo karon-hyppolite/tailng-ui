@@ -84,10 +84,9 @@ jobs:
       # ------------------------------------
       # INSTALL (ULTRA CLEAN FIX)
       # ------------------------------------
-      - name: Install dependencies (include devDependencies)
+      - name: Install dependencies
         env:
-          NODE_ENV: test
-          YARN_PRODUCTION: "false"
+          NODE_ENV: development
           npm_config_production: "false"
         run: yarn install --immutable
 
