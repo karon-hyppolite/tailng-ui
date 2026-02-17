@@ -19,6 +19,8 @@
 
 # TailNG – Angular 21
 
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+
 Nx + Angular 21 + Tailwind starter for TailNG.
 
 ## Included

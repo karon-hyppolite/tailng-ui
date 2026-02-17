@@ -19,6 +19,8 @@
 
 # @tailng-ui/ui
 
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+
 Modern Angular UI components powered by Tailwind CSS. Built for Angular 21+ with standalone components, signals, and a clean API.
 
 ## Overview

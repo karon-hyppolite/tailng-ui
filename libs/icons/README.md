@@ -19,6 +19,8 @@
 
 # @tailng-ui/icons
 
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+
 Angular icon components built on top of `@ng-icons/core` with Tailwind CSS support.
 
 ---

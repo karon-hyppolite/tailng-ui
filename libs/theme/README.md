@@ -19,6 +19,8 @@
 
 # @tailng-ui/theme
 
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+
 Tailwind CSS preset and design tokens for Tailng components.
 
 ## Overview

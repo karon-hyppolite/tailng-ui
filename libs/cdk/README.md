@@ -19,6 +19,8 @@
 
 # @tailng-ui/cdk
 
+[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+
 Headless Angular utilities and primitives for building accessible, interactive components.
 
 ## Overview

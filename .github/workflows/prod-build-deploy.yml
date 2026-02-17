@@ -82,6 +82,14 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+      # ------------------------------------
+      # TESTS (only for selected targets)
+      # ------------------------------------
+      - name: Test ui if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" ui "yarn nx test ui --ci"
+
+      - name: Test icons if selected
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" icons "yarn nx test icons --ci"
 
       # ------------------------------------
       # INPUT VALIDATION
