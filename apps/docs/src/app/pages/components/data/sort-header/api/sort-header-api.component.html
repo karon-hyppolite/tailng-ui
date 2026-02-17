@@ -1,1 +1,68 @@
-Api content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <h3 class="text-2xl font-semibold text-primary">API reference for sort header</h3>
+
+    <div class="border border-border bg-bg">
+      <tng-code-block
+        [content]="importExample()"
+        [highlighter]="highlighter"
+        language="typescript"
+        preKlass="bg-bg h-15"
+        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+      >
+      </tng-code-block>
+    </div>
+
+    <section id="tng-sort-header" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tngSortHeader (directive)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Apply to a clickable element (button or link) inside a <span class="font-mono">tngHeader</span> template.
+        Click toggles sort for that column: asc → desc → none. Sets <span class="font-mono">role="button"</span>,
+        <span class="font-mono">tabindex="0"</span>, and <span class="font-mono">aria-sort</span>. Keyboard: Enter/Space toggles sort.
+      </p>
+      <h4 class="text-base font-semibold text-primary">Inputs / readonly</h4>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="directiveRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="tng-sort-icon" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tng-sort-icon (component)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Place inside an element that has <span class="font-mono">tngSortHeader</span>. Renders ▲ (asc), ▼ (desc), or ↕ (none).
+        Uses the parent directive's <span class="font-mono">direction</span>. No inputs. Style via CSS (e.g. opacity on the default state).
+      </p>
+    </section>
+
+    <section id="tng-table-sort" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">tng-table sort behavior</h3>
+      <p class="text-sm text-fg">
+        <span class="font-mono">tng-table</span> provides sort state and emits when it changes:
+      </p>
+      <ul class="list-disc list-inside space-y-1 text-sm text-muted">
+        <li><span class="font-mono">sortMode</span> — <span class="font-mono">'client'</span> (default): table sorts <span class="font-mono">rows</span> using column <span class="font-mono">[value]</span>; <span class="font-mono">'server'</span>: you handle data and <span class="font-mono">(sortChange)</span>.</li>
+        <li><span class="font-mono">(sortChange)</span> — emits <span class="font-mono">TngSort</span> (<span class="font-mono">&#123; active: string, direction: TngSortDir &#125;</span>) when the user toggles sort.</li>
+      </ul>
+      <p class="text-sm text-fg">
+        <span class="font-mono">TngSortDir</span> = <span class="font-mono">''</span> | <span class="font-mono">'asc'</span> | <span class="font-mono">'desc'</span>.
+      </p>
+    </section>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#tng-sort-header" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tngSortHeader</a></li>
+      <li><a href="#tng-sort-icon" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tng-sort-icon</a></li>
+      <li><a href="#tng-table-sort" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tng-table sort</a></li>
+    </ul>
+  </aside>
+</div>

@@ -1,1 +1,82 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling the sort header</h2>
+    <p class="text-sm leading-6 text-fg">
+      The sort header is your custom content inside <span class="font-mono">tngHeader</span>. Apply
+      <span class="font-mono">tngSortHeader</span> on a button (or other clickable element) and style it with Tailwind.
+      Use <span class="font-mono">tng-sort-icon</span> for the default ▲/▼/↕ indicator, or hide it and show your own (e.g. icon font) using the directive's <span class="font-mono">direction</span> in a template.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Button with underline hover</h3>
+      <tng-tag label="button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Standard pattern: button with label + <span class="font-mono">tng-sort-icon</span>. Use <span class="font-mono">hover:underline</span>, gap, and alignment to match your table.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="buttonHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                  <span class="truncate">{{ header }}</span>
+                  <tng-sort-icon />
+                </button>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full justify-end">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span>{{ header }}</span>
+                    <tng-sort-icon />
+                  </button>
+                </div>
+              </ng-template>
+            </tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Icon-only trigger</h3>
+      <tng-tag label="tng-icon"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Put <span class="font-mono">tngSortHeader</span> on an icon (e.g. sort arrows). The table still toggles sort on click. You can use <span class="font-mono">tng-sort-icon</span> or a custom icon and bind to <span class="font-mono">direction</span> for visual state.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="iconHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="truncate">{{ header }}</span>
+                  <button type="button" class="rounded border border-border px-2 py-0.5 text-xs cursor-pointer hover:bg-alternate-background" tngSortHeader [colId]="colId">
+                    <tng-sort-icon />
+                  </button>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-end gap-2">
+                  <span>{{ header }}</span>
+                  <button type="button" class="rounded border border-border px-2 py-0.5 text-xs cursor-pointer hover:bg-alternate-background" tngSortHeader [colId]="colId">
+                    <tng-sort-icon />
+                  </button>
+                </div>
+              </ng-template>
+            </tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

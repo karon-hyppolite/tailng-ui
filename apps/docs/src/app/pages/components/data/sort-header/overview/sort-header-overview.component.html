@@ -1,1 +1,84 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        A <strong class="text-primary">sort header</strong> makes a table column sortable. Use
+        <span class="font-mono text-primary/20">tngHeader</span> to define custom header content and place
+        <span class="font-mono text-primary/20">tngSortHeader</span> on a clickable element (e.g. button). Pass
+        <span class="font-mono text-primary/20">[colId]</span> so the table can track sort state. Optionally add
+        <span class="font-mono text-primary/20">tng-sort-icon</span> inside the button to show ▲ / ▼ / ↕. The table sorts in
+        <span class="font-mono text-primary/20">client</span> mode by default; use <span class="font-mono text-primary/20">sortMode="server"</span> and
+        <span class="font-mono text-primary/20">(sortChange)</span> for server-side sorting.
+      </p>
+    </div>
+
+    <div id="quick-example" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'#'"
+        [stackBlitzLink]="'#'"
+        [htmlContent]="quickExampleHtml()"
+      >
+        <span tngExampleTitle>Sortable columns with icon</span>
+        <div tngExampleDemo>
+          <div class="overflow-auto rounded-md border border-border max-w-2xl">
+            <tng-table [rows]="rows()" rowKey="id" emptyText="No transactions">
+              <tng-col id="date" header="Date" [value]="dateValue">
+                <ng-template tngHeader let-colId="colId" let-header="header">
+                  <button type="button" class="inline-flex w-full items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span class="truncate">{{ header }}</span>
+                    <tng-sort-icon />
+                  </button>
+                </ng-template>
+              </tng-col>
+              <tng-col id="description" header="Description" [value]="descValue"></tng-col>
+              <tng-col id="amount" header="Amount" align="right" [value]="amountValue">
+                <ng-template tngHeader let-colId="colId" let-header="header">
+                  <div class="flex w-full items-center justify-end gap-2">
+                    <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                      <span>{{ header }}</span>
+                      <tng-sort-icon />
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template tngCell let-value="value">
+                  @if (value < 0) {
+                    <span class="font-semibold text-red-600">{{ value }}</span>
+                  } @else {
+                    <span class="font-semibold text-green-600">{{ value }}</span>
+                  }
+                </ng-template>
+              </tng-col>
+              <tng-col id="status" header="Status" width="120px" [value]="statusValue">
+                <ng-template tngCell let-value="value">
+                  <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold" [class]="badgeClass(value)">{{ value }}</span>
+                </ng-template>
+              </tng-col>
+            </tng-table>
+          </div>
+        </div>
+      </docs-example-block>
+    </div>
+
+    <div id="building-blocks" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Building blocks</h3>
+      <ul class="list-disc list-inside space-y-2 text-sm text-muted">
+        <li><span class="font-mono text-primary/20">tng-col</span> with <span class="font-mono">[value]</span> — column and value accessor (used for client sort).</li>
+        <li><span class="font-mono text-primary/20">ng-template tngHeader</span> — custom header; use <span class="font-mono">let-colId</span> and <span class="font-mono">let-header</span>.</li>
+        <li><span class="font-mono text-primary/20">tngSortHeader</span> — put on a clickable element (e.g. button); pass <span class="font-mono">[colId]</span>. Toggles sort on click (asc → desc → none).</li>
+        <li><span class="font-mono text-primary/20">tng-sort-icon</span> — optional; place inside the sort header to show direction (▲ ▼ ↕).</li>
+      </ul>
+      <p class="text-sm text-muted">The table exposes <span class="font-mono">(sortChange)</span> and <span class="font-mono">sortMode</span> (<span class="font-mono">'client'</span> | <span class="font-mono">'server'</span>).</p>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#quick-example" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#building-blocks" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Building blocks</a></li>
+    </ul>
+  </aside>
+</div>

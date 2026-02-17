@@ -1,1 +1,62 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Sortable table with icon and sortChange</h3>
+    <p class="text-sm text-fg">
+      Date and Amount columns use <span class="font-mono">tngSortHeader</span> with <span class="font-mono">tng-sort-icon</span>.
+      Current sort state is shown above the table and updated via <span class="font-mono">(sortChange)</span>. Default <span class="font-mono">sortMode</span> is client, so rows are sorted in-memory.
+    </p>
+    <div class="text-sm text-muted">
+      <span class="font-medium">Current sort:</span>
+      <code class="rounded bg-alternate-background px-2 py-1 ml-1">{{ sort().active || '—' }} {{ sort().direction || '—' }}</code>
+    </div>
+    <docs-example-block
+      [docLink]="'#'"
+      [stackBlitzLink]="'#'"
+      [htmlContent]="fullExampleHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-2xl">
+          <tng-table
+            [rows]="rows()"
+            rowKey="id"
+            emptyText="No transactions"
+            (sortChange)="onSortChange($event)"
+          >
+            <tng-col id="date" header="Date" [value]="dateValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <button type="button" class="inline-flex w-full items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                  <span class="truncate">{{ header }}</span>
+                  <tng-sort-icon />
+                </button>
+              </ng-template>
+            </tng-col>
+            <tng-col id="description" header="Description" [value]="descValue"></tng-col>
+            <tng-col id="amount" header="Amount" align="right" [value]="amountValue">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full items-center justify-end gap-2">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span>{{ header }}</span>
+                    <tng-sort-icon />
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template tngCell let-value="value">
+                @if (value < 0) {
+                  <span class="font-semibold text-red-600">{{ value }}</span>
+                } @else {
+                  <span class="font-semibold text-green-600">{{ value }}</span>
+                }
+              </ng-template>
+            </tng-col>
+            <tng-col id="status" header="Status" width="120px" [value]="statusValue">
+              <ng-template tngCell let-value="value">
+                <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold" [class]="badgeClass(value)">{{ value }}</span>
+              </ng-template>
+            </tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>
