@@ -86,14 +86,11 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          # Yarn 4 fails if legacy "production" config is present via env
-          unset npm_config_production
-          unset NPM_CONFIG_PRODUCTION
-          unset YARN_PRODUCTION
-          unset yarn_production
+          corepack enable
+          corepack prepare yarn@4.12.0 --activate
 
-          yarn config get nodeLinker
-          yarn install --immutable
+          env -u YARN_PRODUCTION -u npm_config_production -u NODE_ENV \
+            yarn install --immutable
         
       - name: Debug resolution mode
         run: |
