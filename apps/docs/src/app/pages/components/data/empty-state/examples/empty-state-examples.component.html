@@ -1,1 +1,47 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Default</h3>
+    <p class="text-sm text-fg">No inputs: shows default title "No data available" and no message or icon.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="defaultHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">With message</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">title</span> and <span class="font-mono">message</span> for search/filter empty results.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="withMessageHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No items found"
+            message="Try adjusting your search or filters to find what you're looking for."
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">With icon</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">icon</span> with an emoji or character (e.g. 📭) for a visual cue.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="withIconHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No data available"
+            message="There are no items to display at this time."
+            icon="📭"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

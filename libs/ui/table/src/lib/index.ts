@@ -28,4 +28,5 @@ export * from './table/features/filter.feature';
 export * from './sort-header/sort-header.component';
 export * from './tree/tree.component';
 export * from './empty-state/empty-state.component';
+export * from './empty-state/empty-state.slots';
 export * from './virtual-scroll/virtual-scroll.component';

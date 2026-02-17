@@ -1,1 +1,55 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-empty-state</span> shows a centered message when there is no data to display—for example inside a table body, a list, or a card. Use it with
+        <span class="font-mono text-primary/20">tng-table</span> (via <span class="font-mono text-primary/20">emptyText</span>) or on its own. It accepts a <span class="font-mono text-primary/20">title</span>, optional <span class="font-mono text-primary/20">message</span>, and optional <span class="font-mono text-primary/20">icon</span> (e.g. emoji or icon character).
+      </p>
+    </div>
+
+    <div id="quick-example" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'#'"
+        [stackBlitzLink]="'#'"
+        [htmlContent]="quickExampleHtml()"
+      >
+        <span tngExampleTitle>Default and with message</span>
+        <div tngExampleDemo>
+          <div class="flex flex-wrap gap-6">
+            <div class="min-w-64 rounded-lg border border-border p-0 overflow-hidden">
+              <tng-empty-state></tng-empty-state>
+            </div>
+            <div class="min-w-64 rounded-lg border border-border p-0 overflow-hidden">
+              <tng-empty-state
+                title="No items found"
+                message="Try adjusting your search or filters to find what you're looking for."
+              ></tng-empty-state>
+            </div>
+          </div>
+        </div>
+      </docs-example-block>
+    </div>
+
+    <div id="usage" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Usage</h3>
+      <p class="text-sm text-muted">Use <span class="font-mono">tng-empty-state</span> when:</p>
+      <ul class="list-disc list-inside space-y-1 text-sm text-muted">
+        <li>A table or list has zero rows—either as the table's built-in empty view or inside a custom container.</li>
+        <li>A search or filter returns no results—pass a contextual title and message.</li>
+        <li>A section has no content yet—e.g. "No uploads", "No notifications".</li>
+      </ul>
+      <p class="text-sm text-muted">For <span class="font-mono">tng-table</span>, you can set <span class="font-mono">emptyText</span> for a simple text line, or use a custom empty template with <span class="font-mono">tng-empty-state</span> for a richer layout.</p>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#quick-example" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#usage" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Usage</a></li>
+    </ul>
+  </aside>
+</div>

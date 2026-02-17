@@ -1,1 +1,55 @@
-Api content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <h3 class="text-2xl font-semibold text-primary">API reference for empty state</h3>
+
+    <div class="border border-border bg-bg">
+      <tng-code-block
+        [content]="importExample()"
+        [highlighter]="highlighter"
+        language="typescript"
+        preKlass="bg-bg h-15"
+        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+      >
+      </tng-code-block>
+    </div>
+
+    <section id="inputs" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tng-empty-state (component)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Renders a centered block with optional icon, title, and message. Use inside tables, lists, or cards when there is no data to show.
+      </p>
+      <h4 class="text-base font-semibold text-primary">Inputs</h4>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="inputRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="slot-types" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">TngEmptyStateSlot</h3>
+      <p class="text-sm text-fg">Slot keys for <span class="font-mono">[slot]</span>: <span class="font-mono">container</span>, <span class="font-mono">icon</span>, <span class="font-mono">title</span>, <span class="font-mono">message</span>. Each value is a string of classes merged with the component default. See Styling page for examples.</p>
+    </section>
+
+    <section id="table-integration" class="rounded-xl border bg-bg p-6 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Table integration</h3>
+      <p class="text-sm text-fg">
+        <span class="font-mono">tng-table</span> has an <span class="font-mono">emptyText</span> input that shows a simple message when there are no rows. For a richer empty view, use a custom empty template (if supported) or place <span class="font-mono">tng-empty-state</span> in the same container and show it when <span class="font-mono">rows.length === 0</span>.
+      </p>
+    </section>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Inputs</a></li>
+      <li><a href="#slot-types" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Slot types</a></li>
+      <li><a href="#table-integration" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Table integration</a></li>
+    </ul>
+  </aside>
+</div>

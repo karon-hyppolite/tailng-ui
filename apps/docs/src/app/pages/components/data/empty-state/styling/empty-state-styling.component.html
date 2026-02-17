@@ -1,1 +1,145 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Slot-based styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-empty-state</span> supports micro-styling via a single <span class="font-mono">[slot]</span> input. Slot keys are merged with the component's default classes so you can add or override styles without losing layout.
+    </p>
+    <p class="text-sm text-fg">
+      Pass a slot map: <span class="font-mono">[slot]="&#123; container: '…', icon: '…', title: '…', message: '…' &#125;"</span>. Each value is a string of Tailwind (or custom) classes appended to the default for that element.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Slot keys</h3>
+      <tng-tag label="TngEmptyStateSlot"></tng-tag>
+    </div>
+    <ul class="text-sm text-fg space-y-1 list-disc list-inside">
+      <li><span class="font-mono">container</span> — Outer container (flex, padding, alignment). Default: <span class="font-mono">flex flex-col items-center justify-center p-8 text-center</span></li>
+      <li><span class="font-mono">icon</span> — Icon wrapper. Default: <span class="font-mono">mb-4 text-4xl text-muted</span></li>
+      <li><span class="font-mono">title</span> — Title heading. Default: <span class="font-mono">text-lg font-semibold text-fg mb-2</span></li>
+      <li><span class="font-mono">message</span> — Message paragraph. Default: <span class="font-mono">text-sm text-muted</span></li>
+    </ul>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Add min-height, background, or border-radius. Classes are merged with the default container layout.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No results"
+            message="Try a different search."
+            [slot]="{ container: 'min-h-48 bg-alternate-background rounded-lg' }"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">icon</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the icon/emoji wrapper (size, color). Only applies when <span class="font-mono">icon</span> input is set.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="iconSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No mail"
+            message="Your inbox is empty."
+            icon="📭"
+            [slot]="{ icon: 'text-5xl text-primary/60' }"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">title</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the heading (font size, weight, color).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="titleSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="Nothing here"
+            message="Add items to get started."
+            [slot]="{ title: 'text-xl font-bold text-primary' }"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">message</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the message paragraph (size, color, max-width, italic, etc.).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="messageSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No data"
+            message="There are no items to display at this time."
+            [slot]="{ message: 'text-muted max-w-sm italic' }"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">All slots combined</h3>
+    </div>
+    <p class="text-sm text-fg">Combine all four slots in one <span class="font-mono">[slot]</span> object to customize container, icon, title, and message together.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="allSlotsHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="min-w-64 rounded-lg border border-border overflow-hidden">
+          <tng-empty-state
+            title="No data available"
+            message="There are no items to display at this time."
+            icon="📭"
+            [slot]="{
+              container: 'p-12',
+              icon: 'text-5xl text-primary/60',
+              title: 'text-xl font-bold text-primary',
+              message: 'text-muted max-w-sm'
+            }"
+          ></tng-empty-state>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Wrapper + slots</h3>
+      <tng-tag label="container"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">You can still wrap the component and use slots together—e.g. wrapper for border and shadow, slots for internal spacing and typography.</p>
+    <div class="min-w-64 rounded-xl border-2 border-primary/30 bg-bg shadow-sm overflow-hidden">
+      <tng-empty-state
+        title="Nothing here yet"
+        message="Add an item to get started."
+        [slot]="{ container: 'p-10', title: 'text-primary' }"
+      ></tng-empty-state>
+    </div>
+  </div>
+</section>
