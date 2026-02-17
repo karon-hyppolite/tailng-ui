@@ -1,7 +1,9 @@
 import { signal } from '@angular/core';
+import type { TngSlotMap } from '@tailng-ui/ui';
 import { TngTableFilterFeature } from '../../features/filter.feature';
 import type { TngFilterValue, TngFilters } from '../types';
 import type { TngControllerFeature } from './controller-feature';
+import type { TngFilterPanelSlot } from '../../ui/filter/filter-panel.slots';
 
 export class TngFilterController implements TngControllerFeature {
   
@@ -13,13 +15,13 @@ export class TngFilterController implements TngControllerFeature {
   readonly openFilterColId = this.feature.openFilterColId;
   readonly filterAnchorEl = this.feature.anchorEl;
 
-  private readonly _filterPanelKlass = signal<string>('');
+  private readonly _filterPanelSlot = signal<TngSlotMap<TngFilterPanelSlot>>({});
 
-  setFilterPanelKlass(v: string): void {
-    this._filterPanelKlass.set(v);
+  setFilterPanelSlot(v: TngSlotMap<TngFilterPanelSlot>): void {
+    this._filterPanelSlot.set(v ?? {});
   }
-  filterPanelKlass(): string {
-    return this._filterPanelKlass();
+  filterPanelSlot(): TngSlotMap<TngFilterPanelSlot> {
+    return this._filterPanelSlot();
   }
 
   openFilter(colId: string, anchorEl?: HTMLElement | null): void {

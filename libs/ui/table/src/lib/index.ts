@@ -19,6 +19,7 @@ export * from './table/directives/sort-header.directive';
 export * from './table/directives/filter-trigger.directive';
 
 export * from './table/ui/filter/filter-panel.component';
+export * from './table/ui/filter/filter-panel.slots';
 
 export * from './table/features/sort.feature';
 export * from './table/features/filter.feature';

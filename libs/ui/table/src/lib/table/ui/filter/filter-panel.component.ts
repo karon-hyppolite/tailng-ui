@@ -1,18 +1,19 @@
 import { Component, computed, inject } from '@angular/core';
+import { TngSlotValue } from '@tailng-ui/ui';
 import { TNG_TABLE } from '../../core/tokens/table.token';
 import type {
   TngColumnMeta,
   TngDateFilter,
   TngEnumFilter,
+  TngEnumOption,
   TngNumberFilter,
   TngTextFilter,
-  TngEnumOption,
 } from '../../core/types';
 
 import {
-  TngOverlayRef,
   TngConnectedOverlay,
   TngOverlayPanel,
+  TngOverlayRef,
 } from '@tailng-ui/ui/overlay';
 
 @Component({
@@ -40,11 +41,19 @@ export class TngFilterPanel {
     return label ? ` • ${label}` : '';
   });
 
-  readonly panelKlass = computed(() => {
+  readonly panelClassFinal = computed(() => {
     const base = 'min-w-80 max-w-[360px] p-0';
-    const fromTrigger = this.table.filterPanelKlass();
-    return `${base} ${fromTrigger}`.trim();
+    const slot = this.table.filterPanelSlot();
+    const extra = this.toClassString(slot?.panel, '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
   });
+  readonly overlayPanelSlot = computed(() => ({ panel: this.panelClassFinal() }));
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
+  }
   
   // ---- open/close wiring ----
   onOverlayOpenChange(open: boolean): void {

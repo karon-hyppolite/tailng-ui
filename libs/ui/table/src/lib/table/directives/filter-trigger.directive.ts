@@ -1,4 +1,3 @@
-
 import {
   Directive,
   ElementRef,
@@ -8,7 +7,9 @@ import {
   inject,
   input,
 } from '@angular/core';
+import type { TngSlotMap } from '@tailng-ui/ui';
 import { TNG_TABLE } from '../core/tokens/table.token';
+import type { TngFilterPanelSlot } from '../ui/filter/filter-panel.slots';
 
 @Directive({
   selector: '[tngFilterTrigger]',
@@ -20,7 +21,8 @@ export class TngFilterTrigger {
   private readonly table = inject(TNG_TABLE);
   private readonly el = inject(ElementRef<HTMLElement>);
 
-  readonly panelKlass = input<string>('');
+  /** Slot hooks for the filter panel overlay */
+  readonly slot = input<TngSlotMap<TngFilterPanelSlot>>({});
 
   readonly isFiltered = computed(() => this.table.isFiltered(this.colId()));
   readonly isOpen = computed(() => this.table.isFilterOpenFor(this.colId()));
@@ -37,7 +39,7 @@ export class TngFilterTrigger {
 
   @HostListener('click')
   onClick(): void {
-    this.table.setFilterPanelKlass(this.panelKlass()); // store it
+    this.table.setFilterPanelSlot(this.slot()); // store it
     this.table.toggleFilter(this.colId(), this.el.nativeElement);
   }
 
@@ -45,7 +47,7 @@ export class TngFilterTrigger {
   @HostListener('keydown.space', ['$event'])
   onKey(ev: KeyboardEvent): void {
     ev.preventDefault();
-    this.table.setFilterPanelKlass(this.panelKlass()); // store it
+    this.table.setFilterPanelSlot(this.slot()); // store it
     this.table.toggleFilter(this.colId(), this.el.nativeElement);
   }
 }

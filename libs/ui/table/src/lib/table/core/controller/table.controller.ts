@@ -35,8 +35,8 @@ export class TngTableController {
   readonly openFilterColId = this.filterCtrl.openFilterColId;
   readonly filterAnchorEl = this.filterCtrl.filterAnchorEl;
 
-  setFilterPanelKlass = this.filterCtrl.setFilterPanelKlass.bind(this.filterCtrl);
-  filterPanelKlass = this.filterCtrl.filterPanelKlass.bind(this.filterCtrl);
+  setFilterPanelSlot = this.filterCtrl.setFilterPanelSlot.bind(this.filterCtrl);
+  filterPanelSlot = this.filterCtrl.filterPanelSlot.bind(this.filterCtrl);
 
   openFilter = this.filterCtrl.openFilter.bind(this.filterCtrl);
   closeFilter = this.filterCtrl.closeFilter.bind(this.filterCtrl);
