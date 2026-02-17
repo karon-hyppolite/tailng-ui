@@ -122,10 +122,10 @@ export const categories = [
       { name: 'Sort Header', route: '/data/sort-header', status: 'done', priority: 'medium' },
       { name: 'Filter Header', route: '/data/filter-header', status: 'done', priority: 'medium' },
       { name: 'Tree', route: '/data/tree', status: 'backlog', priority: 'low' },
+      { name: 'Empty State', route: '/data/empty-state', status: 'done', priority: 'medium' },
 
       // Missing but essential data components
       { name: 'Virtual Scroll', route: '/data/virtual-scroll', status: 'backlog', priority: 'medium' },
-      { name: 'Empty State', route: '/data/empty-state', status: 'backlog', priority: 'medium' },
     ],
   },
 
