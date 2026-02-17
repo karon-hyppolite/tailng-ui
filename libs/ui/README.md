@@ -21,6 +21,9 @@
 
 [![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
 
+[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/ui.svg)](https://www.npmjs.com/package/@tailng-ui/ui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Modern Angular UI components powered by Tailwind CSS. Built for Angular 21+ with standalone components, signals, and a clean API.
 
 ## Overview
