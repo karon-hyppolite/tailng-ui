@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import { TngSkeleton } from '@tailng-ui/ui/primitives';
 
 @Component({
   selector: 'playground-skeleton-demo',
   standalone: true,
-  imports: [TngSkeleton],
+  imports: [TngSkeleton, JsonPipe],
   templateUrl: './skeleton-demo.component.html',
 })
 export class SkeletonDemoComponent {

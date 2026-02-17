@@ -1,1 +1,69 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Full table with sort + filter headers</h3>
+    <p class="text-sm text-fg">
+      Each column has a custom header: sortable label (tngSortHeader) and a filter trigger (tngFilterTrigger).
+      Filter types: text (customer), number (amount), date (bill date), enum (status).
+    </p>
+    <docs-example-block
+      [docLink]="'#'"
+      [stackBlitzLink]="'#'"
+      [htmlContent]="fullExampleHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-2xl">
+          <tng-table [rows]="rows()" rowKey="id" emptyText="No invoices">
+            <tng-col id="customer" header="Customer" [value]="customerValue" [filter]="filterText('Search customer…')">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full items-center justify-between gap-2">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span class="truncate">{{ header }}</span>
+                  </button>
+                  <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs cursor-pointer" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-1 min-w-48' }"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="amount" header="Amount" align="right" [value]="amountValue" [filter]="filterNumber()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full items-center justify-end gap-2">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span>{{ header }}</span>
+                  </button>
+                  <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs cursor-pointer" tngFilterTrigger [colId]="colId"></tng-icon>
+                </div>
+              </ng-template>
+              <ng-template tngCell let-value="value">
+                <span class="font-semibold">{{ value }}</span>
+              </ng-template>
+            </tng-col>
+            <tng-col id="billDate" header="Bill Date" [value]="billDateValue" [filter]="filterDate()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full items-center justify-between gap-2">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span class="truncate">{{ header }}</span>
+                  </button>
+                  <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs cursor-pointer" tngFilterTrigger [colId]="colId"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="status" header="Status" width="140px" [value]="statusValue" [filter]="filterStatus()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex w-full items-center justify-between gap-2">
+                  <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                    <span class="truncate">{{ header }}</span>
+                  </button>
+                  <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs cursor-pointer" tngFilterTrigger [colId]="colId"></tng-icon>
+                </div>
+              </ng-template>
+              <ng-template tngCell let-value="value">
+                <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold" [class]="badgeClass(value)">{{ value }}</span>
+              </ng-template>
+            </tng-col>
+            <tng-filter-panel />
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

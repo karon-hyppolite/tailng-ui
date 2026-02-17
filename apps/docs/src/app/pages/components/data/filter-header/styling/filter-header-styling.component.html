@@ -1,1 +1,76 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling the filter header</h2>
+    <p class="text-sm leading-6 text-fg">
+      The filter header is your custom content inside <span class="font-mono">tngHeader</span>. Style the container (flex/grid, gap, alignment) and the trigger element (icon or button) with Tailwind. Panel overlay styling is controlled via <span class="font-mono">tngFilterTrigger</span> <span class="font-mono">[slot]</span> — see <a href="/components/data/filter-panel/styling" class="text-primary hover:underline">Filter Panel → Styling</a>.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Icon trigger</h3>
+      <tng-tag label="tng-icon"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Use an icon (e.g. funnel) with border and padding. Apply <span class="font-mono">tngFilterTrigger</span> and optional <span class="font-mono">[slot]</span> for the panel.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="triggerIconHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue" [filter]="filterText('Search…')">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="truncate">{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-1 min-w-48' }"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue" [filter]="filterNumber()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-end gap-2">
+                  <span>{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-filter-panel />
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Button trigger</h3>
+      <tng-tag label="button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Use a text button (e.g. "Filter") for a more prominent control. Same <span class="font-mono">tngFilterTrigger</span> and <span class="font-mono">[colId]</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="triggerButtonHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue" [filter]="filterText('Search…')">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="truncate">{{ header }}</span>
+                  <button type="button" class="rounded border border-border bg-on-primary text-primary px-3 py-1 text-xs font-medium cursor-pointer hover:opacity-90" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-1 min-w-48' }">Filter</button>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue" [filter]="filterNumber()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-end gap-2">
+                  <span>{{ header }}</span>
+                  <button type="button" class="rounded border border-border bg-on-primary text-primary px-3 py-1 text-xs font-medium cursor-pointer hover:opacity-90" tngFilterTrigger [colId]="colId">Filter</button>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-filter-panel />
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

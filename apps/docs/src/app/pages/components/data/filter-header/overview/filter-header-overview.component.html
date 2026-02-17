@@ -1,1 +1,90 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        A <strong class="text-primary">filter header</strong> is a table column header that includes a filter control.
+        Use <span class="font-mono text-primary/20">tngHeader</span> to define custom header content, and place
+        <span class="font-mono text-primary/20">tngFilterTrigger</span> on a clickable element (e.g. icon or button).
+        Add <span class="font-mono text-primary/20">[filter]</span> on <span class="font-mono text-primary/20">tng-col</span> to supply filter meta (text, number, date, enum).
+        Optionally combine with <span class="font-mono text-primary/20">tngSortHeader</span> for sortable filter headers.
+        The overlay panel is provided by <span class="font-mono text-primary/20">tng-filter-panel</span> (see Filter Panel docs).
+      </p>
+    </div>
+
+    <div id="quick-example" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'#'"
+        [stackBlitzLink]="'#'"
+        [htmlContent]="quickExampleHtml()"
+      >
+        <span tngExampleTitle>Sort + filter in header</span>
+        <div tngExampleDemo>
+          <div class="overflow-auto rounded-md border border-border max-w-2xl">
+            <tng-table [rows]="rows()" rowKey="id" emptyText="No invoices">
+              <tng-col id="customer" header="Customer" [value]="customerValue" [filter]="filterText('Search customer…')">
+                <ng-template tngHeader let-colId="colId" let-header="header">
+                  <div class="flex w-full items-center justify-between gap-2">
+                    <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                      <span class="truncate">{{ header }}</span>
+                    </button>
+                    <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-1 min-w-48' }"></tng-icon>
+                  </div>
+                </ng-template>
+              </tng-col>
+              <tng-col id="amount" header="Amount" align="right" [value]="amountValue" [filter]="filterNumber()">
+                <ng-template tngHeader let-colId="colId" let-header="header">
+                  <div class="flex w-full items-center justify-end gap-2">
+                    <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                      <span>{{ header }}</span>
+                    </button>
+                    <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs" tngFilterTrigger [colId]="colId"></tng-icon>
+                  </div>
+                </ng-template>
+                <ng-template tngCell let-value="value">
+                  <span class="font-semibold">{{ value }}</span>
+                </ng-template>
+              </tng-col>
+              <tng-col id="status" header="Status" width="140px" [value]="statusValue" [filter]="filterStatus()">
+                <ng-template tngHeader let-colId="colId" let-header="header">
+                  <div class="flex w-full items-center justify-between gap-2">
+                    <button type="button" class="inline-flex items-center gap-1 hover:underline" tngSortHeader [colId]="colId">
+                      <span class="truncate">{{ header }}</span>
+                    </button>
+                    <tng-icon name="bootstrapFunnel" class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs" tngFilterTrigger [colId]="colId"></tng-icon>
+                  </div>
+                </ng-template>
+                <ng-template tngCell let-value="value">
+                  <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold" [class]="badgeClass(value)">{{ value }}</span>
+                </ng-template>
+              </tng-col>
+              <tng-filter-panel />
+            </tng-table>
+          </div>
+        </div>
+      </docs-example-block>
+    </div>
+
+    <div id="building-blocks" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Building blocks</h3>
+      <p class="text-sm text-muted">To build a filter header you need:</p>
+      <ul class="list-disc list-inside space-y-2 text-sm text-muted">
+        <li><span class="font-mono text-primary/20">tng-col</span> with <span class="font-mono">[filter]</span> — defines column and filter type (text, number, date, enum).</li>
+        <li><span class="font-mono text-primary/20">ng-template tngHeader</span> — custom header template; use <span class="font-mono">let-colId</span> and <span class="font-mono">let-header</span>.</li>
+        <li><span class="font-mono text-primary/20">tngFilterTrigger</span> — put on the element that opens the filter (e.g. icon); pass <span class="font-mono">[colId]</span> and optionally <span class="font-mono">[slot]</span> for panel styling.</li>
+        <li><span class="font-mono text-primary/20">tng-filter-panel</span> — one per table; renders the overlay. See Filter Panel for API and styling.</li>
+        <li>Optional: <span class="font-mono text-primary/20">tngSortHeader</span> on a button for sortable column headers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#quick-example" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#building-blocks" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Building blocks</a></li>
+    </ul>
+  </aside>
+</div>

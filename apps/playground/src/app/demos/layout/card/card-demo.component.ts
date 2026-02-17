@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TngCard, TngCardFooter, TngCardHeader } from '@tailng-ui/ui/layout';
 import { TngIcon } from '@tailng-ui/icons/icon';
@@ -5,7 +6,7 @@ import { TngIcon } from '@tailng-ui/icons/icon';
 @Component({
   selector: 'playground-card-demo',
   standalone: true,
-  imports: [TngCard, TngCardHeader, TngCardFooter, TngIcon],
+  imports: [TngCard, TngCardHeader, TngCardFooter, TngIcon, JsonPipe],
   templateUrl: './card-demo.component.html',
 })
 export class CardDemoComponent {

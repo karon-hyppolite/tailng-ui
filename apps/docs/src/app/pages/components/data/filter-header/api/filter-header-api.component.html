@@ -1,1 +1,95 @@
-Api content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <h3 class="text-2xl font-semibold text-primary">API reference for filter header</h3>
+
+    <div class="border border-border bg-bg">
+      <tng-code-block
+        [content]="importExample()"
+        [highlighter]="highlighter"
+        language="typescript"
+        preKlass="bg-bg h-15"
+        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+      >
+      </tng-code-block>
+    </div>
+
+    <section id="tng-header" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tngHeader (template)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Use <span class="font-mono">ng-template tngHeader</span> on a <span class="font-mono">tng-col</span> to define custom header content.
+        Template context: <span class="font-mono">colId</span>, <span class="font-mono">header</span>. Place
+        <span class="font-mono">tngFilterTrigger</span> (and optionally <span class="font-mono">tngSortHeader</span>) inside.
+      </p>
+      <h4 class="text-base font-semibold text-primary">Template context</h4>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="headerRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="tng-filter-trigger" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tngFilterTrigger (directive)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Apply to a clickable element in the header. Opens the filter panel for the column. Pass <span class="font-mono">[slot]</span> to style the panel (see Filter Panel).
+      </p>
+      <h4 class="text-base font-semibold text-primary">Inputs</h4>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="triggerRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="tng-col-filter" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-2xl font-semibold text-primary">tng-col [filter]</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Set <span class="font-mono">[filter]</span> on <span class="font-mono">tng-col</span> to enable filtering and define the filter type. Required for columns that use <span class="font-mono">tngFilterTrigger</span>.
+      </p>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="colFilterRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="tng-sort-header" class="rounded-xl border bg-bg p-6 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">tngSortHeader (directive)</h3>
+      <p class="text-sm text-fg">
+        Optional. Apply to a button (or clickable element) in the header for sortable columns. Pass <span class="font-mono">[colId]</span>. See Sort Header docs for full API.
+      </p>
+    </section>
+
+    <section id="tng-filter-panel" class="rounded-xl border bg-bg p-6 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">tng-filter-panel</h3>
+      <p class="text-sm text-fg">
+        Add one <span class="font-mono">tng-filter-panel</span> as a child of <span class="font-mono">tng-table</span>. It renders the overlay when a trigger is clicked. For inputs and panel styling, see <a href="/components/data/filter-panel/api" class="text-primary hover:underline">Filter Panel API</a>.
+      </p>
+    </section>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#tng-header" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tngHeader</a></li>
+      <li><a href="#tng-filter-trigger" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tngFilterTrigger</a></li>
+      <li><a href="#tng-col-filter" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tng-col [filter]</a></li>
+      <li><a href="#tng-sort-header" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tngSortHeader</a></li>
+      <li><a href="#tng-filter-panel" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tng-filter-panel</a></li>
+    </ul>
+  </aside>
+</div>

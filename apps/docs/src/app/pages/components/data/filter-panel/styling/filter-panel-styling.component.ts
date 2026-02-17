@@ -9,7 +9,11 @@ import {
   TngHeaderDef,
   TngTable
 } from '@tailng-ui/ui/table';
-import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
+import {
+  ExampleBlockComponent,
+  TngExampleDemo,
+  TngExampleTitle
+} from '../../../../../shared/example-block/example-block.component';
 
 type Row = { id: string; name: string; score: number };
 
@@ -27,6 +31,7 @@ type Row = { id: string; name: string; score: number };
     TngTag,
     ExampleBlockComponent,
     TngExampleDemo,
+    TngExampleTitle,
   ],
 })
 export class FilterPanelStylingComponent {
