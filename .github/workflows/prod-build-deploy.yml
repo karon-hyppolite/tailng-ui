@@ -71,25 +71,32 @@ jobs:
       # ------------------------------------
       # CACHE
       # ------------------------------------
-      - name: Cache yarn dependencies
+      - name: Cache yarn
         uses: actions/cache@v4
         with:
           path: |
             .yarn/cache
             .yarn/install-state.gz
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+            node_modules
+          key: ${{ runner.os }}-yarn-nm-${{ hashFiles('**/yarn.lock') }}
 
       # ------------------------------------
       # INSTALL (ULTRA CLEAN FIX)
       # ------------------------------------
       - name: Install dependencies
         env:
-          YARN_NODE_LINKER: node-modules
           NODE_ENV: development
           npm_config_production: "false"
-        run: yarn install --immutable
+          YARN_PRODUCTION: "false"   # IMPORTANT: prevents Yarn picking up legacy flag from env
+        run: |
+          yarn config get nodeLinker
+          yarn install --immutable
+        
+      - name: Debug resolution mode
+        run: |
+          yarn config get nodeLinker
+          node -p "process.env.YARN_PRODUCTION"
+          ls -la node_modules/@angular/core || true
 
       # ------------------------------------
       # TESTS
