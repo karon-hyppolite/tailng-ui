@@ -13,7 +13,7 @@
     </p>
   </div>
 
-  <!-- frameKlass -->
+  <!-- frame slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
       <h3 class="text-sm font-semibold text-primary">frame slot</h3>
@@ -30,9 +30,9 @@
       <docs-example-block
         [docLink]="'https://example.com/docs'"
         [stackBlitzLink]="'https://stackblitz.com/example'"
-        [htmlContent]="frameKlassExampleHtml()"
-        [tsContent]="frameKlassExampleTs()"
-        [styleContent]="frameKlassExampleCss()"
+        [htmlContent]="frameSlotExampleHtml()"
+        [tsContent]="frameSlotExampleTs()"
+        [styleContent]="frameSlotExampleCss()"
       >
         <span tngExampleTitle>Example</span>
 
@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <!-- inputKlass -->
+  <!-- input slot -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
     <div class="flex items-center justify-between">
       <h3 class="text-sm font-semibold text-primary">input slot</h3>
@@ -71,9 +71,9 @@
       <docs-example-block
         [docLink]="'https://example.com/docs'"
         [stackBlitzLink]="'https://stackblitz.com/example'"
-        [htmlContent]="inputKlassExampleHtml()"
-        [tsContent]="frameKlassExampleTs()"
-        [styleContent]="inputKlassExampleCss()"
+        [htmlContent]="inputSlotExampleHtml()"
+        [tsContent]="frameSlotExampleTs()"
+        [styleContent]="inputSlotExampleCss()"
       >
         <span tngExampleTitle>Example</span>
         <div tngExampleDemo>
@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <!-- prefixKlass -->
+  <!-- prefix slot -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
     <div class="flex items-center justify-between">
       <h3 class="text-sm font-semibold text-primary">prefix slot</h3>
@@ -113,9 +113,9 @@
         <docs-example-block
           [docLink]="'https://example.com/docs'"
           [stackBlitzLink]="'https://stackblitz.com/example'"
-          [htmlContent]="prefixKlassExampleHtml()"
-          [tsContent]="preffixKlassExampleTs()"
-          [styleContent]="preffixKlassExampleCss()"
+[htmlContent]="prefixSlotExampleHtml()"
+            [tsContent]="prefixSlotExampleTs()"
+            [styleContent]="prefixSlotExampleCss()"
         >
           <span tngExampleTitle>Default</span>
           <div tngExampleDemo>
@@ -130,11 +130,11 @@
           <docs-example-block
             [docLink]="'https://example.com/docs'"
             [stackBlitzLink]="'https://stackblitz.com/example'"
-            [htmlContent]="prefixKlassSearchExampleHtml()"
-            [tsContent]="preffixKlassExampleTs()"
-            [styleContent]="preffixKlassCustomCss()"
+            [htmlContent]="prefixSlotSearchExampleHtml()"
+            [tsContent]="prefixSlotExampleTs()"
+            [styleContent]="prefixSlotCustomCss()"
           >
-            <span tngExampleTitle>With custom prefixKlass</span>
+            <span tngExampleTitle>With custom prefix slot</span>
 
             <div tngExampleDemo>
               <!-- <label class="text-xs font-semibold text-muted">With custom prefix slot</label> -->
@@ -149,7 +149,7 @@
       <!-- <div>
         <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
         <tng-code-block
-          [content]="prefixKlassExample()"
+          [content]="prefixSlotExampleHtml()"
           [highlighter]="highlighter"
           language="html"
         />
@@ -165,7 +165,7 @@
     </div>
   </div>
 
-  <!-- suffixKlass -->
+  <!-- suffix slot -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
     <div class="flex items-center justify-between">
       <h3 class="text-sm font-semibold text-primary">suffix slot</h3>
@@ -184,9 +184,9 @@
         <docs-example-block
           [docLink]="'https://example.com/docs'"
           [stackBlitzLink]="'https://stackblitz.com/example'"
-          [htmlContent]="suffixKlassExampleHtml()"
-          [tsContent]="suffixKlassCustomTs()"
-          [styleContent]="suffixKlassExampleCss()"
+          [htmlContent]="suffixSlotExampleHtml()"
+          [tsContent]="suffixSlotCustomTs()"
+          [styleContent]="suffixSlotExampleCss()"
         >
           <span tngExampleTitle>Default</span>
 
@@ -202,11 +202,11 @@
           <docs-example-block
             [docLink]="'https://example.com/docs'"
             [stackBlitzLink]="'https://stackblitz.com/example'"
-            [htmlContent]="suffixKlassExampleCustomHtml()"
-            [tsContent]="suffixKlassCustomTs()"
-            [styleContent]="suffixKlassCustomCss()"
+            [htmlContent]="suffixSlotExampleCustomHtml()"
+            [tsContent]="suffixSlotCustomTs()"
+            [styleContent]="suffixSlotCustomCss()"
           >
-            <span tngExampleTitle>With custom suffixKlass</span>
+            <span tngExampleTitle>With custom suffix slot</span>
 
             <div tngExampleDemo>
               <!-- <label class="text-xs font-semibold text-muted">With custom suffix slot</label> -->

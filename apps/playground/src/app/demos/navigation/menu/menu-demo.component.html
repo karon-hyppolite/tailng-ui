@@ -54,7 +54,7 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Styled</h2>
 
-    <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+    <tng-menu placement="bottom-end" [slot]="{ panel: 'p-1 min-w-48' }">
       <button
         tngMenuTrigger
         type="button"
@@ -129,7 +129,7 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Modal (backdrop)</h2>
 
-    <tng-menu modal="true" panelKlass="p-2 min-w-56">
+    <tng-menu modal="true" [slot]="{ panel: 'p-2 min-w-56' }">
       <button
         tngMenuTrigger
         type="button"
@@ -196,7 +196,7 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Open From Icon</h2>
 
-    <tng-menu panelKlass="p-1 min-w-48">
+    <tng-menu [slot]="{ panel: 'p-1 min-w-48' }">
       <button
         tngMenuTrigger
         type="button"

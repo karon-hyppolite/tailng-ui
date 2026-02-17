@@ -28,7 +28,7 @@ export class NumberInputStylingComponent {
     frame: ['border-2', 'border-blue-500', 'rounded-lg', 'shadow-md', 'w-48'],
   };
 
-  readonly klassExampleHtml = computed(
+  readonly frameSlotExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-number-input
@@ -40,7 +40,7 @@ export class NumberInputStylingComponent {
 `,
   );
 
-  readonly klassExampleTs = computed(
+  readonly frameSlotExampleTs = computed(
     () => `
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -64,7 +64,7 @@ export class NumberInputDemoComponent {
 `,
   );
 
-  readonly klassExampleCss = computed(
+  readonly frameSlotExampleCss = computed(
     () => `
 // Default classes (merged with your slot)
 // frame = flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground
@@ -78,7 +78,7 @@ export class NumberInputDemoComponent {
     input: ['text-lg', 'font-semibold', 'text-blue-600', 'w-48'],
   };
 
-  readonly inputKlassExampleHtml = computed(
+  readonly inputSlotExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-number-input
@@ -90,7 +90,7 @@ export class NumberInputDemoComponent {
 `,
   );
 
-  readonly inputKlassExampleTs = computed(
+  readonly inputSlotExampleTs = computed(
     () => `
 readonly textSlot: TngSlotMap<TngNumberInputSlot> = {
   input: ['text-lg', 'font-semibold', 'text-blue-600', 'w-48'],
@@ -98,7 +98,7 @@ readonly textSlot: TngSlotMap<TngNumberInputSlot> = {
 `,
   );
 
-  readonly inputKlassExampleCss = computed(
+  readonly inputSlotExampleCss = computed(
     () => `
 // Use input slot for text size, color, font weight, etc.
 input = text-lg font-semibold text-blue-600

@@ -49,7 +49,7 @@ export class TableApiComponent implements AfterViewInit {
     { property: 'value', type: '((row: T) => unknown) | null', default: 'null', description: 'Value accessor' },
     { property: 'width', type: 'string | null', default: 'null', description: 'e.g. 120px, 20%' },
     { property: 'align', type: "'left' | 'right' | 'center'", default: "'left'", description: 'Cell alignment' },
-    { property: 'klass', type: 'string | null', default: 'null', description: 'Extra classes for th/td' },
+    { property: 'slot', type: 'TngSlotMap<TngColSlot>', default: '{}', description: 'Slot keys: header (th), cell (td)' },
   ];
 
   readonly tableInputRows = signal<DisplayDetails[]>(this.tableInputSeed);

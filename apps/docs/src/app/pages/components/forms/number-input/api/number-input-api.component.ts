@@ -29,7 +29,7 @@ export class NumberInputApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
 
-  readonly inputKlassExample = computed(() => `import { TngNumberInput } from '@tailng-ui/ui/form';`);
+  readonly importExample = computed(() => `import { TngNumberInput } from '@tailng-ui/ui/form';`);
 
   private readonly seed: displayDetails[] = [
     { property: 'id', type: 'string', default: '', description: 'Input element id' },

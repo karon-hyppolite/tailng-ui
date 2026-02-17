@@ -1,5 +1,5 @@
 @if ((items()?.length ?? 0) > 0) {
-  <div [class]="hostPositionKlass()">
+  <div [class]="hostPositionClass()">
     @for (item of items().slice(0, max()); track item.id) {
       <div [class]="itemClasses(item)">
         <div [class]="itemInnerClassFinal()">

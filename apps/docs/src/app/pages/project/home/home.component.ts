@@ -76,14 +76,14 @@ import { TngButton } from '@tailng-ui/ui/primitives';
 export class AppComponent {}
 `);
 
-  klassSignalSnippet = computed(
+  classSignalSnippet = computed(
     () => `import { Component, computed, input } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'tng-example-button',
   template: \`
-    <button type="button" class="px-3 py-2 text-sm font-semibold" [class]="klass()">
+    <button type="button" class="px-3 py-2 text-sm font-semibold" [class]="buttonClass()">
       <ng-content />
     </button>
   \`,
@@ -92,7 +92,7 @@ export class ExampleButtonComponent {
   variant = input<'primary' | 'outline'>('primary');
   disabled = input(false);
 
-  klass = computed(() => {
+  buttonClass = computed(() => {
     const base = 'rounded-md transition';
     const primary = 'bg-[color:var(--primary)] text-white hover:opacity-95';
     const outline = 'border border-slate-200 text-slate-800 hover:bg-slate-50';
@@ -107,7 +107,7 @@ export class ExampleButtonComponent {
 }`,
   );
 
-  klassUsageSnippet = computed(
+  classUsageSnippet = computed(
     () => `<tng-example-button variant="primary">Save</tng-example-button>
 <tng-example-button variant="outline">Cancel</tng-example-button>
 <tng-example-button variant="primary" [disabled]="true">Disabled</tng-example-button>`,

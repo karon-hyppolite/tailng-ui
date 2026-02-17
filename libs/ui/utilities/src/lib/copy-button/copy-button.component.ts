@@ -45,23 +45,23 @@ export class TngCopyButton {
   };
 
   /* =====================
-   * Final Klass (defaults + slot)
+   * Final class (defaults + slot)
    * ===================== */
 
-  private readonly defaultRootKlass = computed(() =>
+  private readonly defaultRootClass = computed(() =>
     [this.base, this.sizes[this.size()], this.variants[this.variant()]].join(' ')
   );
 
-  readonly finalRootKlass = computed(() => {
-    const base = this.defaultRootKlass();
+  readonly finalRootClass = computed(() => {
+    const base = this.defaultRootClass();
     const slotExtra = this.toClassString(this.slotClass('container'), '');
     return [base, slotExtra].filter(Boolean).join(' ').trim() || base;
   });
 
-  private readonly defaultContentKlass = 'inline-flex items-center gap-1.5';
+  private readonly defaultContentClass = 'inline-flex items-center gap-1.5';
 
-  readonly finalContentWrapKlass = computed(() => {
-    const base = this.defaultContentKlass;
+  readonly finalContentWrapClass = computed(() => {
+    const base = this.defaultContentClass;
     const slotExtra = this.toClassString(this.slotClass('content'), '');
     return [base, slotExtra].filter(Boolean).join(' ').trim() || base;
   });

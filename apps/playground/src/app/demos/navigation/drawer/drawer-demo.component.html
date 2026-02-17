@@ -46,8 +46,7 @@
     [open]="open()"
     [placement]="placement()"
     (closed)="onClosed($event)"
-    backdropKlass="fixed inset-0 bg-black/40"
-    panelKlass="bg-bg border border-border shadow-xl"
+    [slot]="{ backdrop: 'fixed inset-0 bg-black/40', panel: 'bg-bg border border-border shadow-xl' }"
   >
     <!-- Content -->
     <div class="flex h-full flex-col">

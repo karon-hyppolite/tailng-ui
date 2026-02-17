@@ -41,18 +41,18 @@ export class ButtonComponent {
 }`,
   );
 
-  readonly klassSignalSnippet = computed(
+  readonly classSignalSnippet = computed(
     () => `import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'tng-button',
   standalone: true,
-  template: '<button type="button" [class]="klass()"><ng-content /></button>',
+  template: '<button type="button" [class]="buttonClass()"><ng-content /></button>',
 })
 export class ButtonComponent {
   variant = input<'primary' | 'outline'>('primary');
 
-  klass = computed(() => {
+  buttonClass = computed(() => {
     const base = 'rounded-md px-3 py-2 text-sm font-semibold';
     const primary = 'bg-[color:var(--primary)] text-white';
     const outline = 'border border-slate-200 text-slate-800';

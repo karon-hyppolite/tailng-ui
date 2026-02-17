@@ -56,15 +56,13 @@ export class ExampleBlockComponent {
   readonly htmlContent = input<string>('');
   readonly tsContent = input<string>('');
   readonly styleContent = input<string>('');
-  readonly klass = input<string>('');
+  readonly extraClass = input<string>('');
 
   // State
   readonly isCodePanelOpen = signal(false);
 
-  readonly finalKlass = computed(() => {
-    return ['rounded-xl border border-border bg-bg p-4 shadow-sm space-y-2', this.klass()].join(
-      ' ',
-    );
+  readonly wrapperClass = computed(() => {
+    return ['rounded-xl border border-border bg-bg p-4 shadow-sm space-y-2', this.extraClass()].filter(Boolean).join(' ').trim();
   });
 
   toggleCodePanel(): void {

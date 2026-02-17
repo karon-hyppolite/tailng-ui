@@ -82,7 +82,7 @@ export class TngStep {
   }
 
   @HostBinding('class')
-  get klass() {
+  get hostClass() {
     const step = this.slotClass('step') || 'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium border border-transparent';
     const disabled = this.slotClass('disabled') || 'opacity-50 cursor-not-allowed';
     const active = this.slotClass('active') || 'bg-primary text-on-primary';

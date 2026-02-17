@@ -7,12 +7,12 @@
         implements <span class="font-mono text-primary/20">ControlValueAccessor</span> for Angular
         forms. It supports an optional <span class="font-mono text-primary/20">label</span>,
         <span class="font-mono text-primary/20">disabled</span>, <span class="font-mono text-primary/20">required</span>,
-        and klass hooks for the root label, input, and label text.
+        and slot-based styling for the root label, input, and label text.
       </p>
       <div class="flex flex-wrap gap-2 pt-1">
         <tng-tag label="CVA" color="default"></tng-tag>
         <tng-tag label="label" color="default"></tng-tag>
-        <tng-tag label="rootKlass / inputKlass / labelKlass" color="default"></tng-tag>
+        <tng-tag label="slot: container, input, label" color="default"></tng-tag>
         <tng-tag label="Standalone" color="default"></tng-tag>
       </div>
     </div>
@@ -50,8 +50,8 @@
           <p class="text-xs leading-5 text-muted">Form value is <span class="font-mono">true</span> or <span class="font-mono">false</span>.</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
-          <div class="text-sm font-semibold text-primary/20">Klass hooks</div>
-          <p class="text-xs leading-5 text-muted"><span class="font-mono">rootKlass</span> (label), <span class="font-mono">inputKlass</span>, <span class="font-mono">labelKlass</span>.</p>
+          <div class="text-sm font-semibold text-primary/20">Slot hooks</div>
+          <p class="text-xs leading-5 text-muted"><span class="font-mono">slot</span> keys: <span class="font-mono">container</span> (label), <span class="font-mono">input</span>, <span class="font-mono">label</span>.</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Forms-ready</div>

@@ -14,7 +14,7 @@ export class ExpansionPanelOverviewComponent {
 <tng-expansion-panel>
   <div tngExpansionTitle>What is TailNG?</div>
   <div tngExpansionContent>
-    TailNG is a minimal Angular + Tailwind UI kit with klass hooks for theming.
+    TailNG is a minimal Angular + Tailwind UI kit with slot-based styling for theming.
   </div>
 </tng-expansion-panel>
 `,

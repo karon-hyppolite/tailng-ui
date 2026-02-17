@@ -10,7 +10,7 @@
       <tng-badge variant="neutral">[content]</tng-badge>
       <tng-badge variant="neutral">line numbers</tng-badge>
       <tng-badge variant="neutral">wrap</tng-badge>
-      <tng-badge variant="neutral">klass overrides</tng-badge>
+      <tng-badge variant="neutral">slot overrides</tng-badge>
       <tng-badge variant="neutral">copy (external)</tng-badge>
     </div>
   </div>
@@ -31,15 +31,15 @@
     </div>
   </div>
 
-  <!-- klass pattern -->
+  <!-- class signal pattern -->
   <div class="space-y-3">
     <div class="flex items-center justify-between">
-      <h2 class="text-base font-semibold text-slate-900">klass signal pattern</h2>
+      <h2 class="text-base font-semibold text-slate-900">class signal pattern</h2>
       <tng-badge variant="neutral">tailng</tng-badge>
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="klassSignalSnippet()" [showLineNumbers]="true" [highlighter]="highlighter"
+      <tng-code-block [content]="classSignalSnippet()" [showLineNumbers]="true" [highlighter]="highlighter"
         language="typescript" [slot]="{ container: 'bg-bg' }" [copyResetMs]="2000">
         <tng-icon name="bootstrapCopy" tngCodeBlockCopy></tng-icon>
         <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="relative">
-      <tng-code-block [content]="klassSignalSnippet()" [wrap]="true" [highlighter]="highlighter" language="typescript"
+      <tng-code-block [content]="classSignalSnippet()" [wrap]="true" [highlighter]="highlighter" language="typescript"
         [slot]="{ container: 'bg-bg' }" [copyResetMs]="2000">
         <tng-icon name="bootstrapCopy" tngCodeBlockCopy></tng-icon>
         <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
@@ -81,10 +81,10 @@
     </div>
   </div>
 
-  <!-- Klass overrides -->
+  <!-- Slot overrides -->
   <div class="space-y-3">
     <div class="flex items-center justify-between">
-      <h2 class="text-base font-semibold text-slate-900">Klass overrides</h2>
+      <h2 class="text-base font-semibold text-slate-900">Slot overrides</h2>
       <tng-badge variant="neutral">theming</tng-badge>
     </div>
 

@@ -5,7 +5,7 @@
         @for (col of columns(); track col.id) {
           <th
             scope="col"
-            [class]="(thClassFinal() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
+            [class]="(thClassFinal() + ' ' + alignClass(col.align) + (col.headerClass ? ' ' + col.headerClass : '')).trim()"
             [ngStyle]="styleWidth(col)"
           >
             @if (col.headerTpl) {
@@ -27,7 +27,7 @@
           <tr>
             @for (col of columns(); track col.id) {
               <td
-                [class]="(tdClassFinal() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
+                [class]="(tdClassFinal() + ' ' + alignClass(col.align) + (col.cellClass ? ' ' + col.cellClass : '')).trim()"
               >
                 @if (col.cellTpl) {
                   <ng-container

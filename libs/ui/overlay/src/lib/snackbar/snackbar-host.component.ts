@@ -64,7 +64,7 @@ export class TngSnackbarHost {
   /* =====================
    * Derived / internal
    * ===================== */
-  readonly hostPositionKlass = computed(() => {
+  readonly hostPositionClass = computed(() => {
     const base = this.hostClassFinal();
     switch (this.position()) {
       case 'top-left':

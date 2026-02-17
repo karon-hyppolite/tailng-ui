@@ -15,7 +15,7 @@
   transform: translateX(-100%);
   animation: tng-skeleton-shimmer 1.25s infinite linear;
 
-  /* Uses current theme via opacity only; users can override by klass */
+  /* Uses current theme via opacity only; users can override via slot */
   background: linear-gradient(
     90deg,
     transparent,

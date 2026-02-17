@@ -1,4 +1,4 @@
-<div [class]="finalKlass()">
+<div [class]="wrapperClass()">
   <!-- Title Section -->
   <div class="flex items-center justify-between mb-2">
     <ng-content select="[tngExampleTitle]"></ng-content>
@@ -9,7 +9,7 @@
           size="1.5em"
           title="Copy link"
           (click)="copyDocLink()"
-          klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"
+          [slot]="{ icon: 'cursor-pointer hover:bg-slate-100 hover:text-slate-900' }"
         ></tng-icon>
       }
 
@@ -18,7 +18,7 @@
         size="1.5em"
         title="View code"
         (click)="toggleCodePanel()"
-        klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"
+        [slot]="{ icon: 'cursor-pointer hover:bg-slate-100 hover:text-slate-900' }"
       ></tng-icon>
 
       @if (stackBlitzLink()) {
@@ -27,7 +27,7 @@
           size="1em"
           title="Open in StackBlitz"
           (click)="openStackBlitz()"
-          klass="cursor-pointer hover:bg-slate-100 hover:text-slate-900"
+          [slot]="{ icon: 'cursor-pointer hover:bg-slate-100 hover:text-slate-900' }"
         ></tng-icon>
       }
     </div>

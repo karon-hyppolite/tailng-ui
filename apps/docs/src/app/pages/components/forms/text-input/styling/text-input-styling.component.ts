@@ -22,7 +22,7 @@ export class TextInputStylingComponent {
     frame: ['border-2', 'border-blue-900', 'rounded-md', 'shadow-md', 'focus-within:ring-blue-900', 'max-w-2xl'],
   };
 
-   readonly frameKlassExampleHtml = computed(
+   readonly frameSlotExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-text-input
@@ -33,7 +33,7 @@ export class TextInputStylingComponent {
 </form>
 `,
   );
-  readonly frameKlassExampleTs = computed(
+  readonly frameSlotExampleTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
@@ -55,7 +55,7 @@ export class TextInputDemoComponent {
 `,
   );
 
-  readonly frameKlassExampleCss = computed(
+  readonly frameSlotExampleCss = computed(
     () => `
 // Default CSS for frame slot
 frame = flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground
@@ -69,7 +69,7 @@ frame = flex h-10 w-full items-center rounded-md border border-border bg-bg text
     input: ['text-lg', 'font-semibold', 'text-blue-600'],
   };
 
-  readonly inputKlassExampleHtml = computed(
+  readonly inputSlotExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-text-input
@@ -81,7 +81,7 @@ frame = flex h-10 w-full items-center rounded-md border border-border bg-bg text
 `,
   );
 
-  readonly inputKlassExampleTs = computed(
+  readonly inputSlotExampleTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
@@ -103,7 +103,7 @@ export class TextInputDemoComponent {
 `,
   );
 
-  readonly inputKlassExampleCss = computed(
+  readonly inputSlotExampleCss = computed(
     () => `
 // Default CSS for input slot
 input = h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-muted
@@ -114,7 +114,7 @@ input = h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placehold
     prefix: ['bg-blue-50', 'rounded-l-md'],
   };
 
-  readonly prefixKlassExampleHtml = computed(
+  readonly prefixSlotExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-text-input placeholder="Search..." formControlName="search">
@@ -127,7 +127,7 @@ input = h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placehold
 </form>
 `,
   );
-  readonly prefixKlassSearchExampleHtml = computed(
+  readonly prefixSlotSearchExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-text-input
@@ -145,7 +145,7 @@ input = h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placehold
 `,
   );
 
-  readonly preffixKlassExampleTs = computed(
+  readonly prefixSlotExampleTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
@@ -167,11 +167,11 @@ export class TextInputDemoComponent {
   };
 `,
   );
-  readonly preffixKlassExampleCss = computed(
+  readonly prefixSlotExampleCss = computed(
     () => `
 tngPrefix = ml-3`,
   );
-  readonly preffixKlassCustomCss = computed(
+  readonly prefixSlotCustomCss = computed(
     () => `
 tngPrefix = ml-3
 prefix = bg-blue-50 rounded-l-md
@@ -183,7 +183,7 @@ prefix = bg-blue-50 rounded-l-md
     suffix: ['bg-green-50', 'rounded-r-md'],
   };
 
-  readonly suffixKlassExampleHtml = computed(
+  readonly suffixSlotExampleHtml = computed(
     () => `
 <form [formGroup]="login">
   <tng-text-input placeholder="Enter email" formControlName="email">
@@ -197,7 +197,7 @@ prefix = bg-blue-50 rounded-l-md
 `,
   );
 
-  readonly suffixKlassExampleCustomHtml = computed(
+  readonly suffixSlotExampleCustomHtml = computed(
     () => `
 <form [formGroup]="login">
   <tng-text-input
@@ -215,17 +215,17 @@ prefix = bg-blue-50 rounded-l-md
 `,
   );
 
-  readonly suffixKlassExampleCss = computed(
+  readonly suffixSlotExampleCss = computed(
     () => `
 tngSuffix = mr-3`,
   );
-  readonly suffixKlassCustomCss = computed(
+  readonly suffixSlotCustomCss = computed(
     () => `
 tngSuffix = mr-3
 suffix = bg-green-50 rounded-r-md
 `,
   );
-readonly suffixKlassCustomTs = computed(
+readonly suffixSlotCustomTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';

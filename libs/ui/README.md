@@ -52,7 +52,7 @@ npm install @tailng-ui/ui
 - **Type-safe**: Full TypeScript support with comprehensive types
 - **Tree-shakable**: Import only what you need
 - **CSS Variables**: Theme support via CSS custom properties
-- **"klass signal" Pattern**: Consistent styling API across components
+- **Slot-based styling**: Consistent styling API via the `slot` input across components
 
 ## Quick Start
 
@@ -232,26 +232,19 @@ Components support theming via CSS variables:
 
 See [`@tailng-ui/theme`](../theme/README.md) for the complete theming guide.
 
-## "klass signal" Pattern
+## Slot-based styling
 
-Many components expose a `klass` signal that composes Tailwind classes from inputs and state:
+Many components expose a `slot` input that accepts an object of region keys (e.g. `container`, `header`, `panel`) with Tailwind class strings. Classes are merged with the component’s defaults so you can override or extend styles per region:
 
 ```typescript
-@Component({
-  template: `<button [class]="klass()">Click me</button>`,
-})
-export class MyButton {
-  variant = input<'primary' | 'outline'>('primary');
-  
-  klass = computed(() => {
-    const base = 'px-3 py-2 rounded-md';
-    const primary = 'bg-blue-500 text-white';
-    const outline = 'border border-gray-300';
-    
-    return [base, this.variant() === 'primary' ? primary : outline].join(' ');
-  });
-}
+// Example: style the button container and inner content
+<tng-copy-button
+  [text]="code()"
+  [slot]="{ container: 'rounded-xl shadow-md', content: 'gap-2' }"
+/>
 ```
+
+Each component defines its own slot keys (see `Tng*Slot` types); use the `slot` input for micro-styling without losing default behavior.
 
 ## Related Packages
 

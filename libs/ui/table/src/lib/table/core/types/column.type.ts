@@ -8,7 +8,9 @@ export type TngResolvedColumn<T> = {
 
   align?: TngAlign;
   width?: string;
-  klass?: string;
+  /** Extra classes from column slot (header = th, cell = td) */
+  headerClass?: string;
+  cellClass?: string;
 
   value?: (row: T) => unknown;
 

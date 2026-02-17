@@ -28,7 +28,7 @@ export class TextInputApiComponent implements AfterViewInit {
 private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   
-   readonly inputKlassExample = computed(() => `import { TngTextInput } from '@tailng-ui/ui';`);
+   readonly importExample = computed(() => `import { TngTextInput } from '@tailng-ui/ui';`);
 
   readonly slotExampleCode = computed(() => `readonly searchSlot: TngSlotMap<TngTextInputSlot> = {
   frame: ['rounded-full', 'border-slate-300', 'bg-white'],

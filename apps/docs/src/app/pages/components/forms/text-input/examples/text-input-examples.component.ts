@@ -104,8 +104,8 @@ export class TextInputDemoComponent {
   );
   readonly basicExampleCss = computed(
     () => `
-// Default inputKlass CSS
-inputKlass  = h-full min-w-0 flex-1 bg-transparent 
+// Default input slot CSS
+slot.input  = h-full min-w-0 flex-1 bg-transparent 
               px-3 text-sm outline-none 
               placeholder:text-muted
 `,
@@ -164,7 +164,7 @@ export class TextInputDemoComponent {
   readonly reactiveFormsExampleCss = computed(
     () => `
 // Default CSS
-inputKlass = h-full min-w-0 flex-1 bg-transparent 
+slot.input = h-full min-w-0 flex-1 bg-transparent 
               px-3 text-sm outline-none 
               placeholder:text-muted
 tngPrefix = ml-3
@@ -233,7 +233,7 @@ export class TextInputDemoComponent {
   readonly prefixSuffixExampleCss = computed(
     () => `
 // Default CSS
-inputKlass = h-full min-w-0 flex-1 bg-transparent 
+slot.input = h-full min-w-0 flex-1 bg-transparent 
               px-3 text-sm outline-none 
               placeholder:text-muted
 tngPrefix = ml-3

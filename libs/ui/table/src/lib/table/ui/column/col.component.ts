@@ -1,8 +1,10 @@
 import { Component, ContentChild, TemplateRef, effect, inject, input } from '@angular/core';
+import { TngSlotMap } from '@tailng-ui/ui';
 import { TNG_TABLE } from '../../core/tokens/table.token';
 import type { TngAlign, TngColumnFilterMeta } from '../../core/types';
 import { TngCellDef } from '../../defs/cell.def';
 import { TngHeaderDef } from '../../defs/header.def';
+import type { TngColSlot } from './col.slots';
 
 @Component({
   selector: 'tng-col',
@@ -25,8 +27,8 @@ export class TngCol<T> {
   /** alignment */
   readonly align = input<TngAlign>('left');
 
-  /** extra CSS classes applied to th/td */
-  readonly klass = input<string | null>(null);
+  /** Slot hooks for micro-styling: header (th), cell (td) */
+  readonly slot = input<TngSlotMap<TngColSlot>>({});
 
   /** default filter meta (used by tng-filter-panel) */
   readonly filter = input<TngColumnFilterMeta | null>(null);
