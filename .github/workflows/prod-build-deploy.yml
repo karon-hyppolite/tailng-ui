@@ -80,6 +80,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Force node-modules linker (match local)
+        run: |
+          yarn config set nodeLinker node-modules
+
       - name: Install dependencies
         run: yarn install --immutable
       # ------------------------------------
