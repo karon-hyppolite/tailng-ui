@@ -68,6 +68,39 @@ export const dataRoutes: Routes = [
     data: { title: 'Filter Header – tailng', description: 'Filter header for tables and lists.' },
   },
   {
+    path: 'data/filter-panel',
+    loadComponent: () =>
+      import('./filter-panel/filter-panel-docs.component').then((m) => m.FilterPanelDocsComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+      {
+        path: 'overview',
+        loadComponent: () =>
+          import('./filter-panel/overview/filter-panel-overview.component').then((m) => m.FilterPanelOverviewComponent),
+      },
+      {
+        path: 'api',
+        loadComponent: () =>
+          import('./filter-panel/api/filter-panel-api.component').then((m) => m.FilterPanelApiComponent),
+      },
+      {
+        path: 'styling',
+        loadComponent: () =>
+          import('./filter-panel/styling/filter-panel-styling.component').then((m) => m.FilterPanelStylingComponent),
+      },
+      {
+        path: 'examples',
+        loadComponent: () =>
+          import('./filter-panel/examples/filter-panel-examples.component').then((m) => m.FilterPanelExamplesComponent),
+      },
+    ],
+    data: { title: 'Filter Panel – tailng', description: 'Overlay filter panel for table columns.' },
+  },
+  {
     path: 'data/sort-header',
     loadComponent: () =>
       import('./sort-header/sort-header-docs.component').then((m) => m.SortHeaderDocsComponent),

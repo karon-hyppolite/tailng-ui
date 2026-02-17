@@ -1,0 +1,76 @@
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      The filter panel uses a single slot <span class="font-mono">panel</span>. Pass it via
+      <span class="font-mono">tngFilterTrigger</span> <span class="font-mono">[slot]</span> to style the overlay panel.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panel slot</h3>
+      <tng-tag label="overlay panel"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Overlay panel container. Default: min-w-80 max-w-[360px] p-0. You can override padding, min/max width, background, etc.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue" [filter]="filterText('Search…')">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="truncate">{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-1 min-w-48' }"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue" [filter]="filterNumber()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-end gap-2">
+                  <span>{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-filter-panel />
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Custom panel styling</h3>
+    </div>
+    <p class="text-sm text-fg">Apply Tailwind classes for padding, background, border-radius, shadow.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="customPanelHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue" [filter]="filterText('Search…')">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="truncate">{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-4 min-w-64 bg-slate-100 rounded-lg shadow-lg' }"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue" [filter]="filterNumber()">
+              <ng-template tngHeader let-colId="colId" let-header="header">
+                <div class="flex items-center justify-end gap-2">
+                  <span>{{ header }}</span>
+                  <tng-icon name="bootstrapFunnel" class="cursor-pointer rounded border px-2 py-0.5 text-xs" tngFilterTrigger [colId]="colId" [slot]="{ panel: 'p-4 min-w-64 bg-slate-100 rounded-lg shadow-lg' }"></tng-icon>
+                </div>
+              </ng-template>
+            </tng-col>
+            <tng-filter-panel />
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

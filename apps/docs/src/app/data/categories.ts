@@ -118,6 +118,7 @@ export const categories = [
       { name: 'Table Basic', route: '/data/table', status: 'done', priority: 'high' },
       { name: 'Sort Header', route: '/data/sort-header', status: 'done', priority: 'medium' },
       { name: 'Filter Header', route: '/data/filter-header', status: 'done', priority: 'medium' },
+      { name: 'Filter Panel', route: '/data/filter-panel', status: 'done', priority: 'medium' },
       { name: 'Tree', route: '/data/tree', status: 'backlog', priority: 'low' },
 
       // Missing but essential data components

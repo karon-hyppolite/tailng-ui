@@ -1,0 +1,73 @@
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <h3 class="text-2xl font-semibold text-primary">API reference for filter-panel</h3>
+
+    <div class="border border-border bg-bg">
+      <tng-code-block
+        [content]="importExample()"
+        [highlighter]="highlighter"
+        language="typescript"
+        preKlass="bg-bg h-15"
+        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+      >
+      </tng-code-block>
+    </div>
+
+    <header class="flex flex-col gap-1">
+      <h3 class="text-2xl font-semibold text-primary">tngFilterTrigger (directive)</h3>
+      <p class="text-sm text-fg">
+        Apply <span class="font-mono">tngFilterTrigger</span> to a clickable element (button, icon, etc.) in a column header.
+        It opens the filter panel anchored to that element. Pass <span class="font-mono">[slot]</span> to style the panel.
+      </p>
+    </header>
+
+    <section id="trigger-inputs" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-base font-semibold text-primary">Inputs</h3>
+      </header>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="triggerRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="tng-filter-panel" class="flex flex-col gap-4 text-fg">
+      <header class="flex flex-col gap-1">
+        <h3 class="text-base font-semibold text-primary">tng-filter-panel (component)</h3>
+      </header>
+      <p class="text-sm text-fg">
+        Add <span class="font-mono">tng-filter-panel</span> as a child of <span class="font-mono">tng-table</span>.
+        It provides the overlay that appears when a trigger is clicked. Styling is controlled via the trigger's <span class="font-mono">slot</span>.
+      </p>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="panelRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="slot-types" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">TngFilterPanelSlot</h3>
+      <p class="text-sm text-fg">Slot map passed to <span class="font-mono">tngFilterTrigger</span>:</p>
+      <ul class="space-y-2 text-sm text-muted list-disc list-inside">
+        <li><span class="font-mono">panel</span> — Overlay panel (min-width, max-width, padding, etc.)</li>
+      </ul>
+      <p class="text-sm text-muted">Example: <span class="font-mono">[slot]="&#123; panel: 'p-1 min-w-48' &#125;"</span></p>
+    </section>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#trigger-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tngFilterTrigger</a></li>
+      <li><a href="#tng-filter-panel" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> tng-filter-panel</a></li>
+      <li><a href="#slot-types" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Slot types</a></li>
+    </ul>
+  </aside>
+</div>

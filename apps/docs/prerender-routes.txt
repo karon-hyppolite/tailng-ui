@@ -82,6 +82,7 @@
 /components/data/table
 /components/data/sort-header
 /components/data/filter-header
+/components/data/filter-panel
 /components/data/tree
 /components/data/virtual-scroll
 /components/data/empty-state

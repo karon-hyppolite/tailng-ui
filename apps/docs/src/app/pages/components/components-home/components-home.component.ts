@@ -363,6 +363,12 @@ sectionMatchesQuery(section: ComponentDemoSection): boolean {
           imageUrl: '/assets/filter-header.png',
         },
         {
+          routerLink: '../components/data/filter-panel/overview',
+          title: 'Filter Panel',
+          description: 'Overlay filter panel for table columns with text, number, date, and enum filters.',
+          imageUrl: '/assets/filter-header.png',
+        },
+        {
           routerLink: '../components/data/tree/overview',
           title: 'Tree',
           description: 'Footer',
