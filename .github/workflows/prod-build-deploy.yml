@@ -83,14 +83,21 @@ jobs:
       # ------------------------------------
       # INSTALL (ULTRA CLEAN FIX)
       # ------------------------------------
-      - name: Install dependencies
+      - name: Install dependencies (force node-modules)
         shell: bash
         run: |
-          corepack enable
-          corepack prepare yarn@4.12.0 --activate
+          set -euo pipefail
 
-          env -u YARN_PRODUCTION -u npm_config_production -u NODE_ENV \
-            yarn install --immutable
+          # Force the linker in CI (don’t rely on env or cache state)
+          yarn config set nodeLinker node-modules
+
+          # Install
+          yarn install --immutable
+
+          # Sanity checks (fail fast if install mode is wrong)
+          test -d node_modules || (echo "node_modules missing" && exit 1)
+          node -e "console.log('core:', require.resolve('@angular/core/package.json'))"
+          node -e "console.log('core/testing:', require.resolve('@angular/core/testing'))"
         
       - name: Debug resolution mode
         run: |
@@ -101,11 +108,12 @@ jobs:
       # ------------------------------------
       # TESTS
       # ------------------------------------
-      - name: Test ui if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" ui "yarn nx test ui --ci"
 
-      - name: Test icons if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" icons "yarn nx test icons --ci"
+      - name: Test ui
+        run: yarn nx test ui --ci
+
+      - name: Test icons
+        run: yarn nx test icons --ci
 
       # ------------------------------------
       # VALIDATION
