@@ -1,9 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
-import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
-
 import { TngIconSlot } from './icon.slots';
+import type { TngSlotMap, TngSlotValue } from './slot.types';
 
 type TngIconSize = number | string;
 
