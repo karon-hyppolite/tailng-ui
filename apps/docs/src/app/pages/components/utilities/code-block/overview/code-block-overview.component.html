@@ -19,7 +19,7 @@
       >
         <span tngExampleTitle>Basic</span>
         <div tngExampleDemo>
-          <tng-code-block [content]="snippet()" language="typescript" rootKlass="max-w-lg">
+          <tng-code-block [content]="snippet()" language="typescript" [slot]="{ container: 'max-w-lg' }">
           </tng-code-block>
         </div>
       </docs-example-block>
@@ -34,7 +34,7 @@
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Line numbers & wrap</div>
-          <p class="text-xs leading-5 text-muted">showLineNumbers, wrap. Class hooks: rootKlass, bodyKlass, gutterKlass, preKlass, codeKlass.</p>
+          <p class="text-xs leading-5 text-muted">showLineNumbers, wrap. Styling: use the <span class="font-mono">slot</span> input (container, body, gutter, pre, code, copyWrapper).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Copy</div>

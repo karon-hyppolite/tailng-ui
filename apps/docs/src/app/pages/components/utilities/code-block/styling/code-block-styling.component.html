@@ -2,49 +2,72 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-code-block</span> exposes rootKlass, bodyKlass, gutterKlass, preKlass, codeKlass.
-      Default root has border, rounded-lg, alternate background. Use these to theme the block and line gutter.
+      <span class="font-mono">tng-code-block</span> uses the <span class="font-mono">slot</span> input for micro-styling. Slot keys: <span class="font-mono">container</span>, <span class="font-mono">body</span>, <span class="font-mono">gutter</span>, <span class="font-mono">pre</span>, <span class="font-mono">code</span>, <span class="font-mono">copyWrapper</span>. Below is one sample per slot.
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">rootKlass / preKlass</h3>
-    <p class="text-sm text-fg">Customize the outer wrapper and the pre (scroll + padding) area.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootPreHtml()"
-    >
+    <h3 class="text-sm font-semibold text-primary">container</h3>
+    <p class="text-sm text-fg">Outer wrapper (root). Border, radius, background.</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="containerHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-code-block
-          [content]="snippet()"
-          language="text"
-          rootKlass="rounded-xl border-2 border-primary bg-bg"
-          preKlass="text-sm p-4"
-        >
-        </tng-code-block>
+        <tng-code-block [content]="snippet()" language="text" [slot]="{ container: 'rounded-xl border-2 border-primary bg-bg' }"></tng-code-block>
       </div>
     </docs-example-block>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Line numbers (gutterKlass)</h3>
-    <p class="text-sm text-fg">When <span class="font-mono">showLineNumbers</span> is true, <span class="font-mono">gutterKlass</span> styles the line-number column.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="gutterHtml()"
-    >
+    <h3 class="text-sm font-semibold text-primary">body</h3>
+    <p class="text-sm text-fg">Inner body div wrapping gutter, pre, and copy button.</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="bodyHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-code-block
-          [content]="snippet()"
-          [showLineNumbers]="true"
-          language="text"
-          gutterKlass="!text-primary/70"
-        >
-        </tng-code-block>
+        <tng-code-block [content]="snippet()" language="text" [slot]="{ body: 'ring-2 ring-primary/30 rounded-lg' }"></tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">gutter</h3>
+    <p class="text-sm text-fg">Line numbers column when <span class="font-mono">showLineNumbers</span> is true.</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="gutterHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block [content]="snippet()" [showLineNumbers]="true" language="text" [slot]="{ gutter: '!text-primary/70' }"></tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">pre</h3>
+    <p class="text-sm text-fg">The <span class="font-mono">pre</span> element (scroll area and padding).</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="preHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block [content]="snippet()" language="text" [slot]="{ pre: 'text-sm p-4 bg-bg/50' }"></tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">code</h3>
+    <p class="text-sm text-fg">The <span class="font-mono">code</span> element (wraps the highlighted content).</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="codeHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block [content]="snippet()" language="text" [slot]="{ code: 'font-mono text-sm' }"></tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">copyWrapper</h3>
+    <p class="text-sm text-fg">Wrapper div for the copy button (e.g. position, offset).</p>
+    <docs-example-block [docLink]="'https://example.com/docs'" [stackBlitzLink]="'https://stackblitz.com/example'" [htmlContent]="copyWrapperHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block [content]="snippet()" language="text" [slot]="{ copyWrapper: 'top-3 right-3' }"></tng-code-block>
       </div>
     </docs-example-block>
   </div>

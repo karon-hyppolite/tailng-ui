@@ -6,8 +6,7 @@
         [content]="importExample()"
         [highlighter]="highlighter"
         language="typescript"
-        preKlass="bg-bg h-15"
-        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+        [slot]="{ container: 'border-0 bg-bg h-20 overflow-y-hidden', pre: 'bg-bg h-15' }"
       >
       </tng-code-block>
     </div>
@@ -26,16 +25,9 @@
       </div>
     </section>
 
-    <section id="klass" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">Class hooks</h3>
-      <div class="rounded-md border text-fg">
-        <tng-table [rows]="klassRows()">
-          <tng-col id="property" header="Property" [value]="property"></tng-col>
-          <tng-col id="type" header="Type" [value]="type"></tng-col>
-          <tng-col id="default" header="Default" [value]="default"></tng-col>
-          <tng-col id="description" header="Description" [value]="description"></tng-col>
-        </tng-table>
-      </div>
+    <section id="slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">TngCodeBlockSlot</h3>
+      <p class="text-sm text-fg">Use the <span class="font-mono">slot</span> input to pass class strings per region. Keys: <span class="font-mono">container</span> (root wrapper), <span class="font-mono">body</span>, <span class="font-mono">gutter</span> (line numbers), <span class="font-mono">pre</span>, <span class="font-mono">code</span>, <span class="font-mono">copyWrapper</span>. Example: <span class="font-mono">[slot]="&#123; container: 'max-w-xl', pre: 'text-sm' &#125;"</span>.</p>
     </section>
 
     <div id="copy" class="rounded-xl border border-border bg-bg p-6 shadow-sm space-y-4 text-fg">
@@ -48,7 +40,7 @@
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Inputs</a></li>
-      <li><a href="#klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Class hooks</a></li>
+      <li><a href="#slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngCodeBlockSlot</a></li>
       <li><a href="#copy" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Copy slots</a></li>
     </ul>
   </aside>

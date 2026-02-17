@@ -1,7 +1,7 @@
-<div [class]="rootKlassFinal()">
-  <div [class]="bodyKlassFinal()">
+<div [class]="containerClassFinal()">
+  <div [class]="bodyClassFinal()">
     @if (showLineNumbers()) {
-      <div [class]="gutterKlassFinal()" aria-hidden="true">
+      <div [class]="gutterClassFinal()" aria-hidden="true">
         @for (n of lineNumbers(); track n) {
           <div>{{ n }}</div>
         }
@@ -9,7 +9,7 @@
     }
 
     @if (showCopy()) {
-      <div [class]="copyWrapperKlass()">
+      <div [class]="copyWrapperClassFinal()">
         <tng-copy-button
           [text]="code()"
           [variant]="copyVariant()"
@@ -35,7 +35,7 @@
       </div>
     }
 
-    <pre [class]="preKlassFinal()"><code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code></pre>
+    <pre [class]="preClassFinal()"><code [class]="codeClassFinal()" [innerHTML]="renderedHtml()"></code></pre>
 
     <span #projected class="hidden"><ng-content></ng-content></span>
   </div>

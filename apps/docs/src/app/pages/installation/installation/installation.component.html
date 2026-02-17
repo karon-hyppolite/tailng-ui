@@ -14,7 +14,7 @@
             [content]="createApp"
             language="bash"
             [highlighter]="highlighter"
-            rootKlass="w-full"
+            [slot]="{ container: 'w-full' }"
             [copyResetMs]="5000"
           >
             <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>

@@ -10,7 +10,7 @@
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-code-block [content]="tsSnippet()" [highlighter]="highlighter" language="typescript" rootKlass="max-w-xl">
+        <tng-code-block [content]="tsSnippet()" [highlighter]="highlighter" language="typescript" [slot]="{ container: 'max-w-xl' }">
         </tng-code-block>
       </div>
     </docs-example-block>
@@ -32,7 +32,7 @@
           [wrap]="true"
           [highlighter]="highlighter"
           language="typescript"
-          rootKlass="max-w-xl"
+          [slot]="{ container: 'max-w-xl' }"
         >
         </tng-code-block>
       </div>
@@ -54,7 +54,7 @@
           [highlighter]="highlighter"
           language="text"
           copyVariant="outline"
-          rootKlass="max-w-xl"
+          [slot]="{ container: 'max-w-xl' }"
         >
           <button type="button" tngCopy class="rounded border border-border px-2 py-1 text-xs">Copy</button>
           <span tngCopied class="text-xs text-green-600">Copied!</span>

@@ -13,12 +13,21 @@ export class CodeBlockStylingComponent {
   return 'world';
 }`);
 
-  readonly rootPreHtml = computed(
+  readonly containerHtml = computed(
     () => `
 <tng-code-block
   [content]="snippet()"
-  rootKlass="rounded-xl border-2 border-primary bg-bg"
-  preKlass="text-sm p-4"
+  [slot]="{ container: 'rounded-xl border-2 border-primary bg-bg' }"
+>
+</tng-code-block>
+`,
+  );
+
+  readonly bodyHtml = computed(
+    () => `
+<tng-code-block
+  [content]="snippet()"
+  [slot]="{ body: 'ring-2 ring-primary/30 rounded-lg' }"
 >
 </tng-code-block>
 `,
@@ -29,7 +38,37 @@ export class CodeBlockStylingComponent {
 <tng-code-block
   [content]="snippet()"
   [showLineNumbers]="true"
-  gutterKlass="!text-primary/70"
+  [slot]="{ gutter: '!text-primary/70' }"
+>
+</tng-code-block>
+`,
+  );
+
+  readonly preHtml = computed(
+    () => `
+<tng-code-block
+  [content]="snippet()"
+  [slot]="{ pre: 'text-sm p-4 bg-bg/50' }"
+>
+</tng-code-block>
+`,
+  );
+
+  readonly codeHtml = computed(
+    () => `
+<tng-code-block
+  [content]="snippet()"
+  [slot]="{ code: 'font-mono text-sm' }"
+>
+</tng-code-block>
+`,
+  );
+
+  readonly copyWrapperHtml = computed(
+    () => `
+<tng-code-block
+  [content]="snippet()"
+  [slot]="{ copyWrapper: 'top-3 right-3' }"
 >
 </tng-code-block>
 `,

@@ -1,9 +1,11 @@
 import { Component, ElementRef, computed, input, viewChild, inject, signal, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngCodeHighlighter, TngCodeLanguage } from './code-highlighter.type';
 import { TngCopyButton } from '../copy-button/copy-button.component';
 import { contentChild } from '@angular/core';
 import { TngCodeBlockCopySlot, TngCodeBlockCopiedSlot } from './code-block.directive';
+import type { TngCodeBlockSlot } from './code-block.slots';
 
 type CopyButtonVariant = 'ghost' | 'outline' | 'solid';
 type CopyButtonSize = 'sm' | 'md';
@@ -29,19 +31,14 @@ export class TngCodeBlock implements OnDestroy {
   wrap = input<boolean>(false);
   highlighter = input<TngCodeHighlighter | null>(null);
 
-  // code-block styling hooks
-  rootKlass = input<string>('');
-  bodyKlass = input<string>('');
-  gutterKlass = input<string>('');
-  preKlass = input<string>('');
-  codeKlass = input<string>('');
+  /** Slot hooks for micro-styling: container, body, gutter, pre, code, copyWrapper */
+  readonly slot = input<TngSlotMap<TngCodeBlockSlot>>({});
 
   // copy button config (styling/behavior controlled by implementer via inputs)
   showCopy = input<boolean>(true);
   copyVariant = input<CopyButtonVariant>('ghost');
   copySize = input<CopyButtonSize>('sm');
   copyResetMs = input<number>(1500);
-  copyWrapperKlass = input<string>('absolute top-2 right-2'); // position wrapper if needed
 
   private projectedEl = viewChild<ElementRef<HTMLElement>>('projected');
 
@@ -70,34 +67,57 @@ export class TngCodeBlock implements OnDestroy {
   });
 
   // -------------------------
-  // klass finals
+  // slot-based finals
   // -------------------------
-  readonly rootKlassFinal = computed(() =>
-    this.join(
-      'relative rounded-lg border border-border bg-alternate-background text-fg',
-      this.rootKlass(),
-    ),
-  );
+  readonly containerClassFinal = computed(() => {
+    const base = 'relative rounded-lg border border-border bg-alternate-background text-fg';
+    const extra = this.toClassString(this.slotClass('container'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
 
-  readonly bodyKlassFinal = computed(() => this.join('relative', this.bodyKlass()));
+  readonly bodyClassFinal = computed(() => {
+    const base = 'relative';
+    const extra = this.toClassString(this.slotClass('body'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
 
-  readonly gutterKlassFinal = computed(() =>
-    this.join(
-      'absolute inset-y-0 left-0 w-10 select-none border-r border-border bg-bg px-2 py-4 text-right text-xs leading-6 text-fg/60',
-      this.gutterKlass(),
-    ),
-  );
+  readonly gutterClassFinal = computed(() => {
+    const base = 'absolute inset-y-0 left-0 w-10 select-none border-r border-border bg-bg px-2 py-4 text-right text-xs leading-6 text-fg/60';
+    const extra = this.toClassString(this.slotClass('gutter'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
 
-  readonly preKlassFinal = computed(() =>
-    this.join(
+  readonly preClassFinal = computed(() => {
+    const base = this.join(
       'overflow-auto p-4 text-xs leading-6 text-fg',
       this.showLineNumbers() ? 'pl-14' : '',
       this.wrap() ? 'whitespace-pre-wrap break-words' : 'whitespace-pre',
-      this.preKlass(),
-    ),
-  );
+    );
+    const extra = this.toClassString(this.slotClass('pre'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
 
-  readonly codeKlassFinal = computed(() => this.join('block', this.codeKlass()));
+  readonly codeClassFinal = computed(() => {
+    const base = 'block';
+    const extra = this.toClassString(this.slotClass('code'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
+
+  readonly copyWrapperClassFinal = computed(() => {
+    const base = 'absolute top-2 right-2';
+    const extra = this.toClassString(this.slotClass('copyWrapper'), '');
+    return [base, extra].filter(Boolean).join(' ').trim() || base;
+  });
+
+  private slotClass(key: TngCodeBlockSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
+  }
 
   copied = signal(false);
   private copyTimer: ReturnType<typeof setTimeout> | null = null;

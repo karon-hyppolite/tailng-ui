@@ -32,19 +32,10 @@ export class CodeBlockApiComponent implements AfterViewInit {
     { property: 'copyVariant', type: "'ghost' | 'outline' | 'solid'", default: "'ghost'", description: 'Copy button variant' },
     { property: 'copySize', type: "'sm' | 'md'", default: "'sm'", description: 'Copy button size' },
     { property: 'copyResetMs', type: 'number', default: '1500', description: 'Ms before reverting copied state' },
-    { property: 'copyWrapperKlass', type: 'string', default: "'absolute top-2 right-2'", description: 'Wrapper for copy button' },
-  ];
-
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "''", description: 'Root wrapper' },
-    { property: 'bodyKlass', type: 'string', default: "''", description: 'Body container' },
-    { property: 'gutterKlass', type: 'string', default: "''", description: 'Line numbers gutter' },
-    { property: 'preKlass', type: 'string', default: "''", description: 'pre element' },
-    { property: 'codeKlass', type: 'string', default: "''", description: 'code element' },
+    { property: 'slot', type: 'TngSlotMap<TngCodeBlockSlot>', default: '{}', description: 'Slot hooks: container, body, gutter, pre, code, copyWrapper' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
