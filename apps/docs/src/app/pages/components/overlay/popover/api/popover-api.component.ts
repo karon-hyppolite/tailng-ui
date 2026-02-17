@@ -33,7 +33,7 @@ export class PopoverApiComponent implements AfterViewInit {
   ];
   private readonly slotSeed: DisplayDetails[] = [
     { property: 'slot', type: 'TngSlotMap<TngPopoverSlot>', default: '{}', description: 'Slot-based micro styling' },
-    { property: 'slot.root', type: 'string', default: "'relative inline-flex'", description: 'Root wrapper' },
+    { property: 'slot.container', type: 'string', default: "'relative inline-flex'", description: 'Outer wrapper' },
     { property: 'slot.trigger', type: 'string', default: "'inline-flex'", description: 'Trigger button' },
     { property: 'slot.panel', type: 'string', default: "'p-2'", description: 'Panel content wrapper' },
   ];

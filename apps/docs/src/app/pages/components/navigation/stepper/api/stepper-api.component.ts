@@ -26,7 +26,7 @@ export class StepperApiComponent implements AfterViewInit {
   ];
   private readonly stepperSlotSeed: DisplayDetails[] = [
     { property: 'slot', type: 'TngSlotMap<TngStepperSlot>', default: '{}', description: 'Slot-based micro styling' },
-    { property: 'slot.root', type: 'string', default: "'w-full'", description: 'Root wrapper' },
+    { property: 'slot.container', type: 'string', default: "'w-full'", description: 'Outer wrapper' },
     { property: 'slot.header', type: 'string', default: "'flex gap-2'", description: 'Step headers (horizontal)' },
     { property: 'slot.headerVertical', type: 'string', default: "'flex flex-col gap-2'", description: 'Step headers (vertical)' },
     { property: 'slot.panelWrap', type: 'string', default: "'pt-4'", description: 'Panel wrapper' },

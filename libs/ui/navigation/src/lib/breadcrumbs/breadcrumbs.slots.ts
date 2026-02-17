@@ -1,5 +1,5 @@
 export type TngBreadcrumbsSlot =
-  | 'root'       // Root nav
+  | 'container'  // Outer nav wrapper
   | 'list'       // ol list
   | 'item'       // li item
   | 'link'       // Clickable link (a)

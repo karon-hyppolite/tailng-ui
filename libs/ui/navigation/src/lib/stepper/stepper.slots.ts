@@ -1,7 +1,7 @@
 // stepper.slots.ts
 
 export type TngStepperSlot =
-  | 'root'           // Root wrapper
+  | 'container'      // Outer wrapper
   | 'header'         // Step headers (horizontal)
   | 'headerVertical' // Step headers (vertical)
   | 'panelWrap';     // Panel wrapper

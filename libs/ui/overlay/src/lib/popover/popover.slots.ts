@@ -1,4 +1,4 @@
 export type TngPopoverSlot =
-  | 'root'    // Root wrapper
-  | 'trigger' // Trigger button
-  | 'panel';  // Panel content wrapper
+  | 'container' // Outer wrapper
+  | 'trigger'   // Trigger button
+  | 'panel';    // Panel content wrapper

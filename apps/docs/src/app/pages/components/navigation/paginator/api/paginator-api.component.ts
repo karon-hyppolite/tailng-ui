@@ -27,7 +27,7 @@ export class PaginatorApiComponent implements AfterViewInit {
   ];
   private readonly slotSeed: DisplayDetails[] = [
     { property: 'slot', type: 'TngSlotMap<TngPaginatorSlot>', default: '{}', description: 'Slot-based micro styling' },
-    { property: 'slot.root', type: 'string', default: "'flex flex-wrap...'", description: 'Root wrapper' },
+    { property: 'slot.container', type: 'string', default: "'flex flex-wrap...'", description: 'Outer wrapper' },
     { property: 'slot.left', type: 'string', default: "'text-muted-foreground'", description: 'Left (range text)' },
     { property: 'slot.right', type: 'string', default: "'flex flex-wrap...'", description: 'Right (controls)' },
     { property: 'slot.button', type: 'string', default: '...', description: 'First/prev/next/last buttons' },

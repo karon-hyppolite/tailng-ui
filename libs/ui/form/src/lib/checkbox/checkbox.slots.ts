@@ -1,6 +1,6 @@
 // checkbox.slots.ts
 
 export type TngCheckboxSlot =
-  | 'root'
+  | 'container'  // Label wrapper
   | 'input'
   | 'label';

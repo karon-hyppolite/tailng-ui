@@ -28,7 +28,7 @@ export class CheckboxApiComponent implements AfterViewInit {
     { property: 'label', type: 'string', default: "''", description: 'Optional label text next to the checkbox' },
     { property: 'disabled', type: 'boolean', default: 'false', description: 'Disabled state' },
     { property: 'required', type: 'boolean', default: 'false', description: 'Required (HTML attribute)' },
-    { property: 'slot', type: 'TngSlotMap<TngCheckboxSlot>', default: '{}', description: 'Slot-based micro styling for root, input, and label' },
+    { property: 'slot', type: 'TngSlotMap<TngCheckboxSlot>', default: '{}', description: 'Slot-based micro styling for container, input, and label' },
   ];
 
   readonly basicRows = signal<displayDetails[]>(this.seed.filter((p) => ['id', 'name', 'label'].includes(p.property)));

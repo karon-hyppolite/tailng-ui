@@ -107,10 +107,10 @@ describe('TngBreadcrumbs', () => {
   });
 
   describe('Slot hooks', () => {
-    it('applies root slot classes', async () => {
+    it('applies container slot classes', async () => {
       const fix = await setup();
 
-      fix.componentInstance.slot.set({ root: 'text-base' });
+      fix.componentInstance.slot.set({ container: 'text-base' });
       fix.detectChanges(false);
 
       expect(getNav(fix).className).toContain('text-base');

@@ -1,5 +1,5 @@
 export type TngPaginatorSlot =
-  | 'root'          // Root wrapper
+  | 'container'     // Outer wrapper
   | 'left'          // Left section (range text)
   | 'right'         // Right section (controls)
   | 'button'        // First/prev/next/last buttons

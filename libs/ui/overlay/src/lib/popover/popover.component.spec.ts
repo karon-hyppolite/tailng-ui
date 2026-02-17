@@ -87,9 +87,9 @@ describe('TngPopover', () => {
   });
 
   describe('Slot hooks', () => {
-    it('applies root slot classes', async () => {
+    it('applies container slot classes', async () => {
       const fix = await setup();
-      fix.componentInstance.slot.set({ root: 'flex gap-2' });
+      fix.componentInstance.slot.set({ container: 'flex gap-2' });
       fix.detectChanges();
       const root = getRoot(fix)!;
       expect(root.className).toContain('flex');

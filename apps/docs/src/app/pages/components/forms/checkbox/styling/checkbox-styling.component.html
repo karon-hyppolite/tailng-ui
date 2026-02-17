@@ -4,7 +4,7 @@
     <p class="text-sm leading-6 text-fg">
       The <span class="font-mono">tng-checkbox</span> component uses slot-based micro styling via the
       <span class="font-mono">slot</span> input. The slot object accepts keys:
-      <span class="font-mono">root</span>,
+      <span class="font-mono">container</span>,
       <span class="font-mono">input</span>, and
       <span class="font-mono">label</span>. Each slot targets a specific
       element in the component structure.
@@ -13,20 +13,20 @@
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">root slot</h3>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
       <tng-tag label="wrapper"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the root <span class="font-mono">&lt;label&gt;</span>. Default: inline-flex items-center gap-2 cursor-pointer select-none.</p>
+    <p class="text-sm text-fg">Applies to the outer <span class="font-mono">&lt;label&gt;</span>. Default: inline-flex items-center gap-2 cursor-pointer select-none.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootSlotHtml()"
-      [tsContent]="rootSlotTs()"
+      [htmlContent]="containerSlotHtml()"
+      [tsContent]="containerSlotTs()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
-          <tng-checkbox formControlName="opt" label="Custom root" [slot]="rootSlot" />
+          <tng-checkbox formControlName="opt" label="Custom container" [slot]="containerSlot" />
         </form>
       </div>
     </docs-example-block>

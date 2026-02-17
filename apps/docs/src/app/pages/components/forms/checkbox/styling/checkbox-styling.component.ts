@@ -21,8 +21,8 @@ export class CheckboxStylingComponent {
     opt: new FormControl(false, { nonNullable: true }),
   });
 
-  rootSlot: TngSlotMap<TngCheckboxSlot> = {
-    root: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500',
+  containerSlot: TngSlotMap<TngCheckboxSlot> = {
+    container: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500',
   };
 
   inputSlot: TngSlotMap<TngCheckboxSlot> = {
@@ -33,22 +33,22 @@ export class CheckboxStylingComponent {
     label: 'text-lg font-bold text-purple-600',
   };
 
-  readonly rootSlotHtml = computed(
+  readonly containerSlotHtml = computed(
     () => `
 <form [formGroup]="form">
-  <tng-checkbox formControlName="opt" label="Custom root"
-    [slot]="{ root: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500' }" />
+  <tng-checkbox formControlName="opt" label="Custom container"
+    [slot]="{ container: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500' }" />
 </form>
 `,
   );
 
-  readonly rootSlotTs = computed(
+  readonly containerSlotTs = computed(
     () => `
 import { TngCheckbox, TngSlotMap, TngCheckboxSlot } from '@tailng-ui/ui/form';
 
 export class MyComponent {
-  rootSlot: TngSlotMap<TngCheckboxSlot> = {
-    root: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500',
+  containerSlot: TngSlotMap<TngCheckboxSlot> = {
+    container: 'inline-flex items-center gap-3 cursor-pointer p-2 rounded-lg border-2 border-blue-500',
   };
 }
 `,

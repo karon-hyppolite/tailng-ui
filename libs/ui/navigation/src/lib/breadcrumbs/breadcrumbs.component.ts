@@ -46,8 +46,8 @@ export class TngBreadcrumbs {
    * ===================== */
   readonly slot = input<TngSlotMap<TngBreadcrumbsSlot>>({});
 
-  readonly rootClassFinal = computed(() =>
-    this.toClassString(this.slotClass('root'), 'flex items-center text-sm text-muted-foreground'),
+  readonly containerClassFinal = computed(() =>
+    this.toClassString(this.slotClass('container'), 'flex items-center text-sm text-muted-foreground'),
   );
 
   readonly listClassFinal = computed(() =>

@@ -109,10 +109,10 @@ describe('TngPaginator', () => {
   });
 
   describe('Slot hooks', () => {
-    it('applies root slot classes', async () => {
+    it('applies container slot classes', async () => {
       const fix = await setup();
 
-      fix.componentInstance.slot.set({ root: 'max-w-xl' });
+      fix.componentInstance.slot.set({ container: 'max-w-xl' });
       fix.detectChanges(false);
 
       expect(getRoot(fix).className).toContain('max-w-xl');

@@ -1,4 +1,4 @@
-<nav [attr.aria-label]="ariaLabel()" [class]="rootClassFinal()">
+<nav [attr.aria-label]="ariaLabel()" [class]="containerClassFinal()">
   <ol [class]="listClassFinal()">
     @for (item of resolvedItems(); track $index; let i = $index; let last = $last) {
       <li [class]="itemClasses(item, i)">

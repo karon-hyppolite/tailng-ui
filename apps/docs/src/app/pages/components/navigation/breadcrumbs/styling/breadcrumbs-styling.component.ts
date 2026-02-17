@@ -20,8 +20,8 @@ export class BreadcrumbsStylingComponent {
     { label: 'Docs', disabled: true },
     { label: 'Breadcrumbs' },
   ]);
-  readonly rootSlotHtml = computed(
-    () => `<tng-breadcrumbs [slot]="{ root: 'flex items-center gap-2 text-base' }">...</tng-breadcrumbs>`,
+  readonly containerSlotHtml = computed(
+    () => `<tng-breadcrumbs [slot]="{ container: 'flex items-center gap-2 text-base' }">...</tng-breadcrumbs>`,
   );
   readonly listSlotHtml = computed(
     () => `<tng-breadcrumbs [slot]="{ list: 'flex items-center gap-2' }">...</tng-breadcrumbs>`,

@@ -3,21 +3,21 @@
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
       <span class="font-mono">tng-stepper</span> uses slot-based micro styling. Slots:
-      <span class="font-mono">root</span>, <span class="font-mono">header</span>, <span class="font-mono">headerVertical</span>, <span class="font-mono">panelWrap</span>.
+      <span class="font-mono">container</span>, <span class="font-mono">header</span>, <span class="font-mono">headerVertical</span>, <span class="font-mono">panelWrap</span>.
       <span class="font-mono">tng-step</span> slots: <span class="font-mono">step</span>, <span class="font-mono">active</span>, <span class="font-mono">inactive</span>, <span class="font-mono">disabled</span>.
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">root slot</h3>
-      <tng-tag label="root"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="container"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Root wrapper. Default: w-full.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rootSlotHtml()">
+    <p class="text-sm text-fg">Outer wrapper. Default: w-full.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-stepper [slot]="{ root: 'w-full max-w-2xl' }" defaultIndex="0">
+        <tng-stepper [slot]="{ container: 'w-full max-w-2xl' }" defaultIndex="0">
           <tng-step>One</tng-step>
           <tng-step>Two</tng-step>
           <tng-step-panel [index]="0"><div class="pt-4 text-sm">Step 1</div></tng-step-panel>

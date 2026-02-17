@@ -14,8 +14,8 @@ export class PaginatorStylingComponent {
   readonly pageWithSelect = signal(1);
   readonly pageSizeWithSelect = signal(10);
   readonly pageWithSeparator = signal(1);
-  readonly rootSlotHtml = computed(
-    () => `<tng-paginator [slot]="{ root: 'flex flex-wrap gap-4 ...' }">...</tng-paginator>`,
+  readonly containerSlotHtml = computed(
+    () => `<tng-paginator [slot]="{ container: 'flex flex-wrap gap-4 ...' }">...</tng-paginator>`,
   );
   readonly leftSlotHtml = computed(
     () => `<tng-paginator [slot]="{ left: 'text-primary font-medium' }">...</tng-paginator>`,

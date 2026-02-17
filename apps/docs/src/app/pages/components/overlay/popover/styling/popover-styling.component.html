@@ -3,23 +3,23 @@
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
       <span class="font-mono">tng-popover</span> uses slot-based micro styling. Slots:
-      <span class="font-mono">root</span> (wrapper), <span class="font-mono">trigger</span> (button), <span class="font-mono">panel</span> (content wrapper).
+      <span class="font-mono">container</span> (wrapper), <span class="font-mono">trigger</span> (button), <span class="font-mono">panel</span> (content wrapper).
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">root slot</h3>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
       <tng-tag label="container"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Root wrapper. Default: relative inline-flex.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rootSlotHtml()">
+    <p class="text-sm text-fg">Container wrapper. Default: relative inline-flex.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-popover [slot]="{ root: 'flex gap-2' }">
+        <tng-popover [slot]="{ container: 'flex gap-2' }">
           <button tngPopoverTrigger class="rounded-md border border-border px-3 py-1.5 text-sm">Trigger</button>
           <ng-template #popoverContent>
-            <div class="min-w-40 text-sm">Root slot: flex gap-2</div>
+            <div class="min-w-40 text-sm">Container slot: flex gap-2</div>
           </ng-template>
         </tng-popover>
       </div>
@@ -72,11 +72,11 @@
       <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
       <tng-tag label="root + trigger + panel"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Combine root, trigger, and panel slots for fully themed popovers.</p>
+    <p class="text-sm text-fg">Combine container, trigger, and panel slots for fully themed popovers.</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-popover placement="bottom-start" [slot]="{ root: 'flex gap-2', trigger: 'rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary', panel: 'p-3 rounded-lg border border-border bg-bg shadow-lg' }">
+        <tng-popover placement="bottom-start" [slot]="{ container: 'flex gap-2', trigger: 'rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary', panel: 'p-3 rounded-lg border border-border bg-bg shadow-lg' }">
           <button tngPopoverTrigger>Styled trigger</button>
           <ng-template #popoverContent>
             <div class="min-w-48 space-y-2 text-sm">

@@ -42,8 +42,8 @@ export class TngPaginator {
    * ===================== */
   readonly slot = input<TngSlotMap<TngPaginatorSlot>>({});
 
-  readonly rootClassFinal = computed(() =>
-    this.slotClass('root') || 'flex flex-wrap items-center justify-between gap-3 text-sm',
+  readonly containerClassFinal = computed(() =>
+    this.slotClass('container') || 'flex flex-wrap items-center justify-between gap-3 text-sm',
   );
 
   readonly leftClassFinal = computed(() =>

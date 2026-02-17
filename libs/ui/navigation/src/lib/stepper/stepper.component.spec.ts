@@ -120,10 +120,10 @@ describe('TngStepper', () => {
   });
 
   describe('Slot hooks', () => {
-    it('applies root slot classes', async () => {
+    it('applies container slot classes', async () => {
       const fix = await setup();
 
-      fix.componentInstance.stepperSlot.set({ root: 'max-w-2xl' });
+      fix.componentInstance.stepperSlot.set({ container: 'max-w-2xl' });
       fix.detectChanges(false);
 
       expect(getRoot(fix).className).toContain('max-w-2xl');

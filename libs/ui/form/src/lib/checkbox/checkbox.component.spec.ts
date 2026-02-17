@@ -270,14 +270,14 @@ describe('TngCheckbox (CVA + slot styling)', () => {
       expect(h.ctrl.valid).toBe(true);
     });
 
-    it('applies slot classes to root, input, and label', () => {
+    it('applies slot classes to container, input, and label', () => {
       // Create a fresh fixture for this test
       const fix = TestBed.createComponent(FormHostComponent);
       const h = fix.componentInstance;
 
       // Set input BEFORE initial CD
       h.slot = {
-        root: 'border-2 border-blue-500 p-2',
+        container: 'border-2 border-blue-500 p-2',
         input: 'h-5 w-5 accent-green-600',
         label: 'text-lg font-bold text-purple-600',
       };
@@ -328,7 +328,7 @@ describe('TngCheckbox (CVA + slot styling)', () => {
       const h = fix.componentInstance;
 
       // Set inputs BEFORE initial CD
-      h.slot = { root: 'border-2', input: 'h-5', label: 'text-lg' };
+      h.slot = { container: 'border-2', input: 'h-5', label: 'text-lg' };
 
       fix.detectChanges();
 
@@ -336,7 +336,7 @@ describe('TngCheckbox (CVA + slot styling)', () => {
         .componentInstance as TngCheckbox;
 
       // Access finals (should be safe and consistent)
-      expect(typeof comp.rootClassFinal()).toBe('string');
+      expect(typeof comp.containerClassFinal()).toBe('string');
       expect(typeof comp.inputClassFinal()).toBe('string');
       expect(typeof comp.labelClassFinal()).toBe('string');
     });

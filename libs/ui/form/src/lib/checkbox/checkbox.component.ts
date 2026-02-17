@@ -115,10 +115,10 @@ export class TngCheckbox implements ControlValueAccessor {
   /* ─────────────────────────
    * Slot finals (defaults + overrides)
    * ───────────────────────── */
-  readonly rootClassFinal = computed(() =>
+  readonly containerClassFinal = computed(() =>
     this.cx(
       'inline-flex items-center gap-2 cursor-pointer select-none',
-      this.slotClass('root'),
+      this.slotClass('container'),
     ),
   );
 

@@ -11,14 +11,14 @@
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">root slot</h3>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
       <tng-tag label="root"></tng-tag>
     </div>
     <p class="text-sm text-fg">Root nav wrapper. Default: flex items-center text-sm text-muted-foreground.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="rootSlotHtml()">
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-breadcrumbs [items]="items()" [slot]="{ root: 'flex items-center gap-2 text-base text-muted-foreground' }"></tng-breadcrumbs>
+        <tng-breadcrumbs [items]="items()" [slot]="{ container: 'flex items-center gap-2 text-base text-muted-foreground' }"></tng-breadcrumbs>
       </div>
     </docs-example-block>
   </div>

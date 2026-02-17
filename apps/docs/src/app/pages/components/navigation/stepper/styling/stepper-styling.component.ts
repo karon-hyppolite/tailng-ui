@@ -10,8 +10,8 @@ import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/exa
   imports: [TngStepper, TngStep, TngStepPanel, TngTag, ExampleBlockComponent, TngExampleDemo],
 })
 export class StepperStylingComponent {
-  readonly rootSlotHtml = computed(
-    () => `<tng-stepper [slot]="{ root: 'w-full max-w-2xl' }">...</tng-stepper>`,
+  readonly containerSlotHtml = computed(
+    () => `<tng-stepper [slot]="{ container: 'w-full max-w-2xl' }">...</tng-stepper>`,
   );
   readonly headerSlotHtml = computed(
     () => `<tng-stepper [slot]="{ header: 'inline-flex gap-1 rounded-lg bg-slate-100 p-1' }">...</tng-stepper>`,

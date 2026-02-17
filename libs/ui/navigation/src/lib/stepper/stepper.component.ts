@@ -199,8 +199,8 @@ export class TngStepper {
    * Computed
    * ===================== */
 
-  readonly rootClassFinal = computed(() =>
-    this.slotClass('root') || 'w-full',
+  readonly containerClassFinal = computed(() =>
+    this.slotClass('container') || 'w-full',
   );
 
   readonly headerClassFinal = computed(() => {

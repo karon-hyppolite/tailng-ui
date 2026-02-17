@@ -25,7 +25,7 @@ export class BreadcrumbsApiComponent implements AfterViewInit {
   ];
   private readonly slotSeed: DisplayDetails[] = [
     { property: 'slot', type: 'TngSlotMap<TngBreadcrumbsSlot>', default: '{}', description: 'Slot-based micro styling' },
-    { property: 'slot.root', type: 'string', default: "'flex items-center text-sm...'", description: 'Root nav' },
+    { property: 'slot.container', type: 'string', default: "'flex items-center text-sm...'", description: 'Outer nav wrapper' },
     { property: 'slot.list', type: 'string', default: "'flex items-center flex-wrap gap-1'", description: 'List (ol)' },
     { property: 'slot.item', type: 'string', default: "'inline-flex items-center'", description: 'Item (li)' },
     { property: 'slot.link', type: 'string', default: "'text-primary hover:underline'", description: 'Clickable link' },

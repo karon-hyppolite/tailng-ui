@@ -45,8 +45,8 @@ export class TngPopover {
   /** Slot hooks (micro styling) */
   readonly slot = input<TngSlotMap<TngPopoverSlot>>({});
 
-  readonly rootClassFinal = computed(() =>
-    this.toClassString(this.slotClass('root'), 'relative inline-flex'),
+  readonly containerClassFinal = computed(() =>
+    this.toClassString(this.slotClass('container'), 'relative inline-flex'),
   );
   readonly triggerClassFinal = computed(() =>
     this.toClassString(this.slotClass('trigger'), 'inline-flex'),
