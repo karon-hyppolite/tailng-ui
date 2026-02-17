@@ -1,5 +1,6 @@
 // Table (components, defs, types, controllers, directives, features)
 export * from './table/ui/table/table.component';
+export * from './table/ui/table/table.slots';
 export * from './table/ui/column/col.component';
 export * from './table/ui/sort/sort-icon.component';
 export * from './table/defs/cell.def';

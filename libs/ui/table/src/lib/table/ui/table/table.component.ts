@@ -12,10 +12,12 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 
 import { TngCol } from '../column/col.component';
 
 import { TngTableController } from '../../core/controller/table.controller';
+import { TngTableSlot } from './table.slots';
 import type { TngSort, TngAlign, TngResolvedColumn, TngCellContext, TngHeaderContext } from '../../core/types';
 import { TNG_TABLE } from '../../core/tokens/table.token';
 
@@ -44,12 +46,24 @@ export class TngTable<T extends Record<string, any> = any> implements AfterConte
   /** Default: client (static) sort */
   readonly sortMode = input<'client' | 'server'>('client');
 
-  /** styling */
-  readonly tableKlass = input<string>('w-full text-sm');
-  readonly theadKlass = input<string>('bg-alternate-background');
-  readonly thKlass = input<string>('px-3 py-2 text-left font-semibold border-b border-border');
-  readonly tdKlass = input<string>('px-3 py-2 border-b border-border align-middle');
-  readonly tbodyKlass = input<string>('bg-bg');
+  /** Slot hooks (micro styling) */
+  readonly slot = input<TngSlotMap<TngTableSlot>>({});
+
+  readonly tableClassFinal = computed(() =>
+    this.toClassString(this.slotClass('table'), 'w-full text-sm'),
+  );
+  readonly theadClassFinal = computed(() =>
+    this.toClassString(this.slotClass('thead'), 'bg-alternate-background'),
+  );
+  readonly thClassFinal = computed(() =>
+    this.toClassString(this.slotClass('th'), 'px-3 py-2 text-left font-semibold border-b border-border'),
+  );
+  readonly tdClassFinal = computed(() =>
+    this.toClassString(this.slotClass('td'), 'px-3 py-2 border-b border-border align-middle'),
+  );
+  readonly tbodyClassFinal = computed(() =>
+    this.toClassString(this.slotClass('tbody'), 'bg-bg'),
+  );
 
   /** empty */
   readonly emptyText = input<string>('No data');
@@ -189,5 +203,15 @@ export class TngTable<T extends Record<string, any> = any> implements AfterConte
 
     // fallback: locale string
     return String(a).localeCompare(String(b));
+  }
+
+  private slotClass(key: TngTableSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
   }
 }

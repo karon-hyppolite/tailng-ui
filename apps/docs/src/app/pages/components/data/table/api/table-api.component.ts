@@ -30,12 +30,13 @@ export class TableApiComponent implements AfterViewInit {
     { property: 'emptyText', type: 'string', default: "'No data'", description: 'Shown when rows are empty' },
   ];
 
-  private readonly tableKlassSeed: DisplayDetails[] = [
-    { property: 'tableKlass', type: 'string', default: "'w-full text-sm'", description: 'Table element' },
-    { property: 'theadKlass', type: 'string', default: "'bg-alternate-background'", description: 'thead' },
-    { property: 'thKlass', type: 'string', default: "'px-3 py-2 text-left...'", description: 'Header cells' },
-    { property: 'tdKlass', type: 'string', default: "'px-3 py-2 border-b...'", description: 'Body cells' },
-    { property: 'tbodyKlass', type: 'string', default: "'bg-bg'", description: 'tbody' },
+  private readonly tableSlotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngTableSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.table', type: 'string', default: "'w-full text-sm'", description: 'Table element' },
+    { property: 'slot.thead', type: 'string', default: "'bg-alternate-background'", description: 'thead' },
+    { property: 'slot.th', type: 'string', default: "'px-3 py-2 text-left font-semibold border-b...'", description: 'Header cells' },
+    { property: 'slot.td', type: 'string', default: "'px-3 py-2 border-b border-border align-middle'", description: 'Body cells' },
+    { property: 'slot.tbody', type: 'string', default: "'bg-bg'", description: 'tbody' },
   ];
 
   private readonly tableOutputSeed: DisplayDetails[] = [
@@ -52,7 +53,7 @@ export class TableApiComponent implements AfterViewInit {
   ];
 
   readonly tableInputRows = signal<DisplayDetails[]>(this.tableInputSeed);
-  readonly tableKlassRows = signal<DisplayDetails[]>(this.tableKlassSeed);
+  readonly tableSlotRows = signal<DisplayDetails[]>(this.tableSlotSeed);
   readonly tableOutputRows = signal<DisplayDetails[]>(this.tableOutputSeed);
   readonly colInputRows = signal<DisplayDetails[]>(this.colInputSeed);
 

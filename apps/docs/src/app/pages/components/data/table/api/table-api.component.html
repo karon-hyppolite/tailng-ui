@@ -26,10 +26,10 @@
       </div>
     </section>
 
-    <section id="table-klass" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">TngTable class hooks</h3>
+    <section id="table-slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">TngTable styling (slot)</h3>
       <div class="rounded-md border text-fg">
-        <tng-table [rows]="tableKlassRows()">
+        <tng-table [rows]="tableSlotRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
           <tng-col id="type" header="Type" [value]="type"></tng-col>
           <tng-col id="default" header="Default" [value]="default"></tng-col>
@@ -75,7 +75,7 @@
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#table-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable inputs</a></li>
-      <li><a href="#table-klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable class hooks</a></li>
+      <li><a href="#table-slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable styling (slot)</a></li>
       <li><a href="#table-outputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable outputs</a></li>
       <li><a href="#col-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngCol inputs</a></li>
       <li><a href="#templates" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Templates</a></li>

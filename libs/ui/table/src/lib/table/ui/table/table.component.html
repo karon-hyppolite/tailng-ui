@@ -1,11 +1,11 @@
 <div class="relative">
-  <table [class]="tableKlass()">
-    <thead [class]="theadKlass()">
+  <table [class]="tableClassFinal()">
+    <thead [class]="theadClassFinal()">
       <tr>
         @for (col of columns(); track col.id) {
           <th
             scope="col"
-            [class]="(thKlass() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
+            [class]="(thClassFinal() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
             [ngStyle]="styleWidth(col)"
           >
             @if (col.headerTpl) {
@@ -21,13 +21,13 @@
       </tr>
     </thead>
 
-    <tbody [class]="tbodyKlass()">
+    <tbody [class]="tbodyClassFinal()">
       @if (hasRows()) {
         @for (row of viewRows(); let rowIndex = $index; track row?.[rowKey()] ?? rowIndex) {
           <tr>
             @for (col of columns(); track col.id) {
               <td
-                [class]="(tdKlass() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
+                [class]="(tdClassFinal() + ' ' + alignClass(col.align) + (col.klass ? ' ' + col.klass : '')).trim()"
               >
                 @if (col.cellTpl) {
                   <ng-container

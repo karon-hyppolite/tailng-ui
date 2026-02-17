@@ -5,7 +5,7 @@
       <p class="text-sm leading-6 text-muted">
         <span class="font-mono text-primary/20">tng-table</span> renders tabular data from a <span class="font-mono text-primary/20">rows</span> array.
         Define columns with <span class="font-mono text-primary/20">tng-col</span>: <span class="font-mono text-primary/20">id</span>, <span class="font-mono text-primary/20">header</span>, <span class="font-mono text-primary/20">[value]</span> (row accessor), optional <span class="font-mono text-primary/20">width</span> and <span class="font-mono text-primary/20">align</span>.
-        Use <span class="font-mono text-primary/20">ng-template tngCell</span> and <span class="font-mono text-primary/20">ng-template tngHeader</span> for custom cell/header content. Supports client-side sorting and class hooks for styling.
+        Use <span class="font-mono text-primary/20">ng-template tngCell</span> and <span class="font-mono text-primary/20">ng-template tngHeader</span> for custom cell/header content. Supports client-side sorting and slot styling.
       </p>
     </div>
 
@@ -42,7 +42,7 @@
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Styling</div>
-          <p class="text-xs leading-5 text-muted">tableKlass, theadKlass, thKlass, tdKlass, tbodyKlass. emptyText when rows are empty.</p>
+          <p class="text-xs leading-5 text-muted">Slot styling: table, thead, th, td, tbody. emptyText when rows are empty.</p>
         </div>
       </div>
     </div>

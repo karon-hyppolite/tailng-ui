@@ -2,23 +2,22 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-table</span> exposes tableKlass, theadKlass, thKlass, tdKlass, tbodyKlass.
-      Each <span class="font-mono">tng-col</span> supports <span class="font-mono">klass</span> for that column’s th/td.
+      <span class="font-mono">tng-table</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">table</span>, <span class="font-mono">thead</span>, <span class="font-mono">th</span>, <span class="font-mono">td</span>, <span class="font-mono">tbody</span>.
     </p>
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">tableKlass / theadKlass</h3>
-    <p class="text-sm text-fg">Customize table and header row.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="tableTheadHtml()"
-    >
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">table slot</h3>
+      <tng-tag label="element"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Table element. Default: w-full text-sm.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="tableSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <div class="overflow-auto rounded-md border border-border max-w-md">
-          <tng-table [rows]="rows()" rowKey="id" tableKlass="w-full text-sm" theadKlass="bg-primary/10">
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ table: 'w-full text-sm min-w-full' }">
             <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
             <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
           </tng-table>
@@ -28,19 +27,94 @@
   </div>
 
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Column klass</h3>
-    <p class="text-sm text-fg">Apply extra classes to a column’s th and td via <span class="font-mono">klass</span> on tng-col.</p>
-    <docs-example-block
-      [docLink]="'https://example.com/docs'"
-      [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="colKlassHtml()"
-    >
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">thead slot</h3>
+      <tng-tag label="container"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Header section. Default: bg-alternate-background.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="theadSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <div class="overflow-auto rounded-md border border-border max-w-md">
-          <tng-table [rows]="rows()" rowKey="id">
-            <tng-col id="name" header="Name" [value]="nameValue" klass="font-medium"></tng-col>
-            <tng-col id="score" header="Score" align="right" [value]="scoreValue" klass="text-primary"></tng-col>
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ thead: 'bg-primary/10' }">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">th slot</h3>
+      <tng-tag label="header cell"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Header cells. Default: px-3 py-2 text-left font-semibold border-b border-border.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="thSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ th: 'px-4 py-3 font-bold border-b border-border' }">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">td slot</h3>
+      <tng-tag label="body cell"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Body cells. Default: px-3 py-2 border-b border-border align-middle.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="tdSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ td: 'px-4 py-3 border-b border-border align-middle' }">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">tbody slot</h3>
+      <tng-tag label="container"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Body section. Default: bg-bg.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="tbodySlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ tbody: 'bg-slate-50' }">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Combined slots</h3>
+      <tng-tag label="table + thead + th + td + tbody"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Combine all slots for fully themed tables.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id" [slot]="{ table: 'w-full text-sm', thead: 'bg-primary/10', th: 'px-4 py-3 font-bold border-b border-border', td: 'px-4 py-3 border-b border-border align-middle', tbody: 'bg-bg' }">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
           </tng-table>
         </div>
       </div>
