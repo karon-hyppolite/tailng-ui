@@ -22,14 +22,11 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  tests:
+    name: "Tests (selected)"
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
-      # ------------------------------------
-      # MAIN BRANCH SAFETY
-      # ------------------------------------
       - name: Ensure running on main branch
         run: |
           if [ "${GITHUB_REF_NAME}" != "main" ]; then
@@ -37,17 +34,78 @@ jobs:
             exit 1
           fi
 
-      # ------------------------------------
-      # CHECKOUT
-      # ------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # ------------------------------------
-      # NODE 20 + NPM
-      # ------------------------------------
+      - name: Setup Node 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Upgrade npm (Trusted Publishing compatible)
+        run: |
+          npm i -g npm@latest
+          npm --version
+
+      - name: Enable Corepack and Yarn 4.12.0
+        run: |
+          corepack enable
+          corepack prepare yarn@4.12.0 --activate
+          yarn --version
+
+      - name: Cache Yarn (Berry)
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-berry-
+
+      - name: Install dependencies (node-modules)
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset production || true
+
+          yarn config set nodeLinker node-modules
+          yarn install --immutable
+
+          test -d node_modules || (echo "node_modules missing" && exit 1)
+          node -e "console.log('core/testing:', require.resolve('@angular/core/testing'))"
+
+      - name: Run selected tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset production || true
+
+          node tools/release/run-if.mjs "${{ inputs.targets }}" ui "yarn nx test ui --ci"
+          node tools/release/run-if.mjs "${{ inputs.targets }}" icons "yarn nx test icons --ci"
+
+  release:
+    name: "Release & Deploy"
+    runs-on: ubuntu-latest
+    needs: tests
+    environment: production
+
+    steps:
+      - name: Ensure running on main branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "This workflow must be run from main branch"
+            exit 1
+          fi
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
       - name: Setup Node 20 LTS
         uses: actions/setup-node@v4
         with:
@@ -59,105 +117,67 @@ jobs:
           npm i -g npm@latest
           npm --version
 
-      # ------------------------------------
-      # YARN 4
-      # ------------------------------------
       - name: Enable Corepack and Yarn 4.12.0
         run: |
           corepack enable
           corepack prepare yarn@4.12.0 --activate
           yarn --version
 
-      # ------------------------------------
-      # CACHE
-      # ------------------------------------
-      - name: Cache yarn
+      - name: Cache Yarn (Berry)
         uses: actions/cache@v4
         with:
           path: |
             .yarn/cache
             .yarn/install-state.gz
-            node_modules
-          key: ${{ runner.os }}-yarn-nm-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-berry-
 
-      # ------------------------------------
-      # INSTALL (ULTRA CLEAN FIX)
-      # ------------------------------------
-      - name: Install dependencies (force node-modules)
+      - name: Install dependencies (node-modules)
         shell: bash
         run: |
           set -euo pipefail
+          unset production || true
 
-          # Force the linker in CI (don’t rely on env or cache state)
           yarn config set nodeLinker node-modules
-
-          # Install
           yarn install --immutable
 
-          # Sanity checks (fail fast if install mode is wrong)
           test -d node_modules || (echo "node_modules missing" && exit 1)
-          node -e "console.log('core:', require.resolve('@angular/core/package.json'))"
-          node -e "console.log('core/testing:', require.resolve('@angular/core/testing'))"
-        
-      - name: Debug resolution mode
-        run: |
-          yarn config get nodeLinker
-          node -p "process.env.YARN_PRODUCTION"
-          ls -la node_modules/@angular/core || true
 
-      # ------------------------------------
-      # TESTS
-      # ------------------------------------
-
-      - name: Test ui
-        run: yarn nx test ui --ci
-
-      - name: Test icons
-        run: yarn nx test icons --ci
-
-      # ------------------------------------
-      # VALIDATION
-      # ------------------------------------
       - name: Validate inputs
         run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
 
       - name: Export TARGETS
         run: echo "TARGETS=,${{ inputs.targets }}," >> $GITHUB_ENV
 
-      # ------------------------------------
-      # GIT IDENTITY
-      # ------------------------------------
       - name: Set Git user
         run: |
           git config --global user.email "prince.francis@tociva.com"
           git config --global user.name "Tociva Technologies"
 
-      # ------------------------------------
-      # VERSION BUMP
-      # ------------------------------------
       - name: Bump versions
-        run: node tools/release/bump-versions.mjs \
-          "${{ inputs.targets }}" \
-          "${{ inputs.release_type }}"
+        run: node tools/release/bump-versions.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
 
-      # ------------------------------------
-      # COMMIT VERSION CHANGES
-      # ------------------------------------
       - name: Commit and push version changes
         run: |
           git add package.json libs/*/package.json || true
           git commit -m "chore(release): ${{ inputs.release_type }} (${{ inputs.targets }}) [skip ci]" || echo "Nothing to commit"
           git push origin HEAD:${GITHUB_REF_NAME}
 
-      # ------------------------------------
-      # DOCS
-      # ------------------------------------
       - name: Build docs if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "yarn docs:seo"
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset production || true
+          node tools/release/run-if.mjs "${{ inputs.targets }}" docs "yarn docs:seo"
 
       - name: Deploy docs to Cloudflare Pages
         if: contains(env.TARGETS, ',docs,')
+        shell: bash
         run: |
+          set -euo pipefail
+          unset production || true
+
           yarn dlx wrangler pages deploy dist/apps/docs \
             --project-name ${{ vars.CF_DOCS_PROJECT_NAME }} \
             --branch main
@@ -165,9 +185,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
-      # ------------------------------------
-      # BUILD PACKAGES
-      # ------------------------------------
       - name: Build selected packages
         run: node tools/release/build-selected.mjs "${{ inputs.targets }}"
 
@@ -180,17 +197,13 @@ jobs:
       - name: npm pack dry-run (selected targets)
         run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # PUBLISH (OIDC Trusted Publishing)
-      # ------------------------------------
       - name: Publish selected packages
-        run: node tools/release/publish-selected.mjs \
-          "${{ inputs.targets }}" \
-          "${{ inputs.npm_tag }}"
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset production || true
+          node tools/release/publish-selected.mjs "${{ inputs.targets }}" "${{ inputs.npm_tag }}"
 
-      # ------------------------------------
-      # TAG + RELEASE
-      # ------------------------------------
       - name: Tag release
         run: node tools/release/tag-release.mjs
 
