@@ -38,38 +38,39 @@ jobs:
           fi
 
       # ------------------------------------
-      # CHECKOUT (uses built-in GITHUB_TOKEN)
+      # CHECKOUT
       # ------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
-          # token defaults to GITHUB_TOKEN; explicit is fine too:
-          # token: ${{ github.token }}
 
       # ------------------------------------
-      # NODE AND YARN (Node 20 for reliable ng-packagr output)
+      # NODE 20 + NPM
       # ------------------------------------
       - name: Setup Node 20 LTS
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"
+          registry-url: https://registry.npmjs.org
 
-      # IMPORTANT: upgrade npm for Trusted Publishing + provenance
-      - name: Upgrade npm
+      - name: Upgrade npm (Trusted Publishing compatible)
         run: |
           npm i -g npm@latest
           npm --version
 
+      # ------------------------------------
+      # YARN 4
+      # ------------------------------------
       - name: Enable Corepack and Yarn 4.12.0
         run: |
           corepack enable
           corepack prepare yarn@4.12.0 --activate
           yarn --version
-          which yarn
 
+      # ------------------------------------
+      # CACHE
+      # ------------------------------------
       - name: Cache yarn dependencies
         uses: actions/cache@v4
         with:
@@ -80,14 +81,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Force node-modules linker (match local)
-        run: |
-          yarn config set nodeLinker node-modules
-
-      - name: Install dependencies
-        run: yarn install --immutable
       # ------------------------------------
-      # TESTS (only for selected targets)
+      # INSTALL (ULTRA CLEAN FIX)
+      # ------------------------------------
+      - name: Install dependencies (include devDependencies)
+        env:
+          NODE_ENV: test
+          YARN_PRODUCTION: "false"
+          npm_config_production: "false"
+        run: yarn install --immutable
+
+      # ------------------------------------
+      # TESTS
       # ------------------------------------
       - name: Test ui if selected
         run: node tools/release/run-if.mjs "${{ inputs.targets }}" ui "yarn nx test ui --ci"
@@ -96,7 +101,7 @@ jobs:
         run: node tools/release/run-if.mjs "${{ inputs.targets }}" icons "yarn nx test icons --ci"
 
       # ------------------------------------
-      # INPUT VALIDATION
+      # VALIDATION
       # ------------------------------------
       - name: Validate inputs
         run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
@@ -154,20 +159,14 @@ jobs:
       - name: Verify build output
         run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
-      # ------------------------------------
       - name: Sanity check built bundles
         run: node tools/release/assert-bundles.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # OPTIONAL BUT USEFUL: npm pack dry-run per target
-      # ------------------------------------
       - name: npm pack dry-run (selected targets)
         run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
 
       # ------------------------------------
-      # PUBLISH (npm Trusted Publishing via OIDC)
+      # PUBLISH (OIDC Trusted Publishing)
       # ------------------------------------
       - name: Publish selected packages
         run: node tools/release/publish-selected.mjs \
@@ -175,7 +174,7 @@ jobs:
           "${{ inputs.npm_tag }}"
 
       # ------------------------------------
-      # TAG AND RELEASE
+      # TAG + RELEASE
       # ------------------------------------
       - name: Tag release
         run: node tools/release/tag-release.mjs
