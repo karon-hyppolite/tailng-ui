@@ -25,6 +25,7 @@ jobs:
   tests:
     name: "Tests (selected)"
     runs-on: ubuntu-latest
+    environment: development
 
     steps:
       - name: Ensure running on main branch
