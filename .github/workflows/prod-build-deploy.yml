@@ -86,6 +86,7 @@ jobs:
       # ------------------------------------
       - name: Install dependencies
         env:
+          YARN_NODE_LINKER: node-modules
           NODE_ENV: development
           npm_config_production: "false"
         run: yarn install --immutable
