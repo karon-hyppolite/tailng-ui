@@ -3,7 +3,7 @@
     <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
       <h2 class="text-base font-semibold text-primary">Overview</h2>
       <p class="text-sm leading-6 text-muted">
-        <span class="font-mono text-primary/20">tng-copy-button</span> copies <span class="font-mono text-primary/20">text</span> to the clipboard on click and shows a brief “copied” state. Use <span class="font-mono text-primary/20">variant</span> (ghost | outline | solid) and <span class="font-mono text-primary/20">size</span> (sm | md). Project default content and <span class="font-mono text-primary/20">[tngCopied]</span> for the copied state. Styling is via the KlassFinal approach: <span class="font-mono text-primary/20">rootKlass</span> and <span class="font-mono text-primary/20">contentWrapKlass</span> are merged with defaults into <span class="font-mono text-primary/20">finalRootKlass</span> and <span class="font-mono text-primary/20">finalContentWrapKlass</span>; no hardcoded classes in the template.
+        <span class="font-mono text-primary/20">tng-copy-button</span> copies <span class="font-mono text-primary/20">text</span> to the clipboard on click and shows a brief “copied” state. Use <span class="font-mono text-primary/20">variant</span> (ghost | outline | solid) and <span class="font-mono text-primary/20">size</span> (sm | md). Project default content and <span class="font-mono text-primary/20">[tngCopied]</span> for the copied state. Styling is via <span class="font-mono text-primary/20">[slot]</span>: <span class="font-mono text-primary/20">container</span> and <span class="font-mono text-primary/20">content</span> are merged with defaults.
       </p>
     </div>
     <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
@@ -23,15 +23,15 @@
       <div class="grid gap-3 sm:grid-cols-1">
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Variant & size</div>
-          <p class="text-xs leading-5 text-muted">variant: ghost | outline | solid. size: sm | md. Defaults drive base styles; override with rootKlass.</p>
+          <p class="text-xs leading-5 text-muted">variant: ghost | outline | solid. size: sm | md. Defaults drive base styles; override with <span class="font-mono">[slot]</span> (container, content).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
-          <div class="text-sm font-semibold text-primary/20">Slots</div>
+          <div class="text-sm font-semibold text-primary/20">Content slots</div>
           <p class="text-xs leading-5 text-muted">Default content for the button; project <code>[tngCopied]</code> for the content shown after copy (e.g. icon + “Copied”).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
-          <div class="text-sm font-semibold text-primary/20">KlassFinal</div>
-          <p class="text-xs leading-5 text-muted">rootKlass, contentWrapKlass. Computed finalRootKlass and finalContentWrapKlass merge defaults with overrides; no hardcoded class in HTML.</p>
+          <div class="text-sm font-semibold text-primary/20">Slot styling</div>
+          <p class="text-xs leading-5 text-muted">Pass <span class="font-mono">[slot]</span> with <span class="font-mono">container</span> and <span class="font-mono">content</span>; classes are merged with defaults.</p>
         </div>
       </div>
     </div>

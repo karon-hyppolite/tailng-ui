@@ -1,4 +1,6 @@
 import { Component, computed, input, signal } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+import type { TngCopyButtonSlot } from './copy-button.slots';
 
 type CopyButtonVariant = 'ghost' | 'outline' | 'solid';
 type CopyButtonSize = 'sm' | 'md';
@@ -17,12 +19,8 @@ export class TngCopyButton {
   /** how long to show "copied" state */
   resetAfterMs = input<number>(1500);
 
-  /* =====================
-   * Klass hooks
-   * ===================== */
-
-  rootKlass = input<string>('');
-  contentWrapKlass = input<string>('');
+  /** Slot hooks for micro-styling: container, content */
+  readonly slot = input<TngSlotMap<TngCopyButtonSlot>>({});
 
   /* =====================
    * State
@@ -47,20 +45,36 @@ export class TngCopyButton {
   };
 
   /* =====================
-   * Final Klass (defaults + user overrides)
+   * Final Klass (defaults + slot)
    * ===================== */
 
   private readonly defaultRootKlass = computed(() =>
     [this.base, this.sizes[this.size()], this.variants[this.variant()]].join(' ')
   );
 
-  readonly finalRootKlass = computed(() =>
-    this.join(this.defaultRootKlass(), this.rootKlass())
-  );
+  readonly finalRootKlass = computed(() => {
+    const base = this.defaultRootKlass();
+    const slotExtra = this.toClassString(this.slotClass('container'), '');
+    return [base, slotExtra].filter(Boolean).join(' ').trim() || base;
+  });
 
-  readonly finalContentWrapKlass = computed(() =>
-    this.join('inline-flex items-center gap-1.5', this.contentWrapKlass())
-  );
+  private readonly defaultContentKlass = 'inline-flex items-center gap-1.5';
+
+  readonly finalContentWrapKlass = computed(() => {
+    const base = this.defaultContentKlass;
+    const slotExtra = this.toClassString(this.slotClass('content'), '');
+    return [base, slotExtra].filter(Boolean).join(' ').trim() || base;
+  });
+
+  private slotClass(key: TngCopyButtonSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private toClassString(v: TngSlotValue, fallback: string): string {
+    if (v == null || v === '') return fallback;
+    if (Array.isArray(v)) return v.filter(Boolean).map(String).join(' ').trim() || fallback;
+    return String(v).trim() || fallback;
+  }
 
   /* =====================
    * Actions
@@ -79,12 +93,5 @@ export class TngCopyButton {
     } catch {
       // clipboard may be blocked; ignore
     }
-  }
-
-  private join(...parts: Array<string | null | undefined>): string {
-    return parts
-      .map((p) => (p ?? '').trim())
-      .filter(Boolean)
-      .join(' ');
   }
 }

@@ -40,15 +40,14 @@
     </docs-example-block>
   </div>
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
-    <h3 class="text-sm font-semibold text-primary">Klass hooks</h3>
-    <p class="text-sm text-fg">Override <span class="font-mono">rootKlass</span> and <span class="font-mono">contentWrapKlass</span> for custom styling.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="klassHtml()">
+    <h3 class="text-sm font-semibold text-primary">Slot styling</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">[slot]</span> with <span class="font-mono">container</span> and <span class="font-mono">content</span> for custom styling.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="slotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <tng-copy-button
           [text]="snippet()"
-          rootKlass="rounded-lg border-2 border-primary/50"
-          contentWrapKlass="gap-2 text-primary"
+          [slot]="{ container: 'rounded-lg border-2 border-primary/50', content: 'gap-2 text-primary' }"
         >
           <span>Copy</span>
           <span tngCopied>Copied</span>

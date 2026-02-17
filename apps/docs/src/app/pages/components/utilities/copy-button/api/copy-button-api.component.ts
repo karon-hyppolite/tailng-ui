@@ -23,16 +23,10 @@ export class CopyButtonApiComponent implements AfterViewInit {
     { property: 'variant', type: "'ghost' | 'outline' | 'solid'", default: "'ghost'", description: 'Visual variant' },
     { property: 'size', type: "'sm' | 'md'", default: "'sm'", description: 'Button size' },
     { property: 'resetAfterMs', type: 'number', default: '1500', description: 'How long to show "copied" state (ms)' },
-    { property: 'rootKlass', type: 'string', default: "''", description: 'Override/extend button classes (merged with default)' },
-    { property: 'contentWrapKlass', type: 'string', default: "''", description: 'Override/extend content wrapper span classes' },
-  ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "''", description: 'Merged into finalRootKlass (button)' },
-    { property: 'contentWrapKlass', type: 'string', default: "''", description: 'Merged into finalContentWrapKlass (inner span)' },
+    { property: 'slot', type: 'TngSlotMap<TngCopyButtonSlot>', default: '{}', description: 'Micro-styling: container, content. Merged with defaults. See Styling.' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';

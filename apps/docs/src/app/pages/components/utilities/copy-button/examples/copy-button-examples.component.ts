@@ -32,11 +32,10 @@ export class CopyButtonExamplesComponent {
 </tng-copy-button>
 `,
   );
-  readonly klassHtml = computed(
+  readonly slotHtml = computed(
     () => `
 <tng-copy-button [text]="snippet()"
-  rootKlass="rounded-lg border-2 border-primary/50"
-  contentWrapKlass="gap-2 text-primary">
+  [slot]="{ container: 'rounded-lg border-2 border-primary/50', content: 'gap-2 text-primary' }">
   <span>Copy</span>
   <span tngCopied>Copied</span>
 </tng-copy-button>

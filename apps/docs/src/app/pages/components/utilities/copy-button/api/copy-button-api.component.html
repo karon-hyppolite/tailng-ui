@@ -15,24 +15,16 @@
         </tng-table>
       </div>
     </section>
-    <section id="klass" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">Class hooks (KlassFinal)</h3>
-      <p class="text-sm text-muted">User overrides are merged with defaults. The template uses <span class="font-mono">finalRootKlass</span> and <span class="font-mono">finalContentWrapKlass</span> (computed); no hardcoded <span class="font-mono">class</span> in HTML.</p>
-      <div class="rounded-md border text-fg">
-        <tng-table [rows]="klassRows()">
-          <tng-col id="property" header="Property" [value]="property"></tng-col>
-          <tng-col id="type" header="Type" [value]="type"></tng-col>
-          <tng-col id="default" header="Default" [value]="default"></tng-col>
-          <tng-col id="description" header="Description" [value]="description"></tng-col>
-        </tng-table>
-      </div>
+    <section id="slot-types" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">TngCopyButtonSlot</h3>
+      <p class="text-sm text-fg">Slot keys for <span class="font-mono">[slot]</span>: <span class="font-mono">container</span> (button element), <span class="font-mono">content</span> (inner span). Each value is merged with the component default. See Styling page for examples.</p>
     </section>
   </section>
   <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Inputs</a></li>
-      <li><a href="#klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Class hooks</a></li>
+      <li><a href="#slot-types" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Slot types</a></li>
     </ul>
   </aside>
 </div>

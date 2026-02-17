@@ -1,21 +1,35 @@
 <section class="space-y-6 text-fg">
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
-    <h2 class="text-sm font-semibold text-primary">Styling (KlassFinal)</h2>
+    <h2 class="text-sm font-semibold text-primary">Slot-based styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-copy-button</span> exposes <span class="font-mono">rootKlass</span> and <span class="font-mono">contentWrapKlass</span>. Values are merged with defaults; the template binds <span class="font-mono">finalRootKlass</span> and <span class="font-mono">finalContentWrapKlass</span> only—no hardcoded <span class="font-mono">class</span> in HTML.
+      <span class="font-mono">tng-copy-button</span> supports micro-styling via a single <span class="font-mono">[slot]</span> input. Slot keys are merged with the component's default classes. Pass <span class="font-mono">[slot]="&#123; container: '…', content: '…' &#125;"</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Custom root and content wrap</h3>
-    <p class="text-sm text-fg">Override <span class="font-mono">rootKlass</span> and <span class="font-mono">contentWrapKlass</span> to theme the button and inner span.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Slot keys</h3>
+      <tng-tag label="TngCopyButtonSlot"></tng-tag>
+    </div>
+    <ul class="text-sm text-fg space-y-1 list-disc list-inside">
+      <li><span class="font-mono">container</span> — Button element (variant/size base plus slot classes). Default includes <span class="font-mono">inline-flex items-center gap-1.5</span> and variant/size classes.</li>
+      <li><span class="font-mono">content</span> — Content wrapper span (default and slot classes). Default: <span class="font-mono">inline-flex items-center gap-1.5</span>.</li>
+    </ul>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Add button-level classes (border-radius, shadow, min-width, etc.) via the <span class="font-mono">container</span> slot.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <tng-copy-button
           [text]="snippet()"
           variant="outline"
-          rootKlass="rounded-lg border-2 border-primary/50"
-          contentWrapKlass="inline-flex items-center gap-2 text-primary"
+          [slot]="{ container: 'rounded-xl shadow-md min-w-24' }"
         >
           <span>Copy</span>
           <span tngCopied>Copied</span>
@@ -23,4 +37,49 @@
       </div>
     </docs-example-block>
   </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">content</h3>
+      <tng-tag label="slot"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the inner content span (text color, gap, etc.) via the <span class="font-mono">content</span> slot.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="contentSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-copy-button
+          [text]="snippet()"
+          variant="ghost"
+          [slot]="{ content: 'text-primary gap-2' }"
+        >
+          <span>Copy</span>
+          <span tngCopied>Copied</span>
+        </tng-copy-button>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">All slots combined</h3>
+    </div>
+    <p class="text-sm text-fg">Use both <span class="font-mono">container</span> and <span class="font-mono">content</span> in one <span class="font-mono">[slot]</span> object.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="allSlotsHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-copy-button
+          [text]="snippet()"
+          variant="outline"
+          [slot]="{
+            container: 'rounded-lg border-2 border-primary/50',
+            content: 'inline-flex items-center gap-2 text-primary'
+          }"
+        >
+          <span>Copy</span>
+          <span tngCopied>Copied</span>
+        </tng-copy-button>
+      </div>
+    </docs-example-block>
+  </div>
+
 </section>
