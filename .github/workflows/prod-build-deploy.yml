@@ -84,11 +84,14 @@ jobs:
       # INSTALL (ULTRA CLEAN FIX)
       # ------------------------------------
       - name: Install dependencies
-        env:
-          NODE_ENV: development
-          npm_config_production: "false"
-          YARN_PRODUCTION: "false"   # IMPORTANT: prevents Yarn picking up legacy flag from env
+        shell: bash
         run: |
+          # Yarn 4 fails if legacy "production" config is present via env
+          unset npm_config_production
+          unset NPM_CONFIG_PRODUCTION
+          unset YARN_PRODUCTION
+          unset yarn_production
+
           yarn config get nodeLinker
           yarn install --immutable
         
