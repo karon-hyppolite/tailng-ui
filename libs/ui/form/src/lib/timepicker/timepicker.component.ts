@@ -22,6 +22,7 @@ import {
 
 type Period = 'am' | 'pm';
 type TimeFormat = 12 | 24;
+type ActiveField = 'hour' | 'minute' | 'second' | 'period';
 
 @Component({
   selector: 'tng-timepicker',
@@ -62,6 +63,9 @@ export class TngTimepicker implements ControlValueAccessor {
   readonly hourTitleClassFinal = input<string>('w-full text-center text-[0.6rem] text-slate-400');
   readonly minutesTitleClassFinal = input<string>('w-full text-center text-[0.6rem] text-slate-400');
   readonly secondsTitleClassFinal = input<string>('w-full text-center text-[0.6rem] text-slate-400');
+
+  /**Default focus setting  */
+  readonly activeField = signal<ActiveField>('hour');
 
   /** Slot hooks(micro styling) */
   slot = input<TngSlotMap<TngTimepickerSlot>>({});
@@ -308,7 +312,7 @@ private slotClass(key: TngTimepickerSlot): TngSlotValue {
   }
 
   private build12HourFormat(hours24: number, minutes: string, seconds: string): string {
-    const period = hours24 >= 12 ? 'PM' : 'AM';
+    const period = hours24 >= 12 ? 'pm' : 'am';
 
     let hours12 = hours24 % 12;
     hours12 = hours12 === 0 ? 12 : hours12;
@@ -423,7 +427,7 @@ private slotClass(key: TngTimepickerSlot): TngSlotValue {
   /*Seconds visible */
   visibleSeconds = computed(() => [this.secondSelection()]);
 
-  scrollSeconds(direction: number) {
+  adjustSecond(direction: number) {
     let currentSeconds = parseInt(this.secondSelection());
     let newSeconds = currentSeconds + direction;
 
@@ -500,6 +504,78 @@ private slotClass(key: TngTimepickerSlot): TngSlotValue {
     this.close('selection');
     this.updateDraftValue();
   }
+  /** Key down  */
+onKeydown(ev: KeyboardEvent) {
+  if (this.isDisabled()) return;
+
+    // ---- TAB / SHIFT+TAB  and tAB to switch-> close popup ----
+  if (ev.key === 'Tab' && this.isOpen()) {
+    ev.preventDefault();
+
+    const fields: ActiveField[] = this.showSeconds()
+      ? ['hour', 'minute', 'second', 'period']
+      : ['hour', 'minute', 'period'];
+
+    const currentIndex = fields.indexOf(this.activeField());
+
+    const nextIndex = ev.shiftKey
+      ? (currentIndex - 1 + fields.length) % fields.length
+      : (currentIndex + 1) % fields.length;
+
+    this.activeField.set(fields[nextIndex]);
+    return;
+  }
+
+  if (!this.isOpen()) return;
+
+  switch (ev.key) {
+    case 'ArrowUp':
+      //current tab value increment
+      ev.preventDefault();
+      this.adjustActive(1);
+      return;
+
+    case 'ArrowDown':
+      //current tab value decrement
+      ev.preventDefault();
+      this.adjustActive(-1);
+      return;
+
+    case 'Enter':
+      // current value updated
+      ev.preventDefault();
+      this.confirm();
+      return;
+
+    case 'Escape':
+    // Escape closes without commit
+      ev.preventDefault();
+      this.close('escape');
+      return;
+  }
+}
+private adjustActive(direction: number) {
+  switch (this.activeField()) {
+    case 'hour':
+      this.adjustHour(direction);
+      break;
+
+    case 'minute':
+      this.adjustMinute(direction);
+      break;
+
+    case 'second':
+      this.adjustSecond(direction);
+      break;
+
+    case 'period':
+      this.periodSelection.set(
+        this.periodSelection() === 'am' ? 'pm' : 'am'
+      );
+      this.updateDraftValue();
+      break;
+  }
+}
 
 
   selectHour(hour: number) {
