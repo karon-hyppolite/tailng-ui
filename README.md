@@ -1,334 +1,284 @@
-<div align="center">
-  <img
-    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg"
-    width="120"
-    alt="TailNG logo"
-  />
+# Nx Angular Repository
 
-  <h1>TailNG</h1>
+<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-  <p>
-    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
-  </p>
+✨ A repository showcasing key [Nx](https://nx.dev) features for Angular monorepos ✨
+## Finish your Nx platform setup
 
-  <p>
-    A modern Angular 21 component system built with Tailwind CSS —
-    designed for large applications and design systems.
-  </p>
-</div>
+🚀 [Finish setting up your workspace](https://cloud.nx.app/connect/JG93lQG7uG) to get faster builds with remote caching, distributed task execution, and self-healing CI. [Learn more about Nx Cloud](https://nx.dev/ci/intro/why-nx-cloud).
+## 📦 Project Overview
 
-# TailNG – Angular 21
+This repository demonstrates a production-ready Angular monorepo with:
 
-[![PROD - Release & Deploy (Tailng)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+- **2 Applications**
 
+  - `shop` - Angular e-commerce application with product listings and detail views
+  - `api` - Backend API with Docker support serving product data
 
-[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/ui.svg)](https://www.npmjs.com/package/@tailng-ui/ui)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+- **6 Libraries**
 
-Nx + Angular 21 + Tailwind starter for TailNG.
+  - `@org/feature-products` - Product listing feature (Angular)
+  - `@org/feature-product-detail` - Product detail feature (Angular)
+  - `@org/data` - Data access layer for shop features
+  - `@org/shared-ui` - Shared UI components
+  - `@org/models` - Shared data models
+  - `@org/products` - API product service library
 
-## Included
-- `apps/docs` – demo & docs site
-- `apps/playground` – sandbox for testing components
-- `libs/ui` – UI component library (Button, Input, Card, etc.)
-- `libs/icons` – Bootstrap Icons wrapper
-- `libs/theme` – Tailwind preset + plugin
-- `libs/cdk` – utilities
+- **E2E Testing**
+  - `shop-e2e` - Playwright tests for the shop application
 
-## Getting Started
-
-### Installation
+## 🚀 Quick Start
 
 ```bash
-yarn install
+# Clone the repository
+git clone <your-fork-url>
+cd <your-repository-name>
+
+# Install dependencies
+# (Note: You may need --legacy-peer-deps)
+npm install
+
+# Serve the Angular shop application (this will simultaneously serve the API backend)
+npx nx serve shop
+
+# ...or you can serve the API separately
+npx nx serve api
+
+# Build all projects
+npx nx run-many -t build
+
+# Run tests
+npx nx run-many -t test
+
+# Lint all projects
+npx nx run-many -t lint
+
+# Run e2e tests
+npx nx e2e shop-e2e
+
+# Run tasks in parallel
+
+npx nx run-many -t lint test build e2e --parallel=3
+
+# Visualize the project graph
+npx nx graph
 ```
 
-### Running the Playground
+## ⭐ Featured Nx Capabilities
 
-The playground is a development sandbox where you can test and preview components:
+This repository showcases several powerful Nx features:
+
+### 1. 🔒 Module Boundaries
+
+Enforces architectural constraints using tags. Each project has specific dependencies it can use:
+
+- `scope:shared` - Can be used by all projects
+- `scope:shop` - Shop-specific libraries
+- `scope:api` - API-specific libraries
+- `type:feature` - Feature libraries
+- `type:data` - Data access libraries
+- `type:ui` - UI component libraries
+
+**Try it out:**
 
 ```bash
-yarn playground
+# See the current project graph and boundaries
+npx nx graph
+
+# View a specific project's details
+npx nx show project shop --web
 ```
 
-This will start the playground application at `http://localhost:4200` (or the next available port).
+[Learn more about module boundaries →](https://nx.dev/features/enforce-module-boundaries)
 
-### Running the Docs Site
+### 2. 🐳 Docker Integration
+
+The API project includes Docker support with automated targets and release management:
 
 ```bash
-yarn docs
+# Build Docker image
+npx nx docker:build api
+
+# Run Docker container
+npx nx docker:run api
+
+# Release with automatic Docker image versioning
+npx nx release
 ```
 
-## Component Development Guide
+**Nx Release for Docker:** The repository is configured to use Nx Release for managing Docker image versioning and publishing. When running `nx release`, Docker images for the API project are automatically versioned and published based on the release configuration in `nx.json`. This integrates seamlessly with semantic versioning and changelog generation.
 
-### Project Structure
+[Learn more about Docker integration →](https://nx.dev/recipes/nx-release/release-docker-images)
 
-Components are organized in the `libs/ui` directory:
+### 3. 🎭 Playwright E2E Testing
 
-```
-libs/ui/
-  ├── button/
-  │   └── src/
-  │       ├── button.component.ts
-  │       ├── button.component.html
-  │       ├── button.types.ts
-  │       ├── button.variants.ts
-  │       └── public-api.ts
-  ├── input/
-  │   └── src/
-  │       ├── input.component.ts
-  │       ├── input.component.html
-  │       └── public-api.ts
-  └── src/
-      └── public-api.ts  (main export file)
-```
-
-### Creating a New Component
-
-#### Step 1: Create Component Files
-
-1. **Create the component directory** in `libs/ui/`:
-   ```bash
-   mkdir -p libs/ui/my-component/src
-   ```
-
-2. **Create the component TypeScript file** (`libs/ui/my-component/src/my-component.component.ts`):
-   ```typescript
-   import { Component, input } from '@angular/core';
-
-   @Component({
-     selector: 'tng-my-component',
-     standalone: true,
-     templateUrl: './my-component.component.html',
-   })
-   export class TailngMyComponentComponent {
-     // Define your inputs using Angular signals
-     label = input<string>('');
-     disabled = input(false);
-   }
-   ```
-
-3. **Create the component template** (`libs/ui/my-component/src/my-component.component.html`):
-   ```html
-   <div class="my-component">
-     <span>{{ label() }}</span>
-   </div>
-   ```
-
-4. **Create the public API file** (`libs/ui/my-component/src/public-api.ts`):
-   ```typescript
-   export * from './my-component.component';
-   ```
-
-5. **Export from main UI library** (`libs/ui/src/public-api.ts`):
-   ```typescript
-   export * from '../my-component/src/public-api';
-   ```
-
-#### Step 2: Create a Demo Component in Playground
-
-1. **Determine the category** for your component:
-   - Form Controls: `apps/playground/src/app/demos/form-controls/`
-   - Buttons & Indicators: `apps/playground/src/app/demos/buttons-indicators/`
-   - Layout: `apps/playground/src/app/demos/layout/`
-   - Navigation: `apps/playground/src/app/demos/navigation/`
-   - Popups & Overlays: `apps/playground/src/app/demos/popups-overlays/`
-   - Data Table & Structure: `apps/playground/src/app/demos/data-table-structure/`
-
-2. **Create the demo component directory**:
-   ```bash
-   mkdir -p apps/playground/src/app/demos/[category]/my-component
-   ```
-
-3. **Create the demo component** (`my-component-demo.component.ts`):
-   ```typescript
-   import { Component } from '@angular/core';
-   import { TailngMyComponentComponent } from '@tailng-ui/ui';
-
-   @Component({
-     selector: 'playground-my-component-demo',
-     standalone: true,
-     imports: [TailngMyComponentComponent],
-     templateUrl: './my-component-demo.component.html',
-   })
-   export class MyComponentDemoComponent {}
-   ```
-
-4. **Create the demo template** (`my-component-demo.component.html`):
-   ```html
-   <div>
-     <h1 class="text-2xl font-bold mb-6">My Component</h1>
-     
-     <div class="space-y-6">
-       <section>
-         <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-         <tng-my-component label="Hello World"></tng-my-component>
-       </section>
-
-       <section>
-         <h2 class="text-lg font-semibold mb-3">With Props</h2>
-         <tng-my-component label="Disabled" [disabled]="true"></tng-my-component>
-       </section>
-     </div>
-   </div>
-   ```
-
-#### Step 3: Add Route to Playground
-
-1. **Add the route** in `apps/playground/src/app/app.routes.ts`:
-   ```typescript
-   {
-     path: '[category]/my-component',
-     loadComponent: () =>
-       import('./demos/[category]/my-component/my-component-demo.component').then(
-         (m) => m.MyComponentDemoComponent
-       ),
-   },
-   ```
-
-   Replace `[category]` with the appropriate category path (e.g., `form-controls`, `buttons-indicators`, etc.).
-
-#### Step 4: Add to Navigation
-
-1. **Add to sidebar navigation** in `apps/playground/src/app/app.component.html`:
-   ```html
-   <a
-     routerLink="/[category]/my-component"
-     class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-50 transition"
-     routerLinkActive="bg-primary/10 text-primary font-medium"
-     [routerLinkActiveOptions]="{ exact: false }"
-   >
-     <span class="h-2 w-2 rounded-full bg-gray-300"></span>
-     My Component
-   </a>
-   ```
-
-2. **Add to home page** in `apps/playground/src/app/home/home.component.ts`:
-   ```typescript
-   {
-     name: 'My Component',
-     route: '/[category]/my-component',
-   },
-   ```
-
-### Updating an Existing Component
-
-1. **Modify the component** in `libs/ui/[component-name]/src/`
-2. **Update the demo** in `apps/playground/src/app/demos/[category]/[component-name]/`
-3. **Test in playground** - The changes will be hot-reloaded automatically
-
-### Testing Components in Playground
-
-1. **Start the playground**:
-   ```bash
-   yarn playground
-   ```
-
-2. **Navigate to the component**:
-   - Visit the home page to see all components in a tiled layout
-   - Click on any component tile to view its demo
-   - Or use the sidebar navigation to browse by category
-
-3. **Test different scenarios**:
-   - Update the demo component to test various props and states
-   - Check responsive behavior
-   - Test edge cases and error states
-
-### Component Categories
-
-Components are organized into the following categories:
-
-#### Form Controls
-- Autocomplete, Checkbox, Chips, Datepicker, Form Field, Input, Radio Button, Select, Slider, Slide Toggle, Timepicker
-
-#### Buttons & Indicators
-- Button, Button Toggle, Badge, Icon, Ripples, Progress Bar, Progress Spinner
-
-#### Layout
-- Card, Divider, Expansion Panel, Grid List, List, Tabs, Toolbar
-
-#### Navigation
-- Menu, Sidenav, Stepper, Paginator
-
-#### Popups & Overlays
-- Dialog, Bottom Sheet, Snackbar, Tooltip
-
-#### Data Table & Structure
-- Table, Sort Header, Tree
-
-### Best Practices
-
-1. **Use Angular Signals**: Prefer `input()` for component inputs instead of `@Input()`
-2. **Standalone Components**: All components should be standalone
-3. **Tailwind CSS**: Use Tailwind utility classes for styling
-4. **Type Safety**: Define types in separate `.types.ts` files when needed
-5. **Variants**: Use a `.variants.ts` file for variant classes (see `button.variants.ts` as an example)
-6. **Demo Components**: Create comprehensive demos showing different use cases
-7. **Naming Convention**: 
-   - Component selector: `tng-[component-name]`
-   - Component class: `Tailng[ComponentName]Component`
-   - Demo component: `[ComponentName]DemoComponent`
-
-### Building
-
-Build all projects:
+End-to-end testing with Playwright is pre-configured:
 
 ```bash
-yarn build
+# Run e2e tests
+npx nx e2e shop-e2e
+
+# Run e2e tests in CI mode
+npx nx e2e-ci shop-e2e
 ```
 
-## Development Workflow
+[Learn more about E2E testing →](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
 
-1. **Create or update a component** in `libs/ui/`
-2. **Create/update the demo** in `apps/playground/src/app/demos/`
-3. **Add/update routes** in `app.routes.ts`
-4. **Update navigation** in `app.component.html` and `home.component.ts`
-5. **Test in playground** by running `yarn playground`
-6. **Iterate** until the component works as expected
+### 4. ⚡ Vitest for Unit Testing
 
-## Project Structure Overview
+Fast unit testing with Vite for Angular libraries:
+
+```bash
+# Test a specific library
+npx nx test data
+
+# Test all projects
+npx nx run-many -t test
+```
+
+[Learn more about Vite testing →](https://nx.dev/recipes/vite)
+
+### 5. 🔧 Self-Healing CI
+
+The CI pipeline includes `nx fix-ci` which automatically identifies and suggests fixes for common issues:
+
+```bash
+# In CI, this command provides automated fixes
+npx nx fix-ci
+```
+
+This feature helps maintain a healthy CI pipeline by automatically detecting and suggesting solutions for:
+
+- Missing dependencies
+- Incorrect task configurations
+- Cache invalidation issues
+- Common build failures
+
+[Learn more about self-healing CI →](https://nx.dev/ci/features/self-healing-ci)
+
+## 📁 Project Structure
 
 ```
-tailng/
 ├── apps/
-│   ├── docs/              # Documentation site
-│   └── playground/        # Component testing playground
-│       └── src/
-│           └── app/
-│               ├── demos/         # Demo components organized by category
-│               ├── home/          # Home page component
-│               ├── app.component.* # Main app component with navigation
-│               └── app.routes.ts  # Route configuration
+│   ├── shop/           [scope:shop]    - Angular e-commerce app
+│   ├── shop-e2e/                       - E2E tests for shop
+│   └── api/            [scope:api]     - Backend API with Docker
 ├── libs/
-│   ├── ui/                # UI component library
-│   ├── icons/             # Icon components
-│   ├── theme/             # Tailwind configuration
-│   └── cdk/               # Utilities
-└── package.json
+│   ├── shop/
+│   │   ├── feature-products/        [scope:shop,type:feature] - Product listing
+│   │   ├── feature-product-detail/  [scope:shop,type:feature] - Product details
+│   │   ├── data/                    [scope:shop,type:data]    - Data access
+│   │   └── shared-ui/               [scope:shop,type:ui]      - UI components
+│   ├── api/
+│   │   └── products/    [scope:api]    - Product service
+│   └── shared/
+│       └── models/      [scope:shared,type:data] - Shared models
+├── nx.json             - Nx configuration
+├── tsconfig.json       - TypeScript configuration
+└── eslint.config.mjs   - ESLint with module boundary rules
 ```
 
-## Additional Resources
+## 🏷️ Understanding Tags
 
-- [Angular Documentation](https://angular.dev)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+This repository uses tags to enforce module boundaries:
+
+| Project            | Tags                         | Can Import From              |
+| ------------------ | ---------------------------- | ---------------------------- |
+| `shop`             | `scope:shop`                 | `scope:shop`, `scope:shared` |
+| `api`              | `scope:api`                  | `scope:api`, `scope:shared`  |
+| `feature-products` | `scope:shop`, `type:feature` | `scope:shop`, `scope:shared` |
+| `data`             | `scope:shop`, `type:data`    | `scope:shared`               |
+| `models`           | `scope:shared`, `type:data`  | Nothing (base library)       |
+
+## 📚 Useful Commands
+
+```bash
+# Project exploration
+npx nx graph                                    # Interactive dependency graph
+npx nx list                                     # List installed plugins
+npx nx show project shop --web                 # View project details
+
+# Development
+npx nx serve shop                              # Serve Angular app
+npx nx serve api                               # Serve backend API
+npx nx build shop                              # Build Angular app
+npx nx test data                               # Test a specific library
+npx nx lint feature-products                   # Lint a specific library
+
+# Running multiple tasks
+npx nx run-many -t build                       # Build all projects
+npx nx run-many -t test --parallel=3          # Test in parallel
+npx nx run-many -t lint test build            # Run multiple targets
+
+# Affected commands (great for CI)
+npx nx affected -t build                       # Build only affected projects
+npx nx affected -t test                        # Test only affected projects
+
+# Docker operations
+npx nx docker:build api                        # Build Docker image
+npx nx docker:run api                          # Run Docker container
+```
+
+## 🎯 Adding New Features
+
+### Generate a new Angular application:
+
+```bash
+npx nx g @nx/angular:app my-app
+```
+
+### Generate a new Angular library:
+
+```bash
+npx nx g @nx/angular:lib my-lib
+```
+
+### Generate a new Angular component:
+
+```bash
+npx nx g @nx/angular:component my-component --project=my-lib
+```
+
+### Generate a new API library:
+
+```bash
+npx nx g @nx/node:lib my-api-lib
+```
+
+You can use `npx nx list` to see all available plugins and `npx nx list <plugin-name>` to see all generators for a specific plugin.
+
+## Nx Cloud
+
+Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+
+- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Install Nx Console
+
+Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+
+[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## 🔗 Learn More
+
 - [Nx Documentation](https://nx.dev)
+- [Angular Monorepo Tutorial](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial)
+- [Module Boundaries](https://nx.dev/features/enforce-module-boundaries)
+- [Docker Integration](https://nx.dev/recipes/nx-release/release-docker-images)
+- [Playwright Testing](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
+- [Vite with Angular](https://nx.dev/recipes/vite)
+- [Nx Cloud](https://nx.dev/ci/intro/why-nx-cloud)
+- [Releasing Packages](https://nx.dev/features/manage-releases)
 
-## Publish to npm
+## 💬 Community
 
-```
-cd dist/libs/cdk && npm publish --access public --dry-run
-# make sure you're logged in
-npm whoami || npm login
+Join the Nx community:
 
-# publish in order
-cd dist/libs/cdk   && npm publish --access public
-cd ../theme        && npm publish --access public
-cd ../icons        && npm publish --access public
-cd ../ui           && npm publish --access public
-```
-
-### Test Automation ###
-```sh
-yarn nx test ui
-yarn nx test ui --testPathPattern=libs/ui/form/src/lib/autocomplete/autocomplete.component.spec.ts
-```
+- [Discord](https://go.nx.dev/community)
+- [X (Twitter)](https://twitter.com/nxdevtools)
+- [LinkedIn](https://www.linkedin.com/company/nrwl)
+- [YouTube](https://www.youtube.com/@nxdevtools)
+- [Blog](https://nx.dev/blog)

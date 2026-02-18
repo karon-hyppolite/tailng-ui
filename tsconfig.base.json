@@ -1,20 +1,21 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "Bundler",
-    "strict": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@tailng-ui/ui": ["libs/ui/src/public-api.ts"],
-      "@tailng-ui/ui/*": ["libs/ui/*/src/public-api.ts"],
-      "@tailng-ui/icons": ["libs/icons/src/public-api.ts"],
-      "@tailng-ui/icons/*": ["libs/icons/*/src/public-api.ts"],
-      "@tailng-ui/theme": [
-        "libs/theme/src/public-api.ts"
-      ],
-      "@tailng-ui/cdk": ["libs/cdk/src/public-api.ts"],
-      "@tailng-ui/cdk/*": ["libs/cdk/*/src/public-api.ts"]
     }
-  }
+  },
+  "exclude": ["node_modules", "tmp"]
 }
