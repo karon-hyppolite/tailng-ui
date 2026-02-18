@@ -1,1 +1,78 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Basic usage</h3>
+      <tng-tag label="standalone"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Bind with <span class="font-mono">formControlName</span>. Value is <span class="font-mono">string | null</span>.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="basicHtml()"
+      [tsContent]="basicTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+        <tng-timepicker formControlName="timeValue"></tng-timepicker>
+        </form>
+          <p class="text-xs text-muted mt-2">Value: {{ form.controls.timeValue.value || '—' }}</p>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Validation</h3>
+      <tng-tag label="validators"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Use<span class="font-mono"> Validators.required</span> to ensure the user selects a time.
+    Combine it with <span class="font-mono">Validators.pattern </span>to enforce a specific time format.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="validationHtml()"
+      [tsContent]="validationTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm space-y-2">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [hourFormat]="24"></tng-timepicker>
+          @if (timeValueCtrl.touched && timeValueCtrl.invalid) {
+            <p class="text-xs text-red-600">Please select a valid time.</p>
+          }
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">Display format</h3>
+      <tng-tag label="displayFormat / previewFormat"></tng-tag>
+    </div>
+<p class="text-sm text-fg">
+  Supports both:
+  <span class="font-mono">12-hour format (hh:mm AM/PM)</span> and  
+  <span class="font-mono">24-hour format (HH:mm)</span>.
+</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="formatHtml()"
+      [tsContent]="basicTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [hourFormat]="24"/>
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="space-y-2 border-l-4 border-primary bg-alternate-background px-4 py-4 rounded-md">
+    <strong class="text-sm font-bold text-muted text-primary">Tip:</strong>
+     Use the clock overlay or keyboard (Enter to open, arrows to navigate, Enter to select).
+  </div>
+</section>

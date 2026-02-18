@@ -14,6 +14,7 @@
         [placeholder]="timeDisplayFormat()"
         [disabled]="disabledFinal()"
         (input)="onInput($event)"
+        (keydown)="onKeydown($event)"
         (focus)="open('programmatic')"
         (blur)="onBlur()"
       />
