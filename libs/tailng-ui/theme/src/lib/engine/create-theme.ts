@@ -1,5 +1,5 @@
-import type { ThemeDefinition, ThemeOverride } from '../contracts/theme.types';
 import { mergeTheme } from './merge-theme';
+import type { ThemeDefinition, ThemeOverride } from '../contracts/theme.types';
 
 export function createTheme(
   base: ThemeDefinition,

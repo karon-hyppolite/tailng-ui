@@ -1,6 +1,6 @@
 export type TokenScale = Record<string, string>;
 
-export interface ThemePrimitives {
+export type ThemePrimitives = {
   color: TokenScale;
   spacing: TokenScale;
   radius: TokenScale;
@@ -8,7 +8,7 @@ export interface ThemePrimitives {
   motion: TokenScale;
 }
 
-export interface ThemeSemanticTokens {
+export type ThemeSemanticTokens = {
   background: TokenScale;
   foreground: TokenScale;
   border: TokenScale;
@@ -16,12 +16,12 @@ export interface ThemeSemanticTokens {
   focus: TokenScale;
 }
 
-export interface ThemeTokens {
+export type ThemeTokens = {
   primitives: ThemePrimitives;
   semantic: ThemeSemanticTokens;
 }
 
-export interface ThemeTokenOverrides {
+export type ThemeTokenOverrides = {
   primitives?: Partial<ThemePrimitives>;
   semantic?: Partial<ThemeSemanticTokens>;
 }

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import type { ThemeDefinition } from '../contracts/theme.types';
-import { defaultThemePreset } from '../presets/default.preset';
 import {
   isThemeContractValid,
   listMissingRequiredThemeScales,
 } from './theme-contract.spec-helpers';
+import type { ThemeDefinition } from '../contracts/theme.types';
+import { defaultThemePreset } from '../presets/default.preset';
 
 describe('theme contract helpers', () => {
   it('marks default preset as valid', () => {

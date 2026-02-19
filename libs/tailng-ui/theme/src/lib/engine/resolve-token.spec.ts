@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { defaultThemePreset } from '../presets/default.preset';
 import { resolveToken } from './resolve-token';
+import { defaultThemePreset } from '../presets/default.preset';
 
 describe('resolveToken', () => {
   it('resolves primitive tokens using short notation', () => {

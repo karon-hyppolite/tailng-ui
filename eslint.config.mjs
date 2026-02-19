@@ -1,19 +1,142 @@
-import nx from '@nx/eslint-plugin';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from '@angular-eslint/eslint-plugin';
+import angularTemplate from '@angular-eslint/eslint-plugin-template';
+import angularTemplateParser from '@angular-eslint/template-parser';
+import unusedImports from 'eslint-plugin-unused-imports';
+import sonarjs from 'eslint-plugin-sonarjs';
+import prettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import nxPlugin from '@nx/eslint-plugin';
 
 export default [
-  ...nx.configs['flat/base'],
-  ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
   {
     ignores: [
-      '**/dist',
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/.nx/**',
       '**/vite.config.*.timestamp*',
       '**/vitest.config.*.timestamp*',
     ],
   },
+
+  js.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: {
+      '@angular-eslint': angular,
+      'unused-imports': unusedImports,
+      sonarjs,
+      import: importPlugin,
+      '@nx': nxPlugin,
+    },
     rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'no-console': 'error',
+
+      'max-lines-per-function': [
+        'error',
+        {
+          max: 40,
+          skipBlankLines: true,
+          skipComments: true,
+        },
+      ],
+      complexity: ['error', { max: 8 }],
+      'max-depth': ['error', 3],
+      'max-params': ['error', 3],
+
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'variableLike',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'typeLike',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'enumMember',
+          format: ['UPPER_CASE'],
+        },
+        {
+          selector: 'variable',
+          modifiers: ['const'],
+          format: ['camelCase', 'UPPER_CASE'],
+        },
+      ],
+
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+
+      'import/no-default-export': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling', 'index'],
+          ],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+      'import/no-cycle': ['error', { maxDepth: 1 }],
+      'import/no-internal-modules': [
+        'error',
+        {
+          forbid: ['@tailng-ui/**/src/**'],
+        },
+      ],
+
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'tng', style: 'kebab-case' },
+      ],
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'tng', style: 'camelCase' },
+      ],
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        { accessibility: 'explicit' },
+      ],
+
       '@nx/enforce-module-boundaries': [
         'error',
         {
@@ -21,38 +144,71 @@ export default [
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
             {
-              sourceTag: 'scope:shared',
-              onlyDependOnLibsWithTags: ['scope:shared'],
+              sourceTag: 'type:ui',
+              onlyDependOnLibsWithTags: [
+                'type:cdk',
+                'type:theme',
+                'type:icons',
+                'type:utils',
+              ],
             },
             {
-              sourceTag: 'scope:shop',
-              onlyDependOnLibsWithTags: ['scope:shop', 'scope:shared'],
-            },
-            {
-              sourceTag: 'scope:api',
-              onlyDependOnLibsWithTags: ['scope:api', 'scope:shared'],
-            },
-            {
-              sourceTag: 'type:data',
-              onlyDependOnLibsWithTags: ['type:data'],
+              sourceTag: 'type:cdk',
+              onlyDependOnLibsWithTags: ['type:utils'],
             },
           ],
         },
       ],
     },
   },
+
+  {
+    files: ['libs/**/*.ts'],
+    rules: {
+      '@typescript-eslint/prefer-readonly': 'error',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'warn',
+      'unused-imports/no-unused-vars': 'error',
+    },
+  },
+
+  {
+    files: ['apps/**/*.ts'],
+    rules: {
+      'no-console': 'warn',
+      'max-params': ['warn', 4],
+    },
+  },
+
+  {
+    files: ['**/*.html'],
+    languageOptions: {
+      parser: angularTemplateParser,
+    },
+    plugins: {
+      '@angular-eslint/template': angularTemplate,
+    },
+    rules: {
+      '@angular-eslint/template/banana-in-box': 'error',
+      '@angular-eslint/template/eqeqeq': 'error',
+      '@angular-eslint/template/no-any': 'error',
+      '@angular-eslint/template/alt-text': 'error',
+      '@angular-eslint/template/click-events-have-key-events': 'error',
+      '@angular-eslint/template/interactive-supports-focus': 'error',
+      '@angular-eslint/template/no-negated-async': 'error',
+    },
+  },
+
   {
     files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
+      '**/vitest.config.ts',
+      '**/vite.config.ts',
+      '**/*.config.ts',
+      '**/eslint.config.ts',
     ],
-    // Override or add rules here
-    rules: {},
+    rules: {
+      'import/no-default-export': 'off',
+    },
   },
+
+  prettier,
 ];

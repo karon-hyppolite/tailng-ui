@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { defaultThemePreset } from '../presets/default.preset';
 import { createTheme } from './create-theme';
+import { defaultThemePreset } from '../presets/default.preset';
 
 describe('createTheme', () => {
   it('returns base theme when override is not provided', () => {

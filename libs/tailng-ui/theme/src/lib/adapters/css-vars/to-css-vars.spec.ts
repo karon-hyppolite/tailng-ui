@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { defaultThemePreset } from '../../presets/default.preset';
 import { toCssVars } from './to-css-vars';
+import { defaultThemePreset } from '../../presets/default.preset';
 
 describe('toCssVars', () => {
   it('creates primitive and semantic variables with default prefix', () => {

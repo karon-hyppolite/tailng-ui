@@ -1,5 +1,5 @@
-import type { ThemeDefinition } from '../../contracts/theme.types';
 import { type CssVarAdapterOptions, toCssVars } from './to-css-vars';
+import type { ThemeDefinition } from '../../contracts/theme.types';
 
 export function injectThemeVars(
   target: HTMLElement,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { mergeTheme } from './merge-theme';
 import type { ThemeDefinition } from '../contracts/theme.types';
 import { defaultThemePreset } from '../presets/default.preset';
-import { mergeTheme } from './merge-theme';
 
 function cloneTheme(theme: ThemeDefinition): ThemeDefinition {
   return JSON.parse(JSON.stringify(theme)) as ThemeDefinition;

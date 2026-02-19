@@ -1,6 +1,6 @@
 import type { ThemeDefinition } from '../../contracts/theme.types';
 
-export interface TailwindThemePreset {
+export type TailwindThemePreset = {
   theme: {
     extend: {
       colors: Record<string, string>;
