@@ -5,6 +5,13 @@ import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import nxPlugin from '@nx/eslint-plugin';
 
+const tsEslintRulesOffForNonTs = Object.fromEntries(
+  Object.keys(tseslint.plugin.rules).map((ruleName) => [
+    `@typescript-eslint/${ruleName}`,
+    'off',
+  ]),
+);
+
 export default [
   {
     ignores: [
@@ -28,6 +35,18 @@ export default [
         ...tseslint.configs.disableTypeChecked.languageOptions?.parserOptions,
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+    rules: {
+      ...tseslint.configs.disableTypeChecked.rules,
+      ...tsEslintRulesOffForNonTs,
+    },
+  },
+  {
+    files: ['**/*.html'],
+    ...tseslint.configs.disableTypeChecked,
+    rules: {
+      ...tseslint.configs.disableTypeChecked.rules,
+      ...tsEslintRulesOffForNonTs,
     },
   },
 
