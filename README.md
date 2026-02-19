@@ -188,7 +188,30 @@ pnpm nx run-many -t lint
 ### Test
 
 ```bash
-pnpm nx test ui
+pnpm nx run-many -t vite:test
+```
+
+Current status:
+
+- `theme` was generated with `--unitTestRunner=none`, so there are no test cases or `vite:test` target yet.
+
+Once you add tests to a project, run:
+
+```bash
+# Run tests for one project
+pnpm nx run <project-name>:vite:test
+
+# Run tests for all projects that expose vite:test
+pnpm nx run-many -t vite:test
+
+# Run with coverage
+pnpm nx run-many -t vite:test --coverage
+```
+
+For now, use type-check as a safety gate for `theme`:
+
+```bash
+pnpm exec tsc -p libs/tailng-ui/theme/tsconfig.lib.json --pretty false
 ```
 
 ---

@@ -4,6 +4,13 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "sideEffects": false,
   "dependencies": {
     "tslib": "^2.3.0"
   }
