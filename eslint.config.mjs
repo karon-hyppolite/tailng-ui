@@ -151,6 +151,10 @@ export default [
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
             {
+              sourceTag: 'scope:tailng',
+              onlyDependOnLibsWithTags: ['scope:tailng'],
+            },
+            {
               sourceTag: 'type:ui',
               onlyDependOnLibsWithTags: [
                 'type:cdk',
@@ -162,6 +166,10 @@ export default [
             {
               sourceTag: 'type:cdk',
               onlyDependOnLibsWithTags: ['type:utils'],
+            },
+            {
+              sourceTag: 'type:theme',
+              onlyDependOnLibsWithTags: ['type:utils', 'type:theme'],
             },
           ],
         },
