@@ -16,10 +16,26 @@ Run `nx build theme` to build the library.
 
 ## Test
 
-`theme` was generated with `--unitTestRunner=none`, so there is no test target yet.
-
-Until tests are added, use:
+Run tests for `theme`:
 
 ```bash
-pnpm exec tsc -p libs/tailng-ui/theme/tsconfig.lib.json --pretty false
+pnpm nx run theme:vite:test
+```
+
+Run in watch mode:
+
+```bash
+pnpm nx run theme:vite:test --watch
+```
+
+Run with coverage:
+
+```bash
+pnpm nx run theme:vite:test --coverage
+```
+
+Run directly with Vitest (without Nx):
+
+```bash
+pnpm exec vitest run --config libs/tailng-ui/theme/vitest.config.ts
 ```
