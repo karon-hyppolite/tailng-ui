@@ -26,6 +26,13 @@ export default [
   {
     files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
     ...tseslint.configs.disableTypeChecked,
+    languageOptions: {
+      ...tseslint.configs.disableTypeChecked.languageOptions,
+      parserOptions: {
+        ...tseslint.configs.disableTypeChecked.languageOptions?.parserOptions,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
   },
 
   {

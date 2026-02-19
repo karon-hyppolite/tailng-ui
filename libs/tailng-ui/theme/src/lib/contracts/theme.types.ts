@@ -1,18 +1,18 @@
 import type { ThemeTokenOverrides, ThemeTokens } from './token.types';
 
-export type ThemeMode = 'light' | 'dark' | (string & {});
+export type ThemeMode = string;
 
 export type ThemeMeta = {
-  name: string;
-  mode: ThemeMode;
-}
+  readonly name: string;
+  readonly mode: ThemeMode;
+};
 
 export type ThemeDefinition = {
-  meta: ThemeMeta;
-  tokens: ThemeTokens;
-}
+  readonly meta: ThemeMeta;
+  readonly tokens: ThemeTokens;
+};
 
 export type ThemeOverride = {
-  meta?: Partial<ThemeMeta>;
-  tokens?: ThemeTokenOverrides;
-}
+  readonly meta?: Partial<ThemeMeta>;
+  readonly tokens?: ThemeTokenOverrides;
+};

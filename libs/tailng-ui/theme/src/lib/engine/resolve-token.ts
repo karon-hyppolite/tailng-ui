@@ -69,11 +69,11 @@ function resolveShortPathToken(
 
 function resolveScopedToken(
   theme: ThemeDefinition,
-  request: {
+  request: Readonly<{
     scope: string;
     collection: string;
     key: string;
-  },
+  }>,
 ): string | undefined {
   if (request.scope === 'semantic') {
     return getSemanticCollection(theme, request.collection)?.[request.key];

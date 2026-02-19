@@ -27,55 +27,69 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   'focus',
 ];
 
-function toVariableName(prefix: string, ...parts: string[]): string {
+function toVariableName(prefix: string, parts: readonly string[]): string {
   return `--${prefix}-${parts.join('-')}`;
 }
 
-type ScaleContext = {
-  vars: Record<string, string>;
+type ScaleContext = Readonly<{
   prefix: string;
   path: readonly string[];
-};
+}>;
 
 function addScaleVariables(
   context: ScaleContext,
   scale: TokenScale,
-): void {
+): Record<string, string> {
+  const vars: Record<string, string> = {};
+
   for (const token of Object.keys(scale)) {
-    context.vars[toVariableName(context.prefix, ...context.path, token)] =
-      scale[token];
+    vars[toVariableName(context.prefix, [...context.path, token])] = scale[token];
   }
+
+  return vars;
 }
 
 function addPrimitiveVariables(
-  vars: Record<string, string>,
   theme: ThemeDefinition,
   prefix: string,
-): void {
+): Record<string, string> {
+  const vars: Record<string, string> = {};
+
   for (const collection of primitiveCollections) {
-    addScaleVariables(
-      { vars, prefix, path: [collection] },
-      theme.tokens.primitives[collection],
+    Object.assign(
+      vars,
+      addScaleVariables(
+        { prefix, path: [collection] },
+        theme.tokens.primitives[collection],
+      ),
     );
   }
+
+  return vars;
 }
 
 function addSemanticVariables(
-  vars: Record<string, string>,
   theme: ThemeDefinition,
   prefix: string,
-): void {
+): Record<string, string> {
+  const vars: Record<string, string> = {};
+
   for (const collection of semanticCollections) {
-    addScaleVariables(
-      { vars, prefix, path: ['semantic', collection] },
-      theme.tokens.semantic[collection],
+    Object.assign(
+      vars,
+      addScaleVariables(
+        { prefix, path: ['semantic', collection] },
+        theme.tokens.semantic[collection],
+      ),
     );
   }
+
+  return vars;
 }
 
 export function toCssVars(
   theme: ThemeDefinition,
-  options: CssVarAdapterOptions = {},
+  options: Readonly<CssVarAdapterOptions> = {},
 ): Record<string, string> {
   const prefix = options.prefix ?? 'tng';
   const includePrimitives = options.includePrimitives ?? true;
@@ -84,11 +98,11 @@ export function toCssVars(
   const vars: Record<string, string> = {};
 
   if (includePrimitives) {
-    addPrimitiveVariables(vars, theme, prefix);
+    Object.assign(vars, addPrimitiveVariables(theme, prefix));
   }
 
   if (includeSemantic) {
-    addSemanticVariables(vars, theme, prefix);
+    Object.assign(vars, addSemanticVariables(theme, prefix));
   }
 
   return vars;

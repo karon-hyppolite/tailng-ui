@@ -1,10 +1,18 @@
 import { type CssVarAdapterOptions, toCssVars } from './to-css-vars';
 import type { ThemeDefinition } from '../../contracts/theme.types';
 
+type CssVarWriter = Readonly<{
+  setProperty: CSSStyleDeclaration['setProperty'];
+}>;
+
+type CssVarTarget = Readonly<{
+  style: CssVarWriter;
+}>;
+
 export function injectThemeVars(
-  target: HTMLElement,
+  target: CssVarTarget,
   theme: ThemeDefinition,
-  options?: CssVarAdapterOptions,
+  options?: Readonly<CssVarAdapterOptions>,
 ): void {
   const cssVars = toCssVars(theme, options);
 

@@ -1,27 +1,27 @@
-export type TokenScale = Record<string, string>;
+export type TokenScale = Readonly<Record<string, string>>;
 
 export type ThemePrimitives = {
-  color: TokenScale;
-  spacing: TokenScale;
-  radius: TokenScale;
-  typography: TokenScale;
-  motion: TokenScale;
-}
+  readonly color: TokenScale;
+  readonly spacing: TokenScale;
+  readonly radius: TokenScale;
+  readonly typography: TokenScale;
+  readonly motion: TokenScale;
+};
 
 export type ThemeSemanticTokens = {
-  background: TokenScale;
-  foreground: TokenScale;
-  border: TokenScale;
-  accent: TokenScale;
-  focus: TokenScale;
-}
+  readonly background: TokenScale;
+  readonly foreground: TokenScale;
+  readonly border: TokenScale;
+  readonly accent: TokenScale;
+  readonly focus: TokenScale;
+};
 
 export type ThemeTokens = {
-  primitives: ThemePrimitives;
-  semantic: ThemeSemanticTokens;
-}
+  readonly primitives: ThemePrimitives;
+  readonly semantic: ThemeSemanticTokens;
+};
 
 export type ThemeTokenOverrides = {
-  primitives?: Partial<ThemePrimitives>;
-  semantic?: Partial<ThemeSemanticTokens>;
-}
+  readonly primitives?: Partial<ThemePrimitives>;
+  readonly semantic?: Partial<ThemeSemanticTokens>;
+};

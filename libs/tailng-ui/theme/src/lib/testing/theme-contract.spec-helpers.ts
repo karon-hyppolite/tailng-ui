@@ -1,6 +1,7 @@
 import type { ThemeDefinition } from '../contracts/theme.types';
+import type { TokenScale } from '../contracts/token.types';
 
-function hasEntries(scale: Record<string, string>): boolean {
+function hasEntries(scale: TokenScale): boolean {
   return Object.keys(scale).length > 0;
 }
 

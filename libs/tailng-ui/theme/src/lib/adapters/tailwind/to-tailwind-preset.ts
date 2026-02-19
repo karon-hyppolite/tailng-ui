@@ -1,4 +1,5 @@
 import type { ThemeDefinition } from '../../contracts/theme.types';
+import type { TokenScale } from '../../contracts/token.types';
 
 export type TailwindThemePreset = {
   theme: {
@@ -13,7 +14,7 @@ export type TailwindThemePreset = {
 }
 
 function pickScaleValues(
-  scale: Record<string, string>,
+  scale: TokenScale,
   prefix: string,
 ): Record<string, string> {
   const picked: Record<string, string> = {};

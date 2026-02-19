@@ -3,7 +3,7 @@ import { mergeTheme } from './merge-theme';
 import type { ThemeDefinition } from '../contracts/theme.types';
 import { defaultThemePreset } from '../presets/default.preset';
 
-function cloneTheme(theme: ThemeDefinition): ThemeDefinition {
+function cloneTheme(theme: Readonly<ThemeDefinition>): ThemeDefinition {
   return JSON.parse(JSON.stringify(theme)) as ThemeDefinition;
 }
 
