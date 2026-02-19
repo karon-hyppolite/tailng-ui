@@ -1,3 +1,11 @@
+<div align="center">
+  <img
+    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
+    width="96"
+    alt="TailNG logo"
+  />
+</div>
+
 # @tailng-ui/components
 
 Owned, installable components built on top of `@tailng-ui/primitives`.

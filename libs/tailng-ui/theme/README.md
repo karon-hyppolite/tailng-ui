@@ -1,3 +1,11 @@
+<div align="center">
+  <img
+    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
+    width="96"
+    alt="TailNG logo"
+  />
+</div>
+
 # @tailng-ui/theme
 
 Framework-agnostic theme contracts, tokens, and adapters for TailNG.

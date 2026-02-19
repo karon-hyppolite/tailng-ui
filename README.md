@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg"
+    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
     width="120"
     alt="TailNG logo"
   />
