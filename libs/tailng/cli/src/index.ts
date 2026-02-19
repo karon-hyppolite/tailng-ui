@@ -229,7 +229,7 @@ async function loadRegistryModule(): Promise<RegistryModule> {
     return packageRegistry;
   }
 
-  const localRegistryPath = path.resolve(__dirname, '../../registry/src/index.js');
+  const localRegistryPath = path.resolve(__dirname, '../../../tailng-ui/registry/src/index.js');
   const localRegistry = await loadRegistryFromSpecifier(localRegistryPath);
   if (localRegistry) {
     return localRegistry;

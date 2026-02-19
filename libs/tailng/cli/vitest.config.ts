@@ -9,7 +9,7 @@ export default defineConfig({
   root: projectRoot,
   resolve: {
     alias: {
-      '@tailng-ui/registry': resolve(projectRoot, '../registry/src/index.ts'),
+      '@tailng-ui/registry': resolve(projectRoot, '../../tailng-ui/registry/src/index.ts'),
     },
   },
   test: {
@@ -18,7 +18,7 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       provider: 'v8',
-      reportsDirectory: '../../../coverage/libs/tailng-ui/cli',
+      reportsDirectory: '../../../coverage/libs/tailng/cli',
       reporter: ['text', 'lcov'],
     },
   },
