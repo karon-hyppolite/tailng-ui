@@ -10,6 +10,14 @@ Framework-agnostic theme contracts, tokens, and adapters for TailNG.
 - Optional Tailwind adapter
 - Component-level style contracts
 
+## Token References
+
+Semantic tokens can reference primitive tokens (for example: `{color.primary500}`).
+
+- `toCssVars()` resolves references by default.
+- `toCssVars({ resolveReferences: false })` keeps raw references.
+- `toTailwindPreset()` resolves references before generating Tailwind values.
+
 ## Build
 
 Run `nx build theme` to build the library.

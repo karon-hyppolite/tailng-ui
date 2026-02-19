@@ -25,6 +25,8 @@ export { minimalThemePreset } from './lib/presets/minimal.preset';
 export { createTheme } from './lib/engine/create-theme';
 export { mergeTheme } from './lib/engine/merge-theme';
 export { resolveToken } from './lib/engine/resolve-token';
+export type { ResolveTokenValueOptions } from './lib/engine/resolve-token-value';
+export { resolveTokenValue } from './lib/engine/resolve-token-value';
 
 export { createThemeTokens, primitiveTokens } from './lib/tokens';
 
