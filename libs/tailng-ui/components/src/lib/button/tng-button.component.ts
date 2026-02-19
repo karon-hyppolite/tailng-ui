@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, input } from '@angular/core';
-import { TngButton } from '@tailng-ui/primitives';
+import { TngButton as TngButtonPrimitive } from '@tailng-ui/primitives';
 import type { TngAriaHasPopup, TngButtonType } from '@tailng-ui/primitives';
 
 type NullableBooleanInput = boolean | null | string | undefined;
@@ -17,7 +17,9 @@ const validAriaHasPopupValues: readonly TngAriaHasPopup[] = [
   'true',
 ];
 
-function coerceAriaHasPopup(value: boolean | null | string | undefined): TngAriaHasPopup | null {
+export function coerceTngButtonAriaHasPopup(
+  value: boolean | null | string | undefined,
+): TngAriaHasPopup | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -38,7 +40,7 @@ function coerceAriaHasPopup(value: boolean | null | string | undefined): TngAria
   return normalized;
 }
 
-function coerceNullableBoolean(value: NullableBooleanInput): boolean | null {
+export function coerceTngButtonNullableBoolean(value: NullableBooleanInput): boolean | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -60,24 +62,24 @@ function isTngAriaHasPopup(value: string): value is TngAriaHasPopup {
 
 @Component({
   selector: 'tng-button',
-  imports: [TngButton],
+  imports: [TngButtonPrimitive],
   templateUrl: './tng-button.component.html',
   styleUrl: './tng-button.component.css',
 })
-export class TngButtonComponent {
+export class TngButton {
   public readonly appearance = input<TngButtonAppearance>('solid');
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceNullableBoolean,
+    transform: coerceTngButtonNullableBoolean,
   });
   public readonly ariaHasPopup = input<
     TngAriaHasPopup | null,
     boolean | null | string | undefined
   >(null, {
-    transform: coerceAriaHasPopup,
+    transform: coerceTngButtonAriaHasPopup,
   });
   public readonly ariaPressed = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceNullableBoolean,
+    transform: coerceTngButtonNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

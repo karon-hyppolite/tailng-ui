@@ -6,12 +6,16 @@
     "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
     "lint": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t lint",
     "tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build --skipNxCache && node dist/libs/tailng-ui/cli/src/index.js",
-    "test": "vitest run --config libs/tailng-ui/theme/vitest.config.ts",
+    "test": "pnpm run test:theme && pnpm run test:primitives && pnpm run test:components && pnpm run test:registry",
+    "test:theme": "vitest run --config libs/tailng-ui/theme/vitest.config.ts --reporter=verbose",
     "test:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t vite:test --skipNxCache --output-style=stream",
     "dev:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind",
     "dev:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-vanilla",
     "dev:registry": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-registry",
-    "dev:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs"
+    "dev:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
+    "test:primitives": "vitest run --config libs/tailng-ui/primitives/vitest.config.ts --reporter=verbose",
+    "test:components": "vitest run --config libs/tailng-ui/components/vitest.config.ts --reporter=verbose",
+    "test:registry": "vitest run --config libs/tailng-ui/registry/vitest.config.ts --reporter=verbose"
   },
   "private": true,
   "devDependencies": {

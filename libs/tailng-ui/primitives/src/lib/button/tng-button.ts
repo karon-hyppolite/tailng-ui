@@ -30,7 +30,7 @@ const validAriaHasPopupValues: readonly TngAriaHasPopup[] = [
   'true',
 ];
 
-function coerceNullableBoolean(value: NullableBooleanInput): boolean | null {
+export function coerceTngButtonNullableBoolean(value: NullableBooleanInput): boolean | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -46,7 +46,9 @@ function coerceNullableBoolean(value: NullableBooleanInput): boolean | null {
   return null;
 }
 
-function coerceAriaHasPopup(value: boolean | null | string | undefined): TngAriaHasPopup | null {
+export function coerceTngButtonAriaHasPopup(
+  value: boolean | null | string | undefined,
+): TngAriaHasPopup | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -99,16 +101,16 @@ function toAriaBoolean(value: boolean | null): 'false' | 'true' | null {
 export class TngButton {
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceNullableBoolean,
+    transform: coerceTngButtonNullableBoolean,
   });
   public readonly ariaHasPopup = input<
     TngAriaHasPopup | null,
     boolean | null | string | undefined
   >(null, {
-    transform: coerceAriaHasPopup,
+    transform: coerceTngButtonAriaHasPopup,
   });
   public readonly ariaPressed = input<boolean | null, NullableBooleanInput>(null, {
-    transform: coerceNullableBoolean,
+    transform: coerceTngButtonNullableBoolean,
   });
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,

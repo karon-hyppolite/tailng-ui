@@ -1,11 +1,11 @@
 import type { RegistryItem } from '../registry.types';
 
 const buttonComponentTsTemplate = `import { Component } from '@angular/core';
-import { TngButtonComponent } from '@tailng-ui/components';
+import { TngButton } from '@tailng-ui/components';
 
 @Component({
   selector: 'app-button-demo',
-  imports: [TngButtonComponent],
+  imports: [TngButton],
   templateUrl: './button-demo.component.html',
   styleUrl: './button-demo.component.css',
 })

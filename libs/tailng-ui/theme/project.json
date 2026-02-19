@@ -5,26 +5,37 @@
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": [
+        "dist/{projectRoot}"
+      ],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": ["scope:tailng", "type:theme"],
+  "tags": [
+    "scope:tailng",
+    "type:theme"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/tailng-ui/theme",
         "main": "libs/tailng-ui/theme/src/index.ts",
         "tsConfig": "libs/tailng-ui/theme/tsconfig.lib.json",
-        "assets": ["libs/tailng-ui/theme/*.md"]
+        "assets": [
+          "libs/tailng-ui/theme/*.md"
+        ]
       }
     },
     "vite:test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "configFile": "libs/tailng-ui/theme/vitest.config.ts",
         "reportsDirectory": "coverage/libs/tailng-ui/theme",

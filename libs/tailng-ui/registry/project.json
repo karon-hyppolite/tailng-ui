@@ -5,21 +5,30 @@
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": [
+        "dist/{projectRoot}"
+      ],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": ["scope:tailng", "type:registry"],
+  "tags": [
+    "scope:tailng",
+    "type:registry"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/tailng-ui/registry",
         "main": "libs/tailng-ui/registry/src/index.ts",
         "tsConfig": "libs/tailng-ui/registry/tsconfig.lib.json",
-        "assets": ["libs/tailng-ui/registry/*.md"]
+        "assets": [
+          "libs/tailng-ui/registry/*.md"
+        ]
       }
     },
     "nx-release-publish": {
@@ -29,6 +38,17 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "vite:test": {
+      "executor": "@nx/vitest:test",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "configFile": "libs/tailng-ui/registry/vitest.config.ts",
+        "reportsDirectory": "coverage/libs/tailng-ui/registry",
+        "watch": false
+      }
     }
   }
 }

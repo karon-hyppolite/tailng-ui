@@ -194,13 +194,19 @@ pnpm nx run-many -t lint
 ### Test
 
 ```bash
-pnpm nx run-many -t vite:test
+pnpm test
 ```
 
-Run tests for the `theme` library:
+Run all library tests directly with Nx:
 
 ```bash
-pnpm nx run theme:vite:test
+pnpm test:nx
+```
+
+Run only `theme` tests:
+
+```bash
+pnpm test:theme
 ```
 
 Run in watch mode:
@@ -231,6 +237,37 @@ pnpm tailng -- list
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-vanilla --dry-run
 pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
+
+Registry command reference:
+
+- List available registry items:
+
+```bash
+pnpm tailng -- list
+```
+
+- Preview file generation without writing:
+
+```bash
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
+```
+
+- Generate files:
+
+```bash
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry
+```
+
+- Overwrite existing generated files:
+
+```bash
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --force
+```
+
+Note:
+
+- `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
+- `--cwd` should point to the app root where files must be generated.
 
 ---
 

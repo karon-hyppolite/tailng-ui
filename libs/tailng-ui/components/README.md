@@ -2,16 +2,16 @@
 
 Owned, installable components built on top of `@tailng-ui/primitives`.
 
-## TngButtonComponent
+## TngButton
 
-`TngButtonComponent` provides a styled wrapper over `TngButton` primitive behavior.
+`TngButton` provides a styled wrapper over the `tngButton` primitive behavior.
 
 ```ts
 import { Component } from '@angular/core';
-import { TngButtonComponent } from '@tailng-ui/components';
+import { TngButton } from '@tailng-ui/components';
 
 @Component({
-  imports: [TngButtonComponent],
+  imports: [TngButton],
   template: `<tng-button tone="success">Continue</tng-button>`,
 })
 export class ExampleComponent {}
