@@ -185,6 +185,24 @@ pnpm dev:registry
 pnpm docs
 ```
 
+Build static output for Cloudflare Pages:
+
+```bash
+pnpm docs:seo
+```
+
+Build static playground output for Cloudflare Pages:
+
+```bash
+pnpm playground:seo
+```
+
+Build static vanilla playground output for Cloudflare Pages:
+
+```bash
+pnpm playground:vanilla:seo
+```
+
 ### Lint
 
 ```bash
