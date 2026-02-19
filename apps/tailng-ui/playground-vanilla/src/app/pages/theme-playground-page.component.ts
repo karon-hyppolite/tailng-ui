@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TngButton } from '@tailng-ui/primitives';
 import {
   createTheme,
   darkSemanticTokens,
@@ -60,6 +61,7 @@ function readSelectValue(event: Event): string | undefined {
 }
 
 @Component({
+  imports: [TngButton],
   selector: 'app-theme-playground-page',
   templateUrl: './theme-playground-page.component.html',
   styleUrl: './theme-playground-page.component.css',

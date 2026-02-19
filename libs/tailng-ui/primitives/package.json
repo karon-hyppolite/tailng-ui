@@ -1,0 +1,9 @@
+{
+  "name": "@tailng-ui/primitives",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/core": "^21.1.0",
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
