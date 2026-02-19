@@ -1,0 +1,36 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <p class="kicker">TailNG Registry Playground</p>
+      <h1 class="title">CLI Integration Test App</h1>
+      <p class="subtitle">
+        Use this app as a clean target for `tailng add ...` commands from the local monorepo CLI.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Step 1: Run TailNG CLI</h2>
+      <pre class="code">pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry</pre>
+      <p class="hint">
+        Start with <code>--dry-run</code> if you want to preview file writes first.
+      </p>
+      <pre class="code">pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run</pre>
+    </section>
+
+    <section class="card">
+      <h2>Step 2: Review Generated Files</h2>
+      <ul>
+        <li><code>src/app/button-demo/button-demo.component.ts</code></li>
+        <li><code>src/app/button-demo/button-demo.component.html</code></li>
+        <li><code>src/app/button-demo/button-demo.component.css</code></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Step 3: Wire It In</h2>
+      <p class="hint">
+        Import and render the generated component from your page/router to validate end-to-end behavior.
+      </p>
+    </section>
+  </section>
+</main>

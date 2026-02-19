@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
     "lint": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t lint",
+    "tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build --skipNxCache && node dist/libs/tailng-ui/cli/src/index.js",
     "test": "vitest run --config libs/tailng-ui/theme/vitest.config.ts",
     "test:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t vite:test --skipNxCache --output-style=stream",
     "dev:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind",
     "dev:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-vanilla",
+    "dev:registry": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-registry",
     "dev:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs"
   },
   "private": true,

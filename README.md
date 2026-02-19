@@ -173,6 +173,12 @@ pnpm install
 pnpm playground
 ```
 
+Run registry CLI playground:
+
+```bash
+pnpm dev:registry
+```
+
 ### Run docs site
 
 ```bash
@@ -213,6 +219,17 @@ Run directly with Vitest (without Nx):
 
 ```bash
 pnpm exec vitest run --config libs/tailng-ui/theme/vitest.config.ts
+```
+
+### TailNG CLI (local)
+
+Build and run the `tailng` CLI:
+
+```bash
+pnpm build:tailng
+pnpm tailng -- list
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-vanilla --dry-run
+pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
 ```
 
 ---

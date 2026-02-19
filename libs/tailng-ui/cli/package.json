@@ -1,0 +1,12 @@
+{
+  "name": "tailng",
+  "version": "0.0.1",
+  "bin": {
+    "tailng": "./src/index.js"
+  },
+  "dependencies": {
+    "@tailng-ui/registry": "^0.0.1",
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
