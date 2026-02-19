@@ -2,11 +2,19 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.10.0",
+    "pnpm": ">=10.30.0"
+  },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build:tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build",
     "lint": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t lint",
+    "lint:affected": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx affected -t lint",
+    "format": "prettier . --check",
+    "format:write": "prettier . --write",
     "tailng": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run tailng-cli:build --skipNxCache && node dist/libs/tailng-ui/cli/src/index.js",
-    "test": "pnpm run test:theme && pnpm run test:primitives && pnpm run test:components && pnpm run test:registry",
+    "test": "pnpm run test:theme && pnpm run test:primitives && pnpm run test:components && pnpm run test:registry && pnpm run test:cli",
     "test:theme": "vitest run --config libs/tailng-ui/theme/vitest.config.ts --reporter=verbose",
     "test:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t vite:test --skipNxCache --output-style=stream",
     "dev:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind",
@@ -15,7 +23,8 @@
     "dev:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs",
     "test:primitives": "vitest run --config libs/tailng-ui/primitives/vitest.config.ts --reporter=verbose",
     "test:components": "vitest run --config libs/tailng-ui/components/vitest.config.ts --reporter=verbose",
-    "test:registry": "vitest run --config libs/tailng-ui/registry/vitest.config.ts --reporter=verbose"
+    "test:registry": "vitest run --config libs/tailng-ui/registry/vitest.config.ts --reporter=verbose",
+    "test:cli": "vitest run --config libs/tailng-ui/cli/vitest.config.ts --reporter=verbose"
   },
   "private": true,
   "devDependencies": {

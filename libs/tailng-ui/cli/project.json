@@ -29,6 +29,15 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "vite:test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "configFile": "libs/tailng-ui/cli/vitest.config.ts",
+        "reportsDirectory": "coverage/libs/tailng-ui/cli",
+        "watch": false
+      }
     }
   }
 }

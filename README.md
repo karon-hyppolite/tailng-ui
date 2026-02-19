@@ -209,6 +209,12 @@ Run only `theme` tests:
 pnpm test:theme
 ```
 
+Run CLI integration tests (`tailng add ...` end-to-end in temp directories):
+
+```bash
+pnpm test:cli
+```
+
 Run in watch mode:
 
 ```bash

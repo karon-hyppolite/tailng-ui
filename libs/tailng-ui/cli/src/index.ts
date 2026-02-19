@@ -31,6 +31,10 @@ type RegistryModule = Readonly<{
   listRegistryItemNames: () => readonly string[];
 }>;
 
+type CliDependencies = Readonly<{
+  registry?: RegistryModule;
+}>;
+
 const usageText = [
   'tailng - TailNG CLI',
   '',
@@ -449,14 +453,17 @@ function runListCommand(registry: RegistryModule): number {
   return 0;
 }
 
-async function runCli(argv: readonly string[]): Promise<number> {
+export async function runCli(
+  argv: readonly string[],
+  dependencies?: CliDependencies,
+): Promise<number> {
   const parsedCommand = parseCommand(argv);
   if (parsedCommand.kind === 'help') {
     writeHelp(parsedCommand.message);
     return parsedCommand.message ? 1 : 0;
   }
 
-  const registry = await loadRegistryModule();
+  const registry = dependencies?.registry ?? (await loadRegistryModule());
 
   if (parsedCommand.kind === 'list') {
     return runListCommand(registry);
@@ -473,11 +480,17 @@ function normalizeUnknownError(error: unknown): string {
   return String(error);
 }
 
-runCli(process.argv.slice(2))
-  .then((exitCode) => {
-    process.exitCode = exitCode;
-  })
-  .catch((error: unknown) => {
-    writeError(`Unexpected error: ${normalizeUnknownError(error)}`);
-    process.exitCode = 1;
-  });
+function isDirectExecution(): boolean {
+  return require.main === module;
+}
+
+if (isDirectExecution()) {
+  runCli(process.argv.slice(2))
+    .then((exitCode) => {
+      process.exitCode = exitCode;
+    })
+    .catch((error: unknown) => {
+      writeError(`Unexpected error: ${normalizeUnknownError(error)}`);
+      process.exitCode = 1;
+    });
+}
