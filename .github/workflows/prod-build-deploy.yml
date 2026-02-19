@@ -1,0 +1,110 @@
+name: Production - Build and Deploy (Docs + Playgrounds)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify (lint + test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.10.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+  deploy:
+    name: Deploy ${{ matrix.target.name }}
+    runs-on: ubuntu-latest
+    environment: production
+    needs:
+      - verify
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: docs
+            build_script: docs:seo
+            dist: dist/apps/tailng-ui/docs/browser
+            project_var: CF_DOCS_PROJECT_NAME
+          - name: playground-tailwind
+            build_script: playground:seo
+            dist: dist/apps/tailng-ui/playground-tailwind/browser
+            project_var: CF_PLAYGROUND_TAILWIND_PROJECT_NAME
+          - name: playground-vanilla
+            build_script: playground:vanilla:seo
+            dist: dist/apps/tailng-ui/playground-vanilla/browser
+            project_var: CF_PLAYGROUND_VANILLA_PROJECT_NAME
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.10.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Cloudflare project variable
+        run: |
+          if [ -z "${{ vars[matrix.target.project_var] }}" ]; then
+            echo "Missing variable: ${{ matrix.target.project_var }}"
+            exit 1
+          fi
+
+      - name: Build and prerender
+        run: pnpm run ${{ matrix.target.build_script }}
+
+      - name: Write deployment info
+        run: |
+          mkdir -p ${{ matrix.target.dist }}
+          echo "branch=${GITHUB_REF_NAME}" > ${{ matrix.target.dist }}/info.txt
+          echo "commit=$(git rev-parse --short HEAD)" >> ${{ matrix.target.dist }}/info.txt
+          echo "time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> ${{ matrix.target.dist }}/info.txt
+
+      - name: Deploy to Cloudflare Pages
+        run: |
+          pnpm dlx wrangler pages deploy "${{ matrix.target.dist }}" \
+            --project-name "${{ vars[matrix.target.project_var] }}" \
+            --branch main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
