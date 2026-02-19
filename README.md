@@ -1,284 +1,234 @@
-# Nx Angular Repository
+<div align="center">
+  <img
+    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/docs/src/assets/logo.svg"
+    width="120"
+    alt="TailNG logo"
+  />
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+  <h1>TailNG</h1>
 
-✨ A repository showcasing key [Nx](https://nx.dev) features for Angular monorepos ✨
-## Finish your Nx platform setup
+  <p>
+    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
+  </p>
 
-🚀 [Finish setting up your workspace](https://cloud.nx.app/connect/JG93lQG7uG) to get faster builds with remote caching, distributed task execution, and self-healing CI. [Learn more about Nx Cloud](https://nx.dev/ci/intro/why-nx-cloud).
-## 📦 Project Overview
+  <p>
+    A modern Angular 21+ component system built with Signals,
+    Standalone APIs, and strict architectural discipline.
+  </p>
+</div>
 
-This repository demonstrates a production-ready Angular monorepo with:
+---
 
-- **2 Applications**
+[![Build Status](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
+[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/ui.svg)](https://www.npmjs.com/package/@tailng-ui/ui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-  - `shop` - Angular e-commerce application with product listings and detail views
-  - `api` - Backend API with Docker support serving product data
+---
 
-- **6 Libraries**
+## ✨ What is TailNG?
 
-  - `@org/feature-products` - Product listing feature (Angular)
-  - `@org/feature-product-detail` - Product detail feature (Angular)
-  - `@org/data` - Data access layer for shop features
-  - `@org/shared-ui` - Shared UI components
-  - `@org/models` - Shared data models
-  - `@org/products` - API product service library
+TailNG is an open-source Angular component system designed for:
 
-- **E2E Testing**
-  - `shop-e2e` - Playwright tests for the shop application
+- Large applications
+- Enterprise design systems
+- Strict type safety
+- Accessibility-first development
+- Signal-based architecture
+- Tailwind-compatible styling
 
-## 🚀 Quick Start
+It combines:
 
-```bash
-# Clone the repository
-git clone <your-fork-url>
-cd <your-repository-name>
+- Angular 21+
+- Standalone Components
+- Angular Signals
+- Strict ESLint architecture
+- Nx monorepo discipline
+- Optional Tailwind integration
 
-# Install dependencies
-# (Note: You may need --legacy-peer-deps)
-npm install
+---
 
-# Serve the Angular shop application (this will simultaneously serve the API backend)
-npx nx serve shop
+## 🎯 Product Direction
 
-# ...or you can serve the API separately
-npx nx serve api
+TailNG is evolving toward a framework-agnostic component platform with:
 
-# Build all projects
-npx nx run-many -t build
+- Accessibility-first primitives built on Angular CDK and `@angular/aria` (experimental)
+- Wrapper abstractions that make component composition simpler for app developers
+- Additional in-house components implemented using ARIA authoring principles
+- Micro-level styling control for each component (slots, states, tokens, and hooks)
+- No required dependency on Tailwind or any specific CSS framework
+- Zero hard coupling between component behavior and styling systems
+- Shadcn-style copy/paste distribution mode in addition to package install
 
-# Run tests
-npx nx run-many -t test
+### Risk Decision (`@angular/aria`)
 
-# Lint all projects
-npx nx run-many -t lint
+- Primary path: use `@angular/aria` as the basis for new primitives
+- Current tradeoff: accept experimental risk while Angular 22 direction matures
+- Fallback policy: do not build full CDK fallback now
+- Constraint: keep an adapter seam now so fallback can be implemented later without rewrites
+- Rule: components depend on TailNG primitive contracts, not direct `@angular/aria` imports
 
-# Run e2e tests
-npx nx e2e shop-e2e
+---
 
-# Run tasks in parallel
+## 📦 Packages
 
-npx nx run-many -t lint test build e2e --parallel=3
+| Package | Description |
+|----------|-------------|
+| `@tailng-ui/ui` | Main component library |
+| `@tailng-ui/cdk` | Behavior primitives & utilities |
+| `@tailng-ui/theme` | Design tokens & Tailwind adapter |
+| `@tailng-ui/icons` | Icon wrappers |
 
-# Visualize the project graph
-npx nx graph
-```
+---
 
-## ⭐ Featured Nx Capabilities
-
-This repository showcases several powerful Nx features:
-
-### 1. 🔒 Module Boundaries
-
-Enforces architectural constraints using tags. Each project has specific dependencies it can use:
-
-- `scope:shared` - Can be used by all projects
-- `scope:shop` - Shop-specific libraries
-- `scope:api` - API-specific libraries
-- `type:feature` - Feature libraries
-- `type:data` - Data access libraries
-- `type:ui` - UI component libraries
-
-**Try it out:**
-
-```bash
-# See the current project graph and boundaries
-npx nx graph
-
-# View a specific project's details
-npx nx show project shop --web
-```
-
-[Learn more about module boundaries →](https://nx.dev/features/enforce-module-boundaries)
-
-### 2. 🐳 Docker Integration
-
-The API project includes Docker support with automated targets and release management:
+## 🚀 Installation
 
 ```bash
-# Build Docker image
-npx nx docker:build api
-
-# Run Docker container
-npx nx docker:run api
-
-# Release with automatic Docker image versioning
-npx nx release
+pnpm add @tailng-ui/ui
 ```
 
-**Nx Release for Docker:** The repository is configured to use Nx Release for managing Docker image versioning and publishing. When running `nx release`, Docker images for the API project are automatically versioned and published based on the release configuration in `nx.json`. This integrates seamlessly with semantic versioning and changelog generation.
+Peer dependencies:
 
-[Learn more about Docker integration →](https://nx.dev/recipes/nx-release/release-docker-images)
+- `@angular/core` ^21
+- `@angular/common` ^21
+- `@angular/forms` ^21
 
-### 3. 🎭 Playwright E2E Testing
+---
 
-End-to-end testing with Playwright is pre-configured:
+## ⚡ Quick Example
+
+```ts
+import { Component } from '@angular/core';
+import { TngButton } from '@tailng-ui/ui';
+
+@Component({
+  standalone: true,
+  imports: [TngButton],
+  template: `
+    <tng-button variant="primary">
+      Click me
+    </tng-button>
+  `,
+})
+export class ExampleComponent {}
+```
+
+---
+
+## 🏗 Architecture
+
+TailNG follows a layered structure:
+
+apps/
+  docs/          → Documentation site
+  playground/    → Component sandbox
+
+libs/
+  ui/            → Styled components
+  cdk/           → Behavior primitives
+  theme/         → Tokens & adapters
+  icons/         → Icon library
+
+Design principles:
+
+- Composition over prop explosion
+- Behavior separated from styling
+- Strict architectural boundaries (Nx enforced)
+- Public API discipline
+- No deep imports
+- Exhaustive state safety
+
+---
+
+## 🧠 Philosophy
+
+TailNG is:
+
+- Headless-friendly
+- Tailwind-compatible (not required)
+- Accessibility-aware
+- Strictly typed
+- Enterprise-ready
+- Open-source forever (MIT)
+
+We aim to provide:
+
+- Clean APIs
+- Predictable behavior
+- Scalable structure
+- Zero vendor lock-in
+
+---
+
+## 🧪 Development
+
+### Install dependencies
 
 ```bash
-# Run e2e tests
-npx nx e2e shop-e2e
-
-# Run e2e tests in CI mode
-npx nx e2e-ci shop-e2e
+pnpm install
 ```
 
-[Learn more about E2E testing →](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
-
-### 4. ⚡ Vitest for Unit Testing
-
-Fast unit testing with Vite for Angular libraries:
+### Run playground
 
 ```bash
-# Test a specific library
-npx nx test data
-
-# Test all projects
-npx nx run-many -t test
+pnpm playground
 ```
 
-[Learn more about Vite testing →](https://nx.dev/recipes/vite)
-
-### 5. 🔧 Self-Healing CI
-
-The CI pipeline includes `nx fix-ci` which automatically identifies and suggests fixes for common issues:
+### Run docs site
 
 ```bash
-# In CI, this command provides automated fixes
-npx nx fix-ci
+pnpm docs
 ```
 
-This feature helps maintain a healthy CI pipeline by automatically detecting and suggesting solutions for:
-
-- Missing dependencies
-- Incorrect task configurations
-- Cache invalidation issues
-- Common build failures
-
-[Learn more about self-healing CI →](https://nx.dev/ci/features/self-healing-ci)
-
-## 📁 Project Structure
-
-```
-├── apps/
-│   ├── shop/           [scope:shop]    - Angular e-commerce app
-│   ├── shop-e2e/                       - E2E tests for shop
-│   └── api/            [scope:api]     - Backend API with Docker
-├── libs/
-│   ├── shop/
-│   │   ├── feature-products/        [scope:shop,type:feature] - Product listing
-│   │   ├── feature-product-detail/  [scope:shop,type:feature] - Product details
-│   │   ├── data/                    [scope:shop,type:data]    - Data access
-│   │   └── shared-ui/               [scope:shop,type:ui]      - UI components
-│   ├── api/
-│   │   └── products/    [scope:api]    - Product service
-│   └── shared/
-│       └── models/      [scope:shared,type:data] - Shared models
-├── nx.json             - Nx configuration
-├── tsconfig.json       - TypeScript configuration
-└── eslint.config.mjs   - ESLint with module boundary rules
-```
-
-## 🏷️ Understanding Tags
-
-This repository uses tags to enforce module boundaries:
-
-| Project            | Tags                         | Can Import From              |
-| ------------------ | ---------------------------- | ---------------------------- |
-| `shop`             | `scope:shop`                 | `scope:shop`, `scope:shared` |
-| `api`              | `scope:api`                  | `scope:api`, `scope:shared`  |
-| `feature-products` | `scope:shop`, `type:feature` | `scope:shop`, `scope:shared` |
-| `data`             | `scope:shop`, `type:data`    | `scope:shared`               |
-| `models`           | `scope:shared`, `type:data`  | Nothing (base library)       |
-
-## 📚 Useful Commands
+### Lint
 
 ```bash
-# Project exploration
-npx nx graph                                    # Interactive dependency graph
-npx nx list                                     # List installed plugins
-npx nx show project shop --web                 # View project details
-
-# Development
-npx nx serve shop                              # Serve Angular app
-npx nx serve api                               # Serve backend API
-npx nx build shop                              # Build Angular app
-npx nx test data                               # Test a specific library
-npx nx lint feature-products                   # Lint a specific library
-
-# Running multiple tasks
-npx nx run-many -t build                       # Build all projects
-npx nx run-many -t test --parallel=3          # Test in parallel
-npx nx run-many -t lint test build            # Run multiple targets
-
-# Affected commands (great for CI)
-npx nx affected -t build                       # Build only affected projects
-npx nx affected -t test                        # Test only affected projects
-
-# Docker operations
-npx nx docker:build api                        # Build Docker image
-npx nx docker:run api                          # Run Docker container
+pnpm nx run-many -t lint
 ```
 
-## 🎯 Adding New Features
-
-### Generate a new Angular application:
+### Test
 
 ```bash
-npx nx g @nx/angular:app my-app
+pnpm nx test ui
 ```
 
-### Generate a new Angular library:
+---
 
-```bash
-npx nx g @nx/angular:lib my-lib
-```
+## 🏷 Component Guidelines
 
-### Generate a new Angular component:
+- Use Angular Signals (`input()`)
+- Standalone components only
+- No default exports
+- Explicit return types
+- Exhaustive switch checks
+- Complexity ≤ 8
+- Max params ≤ 3
+- Accessibility-first markup
+- Strict ESLint enforced
 
-```bash
-npx nx g @nx/angular:component my-component --project=my-lib
-```
+---
 
-### Generate a new API library:
+## 📖 Documentation
 
-```bash
-npx nx g @nx/node:lib my-api-lib
-```
+- Website: https://tailng.dev
+- npm: https://www.npmjs.com/package/@tailng-ui/ui
+- GitHub: https://github.com/tailng/tailng-ui
 
-You can use `npx nx list` to see all available plugins and `npx nx list <plugin-name>` to see all generators for a specific plugin.
+---
 
-## Nx Cloud
+## 🤝 Contributing
 
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+Contributions are welcome.
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Before submitting a PR:
 
-## Install Nx Console
+- Follow ESLint rules
+- Respect architectural boundaries
+- Avoid deep imports
+- Maintain strict typing
+- Include playground demo
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+---
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 📜 License
 
-## 🔗 Learn More
-
-- [Nx Documentation](https://nx.dev)
-- [Angular Monorepo Tutorial](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial)
-- [Module Boundaries](https://nx.dev/features/enforce-module-boundaries)
-- [Docker Integration](https://nx.dev/recipes/nx-release/release-docker-images)
-- [Playwright Testing](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
-- [Vite with Angular](https://nx.dev/recipes/vite)
-- [Nx Cloud](https://nx.dev/ci/intro/why-nx-cloud)
-- [Releasing Packages](https://nx.dev/features/manage-releases)
-
-## 💬 Community
-
-Join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [X (Twitter)](https://twitter.com/nxdevtools)
-- [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [YouTube](https://www.youtube.com/@nxdevtools)
-- [Blog](https://nx.dev/blog)
+MIT © 2026 TailNG
