@@ -1,0 +1,220 @@
+:host {
+  display: block;
+}
+
+.page {
+  min-height: 100vh;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--tng-semantic-foreground-secondary);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.875rem, 2vw + 1rem, 2.5rem);
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.controls {
+  display: grid;
+  gap: 1rem;
+}
+
+.control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.select {
+  width: 100%;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--tng-semantic-background-canvas);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.highlights {
+  display: grid;
+  gap: 1rem;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.meta {
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.meta-row dt {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.meta-row dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.875rem;
+}
+
+.btn {
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
+.btn:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+}
+
+.btn-brand {
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-semantic-foreground-inverse);
+}
+
+.btn-danger {
+  background: var(--tng-semantic-accent-danger);
+  color: var(--tng-semantic-foreground-inverse);
+}
+
+.btn-success {
+  background: var(--tng-semantic-accent-success);
+  color: var(--tng-semantic-foreground-inverse);
+}
+
+.btn-outline {
+  border: 1px solid var(--tng-semantic-border-strong);
+  background: transparent;
+  color: var(--tng-semantic-foreground-primary);
+  margin-top: 0.875rem;
+}
+
+.table-wrap {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.token-table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.token-table thead {
+  background: var(--tng-semantic-background-canvas);
+}
+
+.token-table th,
+.token-table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.token-table thead th {
+  border-top: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  font-weight: 600;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+.dim {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: 2rem;
+  }
+
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

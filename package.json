@@ -5,7 +5,10 @@
   "scripts": {
     "lint": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t lint",
     "test": "vitest run --config libs/tailng-ui/theme/vitest.config.ts",
-    "test:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t vite:test --skipNxCache --output-style=stream"
+    "test:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx run-many -t vite:test --skipNxCache --output-style=stream",
+    "dev:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind",
+    "dev:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-vanilla",
+    "dev:docs": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve docs"
   },
   "private": true,
   "devDependencies": {

@@ -1,0 +1,87 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <p class="kicker">TailNG Playground</p>
+      <h1 class="title">Theme Test (Vanilla CSS)</h1>
+      <p class="subtitle">
+        Toggle preset and mode to validate semantic token behavior and resolved values.
+      </p>
+    </header>
+
+    <section class="controls card">
+      <label class="control">
+        <span class="label">Preset</span>
+        <select class="select" [value]="selectedPreset()" (change)="onPresetChange($event)">
+          @for (option of presetOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="control">
+        <span class="label">Mode</span>
+        <select class="select" [value]="selectedMode()" (change)="onModeChange($event)">
+          @for (option of modeOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+    </section>
+
+    <section class="highlights">
+      <article class="card">
+        <h2 class="card-title">Meta</h2>
+        <dl class="meta">
+          <div class="meta-row">
+            <dt>Name</dt>
+            <dd>{{ themeMeta().name }}</dd>
+          </div>
+          <div class="meta-row">
+            <dt>Mode</dt>
+            <dd>{{ themeMeta().mode }}</dd>
+          </div>
+        </dl>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title">Accent Preview</h2>
+        <div class="actions">
+          <button type="button" class="btn btn-brand">Brand</button>
+          <button type="button" class="btn btn-danger">Danger</button>
+          <button type="button" class="btn btn-success">Success</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title">Focus Ring Preview</h2>
+        <button type="button" class="btn btn-outline">Tab to focus</button>
+      </article>
+    </section>
+
+    <section class="table-wrap card">
+      <header class="table-header">
+        <h2 class="card-title">Semantic Tokens (Raw vs Resolved)</h2>
+      </header>
+      <div class="table-scroll">
+        <table class="token-table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Expression</th>
+              <th>Resolved</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of semanticTokenRows(); track row.name) {
+              <tr>
+                <td class="mono">{{ row.name }}</td>
+                <td class="mono dim">{{ row.expression }}</td>
+                <td class="mono">{{ row.resolvedValue }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</main>
