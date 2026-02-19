@@ -1,0 +1,39 @@
+<main class="page">
+  <section class="container">
+    <header class="hero">
+      <div class="links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/theme">Theme Demo</a>
+      </div>
+      <h1 class="title">Button Demo (Vanilla CSS)</h1>
+      <p class="subtitle">
+        First row uses primitive behavior with your own styles. Second row uses owned `tng-button`.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Primitives (`tngButton`)</h2>
+      <div class="row">
+        <button tngButton type="button" class="primitive primary">Primary Action</button>
+        <button tngButton type="button" class="primitive outline">Outline Action</button>
+        <a tngButton class="primitive success">Anchor Button</a>
+        <a tngButton [disabled]="true" class="primitive disabled">Disabled Anchor</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components (`tng-button`)</h2>
+      <div class="row">
+        <tng-button>Default</tng-button>
+        <tng-button tone="success">Success</tng-button>
+        <tng-button tone="danger">Danger</tng-button>
+        <tng-button tone="neutral">Neutral</tng-button>
+        <tng-button appearance="outline">Outline</tng-button>
+        <tng-button appearance="ghost">Ghost</tng-button>
+        <tng-button size="sm">Small</tng-button>
+        <tng-button size="lg">Large</tng-button>
+        <tng-button [disabled]="true">Disabled</tng-button>
+      </div>
+    </section>
+  </section>
+</main>

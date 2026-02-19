@@ -1,0 +1,15 @@
+<button
+  tngButton
+  class="tng-button"
+  [type]="type()"
+  [disabled]="disabled()"
+  [ariaControls]="ariaControls()"
+  [ariaExpanded]="ariaExpanded()"
+  [ariaHasPopup]="ariaHasPopup()"
+  [ariaPressed]="ariaPressed()"
+  [attr.data-appearance]="appearance()"
+  [attr.data-size]="size()"
+  [attr.data-tone]="tone()"
+>
+  <ng-content />
+</button>

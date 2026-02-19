@@ -10,8 +10,15 @@ import {
 
 type ButtonHostElement = HTMLAnchorElement | HTMLButtonElement;
 type NullableBooleanInput = boolean | null | string | undefined;
-type TngAriaHasPopup = 'dialog' | 'false' | 'grid' | 'listbox' | 'menu' | 'tree' | 'true';
-type TngButtonType = 'button' | 'reset' | 'submit';
+export type TngAriaHasPopup =
+  | 'dialog'
+  | 'false'
+  | 'grid'
+  | 'listbox'
+  | 'menu'
+  | 'tree'
+  | 'true';
+export type TngButtonType = 'button' | 'reset' | 'submit';
 
 const validAriaHasPopupValues: readonly TngAriaHasPopup[] = [
   'dialog',

@@ -1,0 +1,35 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+  <section class="mx-auto max-w-5xl space-y-6">
+    <header class="space-y-3">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">TailNG UI</p>
+      <h1 class="text-3xl font-semibold md:text-4xl">Playground Home (Tailwind)</h1>
+      <p class="max-w-2xl text-slate-300">
+        Choose a demo page to validate theme tokens and button behavior.
+      </p>
+    </header>
+
+    <section class="grid gap-4 md:grid-cols-2">
+      <a
+        routerLink="/theme"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Theme Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Switch presets/modes and inspect semantic tokens.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Theme Demo
+        </span>
+      </a>
+
+      <a
+        routerLink="/button"
+        class="group rounded-2xl border border-slate-700 bg-slate-900 p-5 transition hover:border-cyan-400"
+      >
+        <h2 class="text-xl font-semibold">Button Demo</h2>
+        <p class="mt-2 text-sm text-slate-300">Test primitive behavior and owned component styles.</p>
+        <span class="mt-4 inline-block text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+          Open Button Demo
+        </span>
+      </a>
+    </section>
+  </section>
+</main>
