@@ -1,10 +1,6 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import angular from '@angular-eslint/eslint-plugin';
-import angularTemplate from '@angular-eslint/eslint-plugin-template';
-import angularTemplateParser from '@angular-eslint/template-parser';
 import unusedImports from 'eslint-plugin-unused-imports';
-import sonarjs from 'eslint-plugin-sonarjs';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import nxPlugin from '@nx/eslint-plugin';
@@ -44,9 +40,7 @@ export default [
       },
     },
     plugins: {
-      '@angular-eslint': angular,
       'unused-imports': unusedImports,
-      sonarjs,
       import: importPlugin,
       '@nx': nxPlugin,
     },
@@ -130,15 +124,6 @@ export default [
           forbid: ['@tailng-ui/**/src/**'],
         },
       ],
-
-      '@angular-eslint/component-selector': [
-        'error',
-        { type: 'element', prefix: 'tng', style: 'kebab-case' },
-      ],
-      '@angular-eslint/directive-selector': [
-        'error',
-        { type: 'attribute', prefix: 'tng', style: 'camelCase' },
-      ],
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         { accessibility: 'explicit' },
@@ -191,25 +176,6 @@ export default [
     rules: {
       'no-console': 'warn',
       'max-params': ['warn', 4],
-    },
-  },
-
-  {
-    files: ['**/*.html'],
-    languageOptions: {
-      parser: angularTemplateParser,
-    },
-    plugins: {
-      '@angular-eslint/template': angularTemplate,
-    },
-    rules: {
-      '@angular-eslint/template/banana-in-box': 'error',
-      '@angular-eslint/template/eqeqeq': 'error',
-      '@angular-eslint/template/no-any': 'error',
-      '@angular-eslint/template/alt-text': 'error',
-      '@angular-eslint/template/click-events-have-key-events': 'error',
-      '@angular-eslint/template/interactive-supports-focus': 'error',
-      '@angular-eslint/template/no-negated-async': 'error',
     },
   },
 
