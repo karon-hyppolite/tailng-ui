@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/tailng-ui/docs/src",
-  "tags": [],
+  "tags": ["scope:tailng"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",

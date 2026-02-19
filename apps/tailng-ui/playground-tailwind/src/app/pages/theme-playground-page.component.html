@@ -1,0 +1,137 @@
+<main
+  class="min-h-screen bg-[var(--tng-semantic-background-canvas)] px-4 py-8 text-[var(--tng-semantic-foreground-primary)] md:px-8"
+>
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="space-y-2">
+      <p class="text-sm font-semibold tracking-[0.2em] text-[var(--tng-semantic-foreground-secondary)]">
+        TailNG Playground
+      </p>
+      <h1 class="text-3xl font-semibold md:text-4xl">Theme Test (Tailwind)</h1>
+      <p class="max-w-2xl text-sm text-[var(--tng-semantic-foreground-secondary)] md:text-base">
+        Toggle preset and mode to validate semantic token behavior and resolved values.
+      </p>
+    </header>
+
+    <section
+      class="grid gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 md:grid-cols-2 md:p-6"
+    >
+      <label class="space-y-2">
+        <span class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">Preset</span>
+        <select
+          class="w-full rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] px-3 py-2"
+          [value]="selectedPreset()"
+          (change)="onPresetChange($event)"
+        >
+          @for (option of presetOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="space-y-2">
+        <span class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">Mode</span>
+        <select
+          class="w-full rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-canvas)] px-3 py-2"
+          [value]="selectedMode()"
+          (change)="onModeChange($event)"
+        >
+          @for (option of modeOptions; track option.id) {
+            <option [value]="option.id">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+    </section>
+
+    <section class="grid gap-4 lg:grid-cols-3">
+      <article
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5"
+      >
+        <h2 class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">Meta</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--tng-semantic-foreground-secondary)]">Name</dt>
+            <dd class="font-mono">{{ themeMeta().name }}</dd>
+          </div>
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--tng-semantic-foreground-secondary)]">Mode</dt>
+            <dd class="font-mono">{{ themeMeta().mode }}</dd>
+          </div>
+        </dl>
+      </article>
+
+      <article
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5"
+      >
+        <h2 class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">Accent Preview</h2>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <button
+            type="button"
+            class="rounded-lg bg-[var(--tng-semantic-accent-brand)] px-4 py-2 text-sm text-[var(--tng-semantic-foreground-inverse)]"
+          >
+            Brand
+          </button>
+          <button
+            type="button"
+            class="rounded-lg bg-[var(--tng-semantic-accent-danger)] px-4 py-2 text-sm text-[var(--tng-semantic-foreground-inverse)]"
+          >
+            Danger
+          </button>
+          <button
+            type="button"
+            class="rounded-lg bg-[var(--tng-semantic-accent-success)] px-4 py-2 text-sm text-[var(--tng-semantic-foreground-inverse)]"
+          >
+            Success
+          </button>
+        </div>
+      </article>
+
+      <article
+        class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5"
+      >
+        <h2 class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
+          Focus Ring Preview
+        </h2>
+        <div class="mt-4">
+          <button
+            type="button"
+            class="rounded-lg border border-[var(--tng-semantic-border-strong)] px-4 py-2 text-sm outline-none ring-2 ring-transparent focus-visible:ring-[var(--tng-semantic-focus-ring)]"
+          >
+            Tab to focus
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section
+      class="overflow-hidden rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)]"
+    >
+      <header class="border-b border-[var(--tng-semantic-border-subtle)] px-5 py-4">
+        <h2 class="text-sm font-medium text-[var(--tng-semantic-foreground-secondary)]">
+          Semantic Tokens (Raw vs Resolved)
+        </h2>
+      </header>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[640px] text-left text-sm">
+          <thead class="bg-[var(--tng-semantic-background-canvas)] text-[var(--tng-semantic-foreground-secondary)]">
+            <tr>
+              <th class="px-5 py-3 font-medium">Token</th>
+              <th class="px-5 py-3 font-medium">Expression</th>
+              <th class="px-5 py-3 font-medium">Resolved</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of semanticTokenRows(); track row.name) {
+              <tr class="border-t border-[var(--tng-semantic-border-subtle)]">
+                <td class="px-5 py-3 font-mono">{{ row.name }}</td>
+                <td class="px-5 py-3 font-mono text-[var(--tng-semantic-foreground-secondary)]">
+                  {{ row.expression }}
+                </td>
+                <td class="px-5 py-3 font-mono">{{ row.resolvedValue }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</main>
