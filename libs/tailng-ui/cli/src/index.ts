@@ -34,6 +34,8 @@ type RegistryModule = Readonly<{
 const usageText = [
   'tailng - TailNG CLI',
   '',
+  'Shadcn-style source copy for TailNG components.',
+  '',
   'Usage:',
   '  tailng list',
   '  tailng add <component-name> [--cwd <path>] [--dry-run] [--force]',
@@ -326,6 +328,21 @@ function printDependencyHint(item: RegistryItem): void {
   }
 }
 
+function formatImportHint(item: RegistryItem): string | null {
+  if (item.name !== 'button') {
+    return null;
+  }
+
+  return "Import with: import { TngButton } from './tailng-ui/button';";
+}
+
+function printImportHint(item: RegistryItem): void {
+  const importHint = formatImportHint(item);
+  if (importHint) {
+    writeInfo(importHint);
+  }
+}
+
 function printExistingTargetsError(existingTargets: readonly WriteTarget[]): void {
   writeError('The following files already exist:');
   for (const target of existingTargets) {
@@ -408,6 +425,7 @@ async function runAddCommand(
   if (command.dryRun) {
     runDryRunPreview(targets, existingTargets, command.force);
     printDependencyHint(item);
+    printImportHint(item);
     return 0;
   }
 
@@ -418,6 +436,7 @@ async function runAddCommand(
 
   await writeTargets(targets);
   printDependencyHint(item);
+  printImportHint(item);
   return 0;
 }
 

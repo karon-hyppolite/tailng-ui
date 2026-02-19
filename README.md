@@ -268,6 +268,17 @@ Note:
 
 - `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
 - `--cwd` should point to the app root where files must be generated.
+- `tailng add button` follows shadcn-style source copy. It writes local files to:
+  - `src/app/tailng-ui/button/tng-button-primitive.ts`
+  - `src/app/tailng-ui/button/tng-button.ts`
+  - `src/app/tailng-ui/button/tng-button.html`
+  - `src/app/tailng-ui/button/tng-button.css`
+  - `src/app/tailng-ui/button/index.ts`
+- Import locally in your app:
+
+```ts
+import { TngButton } from './tailng-ui/button';
+```
 
 ---
 
