@@ -1,347 +1,101 @@
-<div align="center">
-  <img
-    src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"
-    width="120"
-    alt="TailNG logo"
-  />
+# TailNG UI Monorepo
 
-  <h1>TailNG</h1>
+TailNG UI is an Nx + Angular monorepo for building and distributing TailNG packages:
 
-  <p>
-    <strong>Scalability of Angular. Simplicity of Tailwind.</strong>
-  </p>
+- `@tailng-ui/theme`: theme contracts, token engine, CSS variable and Tailwind adapters
+- `@tailng-ui/primitives`: unstyled behavior/accessibility primitives
+- `@tailng-ui/components`: installable styled components on top of primitives
+- `@tailng-ui/registry`: copy-paste registry entries used by the CLI
+- `tailng`: CLI for listing and adding registry items
 
-  <p>
-    A modern Angular 21+ component system built with Signals,
-    Standalone APIs, and strict architectural discipline.
-  </p>
-</div>
+## Requirements
 
----
+- Node.js `>=22.10.0`
+- pnpm `>=10.30.0`
 
-[![Build Status](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml/badge.svg)](https://github.com/tailng/tailng-ui/actions/workflows/prod-build-deploy.yml)
-[![NPM Version](https://img.shields.io/npm/v/@tailng-ui/ui.svg)](https://www.npmjs.com/package/@tailng-ui/ui)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
----
-
-## ✨ What is TailNG?
-
-TailNG is an open-source Angular component system designed for:
-
-- Large applications
-- Enterprise design systems
-- Strict type safety
-- Accessibility-first development
-- Signal-based architecture
-- Tailwind-compatible styling
-
-It combines:
-
-- Angular 21+
-- Standalone Components
-- Angular Signals
-- Strict ESLint architecture
-- Nx monorepo discipline
-- Optional Tailwind integration
-
----
-
-## 🎯 Product Direction
-
-TailNG is evolving toward a framework-agnostic component platform with:
-
-- Accessibility-first primitives built on Angular CDK and `@angular/aria` (experimental)
-- Wrapper abstractions that make component composition simpler for app developers
-- Additional in-house components implemented using ARIA authoring principles
-- Micro-level styling control for each component (slots, states, tokens, and hooks)
-- No required dependency on Tailwind or any specific CSS framework
-- Zero hard coupling between component behavior and styling systems
-- Shadcn-style copy/paste distribution mode in addition to package install
-
-### Risk Decision (`@angular/aria`)
-
-- Primary path: use `@angular/aria` as the basis for new primitives
-- Current tradeoff: accept experimental risk while Angular 22 direction matures
-- Fallback policy: do not build full CDK fallback now
-- Constraint: keep an adapter seam now so fallback can be implemented later without rewrites
-- Rule: components depend on TailNG primitive contracts, not direct `@angular/aria` imports
-
----
-
-## 📦 Packages
-
-| Package | Description |
-|----------|-------------|
-| `@tailng-ui/ui` | Main component library |
-| `@tailng-ui/cdk` | Behavior primitives & utilities |
-| `@tailng-ui/theme` | Design tokens & Tailwind adapter |
-| `@tailng-ui/icons` | Icon wrappers |
-
----
-
-## 🚀 Installation
-
-```bash
-pnpm add @tailng-ui/ui
-```
-
-Peer dependencies:
-
-- `@angular/core` ^21
-- `@angular/common` ^21
-- `@angular/forms` ^21
-
----
-
-## ⚡ Quick Example
-
-```ts
-import { Component } from '@angular/core';
-import { TngButton } from '@tailng-ui/ui';
-
-@Component({
-  standalone: true,
-  imports: [TngButton],
-  template: `
-    <tng-button variant="primary">
-      Click me
-    </tng-button>
-  `,
-})
-export class ExampleComponent {}
-```
-
----
-
-## 🏗 Architecture
-
-TailNG follows a layered structure:
-
-apps/
-  docs/          → Documentation site
-  playground/    → Component sandbox
-
-libs/
-  ui/            → Styled components
-  cdk/           → Behavior primitives
-  theme/         → Tokens & adapters
-  icons/         → Icon library
-
-Design principles:
-
-- Composition over prop explosion
-- Behavior separated from styling
-- Strict architectural boundaries (Nx enforced)
-- Public API discipline
-- No deep imports
-- Exhaustive state safety
-
----
-
-## 🧠 Philosophy
-
-TailNG is:
-
-- Headless-friendly
-- Tailwind-compatible (not required)
-- Accessibility-aware
-- Strictly typed
-- Enterprise-ready
-- Open-source forever (MIT)
-
-We aim to provide:
-
-- Clean APIs
-- Predictable behavior
-- Scalable structure
-- Zero vendor lock-in
-
----
-
-## 🧪 Development
-
-### Install dependencies
+## Setup
 
 ```bash
 pnpm install
 ```
 
-### Run playground
+## Workspace Layout
+
+```text
+apps/
+  tailng-ui/
+    docs
+    playground-tailwind
+    playground-vanilla
+    playground-registry
+libs/
+  tailng-ui/
+    theme
+    primitives
+    components
+    registry
+  tailng/
+    cli
+tools/
+  prerender/
+  release/
+```
+
+## Common Commands
+
+### Development
 
 ```bash
-pnpm playground
+# Tailwind playground
+pnpm run playground
+
+# Other playgrounds / docs
+pnpm run dev:vanilla
+pnpm run dev:registry
+pnpm run dev:docs
 ```
 
-Run registry CLI playground:
+### Build
 
 ```bash
-pnpm dev:registry
+# Build all projects
+pnpm run build
+
+# Build CLI only
+pnpm run build:tailng
+
+# Build docs and playground bundles
+pnpm run docs:build
+pnpm run playground:build
+pnpm run playground:vanilla:build
 ```
 
-### Run docs site
+### Tests
 
 ```bash
-pnpm docs
+# Run all package test suites
+pnpm run test
+
+# Run a specific suite
+pnpm run test:theme
+pnpm run test:primitives
+pnpm run test:components
+pnpm run test:registry
+pnpm run test:cli
 ```
 
-Build static output for Cloudflare Pages:
+### Lint and Format
 
 ```bash
-pnpm docs:seo
+pnpm run lint
+pnpm run format:check
+pnpm run format:write
 ```
 
-Build static playground output for Cloudflare Pages:
+### SEO / Prerender Tasks
 
 ```bash
-pnpm playground:seo
+pnpm run docs:seo
+pnpm run playground:seo
+pnpm run playground:vanilla:seo
 ```
-
-Build static vanilla playground output for Cloudflare Pages:
-
-```bash
-pnpm playground:vanilla:seo
-```
-
-### Lint
-
-```bash
-pnpm nx run-many -t lint
-```
-
-### Test
-
-```bash
-pnpm test
-```
-
-Run all library tests directly with Nx:
-
-```bash
-pnpm test:nx
-```
-
-Run only `theme` tests:
-
-```bash
-pnpm test:theme
-```
-
-Run CLI integration tests (`tailng add ...` end-to-end in temp directories):
-
-```bash
-pnpm test:cli
-```
-
-Run in watch mode:
-
-```bash
-pnpm nx run theme:vite:test --watch
-```
-
-Run with coverage:
-
-```bash
-pnpm nx run theme:vite:test --coverage
-```
-
-Run directly with Vitest (without Nx):
-
-```bash
-pnpm exec vitest run --config libs/tailng-ui/theme/vitest.config.ts
-```
-
-### TailNG CLI (local)
-
-Build and run the `tailng` CLI:
-
-```bash
-pnpm build:tailng
-pnpm tailng -- list
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-vanilla --dry-run
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
-```
-
-Registry command reference:
-
-- List available registry items:
-
-```bash
-pnpm tailng -- list
-```
-
-- Preview file generation without writing:
-
-```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --dry-run
-```
-
-- Generate files:
-
-```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry
-```
-
-- Overwrite existing generated files:
-
-```bash
-pnpm tailng -- add button --cwd apps/tailng-ui/playground-registry --force
-```
-
-Note:
-
-- `--dry-run` shows `CREATE`, `SKIP`, or `OVERWRITE` behavior.
-- `--cwd` should point to the app root where files must be generated.
-- `tailng add button` follows shadcn-style source copy. It writes local files to:
-  - `src/app/tailng-ui/button/tng-button-primitive.ts`
-  - `src/app/tailng-ui/button/tng-button.ts`
-  - `src/app/tailng-ui/button/tng-button.html`
-  - `src/app/tailng-ui/button/tng-button.css`
-  - `src/app/tailng-ui/button/index.ts`
-- Import locally in your app:
-
-```ts
-import { TngButton } from './tailng-ui/button';
-```
-
----
-
-## 🏷 Component Guidelines
-
-- Use Angular Signals (`input()`)
-- Standalone components only
-- No default exports
-- Explicit return types
-- Exhaustive switch checks
-- Complexity ≤ 8
-- Max params ≤ 3
-- Accessibility-first markup
-- Strict ESLint enforced
-
----
-
-## 📖 Documentation
-
-- Website: https://tailng.dev
-- npm: https://www.npmjs.com/package/@tailng-ui/ui
-- GitHub: https://github.com/tailng/tailng-ui
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome.
-
-Before submitting a PR:
-
-- Follow ESLint rules
-- Respect architectural boundaries
-- Avoid deep imports
-- Maintain strict typing
-- Include playground demo
-
----
-
-## 📜 License
-
-MIT © 2026 TailNG
