@@ -24,3 +24,11 @@ describe('resolveToken', () => {
     expect(resolveToken(defaultThemePreset, 'single-segment')).toBe(undefined);
   });
 });
+
+describe('resolveToken prototype safety', () => {
+  it('ignores inherited object properties', () => {
+    expect(resolveToken(defaultThemePreset, 'color.toString')).toBeUndefined();
+    expect(resolveToken(defaultThemePreset, 'semantic.accent.constructor')).toBeUndefined();
+    expect(resolveToken(defaultThemePreset, 'primitives.radius.hasOwnProperty')).toBeUndefined();
+  });
+});
