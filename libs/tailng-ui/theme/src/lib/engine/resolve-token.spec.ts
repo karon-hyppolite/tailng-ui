@@ -38,3 +38,10 @@ describe('resolveToken path length', () => {
     expect(resolveToken(defaultThemePreset, 'semantic.accent.brand.extra')).toBeUndefined();
   });
 });
+
+describe('resolveToken whitespace handling', () => {
+  it('tolerates whitespace inside braces and around segments', () => {
+    expect(resolveToken(defaultThemePreset, '{ color.primary500 }')).toBe('#2563eb');
+    expect(resolveToken(defaultThemePreset, 'semantic . accent . brand')).toBe('{color.primary500}');
+  });
+});

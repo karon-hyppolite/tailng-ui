@@ -6,6 +6,7 @@ function normalizeTokenPath(tokenPath: string): string[] {
     .trim()
     .replace(/[{}]/g, '')
     .split('.')
+    .map((segment) => segment.trim())
     .filter(Boolean);
 }
 
