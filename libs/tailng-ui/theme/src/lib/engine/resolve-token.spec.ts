@@ -32,3 +32,9 @@ describe('resolveToken prototype safety', () => {
     expect(resolveToken(defaultThemePreset, 'primitives.radius.hasOwnProperty')).toBeUndefined();
   });
 });
+
+describe('resolveToken path length', () => {
+  it('rejects paths with more than three segments', () => {
+    expect(resolveToken(defaultThemePreset, 'semantic.accent.brand.extra')).toBeUndefined();
+  });
+});

@@ -90,7 +90,7 @@ function resolveScopedToken(
 export function resolveToken(theme: ThemeDefinition, tokenPath: string): string | undefined {
   const parts = normalizeTokenPath(tokenPath);
 
-  if (parts.length < 2) {
+  if (parts.length < 2 || parts.length > 3) {
     return undefined;
   }
 
