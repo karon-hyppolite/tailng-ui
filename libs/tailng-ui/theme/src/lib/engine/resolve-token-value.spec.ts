@@ -36,3 +36,20 @@ describe('resolveTokenValue', () => {
     );
   });
 });
+
+describe('resolveTokenValue maxDepth handling', () => {
+  it('falls back to the default depth for invalid values', () => {
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: Number.NaN }),
+    ).toBe('#2563eb');
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: -1 }),
+    ).toBe('#2563eb');
+  });
+
+  it('respects a small explicit depth', () => {
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: 1 }),
+    ).toBe('{color.primary500}');
+  });
+});

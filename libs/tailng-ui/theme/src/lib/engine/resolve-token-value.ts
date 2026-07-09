@@ -5,6 +5,16 @@ export type ResolveTokenValueOptions = {
   maxDepth?: number;
 };
 
+const defaultMaxDepth = 10;
+
+function normalizeMaxDepth(maxDepth: number | undefined): number {
+  if (maxDepth === undefined || !Number.isFinite(maxDepth) || maxDepth < 1) {
+    return defaultMaxDepth;
+  }
+
+  return Math.floor(maxDepth);
+}
+
 function toTokenPath(value: string): string | undefined {
   const trimmed = value.trim();
   if (!trimmed.startsWith('{') || !trimmed.endsWith('}')) {
@@ -24,7 +34,7 @@ export function resolveTokenValue(
   value: string,
   options: Readonly<ResolveTokenValueOptions> = {},
 ): string {
-  const maxDepth = options.maxDepth ?? 10;
+  const maxDepth = normalizeMaxDepth(options.maxDepth);
   let currentValue = value;
   const visited = new Set<string>();
 
