@@ -53,3 +53,17 @@ describe('resolveTokenValue maxDepth handling', () => {
     ).toBe('{color.primary500}');
   });
 });
+
+describe('resolveTokenValue embedded references', () => {
+  it('resolves references embedded in a larger value', () => {
+    expect(resolveTokenValue(defaultThemePreset, '0 0 0 3px {semantic.focus.ring}')).toBe(
+      '0 0 0 3px #2563eb',
+    );
+  });
+
+  it('resolves multiple references and keeps unknown ones', () => {
+    expect(resolveTokenValue(defaultThemePreset, '{spacing.none} {color.unknown}')).toBe(
+      '0 {color.unknown}',
+    );
+  });
+});
