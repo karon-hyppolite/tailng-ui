@@ -50,3 +50,19 @@ describe('mergeTheme', () => {
     expect(defaultThemePreset).toStrictEqual(snapshot);
   });
 });
+
+describe('mergeTheme undefined overrides', () => {
+  it('ignores token overrides whose value is undefined', () => {
+    const merged = mergeTheme(defaultThemePreset, {
+      tokens: {
+        primitives: {
+          spacing: { md: undefined } as unknown as Record<string, string>,
+        },
+      },
+    });
+
+    expect(merged.tokens.primitives.spacing['md']).toBe(
+      defaultThemePreset.tokens.primitives.spacing['md'],
+    );
+  });
+});
