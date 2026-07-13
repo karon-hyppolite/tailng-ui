@@ -30,3 +30,16 @@ describe('createTheme', () => {
     );
   });
 });
+
+describe('createTheme with multiple overrides', () => {
+  it('applies overrides from left to right', () => {
+    const theme = createTheme(
+      defaultThemePreset,
+      { meta: { name: 'first' } },
+      { meta: { name: 'second' }, tokens: { primitives: { radius: { md: '1rem' } } } },
+    );
+
+    expect(theme.meta.name).toBe('second');
+    expect(theme.tokens.primitives.radius['md']).toBe('1rem');
+  });
+});
