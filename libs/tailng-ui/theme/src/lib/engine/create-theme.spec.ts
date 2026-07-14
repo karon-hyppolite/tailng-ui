@@ -43,3 +43,10 @@ describe('createTheme with multiple overrides', () => {
     expect(theme.tokens.primitives.radius['md']).toBe('1rem');
   });
 });
+
+describe('createTheme with optional overrides', () => {
+  it('skips undefined overrides', () => {
+    expect(createTheme(defaultThemePreset, undefined)).toBe(defaultThemePreset);
+    expect(createTheme(defaultThemePreset, undefined, { meta: { name: 'x' } }).meta.name).toBe('x');
+  });
+});
