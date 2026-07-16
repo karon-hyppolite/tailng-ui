@@ -66,3 +66,14 @@ describe('mergeTheme undefined overrides', () => {
     );
   });
 });
+
+describe('mergeTheme structural sharing', () => {
+  it('reuses untouched token scales from the base theme', () => {
+    const merged = mergeTheme(defaultThemePreset, {
+      tokens: { semantic: { accent: { brand: '#000000' } } },
+    });
+
+    expect(merged.tokens.primitives.color).toBe(defaultThemePreset.tokens.primitives.color);
+    expect(merged.tokens.semantic.accent).not.toBe(defaultThemePreset.tokens.semantic.accent);
+  });
+});
