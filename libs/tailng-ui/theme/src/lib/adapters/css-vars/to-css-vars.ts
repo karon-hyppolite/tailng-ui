@@ -30,6 +30,10 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   'focus',
 ];
 
+function normalizePrefix(prefix: string): string {
+  return prefix.trim().replace(/^-+/, '').replace(/-+$/, '');
+}
+
 function toVariableName(prefix: string, parts: readonly string[]): string {
   return `--${prefix}-${parts.join('-')}`;
 }
@@ -115,7 +119,7 @@ export function toCssVars(
   theme: ThemeDefinition,
   options: Readonly<CssVarAdapterOptions> = {},
 ): Record<string, string> {
-  const prefix = options.prefix ?? 'tng';
+  const prefix = normalizePrefix(options.prefix ?? 'tng');
   const includePrimitives = options.includePrimitives ?? true;
   const includeSemantic = options.includeSemantic ?? true;
   const resolveValue = getTokenValueResolver(theme, options);
