@@ -35,7 +35,8 @@ function normalizePrefix(prefix: string): string {
 }
 
 function toVariableName(prefix: string, parts: readonly string[]): string {
-  return `--${prefix}-${parts.join('-')}`;
+  const segments = prefix ? [prefix, ...parts] : parts;
+  return `--${segments.join('-')}`;
 }
 
 type ScaleContext = Readonly<{
