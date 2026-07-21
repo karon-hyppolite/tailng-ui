@@ -12,6 +12,7 @@ export type CssVarAdapterOptions = {
   includeSemantic?: boolean;
   resolveReferences?: boolean;
   maxResolveDepth?: number;
+  caseStyle?: 'kebab' | 'preserve';
 };
 
 const primitiveCollections: readonly (keyof ThemePrimitives)[] = [
@@ -116,6 +117,26 @@ function addSemanticVariables(
   return vars;
 }
 
+function toKebabCase(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+function applyCaseStyle(
+  vars: Record<string, string>,
+  caseStyle: CssVarAdapterOptions['caseStyle'],
+): Record<string, string> {
+  if (caseStyle !== 'kebab') {
+    return vars;
+  }
+
+  const result: Record<string, string> = {};
+  for (const [name, value] of Object.entries(vars)) {
+    result[toKebabCase(name)] = value;
+  }
+
+  return result;
+}
+
 export function toCssVars(
   theme: ThemeDefinition,
   options: Readonly<CssVarAdapterOptions> = {},
@@ -135,5 +156,5 @@ export function toCssVars(
     Object.assign(vars, addSemanticVariables(theme, prefix, resolveValue));
   }
 
-  return vars;
+  return applyCaseStyle(vars, options.caseStyle);
 }

@@ -18,3 +18,15 @@ describe('toCssVars empty prefix', () => {
     expect(vars['---color-white']).toBeUndefined();
   });
 });
+
+describe('toCssVars case style', () => {
+  it('converts camelCase token names to kebab-case', () => {
+    const preserved = toCssVars(defaultThemePreset);
+    const kebab = toCssVars(defaultThemePreset, { caseStyle: 'kebab' });
+
+    expect(kebab['--tng-semantic-accent-brand-hover']).toBe(
+      preserved['--tng-semantic-accent-brandHover'],
+    );
+    expect(kebab['--tng-semantic-accent-brandHover']).toBeUndefined();
+  });
+});
