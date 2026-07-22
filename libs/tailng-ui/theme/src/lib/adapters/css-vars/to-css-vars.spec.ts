@@ -30,3 +30,15 @@ describe('toCssVars case style', () => {
     expect(kebab['--tng-semantic-accent-brandHover']).toBeUndefined();
   });
 });
+
+describe('toCssVars exclude', () => {
+  it('omits variables under excluded token paths', () => {
+    const vars = toCssVars(defaultThemePreset, { exclude: ['color', 'semantic.accent'] });
+    const names = Object.keys(vars);
+
+    expect(names.some((name) => name.startsWith('--tng-color-'))).toBe(false);
+    expect(names.some((name) => name.startsWith('--tng-semantic-accent-'))).toBe(false);
+    expect(vars['--tng-spacing-md']).toBeDefined();
+    expect(vars['--tng-semantic-focus-ring']).toBeDefined();
+  });
+});

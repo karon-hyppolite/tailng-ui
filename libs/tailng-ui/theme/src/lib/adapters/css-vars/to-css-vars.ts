@@ -13,6 +13,7 @@ export type CssVarAdapterOptions = {
   resolveReferences?: boolean;
   maxResolveDepth?: number;
   caseStyle?: 'kebab' | 'preserve';
+  exclude?: readonly string[];
 };
 
 const primitiveCollections: readonly (keyof ThemePrimitives)[] = [
@@ -137,6 +138,31 @@ function applyCaseStyle(
   return result;
 }
 
+function omitExcluded(
+  vars: Record<string, string>,
+  prefix: string,
+  exclude: readonly string[] | undefined,
+): Record<string, string> {
+  if (!exclude || exclude.length === 0) {
+    return vars;
+  }
+
+  const excludedNames = exclude.map((tokenPath) =>
+    toVariableName(prefix, tokenPath.split('.').filter(Boolean)),
+  );
+  const result: Record<string, string> = {};
+  for (const [name, value] of Object.entries(vars)) {
+    const isExcluded = excludedNames.some(
+      (excluded) => name === excluded || name.startsWith(`${excluded}-`),
+    );
+    if (!isExcluded) {
+      result[name] = value;
+    }
+  }
+
+  return result;
+}
+
 export function toCssVars(
   theme: ThemeDefinition,
   options: Readonly<CssVarAdapterOptions> = {},
@@ -156,5 +182,5 @@ export function toCssVars(
     Object.assign(vars, addSemanticVariables(theme, prefix, resolveValue));
   }
 
-  return applyCaseStyle(vars, options.caseStyle);
+  return applyCaseStyle(omitExcluded(vars, prefix, options.exclude), options.caseStyle);
 }
