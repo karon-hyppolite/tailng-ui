@@ -3,6 +3,7 @@ import type { ThemeDefinition } from '../../contracts/theme.types';
 
 type CssVarWriter = Readonly<{
   setProperty: CSSStyleDeclaration['setProperty'];
+  removeProperty: CSSStyleDeclaration['removeProperty'];
 }>;
 
 type CssVarTarget = Readonly<{
@@ -13,10 +14,17 @@ export function injectThemeVars(
   target: CssVarTarget,
   theme: ThemeDefinition,
   options?: Readonly<CssVarAdapterOptions>,
-): void {
+): () => void {
   const cssVars = toCssVars(theme, options);
+  const names = Object.keys(cssVars);
 
-  for (const [name, value] of Object.entries(cssVars)) {
-    target.style.setProperty(name, value);
+  for (const name of names) {
+    target.style.setProperty(name, cssVars[name]);
   }
+
+  return (): void => {
+    for (const name of names) {
+      target.style.removeProperty(name);
+    }
+  };
 }
