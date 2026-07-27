@@ -40,3 +40,33 @@ describe('injectThemeVars', () => {
     expect(target.values.size).toBe(0);
   });
 });
+
+describe('injectThemeVars unchanged values', () => {
+  it('skips variables that already have the same value', () => {
+    const values = new Map<string, string>([['--tng-color-white', '#ffffff']]);
+    const written: string[] = [];
+    const target = {
+      style: {
+        getPropertyValue: (name: string): string => values.get(name) ?? '',
+        removeProperty: (name: string): string => {
+          values.delete(name);
+          return '';
+        },
+        setProperty: (name: string, value: string | null): void => {
+          written.push(name);
+          values.set(name, value ?? '');
+        },
+      },
+    };
+
+    const cleanup = injectThemeVars(target, defaultThemePreset);
+
+    expect(written).not.toContain('--tng-color-white');
+    expect(written).toContain('--tng-color-black');
+
+    cleanup();
+
+    expect(values.get('--tng-color-white')).toBe('#ffffff');
+    expect(values.has('--tng-color-black')).toBe(false);
+  });
+});
