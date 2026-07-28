@@ -27,6 +27,14 @@ function resolveScaleValues(
   return resolved;
 }
 
+function toScaleKey(suffix: string): string {
+  if (suffix.length === 0) {
+    return 'DEFAULT';
+  }
+
+  return suffix[0].toLowerCase() + suffix.slice(1);
+}
+
 function pickScaleValues(
   scale: TokenScale,
   prefix: string,
@@ -35,9 +43,7 @@ function pickScaleValues(
 
   for (const [token, value] of Object.entries(scale)) {
     if (token.startsWith(prefix)) {
-      const suffix = token.slice(prefix.length);
-      const normalizedKey = suffix[0].toLowerCase() + suffix.slice(1);
-      picked[normalizedKey] = value;
+      picked[toScaleKey(token.slice(prefix.length))] = value;
     }
   }
 
