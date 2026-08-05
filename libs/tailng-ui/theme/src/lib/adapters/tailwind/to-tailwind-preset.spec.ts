@@ -14,3 +14,12 @@ describe('toTailwindPreset scale keys', () => {
     expect(fontSize['sm']).toBe('0.875rem');
   });
 });
+
+describe('toTailwindPreset font families', () => {
+  it('maps font tokens to fontFamily', () => {
+    const { fontFamily } = toTailwindPreset(defaultThemePreset).theme.extend;
+
+    expect(fontFamily['sans']).toContain('Inter');
+    expect(fontFamily['mono']).toContain('monospace');
+  });
+});

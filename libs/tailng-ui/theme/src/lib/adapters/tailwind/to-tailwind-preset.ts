@@ -8,6 +8,7 @@ export type TailwindThemePreset = {
       colors: Record<string, string>;
       spacing: Record<string, string>;
       borderRadius: Record<string, string>;
+      fontFamily: Record<string, string>;
       fontSize: Record<string, string>;
       transitionDuration: Record<string, string>;
     };
@@ -67,6 +68,7 @@ export function toTailwindPreset(theme: ThemeDefinition): TailwindThemePreset {
         },
         spacing: resolvedSpacing,
         borderRadius: resolvedRadius,
+        fontFamily: pickScaleValues(resolvedTypography, 'font'),
         fontSize: pickScaleValues(resolvedTypography, 'text'),
         transitionDuration: pickScaleValues(resolvedMotion, 'duration'),
       },
