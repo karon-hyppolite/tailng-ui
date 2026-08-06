@@ -23,3 +23,11 @@ describe('toTailwindPreset font families', () => {
     expect(fontFamily['mono']).toContain('monospace');
   });
 });
+
+describe('toTailwindPreset easing', () => {
+  it('maps easing tokens to transitionTimingFunction', () => {
+    const { transitionTimingFunction } = toTailwindPreset(defaultThemePreset).theme.extend;
+
+    expect(transitionTimingFunction['standard']).toBe('cubic-bezier(0.2, 0, 0, 1)');
+  });
+});

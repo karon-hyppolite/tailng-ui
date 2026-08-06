@@ -11,6 +11,7 @@ export type TailwindThemePreset = {
       fontFamily: Record<string, string>;
       fontSize: Record<string, string>;
       transitionDuration: Record<string, string>;
+      transitionTimingFunction: Record<string, string>;
     };
   };
 };
@@ -71,6 +72,7 @@ export function toTailwindPreset(theme: ThemeDefinition): TailwindThemePreset {
         fontFamily: pickScaleValues(resolvedTypography, 'font'),
         fontSize: pickScaleValues(resolvedTypography, 'text'),
         transitionDuration: pickScaleValues(resolvedMotion, 'duration'),
+        transitionTimingFunction: pickScaleValues(resolvedMotion, 'easing'),
       },
     },
   };
