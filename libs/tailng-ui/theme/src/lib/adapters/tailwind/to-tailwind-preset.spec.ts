@@ -31,3 +31,13 @@ describe('toTailwindPreset easing', () => {
     expect(transitionTimingFunction['standard']).toBe('cubic-bezier(0.2, 0, 0, 1)');
   });
 });
+
+describe('toTailwindPreset semantic colors', () => {
+  it('adds resolved semantic color utilities', () => {
+    const { backgroundColor, ringColor, textColor } = toTailwindPreset(defaultThemePreset).theme.extend;
+
+    expect(backgroundColor['canvas']).toBe('#ffffff');
+    expect(ringColor['ring']).toBe('#2563eb');
+    expect(textColor['inverse']).toBe('#ffffff');
+  });
+});

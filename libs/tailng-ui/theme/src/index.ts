@@ -37,7 +37,10 @@ export type { CssVarAdapterOptions } from './lib/adapters/css-vars/to-css-vars';
 export { toCssVars } from './lib/adapters/css-vars/to-css-vars';
 export { injectThemeVars } from './lib/adapters/css-vars/inject-theme-vars';
 
-export type { TailwindThemePreset } from './lib/adapters/tailwind/to-tailwind-preset';
+export type {
+  SemanticColorUtilities,
+  TailwindThemePreset,
+} from './lib/adapters/tailwind/to-tailwind-preset';
 export { toTailwindPreset } from './lib/adapters/tailwind/to-tailwind-preset';
 
 export type { ButtonSlot, ButtonState } from './lib/component-contracts/button.contract';

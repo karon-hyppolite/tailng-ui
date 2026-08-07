@@ -2,9 +2,16 @@ import type { ThemeDefinition } from '../../contracts/theme.types';
 import type { TokenScale } from '../../contracts/token.types';
 import { resolveTokenValue } from '../../engine/resolve-token-value';
 
+export type SemanticColorUtilities = {
+  backgroundColor: Record<string, string>;
+  borderColor: Record<string, string>;
+  ringColor: Record<string, string>;
+  textColor: Record<string, string>;
+};
+
 export type TailwindThemePreset = {
   theme: {
-    extend: {
+    extend: SemanticColorUtilities & {
       colors: Record<string, string>;
       spacing: Record<string, string>;
       borderRadius: Record<string, string>;
@@ -52,6 +59,15 @@ function pickScaleValues(
   return picked;
 }
 
+function toSemanticColorUtilities(theme: ThemeDefinition): SemanticColorUtilities {
+  return {
+    backgroundColor: resolveScaleValues(theme, theme.tokens.semantic.background),
+    borderColor: resolveScaleValues(theme, theme.tokens.semantic.border),
+    ringColor: resolveScaleValues(theme, theme.tokens.semantic.focus),
+    textColor: resolveScaleValues(theme, theme.tokens.semantic.foreground),
+  };
+}
+
 export function toTailwindPreset(theme: ThemeDefinition): TailwindThemePreset {
   const resolvedPrimitiveColors = resolveScaleValues(theme, theme.tokens.primitives.color);
   const resolvedAccentColors = resolveScaleValues(theme, theme.tokens.semantic.accent);
@@ -63,6 +79,7 @@ export function toTailwindPreset(theme: ThemeDefinition): TailwindThemePreset {
   return {
     theme: {
       extend: {
+        ...toSemanticColorUtilities(theme),
         colors: {
           ...resolvedPrimitiveColors,
           ...resolvedAccentColors,
