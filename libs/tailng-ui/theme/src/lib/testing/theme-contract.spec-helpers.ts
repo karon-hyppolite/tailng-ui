@@ -1,5 +1,25 @@
 import type { ThemeDefinition } from '../contracts/theme.types';
-import type { TokenScale } from '../contracts/token.types';
+import type {
+  ThemePrimitives,
+  ThemeSemanticTokens,
+  TokenScale,
+} from '../contracts/token.types';
+
+const requiredPrimitiveScales: readonly (keyof ThemePrimitives)[] = [
+  'color',
+  'spacing',
+  'radius',
+  'typography',
+  'motion',
+];
+
+const requiredSemanticScales: readonly (keyof ThemeSemanticTokens)[] = [
+  'background',
+  'foreground',
+  'border',
+  'accent',
+  'focus',
+];
 
 function hasEntries(scale: TokenScale): boolean {
   return Object.keys(scale).length > 0;
@@ -8,29 +28,14 @@ function hasEntries(scale: TokenScale): boolean {
 export function listMissingRequiredThemeScales(
   theme: ThemeDefinition,
 ): string[] {
-  const missing: string[] = [];
+  const missingPrimitives = requiredPrimitiveScales
+    .filter((scale) => !hasEntries(theme.tokens.primitives[scale]))
+    .map((scale) => `primitives.${scale}`);
+  const missingSemantic = requiredSemanticScales
+    .filter((scale) => !hasEntries(theme.tokens.semantic[scale]))
+    .map((scale) => `semantic.${scale}`);
 
-  if (!hasEntries(theme.tokens.primitives.color)) {
-    missing.push('primitives.color');
-  }
-
-  if (!hasEntries(theme.tokens.primitives.spacing)) {
-    missing.push('primitives.spacing');
-  }
-
-  if (!hasEntries(theme.tokens.primitives.radius)) {
-    missing.push('primitives.radius');
-  }
-
-  if (!hasEntries(theme.tokens.semantic.background)) {
-    missing.push('semantic.background');
-  }
-
-  if (!hasEntries(theme.tokens.semantic.foreground)) {
-    missing.push('semantic.foreground');
-  }
-
-  return missing;
+  return [...missingPrimitives, ...missingSemantic];
 }
 
 export function isThemeContractValid(theme: ThemeDefinition): boolean {

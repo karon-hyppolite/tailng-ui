@@ -6,6 +6,19 @@ import {
 import type { ThemeDefinition } from '../contracts/theme.types';
 import { defaultThemePreset } from '../presets/default.preset';
 
+const allRequiredScales = [
+  'primitives.color',
+  'primitives.spacing',
+  'primitives.radius',
+  'primitives.typography',
+  'primitives.motion',
+  'semantic.background',
+  'semantic.foreground',
+  'semantic.border',
+  'semantic.accent',
+  'semantic.focus',
+];
+
 describe('theme contract helpers', () => {
   it('marks default preset as valid', () => {
     expect(isThemeContractValid(defaultThemePreset)).toBe(true);
@@ -37,12 +50,6 @@ describe('theme contract helpers', () => {
     };
 
     expect(isThemeContractValid(invalidTheme)).toBe(false);
-    expect(listMissingRequiredThemeScales(invalidTheme)).toEqual([
-      'primitives.color',
-      'primitives.spacing',
-      'primitives.radius',
-      'semantic.background',
-      'semantic.foreground',
-    ]);
+    expect(listMissingRequiredThemeScales(invalidTheme)).toEqual(allRequiredScales);
   });
 });
