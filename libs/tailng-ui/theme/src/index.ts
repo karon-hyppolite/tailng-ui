@@ -53,3 +53,4 @@ export {
   isThemeContractValid,
   listMissingRequiredThemeScales,
 } from './lib/testing/theme-contract.spec-helpers';
+export { flattenTokens } from './lib/engine/flatten-tokens';
