@@ -54,3 +54,4 @@ export {
   listMissingRequiredThemeScales,
 } from './lib/testing/theme-contract.spec-helpers';
 export { flattenTokens } from './lib/engine/flatten-tokens';
+export { resolveTheme } from './lib/engine/resolve-theme';
