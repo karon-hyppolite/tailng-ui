@@ -69,3 +69,13 @@ describe('listUnresolvedTokenReferences', () => {
     expect(listUnresolvedTokenReferences(brokenTheme)).toEqual(['semantic.accent.brand']);
   });
 });
+
+describe('isThemeContractValid references', () => {
+  it('rejects themes with unresolved token references', () => {
+    const brokenTheme = createTheme(defaultThemePreset, {
+      tokens: { semantic: { focus: { ring: '{color.missing}' } } },
+    });
+
+    expect(isThemeContractValid(brokenTheme)).toBe(false);
+  });
+});

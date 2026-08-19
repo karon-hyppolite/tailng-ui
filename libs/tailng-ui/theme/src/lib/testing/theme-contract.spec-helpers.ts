@@ -49,5 +49,8 @@ export function listUnresolvedTokenReferences(theme: ThemeDefinition): string[] 
 }
 
 export function isThemeContractValid(theme: ThemeDefinition): boolean {
-  return listMissingRequiredThemeScales(theme).length === 0;
+  return (
+    listMissingRequiredThemeScales(theme).length === 0 &&
+    listUnresolvedTokenReferences(theme).length === 0
+  );
 }
