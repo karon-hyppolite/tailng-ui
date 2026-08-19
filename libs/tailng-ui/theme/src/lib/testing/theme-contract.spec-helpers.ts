@@ -4,6 +4,8 @@ import type {
   ThemeSemanticTokens,
   TokenScale,
 } from '../contracts/token.types';
+import { flattenTokens } from '../engine/flatten-tokens';
+import { resolveTokenValue } from '../engine/resolve-token-value';
 
 const requiredPrimitiveScales: readonly (keyof ThemePrimitives)[] = [
   'color',
@@ -36,6 +38,14 @@ export function listMissingRequiredThemeScales(
     .map((scale) => `semantic.${scale}`);
 
   return [...missingPrimitives, ...missingSemantic];
+}
+
+const unresolvedReferencePattern = /\{[^{}]+\}/;
+
+export function listUnresolvedTokenReferences(theme: ThemeDefinition): string[] {
+  return Object.entries(flattenTokens(theme))
+    .filter(([, value]) => unresolvedReferencePattern.test(resolveTokenValue(theme, value)))
+    .map(([tokenPath]) => tokenPath);
 }
 
 export function isThemeContractValid(theme: ThemeDefinition): boolean {
