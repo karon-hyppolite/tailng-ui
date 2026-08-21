@@ -30,3 +30,16 @@ export function parseHexColor(value: string): RgbColor | null {
     b: parseInt(hex.slice(4, 6), 16),
   };
 }
+
+function toLinearChannel(channel: number): number {
+  const srgb = channel / 255;
+  return srgb <= 0.03928 ? srgb / 12.92 : Math.pow((srgb + 0.055) / 1.055, 2.4);
+}
+
+export function getRelativeLuminance(color: RgbColor): number {
+  return (
+    0.2126 * toLinearChannel(color.r) +
+    0.7152 * toLinearChannel(color.g) +
+    0.0722 * toLinearChannel(color.b)
+  );
+}
