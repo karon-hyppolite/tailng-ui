@@ -43,3 +43,18 @@ export function getRelativeLuminance(color: RgbColor): number {
     0.0722 * toLinearChannel(color.b)
   );
 }
+
+export function getContrastRatio(foreground: string, background: string): number | null {
+  const foregroundColor = parseHexColor(foreground);
+  const backgroundColor = parseHexColor(background);
+  if (!foregroundColor || !backgroundColor) {
+    return null;
+  }
+
+  const foregroundLuminance = getRelativeLuminance(foregroundColor);
+  const backgroundLuminance = getRelativeLuminance(backgroundColor);
+  const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+  const darker = Math.min(foregroundLuminance, backgroundLuminance);
+
+  return (lighter + 0.05) / (darker + 0.05);
+}

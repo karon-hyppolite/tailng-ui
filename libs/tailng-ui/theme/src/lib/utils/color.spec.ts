@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getRelativeLuminance, parseHexColor } from './color';
+import { getContrastRatio, getRelativeLuminance, parseHexColor } from './color';
 
 describe('parseHexColor', () => {
   it('parses short and long hex colors', () => {
@@ -17,5 +17,15 @@ describe('getRelativeLuminance', () => {
   it('returns 1 for white and 0 for black', () => {
     expect(getRelativeLuminance({ r: 255, g: 255, b: 255 })).toBeCloseTo(1);
     expect(getRelativeLuminance({ r: 0, g: 0, b: 0 })).toBeCloseTo(0);
+  });
+});
+
+describe('getContrastRatio', () => {
+  it('returns 21 for black on white', () => {
+    expect(getContrastRatio('#000000', '#ffffff')).toBeCloseTo(21);
+  });
+
+  it('returns null when a color cannot be parsed', () => {
+    expect(getContrastRatio('nope', '#ffffff')).toBeNull();
   });
 });
