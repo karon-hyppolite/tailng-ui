@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { getContrastRatio, getRelativeLuminance, parseHexColor } from './color';
+import {
+  getContrastRatio,
+  getRelativeLuminance,
+  meetsContrastAA,
+  parseHexColor,
+} from './color';
 
 describe('parseHexColor', () => {
   it('parses short and long hex colors', () => {
@@ -27,5 +32,17 @@ describe('getContrastRatio', () => {
 
   it('returns null when a color cannot be parsed', () => {
     expect(getContrastRatio('nope', '#ffffff')).toBeNull();
+  });
+});
+
+describe('meetsContrastAA', () => {
+  it('uses 4.5:1 for normal text', () => {
+    expect(meetsContrastAA('#767676', '#ffffff')).toBe(true);
+    expect(meetsContrastAA('#777777', '#ffffff')).toBe(false);
+  });
+
+  it('uses 3:1 for large text', () => {
+    expect(meetsContrastAA('#949494', '#ffffff', 'large')).toBe(true);
+    expect(meetsContrastAA('#949494', '#ffffff')).toBe(false);
   });
 });

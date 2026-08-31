@@ -58,3 +58,18 @@ export function getContrastRatio(foreground: string, background: string): number
 
   return (lighter + 0.05) / (darker + 0.05);
 }
+
+export type TextSize = 'large' | 'normal';
+
+export function meetsContrastAA(
+  foreground: string,
+  background: string,
+  textSize: TextSize = 'normal',
+): boolean {
+  const ratio = getContrastRatio(foreground, background);
+  if (ratio === null) {
+    return false;
+  }
+
+  return ratio >= (textSize === 'large' ? 3 : 4.5);
+}
