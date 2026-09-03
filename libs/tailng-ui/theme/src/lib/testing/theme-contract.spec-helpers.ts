@@ -6,6 +6,7 @@ import type {
 } from '../contracts/token.types';
 import { flattenTokens } from '../engine/flatten-tokens';
 import { resolveTokenValue } from '../engine/resolve-token-value';
+import { meetsContrastAA } from '../utils/color';
 
 const requiredPrimitiveScales: readonly (keyof ThemePrimitives)[] = [
   'color',
@@ -46,6 +47,24 @@ export function listUnresolvedTokenReferences(theme: ThemeDefinition): string[] 
   return Object.entries(flattenTokens(theme))
     .filter(([, value]) => unresolvedReferencePattern.test(resolveTokenValue(theme, value)))
     .map(([tokenPath]) => tokenPath);
+}
+
+const contrastPairs: readonly (readonly [string, string])[] = [
+  ['semantic.foreground.primary', 'semantic.background.canvas'],
+  ['semantic.foreground.primary', 'semantic.background.surface'],
+  ['semantic.foreground.inverse', 'semantic.accent.brand'],
+];
+
+export function listLowContrastPairs(theme: ThemeDefinition): string[] {
+  return contrastPairs
+    .filter(
+      ([foreground, background]) =>
+        !meetsContrastAA(
+          resolveTokenValue(theme, `{${foreground}}`),
+          resolveTokenValue(theme, `{${background}}`),
+        ),
+    )
+    .map(([foreground, background]) => `${foreground} on ${background}`);
 }
 
 export function isThemeContractValid(theme: ThemeDefinition): boolean {

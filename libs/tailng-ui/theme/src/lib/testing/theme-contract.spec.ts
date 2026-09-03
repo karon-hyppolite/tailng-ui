@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   isThemeContractValid,
+  listLowContrastPairs,
   listMissingRequiredThemeScales,
   listUnresolvedTokenReferences,
 } from './theme-contract.spec-helpers';
@@ -77,5 +78,21 @@ describe('isThemeContractValid references', () => {
     });
 
     expect(isThemeContractValid(brokenTheme)).toBe(false);
+  });
+});
+
+describe('listLowContrastPairs', () => {
+  it('passes for the built-in presets', () => {
+    expect(listLowContrastPairs(defaultThemePreset)).toEqual([]);
+  });
+
+  it('reports pairs below WCAG AA', () => {
+    const lowContrastTheme = createTheme(defaultThemePreset, {
+      tokens: { semantic: { foreground: { primary: '#eeeeee' } } },
+    });
+
+    expect(listLowContrastPairs(lowContrastTheme)).toContain(
+      'semantic.foreground.primary on semantic.background.canvas',
+    );
   });
 });
