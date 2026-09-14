@@ -65,3 +65,4 @@ export {
   meetsContrastAA,
   parseHexColor,
 } from './lib/utils/color';
+export { withThemeMode } from './lib/engine/with-theme-mode';
