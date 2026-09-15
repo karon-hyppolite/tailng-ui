@@ -66,3 +66,4 @@ export {
   parseHexColor,
 } from './lib/utils/color';
 export { withThemeMode } from './lib/engine/with-theme-mode';
+export { resolveComponentCssVars } from './lib/engine/resolve-component-css-vars';
