@@ -67,3 +67,4 @@ export {
 } from './lib/utils/color';
 export { withThemeMode } from './lib/engine/with-theme-mode';
 export { resolveComponentCssVars } from './lib/engine/resolve-component-css-vars';
+export { buildStateSelector } from './lib/engine/build-state-selector';
