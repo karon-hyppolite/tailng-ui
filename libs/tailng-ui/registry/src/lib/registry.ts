@@ -3,8 +3,13 @@ import type { RegistryItem } from './registry.types';
 
 export const tailngRegistry: readonly RegistryItem[] = [buttonRegistryItem];
 
+function normalizeItemName(name: string): string {
+  return name.trim().toLowerCase();
+}
+
 export function getRegistryItem(name: string): RegistryItem | undefined {
-  return tailngRegistry.find((item) => item.name === name);
+  const normalizedName = normalizeItemName(name);
+  return tailngRegistry.find((item) => item.name === normalizedName);
 }
 
 export function listRegistryItemNames(): readonly string[] {

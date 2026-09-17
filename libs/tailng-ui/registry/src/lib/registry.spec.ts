@@ -13,3 +13,9 @@ describe('registry helpers', () => {
     expect(getRegistryItem('unknown')).toBeUndefined();
   });
 });
+
+describe('registry name normalization', () => {
+  it('ignores case and surrounding whitespace', () => {
+    expect(getRegistryItem(' Button ')).toBe(buttonRegistryItem);
+  });
+});
