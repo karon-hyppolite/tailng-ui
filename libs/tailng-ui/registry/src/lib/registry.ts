@@ -15,3 +15,7 @@ export function getRegistryItem(name: string): RegistryItem | undefined {
 export function listRegistryItemNames(): readonly string[] {
   return tailngRegistry.map((item) => item.name);
 }
+
+export function hasRegistryItem(name: string): boolean {
+  return getRegistryItem(name) !== undefined;
+}

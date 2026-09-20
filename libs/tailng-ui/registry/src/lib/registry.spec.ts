@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { buttonRegistryItem } from './button/button.registry';
-import { getRegistryItem, listRegistryItemNames, tailngRegistry } from './registry';
+import {
+  getRegistryItem,
+  hasRegistryItem,
+  listRegistryItemNames,
+  tailngRegistry,
+} from './registry';
 
 describe('registry helpers', () => {
   it('returns all registered component names', () => {
@@ -17,5 +22,12 @@ describe('registry helpers', () => {
 describe('registry name normalization', () => {
   it('ignores case and surrounding whitespace', () => {
     expect(getRegistryItem(' Button ')).toBe(buttonRegistryItem);
+  });
+});
+
+describe('hasRegistryItem', () => {
+  it('reports whether an item exists', () => {
+    expect(hasRegistryItem('button')).toBe(true);
+    expect(hasRegistryItem('missing')).toBe(false);
   });
 });
