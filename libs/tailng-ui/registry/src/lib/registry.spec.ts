@@ -31,3 +31,11 @@ describe('hasRegistryItem', () => {
     expect(hasRegistryItem('missing')).toBe(false);
   });
 });
+
+describe('listRegistryItemNames ordering', () => {
+  it('returns names sorted alphabetically', () => {
+    const names = listRegistryItemNames();
+
+    expect(names).toEqual([...names].sort((left, right) => left.localeCompare(right)));
+  });
+});

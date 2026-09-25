@@ -13,7 +13,9 @@ export function getRegistryItem(name: string): RegistryItem | undefined {
 }
 
 export function listRegistryItemNames(): readonly string[] {
-  return tailngRegistry.map((item) => item.name);
+  return tailngRegistry
+    .map((item) => item.name)
+    .sort((left, right) => left.localeCompare(right));
 }
 
 export function hasRegistryItem(name: string): boolean {
