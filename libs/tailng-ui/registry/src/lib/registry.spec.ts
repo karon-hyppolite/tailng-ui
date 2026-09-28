@@ -4,6 +4,7 @@ import {
   getRegistryItem,
   hasRegistryItem,
   listRegistryItemNames,
+  resolveRegistryItems,
   tailngRegistry,
 } from './registry';
 
@@ -37,5 +38,14 @@ describe('listRegistryItemNames ordering', () => {
     const names = listRegistryItemNames();
 
     expect(names).toEqual([...names].sort((left, right) => left.localeCompare(right)));
+  });
+});
+
+describe('resolveRegistryItems', () => {
+  it('deduplicates items and collects unknown names', () => {
+    const resolved = resolveRegistryItems(['button', 'Button', 'nope']);
+
+    expect(resolved.items).toEqual([buttonRegistryItem]);
+    expect(resolved.unknownNames).toEqual(['nope']);
   });
 });
