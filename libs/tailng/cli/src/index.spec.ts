@@ -115,3 +115,13 @@ it('tailng cli integration: overwrites files when --force is provided', async ()
   expect(overwrittenContent).toContain('export class TngButton');
   expect(overwrittenContent).not.toContain('// stale content');
 });
+
+it('tailng cli: short flags map to long options', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(await runCli(['-h'], { registry: registryModule })).toBe(0);
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '-n'], { registry: registryModule }),
+  ).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});

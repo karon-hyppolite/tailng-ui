@@ -41,14 +41,21 @@ const usageText = [
   'Shadcn-style source copy for TailNG components.',
   '',
   'Usage:',
+  '  tailng --help | -h',
   '  tailng list',
-  '  tailng add <component-name> [--cwd <path>] [--dry-run] [--force]',
+  '  tailng add <component-name> [--cwd <path>] [--dry-run|-n] [--force|-f]',
   '',
   'Examples:',
   '  tailng list',
   '  tailng add button',
   '  tailng add button --cwd apps/tailng-ui/playground-vanilla --dry-run',
 ].join('\n');
+
+const shortOptionAliases: ReadonlyMap<string, string> = new Map([
+  ['-f', 'force'],
+  ['-h', 'help'],
+  ['-n', 'dry-run'],
+]);
 
 function isOptionExpectingValue(name: string): boolean {
   return name === 'cwd';
@@ -63,6 +70,12 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
     if (pendingOption) {
       options[pendingOption] = token;
       pendingOption = null;
+      continue;
+    }
+
+    const alias = shortOptionAliases.get(token);
+    if (alias !== undefined) {
+      options[alias] = true;
       continue;
     }
 
