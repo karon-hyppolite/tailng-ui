@@ -127,8 +127,16 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
     return { kind: 'help', message: `Unknown command "${command}".` };
   }
 
+  return parseAddCommand(parsed, componentName);
+}
+
+function parseAddCommand(parsed: ParsedArgs, componentName: string | undefined): ParsedCommand {
   if (componentName === undefined) {
     return { kind: 'help', message: 'Missing component name for "add".' };
+  }
+
+  if (parsed.options['cwd'] === true) {
+    return { kind: 'help', message: 'Missing value for "--cwd".' };
   }
 
   return {
