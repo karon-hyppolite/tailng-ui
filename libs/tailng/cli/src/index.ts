@@ -4,7 +4,7 @@ import { access, mkdir, stat, writeFile } from 'node:fs/promises';
 import * as path from 'node:path';
 
 type AddCommand = Readonly<{
-  componentName: string;
+  componentNames: readonly string[];
   cwd: string;
   dryRun: boolean;
   force: boolean;
@@ -43,7 +43,7 @@ const usageText = [
   'Usage:',
   '  tailng --help | -h',
   '  tailng list',
-  '  tailng add <component-name> [--cwd <path>] [--dry-run|-n] [--force|-f]',
+  '  tailng add <component-name...> [--cwd <path>] [--dry-run|-n] [--force|-f]',
   '',
   'Examples:',
   '  tailng list',
@@ -114,7 +114,7 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
     return { kind: 'help', message: null };
   }
 
-  const [command, componentName] = parsed.positionals;
+  const [command, ...componentNames] = parsed.positionals;
   if (command === undefined || command === 'help') {
     return { kind: 'help', message: null };
   }
@@ -127,11 +127,14 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
     return { kind: 'help', message: `Unknown command "${command}".` };
   }
 
-  return parseAddCommand(parsed, componentName);
+  return parseAddCommand(parsed, componentNames);
 }
 
-function parseAddCommand(parsed: ParsedArgs, componentName: string | undefined): ParsedCommand {
-  if (componentName === undefined) {
+function parseAddCommand(
+  parsed: ParsedArgs,
+  componentNames: readonly string[],
+): ParsedCommand {
+  if (componentNames.length === 0) {
     return { kind: 'help', message: 'Missing component name for "add".' };
   }
 
@@ -142,7 +145,7 @@ function parseAddCommand(parsed: ParsedArgs, componentName: string | undefined):
   return {
     kind: 'add',
     value: {
-      componentName,
+      componentNames,
       cwd: readStringOption(parsed.options, 'cwd') ?? process.cwd(),
       dryRun: readBooleanOption(parsed.options, 'dry-run'),
       force: readBooleanOption(parsed.options, 'force'),
@@ -424,14 +427,59 @@ async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
   }
 }
 
+function resolveItems(
+  names: readonly string[],
+  registry: RegistryModule,
+): readonly RegistryItem[] | null {
+  const items: RegistryItem[] = [];
+
+  for (const name of names) {
+    const item = registry.getRegistryItem(name);
+    if (!item) {
+      writeError(`Unknown component "${name}".`);
+      writeError(`Available components: ${formatComponentNames(registry)}`);
+      return null;
+    }
+
+    if (!items.includes(item)) {
+      items.push(item);
+    }
+  }
+
+  return items;
+}
+
+function resolveAllWriteTargets(
+  items: readonly RegistryItem[],
+  targetRoot: string,
+): readonly WriteTarget[] | null {
+  const targets: WriteTarget[] = [];
+
+  for (const item of items) {
+    const itemTargets = resolveWriteTargets(item, targetRoot);
+    if (!itemTargets) {
+      return null;
+    }
+
+    targets.push(...itemTargets);
+  }
+
+  return targets;
+}
+
+function printItemHints(items: readonly RegistryItem[]): void {
+  for (const item of items) {
+    printDependencyHint(item);
+    printImportHint(item);
+  }
+}
+
 async function runAddCommand(
   command: AddCommand,
   registry: RegistryModule,
 ): Promise<number> {
-  const item = registry.getRegistryItem(command.componentName);
-  if (!item) {
-    writeError(`Unknown component "${command.componentName}".`);
-    writeError(`Available components: ${formatComponentNames(registry)}`);
+  const items = resolveItems(command.componentNames, registry);
+  if (!items) {
     return 1;
   }
 
@@ -440,7 +488,7 @@ async function runAddCommand(
     return 1;
   }
 
-  const targets = resolveWriteTargets(item, targetRoot);
+  const targets = resolveAllWriteTargets(items, targetRoot);
   if (!targets) {
     return 1;
   }
@@ -449,8 +497,7 @@ async function runAddCommand(
 
   if (command.dryRun) {
     runDryRunPreview(targets, existingTargets, command.force);
-    printDependencyHint(item);
-    printImportHint(item);
+    printItemHints(items);
     return 0;
   }
 
@@ -460,8 +507,7 @@ async function runAddCommand(
   }
 
   await writeTargets(targets);
-  printDependencyHint(item);
-  printImportHint(item);
+  printItemHints(items);
   return 0;
 }
 

@@ -129,3 +129,20 @@ it('tailng cli: short flags map to long options', async (): Promise<void> => {
 it('tailng cli: fails when --cwd has no value', async (): Promise<void> => {
   expect(await runCli(['add', 'button', '--cwd'], { registry: registryModule })).toBe(1);
 });
+
+it('tailng cli: add accepts several names and validates all of them first', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const indexPath = path.join(targetRoot, 'src/app/tailng-ui/button/index.ts');
+
+  expect(
+    await runCli(['add', 'button', 'not-a-component', '--cwd', targetRoot], {
+      registry: registryModule,
+    }),
+  ).toBe(1);
+  expect(await pathExists(indexPath)).toBe(false);
+
+  expect(
+    await runCli(['add', 'button', 'button', '--cwd', targetRoot], { registry: registryModule }),
+  ).toBe(0);
+  expect(await pathExists(indexPath)).toBe(true);
+});
