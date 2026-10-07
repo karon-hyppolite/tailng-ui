@@ -146,3 +146,12 @@ it('tailng cli: add accepts several names and validates all of them first', asyn
   ).toBe(0);
   expect(await pathExists(indexPath)).toBe(true);
 });
+
+it('tailng cli: rejects unknown options', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--forse'], { registry: registryModule }),
+  ).toBe(1);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});

@@ -61,6 +61,12 @@ function isOptionExpectingValue(name: string): boolean {
   return name === 'cwd';
 }
 
+const knownOptions: ReadonlySet<string> = new Set(['cwd', 'dry-run', 'force', 'help']);
+
+function findUnknownOption(options: Readonly<Record<string, string | true>>): string | undefined {
+  return Object.keys(options).find((name) => !knownOptions.has(name));
+}
+
 function parseArgs(argv: readonly string[]): ParsedArgs {
   const options: Record<string, string | true> = {};
   const positionals: string[] = [];
@@ -112,6 +118,11 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
   const parsed = parseArgs(argv);
   if (readBooleanOption(parsed.options, 'help')) {
     return { kind: 'help', message: null };
+  }
+
+  const unknownOption = findUnknownOption(parsed.options);
+  if (unknownOption !== undefined) {
+    return { kind: 'help', message: `Unknown option "--${unknownOption}".` };
   }
 
   const [command, ...componentNames] = parsed.positionals;
