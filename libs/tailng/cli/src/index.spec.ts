@@ -2,7 +2,7 @@ import { getRegistryItem, listRegistryItemNames } from '@tailng-ui/registry';
 import { access, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import * as path from 'node:path';
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { runCli } from './index';
 
 type CliRegistryModule = Readonly<{
@@ -154,4 +154,38 @@ it('tailng cli: rejects unknown options', async (): Promise<void> => {
     await runCli(['add', 'button', '--cwd', targetRoot, '--forse'], { registry: registryModule }),
   ).toBe(1);
   expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});
+
+type CapturedRun = Readonly<{
+  exitCode: number;
+  stderr: string;
+  stdout: string;
+}>;
+
+async function captureOutput(run: () => Promise<number>): Promise<CapturedRun> {
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+  const stdoutSpy = vi
+    .spyOn(process.stdout, 'write')
+    .mockImplementation(((chunk: unknown): boolean =>
+      stdout.push(String(chunk)) > 0) as typeof process.stdout.write);
+  const stderrSpy = vi
+    .spyOn(process.stderr, 'write')
+    .mockImplementation(((chunk: unknown): boolean =>
+      stderr.push(String(chunk)) > 0) as typeof process.stderr.write);
+
+  try {
+    const exitCode = await run();
+    return { exitCode, stderr: stderr.join(''), stdout: stdout.join('') };
+  } finally {
+    stdoutSpy.mockRestore();
+    stderrSpy.mockRestore();
+  }
+}
+
+it('tailng cli: list --json prints component names as JSON', async (): Promise<void> => {
+  const result = await captureOutput(() => runCli(['list', '--json'], { registry: registryModule }));
+
+  expect(result.exitCode).toBe(0);
+  expect(JSON.parse(result.stdout)).toContain('button');
 });

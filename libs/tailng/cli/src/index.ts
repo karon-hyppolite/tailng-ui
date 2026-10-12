@@ -18,7 +18,7 @@ type ParsedArgs = Readonly<{
 type ParsedCommand =
   | Readonly<{ kind: 'add'; value: AddCommand }>
   | Readonly<{ kind: 'help'; message: string | null }>
-  | Readonly<{ kind: 'list' }>;
+  | Readonly<{ kind: 'list'; json: boolean }>;
 
 type WriteTarget = Readonly<{
   absolutePath: string;
@@ -42,7 +42,7 @@ const usageText = [
   '',
   'Usage:',
   '  tailng --help | -h',
-  '  tailng list',
+  '  tailng list [--json]',
   '  tailng add <component-name...> [--cwd <path>] [--dry-run|-n] [--force|-f]',
   '',
   'Examples:',
@@ -61,7 +61,7 @@ function isOptionExpectingValue(name: string): boolean {
   return name === 'cwd';
 }
 
-const knownOptions: ReadonlySet<string> = new Set(['cwd', 'dry-run', 'force', 'help']);
+const knownOptions: ReadonlySet<string> = new Set(['cwd', 'dry-run', 'force', 'help', 'json']);
 
 function findUnknownOption(options: Readonly<Record<string, string | true>>): string | undefined {
   return Object.keys(options).find((name) => !knownOptions.has(name));
@@ -131,7 +131,7 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
   }
 
   if (command === 'list') {
-    return { kind: 'list' };
+    return { kind: 'list', json: readBooleanOption(parsed.options, 'json') };
   }
 
   if (command !== 'add') {
@@ -522,7 +522,12 @@ async function runAddCommand(
   return 0;
 }
 
-function runListCommand(registry: RegistryModule): number {
+function runListCommand(registry: RegistryModule, json: boolean): number {
+  if (json) {
+    writeInfo(JSON.stringify(registry.listRegistryItemNames()));
+    return 0;
+  }
+
   writeInfo('Available components:');
   for (const name of registry.listRegistryItemNames()) {
     writeInfo(`- ${name}`);
@@ -544,7 +549,7 @@ export async function runCli(
   const registry = dependencies?.registry ?? (await loadRegistryModule());
 
   if (parsedCommand.kind === 'list') {
-    return runListCommand(registry);
+    return runListCommand(registry, parsedCommand.json);
   }
 
   return runAddCommand(parsedCommand.value, registry);
