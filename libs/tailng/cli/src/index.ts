@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import type { RegistryFile, RegistryItem } from '@tailng-ui/registry';
-import { access, mkdir, stat, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import * as path from 'node:path';
 
 type AddCommand = Readonly<{
@@ -485,6 +485,37 @@ function printItemHints(items: readonly RegistryItem[]): void {
   }
 }
 
+async function hasSameContent(target: WriteTarget): Promise<boolean> {
+  try {
+    return (await readFile(target.absolutePath, 'utf8')) === target.content;
+  } catch {
+    return false;
+  }
+}
+
+async function splitUnchangedTargets(
+  targets: readonly WriteTarget[],
+): Promise<Readonly<{ changed: readonly WriteTarget[]; unchanged: readonly WriteTarget[] }>> {
+  const changed: WriteTarget[] = [];
+  const unchanged: WriteTarget[] = [];
+
+  for (const target of targets) {
+    if (await hasSameContent(target)) {
+      unchanged.push(target);
+    } else {
+      changed.push(target);
+    }
+  }
+
+  return { changed, unchanged };
+}
+
+function printUnchangedTargets(targets: readonly WriteTarget[]): void {
+  for (const target of targets) {
+    writeInfo(`UNCHANGED ${target.relativePath}`);
+  }
+}
+
 async function runAddCommand(
   command: AddCommand,
   registry: RegistryModule,
@@ -504,10 +535,12 @@ async function runAddCommand(
     return 1;
   }
 
-  const existingTargets = await detectExistingTargets(targets);
+  const { changed, unchanged } = await splitUnchangedTargets(targets);
+  printUnchangedTargets(unchanged);
+  const existingTargets = await detectExistingTargets(changed);
 
   if (command.dryRun) {
-    runDryRunPreview(targets, existingTargets, command.force);
+    runDryRunPreview(changed, existingTargets, command.force);
     printItemHints(items);
     return 0;
   }
@@ -517,7 +550,7 @@ async function runAddCommand(
     return 1;
   }
 
-  await writeTargets(targets);
+  await writeTargets(changed);
   printItemHints(items);
   return 0;
 }

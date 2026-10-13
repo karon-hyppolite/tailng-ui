@@ -88,6 +88,12 @@ it(
     });
     expect(firstRunExitCode).toBe(0);
 
+    await writeFile(
+      path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'),
+      '// local change\n',
+      'utf8',
+    );
+
     const secondRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
       registry: registryModule,
     });
@@ -188,4 +194,16 @@ it('tailng cli: list --json prints component names as JSON', async (): Promise<v
 
   expect(result.exitCode).toBe(0);
   expect(JSON.parse(result.stdout)).toContain('button');
+});
+
+it('tailng cli: re-running add with identical files succeeds without --force', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  expect(await runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule })).toBe(0);
+
+  const result = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule }),
+  );
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain('UNCHANGED src/app/tailng-ui/button/index.ts');
 });
