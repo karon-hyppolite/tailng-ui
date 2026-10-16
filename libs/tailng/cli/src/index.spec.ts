@@ -207,3 +207,24 @@ it('tailng cli: re-running add with identical files succeeds without --force', a
   expect(result.exitCode).toBe(0);
   expect(result.stdout).toContain('UNCHANGED src/app/tailng-ui/button/index.ts');
 });
+
+it('tailng cli: prints an import hint derived from the component name', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const datePicker = {
+    dependencies: [],
+    description: 'Test item',
+    files: [{ content: 'export {};\n', path: 'src/app/tailng-ui/date-picker/index.ts' }],
+    name: 'date-picker',
+  };
+  const fakeRegistry: CliRegistryModule = {
+    getRegistryItem: (name: string) => (name === 'date-picker' ? datePicker : undefined),
+    listRegistryItemNames: () => ['date-picker'],
+  };
+
+  const result = await captureOutput(() =>
+    runCli(['add', 'date-picker', '--cwd', targetRoot], { registry: fakeRegistry }),
+  );
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain("import { TngDatePicker } from './tailng-ui/date-picker'");
+});

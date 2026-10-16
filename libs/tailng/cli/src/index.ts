@@ -367,19 +367,20 @@ function printDependencyHint(item: RegistryItem): void {
   }
 }
 
-function formatImportHint(item: RegistryItem): string | null {
-  if (item.name !== 'button') {
-    return null;
-  }
+function toPascalCase(name: string): string {
+  return name
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .join('');
+}
 
-  return "Import with: import { TngButton } from './tailng-ui/button';";
+function formatImportHint(item: RegistryItem): string {
+  return `Import with: import { Tng${toPascalCase(item.name)} } from './tailng-ui/${item.name}';`;
 }
 
 function printImportHint(item: RegistryItem): void {
-  const importHint = formatImportHint(item);
-  if (importHint) {
-    writeInfo(importHint);
-  }
+  writeInfo(formatImportHint(item));
 }
 
 function printExistingTargetsError(existingTargets: readonly WriteTarget[]): void {
