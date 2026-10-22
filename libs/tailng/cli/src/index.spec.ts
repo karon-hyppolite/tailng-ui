@@ -228,3 +228,19 @@ it('tailng cli: prints an import hint derived from the component name', async ()
   expect(result.exitCode).toBe(0);
   expect(result.stdout).toContain("import { TngDatePicker } from './tailng-ui/date-picker'");
 });
+
+it('tailng cli: rejects invalid boolean option values', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--dry-run=maybe'], {
+      registry: registryModule,
+    }),
+  ).toBe(1);
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--dry-run=on'], {
+      registry: registryModule,
+    }),
+  ).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});

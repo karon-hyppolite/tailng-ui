@@ -63,6 +63,25 @@ function isOptionExpectingValue(name: string): boolean {
 
 const knownOptions: ReadonlySet<string> = new Set(['cwd', 'dry-run', 'force', 'help', 'json']);
 
+const booleanOptions: readonly string[] = ['dry-run', 'force', 'help', 'json'];
+const truthyOptionValues: ReadonlySet<string> = new Set(['1', 'on', 'true', 'yes']);
+const falsyOptionValues: ReadonlySet<string> = new Set(['0', 'false', 'no', 'off']);
+
+function isValidBooleanValue(value: string | true | undefined): boolean {
+  if (typeof value !== 'string') {
+    return true;
+  }
+
+  const normalized = value.toLowerCase();
+  return truthyOptionValues.has(normalized) || falsyOptionValues.has(normalized);
+}
+
+function findInvalidBooleanOption(
+  options: Readonly<Record<string, string | true>>,
+): string | undefined {
+  return booleanOptions.find((name) => !isValidBooleanValue(options[name]));
+}
+
 function findUnknownOption(options: Readonly<Record<string, string | true>>): string | undefined {
   return Object.keys(options).find((name) => !knownOptions.has(name));
 }
@@ -123,6 +142,11 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
   const unknownOption = findUnknownOption(parsed.options);
   if (unknownOption !== undefined) {
     return { kind: 'help', message: `Unknown option "--${unknownOption}".` };
+  }
+
+  const invalidBooleanOption = findInvalidBooleanOption(parsed.options);
+  if (invalidBooleanOption !== undefined) {
+    return { kind: 'help', message: `Invalid value for "--${invalidBooleanOption}".` };
   }
 
   const [command, ...componentNames] = parsed.positionals;
@@ -189,8 +213,7 @@ function readBooleanOption(
     return true;
   }
 
-  const normalized = value.toLowerCase();
-  return normalized === '1' || normalized === 'true' || normalized === 'yes';
+  return truthyOptionValues.has(value.toLowerCase());
 }
 
 function readStringOption(
