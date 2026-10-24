@@ -244,3 +244,22 @@ it('tailng cli: rejects invalid boolean option values', async (): Promise<void> 
   ).toBe(0);
   expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
 });
+
+it('tailng cli: dry-run prints a summary of planned changes', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const fresh = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot, '--dry-run'], { registry: registryModule }),
+  );
+  expect(fresh.stdout).toContain('Dry run: 5 to create, 0 to overwrite, 0 to skip.');
+
+  expect(await runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule })).toBe(0);
+  await writeFile(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'), '// edit\n', 'utf8');
+
+  const forced = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot, '--dry-run', '--force'], {
+      registry: registryModule,
+    }),
+  );
+  expect(forced.stdout).toContain('Dry run: 0 to create, 1 to overwrite, 0 to skip.');
+});

@@ -441,6 +441,15 @@ function resolveWriteTargets(
   return targets;
 }
 
+function printDryRunCounts(totalCount: number, existingCount: number, force: boolean): void {
+  const createCount = totalCount - existingCount;
+  const overwriteCount = force ? existingCount : 0;
+  const skipCount = force ? 0 : existingCount;
+  writeInfo(
+    `Dry run: ${createCount} to create, ${overwriteCount} to overwrite, ${skipCount} to skip.`,
+  );
+}
+
 function runDryRunPreview(
   targets: readonly WriteTarget[],
   existingTargets: readonly WriteTarget[],
@@ -452,6 +461,7 @@ function runDryRunPreview(
   }
 
   printDryRunSummary(existingTargets.length, force);
+  printDryRunCounts(targets.length, existingTargets.length, force);
 }
 
 async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
