@@ -263,3 +263,18 @@ it('tailng cli: dry-run prints a summary of planned changes', async (): Promise<
   );
   expect(forced.stdout).toContain('Dry run: 0 to create, 1 to overwrite, 0 to skip.');
 });
+
+it('tailng cli: suggests a close component name for typos', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const typo = await captureOutput(() =>
+    runCli(['add', 'buton', '--cwd', targetRoot], { registry: registryModule }),
+  );
+  expect(typo.exitCode).toBe(1);
+  expect(typo.stderr).toContain('Did you mean "button"?');
+
+  const unrelated = await captureOutput(() =>
+    runCli(['add', 'zzzzzz', '--cwd', targetRoot], { registry: registryModule }),
+  );
+  expect(unrelated.stderr).not.toContain('Did you mean');
+});

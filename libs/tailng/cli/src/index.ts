@@ -472,6 +472,52 @@ async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
   }
 }
 
+function getEditDistance(left: string, right: string): number {
+  const distances: number[] = [];
+  for (let column = 0; column <= right.length; column += 1) {
+    distances.push(column);
+  }
+
+  for (let row = 1; row <= left.length; row += 1) {
+    let diagonal = distances[0];
+    distances[0] = row;
+    for (let column = 1; column <= right.length; column += 1) {
+      const above = distances[column];
+      const substitution = diagonal + (left[row - 1] === right[column - 1] ? 0 : 1);
+      distances[column] = Math.min(above + 1, distances[column - 1] + 1, substitution);
+      diagonal = above;
+    }
+  }
+
+  return distances[right.length];
+}
+
+function findClosestName(name: string, candidates: readonly string[]): string | undefined {
+  const normalizedName = name.trim().toLowerCase();
+  let closest: string | undefined;
+  let closestDistance = 3;
+
+  for (const candidate of candidates) {
+    const distance = getEditDistance(normalizedName, candidate);
+    if (distance < closestDistance) {
+      closest = candidate;
+      closestDistance = distance;
+    }
+  }
+
+  return closest;
+}
+
+function printUnknownComponent(name: string, registry: RegistryModule): void {
+  writeError(`Unknown component "${name}".`);
+  const suggestion = findClosestName(name, registry.listRegistryItemNames());
+  if (suggestion) {
+    writeError(`Did you mean "${suggestion}"?`);
+  }
+
+  writeError(`Available components: ${formatComponentNames(registry)}`);
+}
+
 function resolveItems(
   names: readonly string[],
   registry: RegistryModule,
@@ -481,8 +527,7 @@ function resolveItems(
   for (const name of names) {
     const item = registry.getRegistryItem(name);
     if (!item) {
-      writeError(`Unknown component "${name}".`);
-      writeError(`Available components: ${formatComponentNames(registry)}`);
+      printUnknownComponent(name, registry);
       return null;
     }
 
