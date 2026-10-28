@@ -35,11 +35,16 @@ export function coerceTngButtonNullableBoolean(value: NullableBooleanInput): boo
     return null;
   }
 
-  if (value === '' || value === true || value === 'true') {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  const normalized = value.trim().toLowerCase();
+  if (normalized === '' || normalized === 'true') {
     return true;
   }
 
-  if (value === false || value === 'false') {
+  if (normalized === 'false') {
     return false;
   }
 

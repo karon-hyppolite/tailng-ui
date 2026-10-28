@@ -21,3 +21,12 @@ describe('tng-button primitive coercion', () => {
     expect(coerceTngButtonAriaHasPopup('something-else')).toBeNull();
   });
 });
+
+describe('tng-button primitive coercion normalization', () => {
+  it('accepts case-insensitive and padded boolean strings', () => {
+    expect(coerceTngButtonNullableBoolean(' TRUE ')).toBe(true);
+    expect(coerceTngButtonNullableBoolean('False')).toBe(false);
+    expect(coerceTngButtonNullableBoolean(true)).toBe(true);
+    expect(coerceTngButtonNullableBoolean(false)).toBe(false);
+  });
+});
