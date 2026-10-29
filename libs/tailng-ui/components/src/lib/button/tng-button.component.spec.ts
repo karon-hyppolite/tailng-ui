@@ -26,3 +26,10 @@ describe('tng-button component', () => {
     expect(coerceTngButtonAriaHasPopup('noop')).toBeNull();
   });
 });
+
+describe('tng-button component coercion reuse', () => {
+  it('shares normalization rules with the primitive', () => {
+    expect(coerceTngButtonNullableBoolean(' TRUE ')).toBe(true);
+    expect(coerceTngButtonAriaHasPopup('DIALOG')).toBe('dialog');
+  });
+});
