@@ -50,3 +50,30 @@ describe('mergeTheme', () => {
     expect(defaultThemePreset).toStrictEqual(snapshot);
   });
 });
+
+describe('mergeTheme undefined overrides', () => {
+  it('ignores token overrides whose value is undefined', () => {
+    const merged = mergeTheme(defaultThemePreset, {
+      tokens: {
+        primitives: {
+          spacing: { md: undefined } as unknown as Record<string, string>,
+        },
+      },
+    });
+
+    expect(merged.tokens.primitives.spacing['md']).toBe(
+      defaultThemePreset.tokens.primitives.spacing['md'],
+    );
+  });
+});
+
+describe('mergeTheme structural sharing', () => {
+  it('reuses untouched token scales from the base theme', () => {
+    const merged = mergeTheme(defaultThemePreset, {
+      tokens: { semantic: { accent: { brand: '#000000' } } },
+    });
+
+    expect(merged.tokens.primitives.color).toBe(defaultThemePreset.tokens.primitives.color);
+    expect(merged.tokens.semantic.accent).not.toBe(defaultThemePreset.tokens.semantic.accent);
+  });
+});

@@ -6,10 +6,19 @@ import type {
 } from '../contracts/token.types';
 
 function mergeScale(base: TokenScale, override?: TokenScale): TokenScale {
-  return {
-    ...base,
-    ...(override ?? {}),
-  };
+  if (!override) {
+    return base;
+  }
+
+  const merged: Record<string, string> = { ...base };
+
+  for (const [key, value] of Object.entries(override)) {
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  }
+
+  return merged;
 }
 
 function mergePrimitives(

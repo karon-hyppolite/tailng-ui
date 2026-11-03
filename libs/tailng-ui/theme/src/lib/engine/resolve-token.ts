@@ -6,7 +6,16 @@ function normalizeTokenPath(tokenPath: string): string[] {
     .trim()
     .replace(/[{}]/g, '')
     .split('.')
+    .map((segment) => segment.trim())
     .filter(Boolean);
+}
+
+function readOwnToken(scale: TokenScale | undefined, key: string): string | undefined {
+  if (!scale || !Object.prototype.hasOwnProperty.call(scale, key)) {
+    return undefined;
+  }
+
+  return scale[key];
 }
 
 function getPrimitiveCollection(
@@ -54,17 +63,10 @@ function resolveShortPathToken(
   collection: string,
   key: string,
 ): string | undefined {
-  const primitiveCollection = getPrimitiveCollection(theme, collection);
-  if (primitiveCollection && key in primitiveCollection) {
-    return primitiveCollection[key];
-  }
-
-  const semanticCollection = getSemanticCollection(theme, collection);
-  if (semanticCollection && key in semanticCollection) {
-    return semanticCollection[key];
-  }
-
-  return undefined;
+  return (
+    readOwnToken(getPrimitiveCollection(theme, collection), key) ??
+    readOwnToken(getSemanticCollection(theme, collection), key)
+  );
 }
 
 function resolveScopedToken(
@@ -76,11 +78,11 @@ function resolveScopedToken(
   }>,
 ): string | undefined {
   if (request.scope === 'semantic') {
-    return getSemanticCollection(theme, request.collection)?.[request.key];
+    return readOwnToken(getSemanticCollection(theme, request.collection), request.key);
   }
 
   if (request.scope === 'primitives') {
-    return getPrimitiveCollection(theme, request.collection)?.[request.key];
+    return readOwnToken(getPrimitiveCollection(theme, request.collection), request.key);
   }
 
   return undefined;
@@ -89,7 +91,7 @@ function resolveScopedToken(
 export function resolveToken(theme: ThemeDefinition, tokenPath: string): string | undefined {
   const parts = normalizeTokenPath(tokenPath);
 
-  if (parts.length < 2) {
+  if (parts.length < 2 || parts.length > 3) {
     return undefined;
   }
 

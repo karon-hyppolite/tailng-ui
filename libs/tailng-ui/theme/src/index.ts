@@ -37,7 +37,10 @@ export type { CssVarAdapterOptions } from './lib/adapters/css-vars/to-css-vars';
 export { toCssVars } from './lib/adapters/css-vars/to-css-vars';
 export { injectThemeVars } from './lib/adapters/css-vars/inject-theme-vars';
 
-export type { TailwindThemePreset } from './lib/adapters/tailwind/to-tailwind-preset';
+export type {
+  SemanticColorUtilities,
+  TailwindThemePreset,
+} from './lib/adapters/tailwind/to-tailwind-preset';
 export { toTailwindPreset } from './lib/adapters/tailwind/to-tailwind-preset';
 
 export type { ButtonSlot, ButtonState } from './lib/component-contracts/button.contract';
@@ -48,5 +51,20 @@ export { inputStyleContract } from './lib/component-contracts/input.contract';
 
 export {
   isThemeContractValid,
+  listLowContrastPairs,
   listMissingRequiredThemeScales,
+  listUnresolvedTokenReferences,
 } from './lib/testing/theme-contract.spec-helpers';
+export { flattenTokens } from './lib/engine/flatten-tokens';
+export { resolveTheme } from './lib/engine/resolve-theme';
+
+export type { RgbColor, TextSize } from './lib/utils/color';
+export {
+  getContrastRatio,
+  getRelativeLuminance,
+  meetsContrastAA,
+  parseHexColor,
+} from './lib/utils/color';
+export { withThemeMode } from './lib/engine/with-theme-mode';
+export { resolveComponentCssVars } from './lib/engine/resolve-component-css-vars';
+export { buildStateSelector } from './lib/engine/build-state-selector';

@@ -24,3 +24,24 @@ describe('resolveToken', () => {
     expect(resolveToken(defaultThemePreset, 'single-segment')).toBe(undefined);
   });
 });
+
+describe('resolveToken prototype safety', () => {
+  it('ignores inherited object properties', () => {
+    expect(resolveToken(defaultThemePreset, 'color.toString')).toBeUndefined();
+    expect(resolveToken(defaultThemePreset, 'semantic.accent.constructor')).toBeUndefined();
+    expect(resolveToken(defaultThemePreset, 'primitives.radius.hasOwnProperty')).toBeUndefined();
+  });
+});
+
+describe('resolveToken path length', () => {
+  it('rejects paths with more than three segments', () => {
+    expect(resolveToken(defaultThemePreset, 'semantic.accent.brand.extra')).toBeUndefined();
+  });
+});
+
+describe('resolveToken whitespace handling', () => {
+  it('tolerates whitespace inside braces and around segments', () => {
+    expect(resolveToken(defaultThemePreset, '{ color.primary500 }')).toBe('#2563eb');
+    expect(resolveToken(defaultThemePreset, 'semantic . accent . brand')).toBe('{color.primary500}');
+  });
+});

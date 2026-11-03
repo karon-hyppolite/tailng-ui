@@ -12,6 +12,8 @@ export type CssVarAdapterOptions = {
   includeSemantic?: boolean;
   resolveReferences?: boolean;
   maxResolveDepth?: number;
+  caseStyle?: 'kebab' | 'preserve';
+  exclude?: readonly string[];
 };
 
 const primitiveCollections: readonly (keyof ThemePrimitives)[] = [
@@ -30,8 +32,13 @@ const semanticCollections: readonly (keyof ThemeSemanticTokens)[] = [
   'focus',
 ];
 
+function normalizePrefix(prefix: string): string {
+  return prefix.trim().replace(/^-+/, '').replace(/-+$/, '');
+}
+
 function toVariableName(prefix: string, parts: readonly string[]): string {
-  return `--${prefix}-${parts.join('-')}`;
+  const segments = prefix ? [prefix, ...parts] : parts;
+  return `--${segments.join('-')}`;
 }
 
 type ScaleContext = Readonly<{
@@ -111,11 +118,56 @@ function addSemanticVariables(
   return vars;
 }
 
+function toKebabCase(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+function applyCaseStyle(
+  vars: Record<string, string>,
+  caseStyle: CssVarAdapterOptions['caseStyle'],
+): Record<string, string> {
+  if (caseStyle !== 'kebab') {
+    return vars;
+  }
+
+  const result: Record<string, string> = {};
+  for (const [name, value] of Object.entries(vars)) {
+    result[toKebabCase(name)] = value;
+  }
+
+  return result;
+}
+
+function omitExcluded(
+  vars: Record<string, string>,
+  prefix: string,
+  exclude: readonly string[] | undefined,
+): Record<string, string> {
+  if (!exclude || exclude.length === 0) {
+    return vars;
+  }
+
+  const excludedNames = exclude.map((tokenPath) =>
+    toVariableName(prefix, tokenPath.split('.').filter(Boolean)),
+  );
+  const result: Record<string, string> = {};
+  for (const [name, value] of Object.entries(vars)) {
+    const isExcluded = excludedNames.some(
+      (excluded) => name === excluded || name.startsWith(`${excluded}-`),
+    );
+    if (!isExcluded) {
+      result[name] = value;
+    }
+  }
+
+  return result;
+}
+
 export function toCssVars(
   theme: ThemeDefinition,
   options: Readonly<CssVarAdapterOptions> = {},
 ): Record<string, string> {
-  const prefix = options.prefix ?? 'tng';
+  const prefix = normalizePrefix(options.prefix ?? 'tng');
   const includePrimitives = options.includePrimitives ?? true;
   const includeSemantic = options.includeSemantic ?? true;
   const resolveValue = getTokenValueResolver(theme, options);
@@ -130,5 +182,5 @@ export function toCssVars(
     Object.assign(vars, addSemanticVariables(theme, prefix, resolveValue));
   }
 
-  return vars;
+  return applyCaseStyle(omitExcluded(vars, prefix, options.exclude), options.caseStyle);
 }

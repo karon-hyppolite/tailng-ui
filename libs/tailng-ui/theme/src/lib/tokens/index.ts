@@ -16,9 +16,10 @@ export const primitiveTokens: ThemePrimitives = {
 
 export function createThemeTokens(
   semantic: ThemeSemanticTokens = lightSemanticTokens,
+  primitives: ThemePrimitives = primitiveTokens,
 ): ThemeTokens {
   return {
-    primitives: primitiveTokens,
+    primitives,
     semantic,
   };
 }

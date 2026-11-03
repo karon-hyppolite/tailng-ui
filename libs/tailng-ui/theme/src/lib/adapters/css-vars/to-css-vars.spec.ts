@@ -2,27 +2,43 @@ import { describe, expect, it } from 'vitest';
 import { toCssVars } from './to-css-vars';
 import { defaultThemePreset } from '../../presets/default.preset';
 
-describe('toCssVars', () => {
-  it('creates primitive and semantic variables with resolved token references', () => {
-    const cssVars = toCssVars(defaultThemePreset);
+describe('toCssVars prefix', () => {
+  it('normalizes dashes around a custom prefix', () => {
+    const vars = toCssVars(defaultThemePreset, { prefix: '--app-' });
 
-    expect(cssVars['--tng-color-primary500']).toBe('#2563eb');
-    expect(cssVars['--tng-semantic-accent-brand']).toBe('#2563eb');
+    expect(vars['--app-color-white']).toBe('#ffffff');
   });
+});
 
-  it('supports custom prefix and selective scale inclusion', () => {
-    const cssVars = toCssVars(defaultThemePreset, {
-      prefix: 'tailng',
-      includePrimitives: false,
-      includeSemantic: true,
-    });
+describe('toCssVars empty prefix', () => {
+  it('omits the prefix segment when the prefix is empty', () => {
+    const vars = toCssVars(defaultThemePreset, { prefix: '' });
 
-    expect(cssVars['--tailng-semantic-accent-brand']).toBe('#2563eb');
-    expect(cssVars['--tailng-color-primary500']).toBeUndefined();
+    expect(vars['--color-white']).toBe('#ffffff');
+    expect(vars['---color-white']).toBeUndefined();
   });
+});
 
-  it('can preserve unresolved references when requested', () => {
-    const cssVars = toCssVars(defaultThemePreset, { resolveReferences: false });
-    expect(cssVars['--tng-semantic-accent-brand']).toBe('{color.primary500}');
+describe('toCssVars case style', () => {
+  it('converts camelCase token names to kebab-case', () => {
+    const preserved = toCssVars(defaultThemePreset);
+    const kebab = toCssVars(defaultThemePreset, { caseStyle: 'kebab' });
+
+    expect(kebab['--tng-semantic-accent-brand-hover']).toBe(
+      preserved['--tng-semantic-accent-brandHover'],
+    );
+    expect(kebab['--tng-semantic-accent-brandHover']).toBeUndefined();
+  });
+});
+
+describe('toCssVars exclude', () => {
+  it('omits variables under excluded token paths', () => {
+    const vars = toCssVars(defaultThemePreset, { exclude: ['color', 'semantic.accent'] });
+    const names = Object.keys(vars);
+
+    expect(names.some((name) => name.startsWith('--tng-color-'))).toBe(false);
+    expect(names.some((name) => name.startsWith('--tng-semantic-accent-'))).toBe(false);
+    expect(vars['--tng-spacing-md']).toBeDefined();
+    expect(vars['--tng-semantic-focus-ring']).toBeDefined();
   });
 });

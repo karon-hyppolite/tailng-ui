@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import type { RegistryFile, RegistryItem } from '@tailng-ui/registry';
-import { access, mkdir, stat, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import * as path from 'node:path';
 
 type AddCommand = Readonly<{
-  componentName: string;
+  componentNames: readonly string[];
   cwd: string;
   dryRun: boolean;
   force: boolean;
@@ -18,7 +18,7 @@ type ParsedArgs = Readonly<{
 type ParsedCommand =
   | Readonly<{ kind: 'add'; value: AddCommand }>
   | Readonly<{ kind: 'help'; message: string | null }>
-  | Readonly<{ kind: 'list' }>;
+  | Readonly<{ kind: 'list'; json: boolean }>;
 
 type WriteTarget = Readonly<{
   absolutePath: string;
@@ -41,8 +41,9 @@ const usageText = [
   'Shadcn-style source copy for TailNG components.',
   '',
   'Usage:',
-  '  tailng list',
-  '  tailng add <component-name> [--cwd <path>] [--dry-run] [--force]',
+  '  tailng --help | -h',
+  '  tailng list [--json]',
+  '  tailng add <component-name...> [--cwd <path>] [--dry-run|-n] [--force|-f]',
   '',
   'Examples:',
   '  tailng list',
@@ -50,8 +51,39 @@ const usageText = [
   '  tailng add button --cwd apps/tailng-ui/playground-vanilla --dry-run',
 ].join('\n');
 
+const shortOptionAliases: ReadonlyMap<string, string> = new Map([
+  ['-f', 'force'],
+  ['-h', 'help'],
+  ['-n', 'dry-run'],
+]);
+
 function isOptionExpectingValue(name: string): boolean {
   return name === 'cwd';
+}
+
+const knownOptions: ReadonlySet<string> = new Set(['cwd', 'dry-run', 'force', 'help', 'json']);
+
+const booleanOptions: readonly string[] = ['dry-run', 'force', 'help', 'json'];
+const truthyOptionValues: ReadonlySet<string> = new Set(['1', 'on', 'true', 'yes']);
+const falsyOptionValues: ReadonlySet<string> = new Set(['0', 'false', 'no', 'off']);
+
+function isValidBooleanValue(value: string | true | undefined): boolean {
+  if (typeof value !== 'string') {
+    return true;
+  }
+
+  const normalized = value.toLowerCase();
+  return truthyOptionValues.has(normalized) || falsyOptionValues.has(normalized);
+}
+
+function findInvalidBooleanOption(
+  options: Readonly<Record<string, string | true>>,
+): string | undefined {
+  return booleanOptions.find((name) => !isValidBooleanValue(options[name]));
+}
+
+function findUnknownOption(options: Readonly<Record<string, string | true>>): string | undefined {
+  return Object.keys(options).find((name) => !knownOptions.has(name));
 }
 
 function parseArgs(argv: readonly string[]): ParsedArgs {
@@ -63,6 +95,12 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
     if (pendingOption) {
       options[pendingOption] = token;
       pendingOption = null;
+      continue;
+    }
+
+    const alias = shortOptionAliases.get(token);
+    if (alias !== undefined) {
+      options[alias] = true;
       continue;
     }
 
@@ -101,27 +139,48 @@ function parseCommand(argv: readonly string[]): ParsedCommand {
     return { kind: 'help', message: null };
   }
 
-  const [command, componentName] = parsed.positionals;
+  const unknownOption = findUnknownOption(parsed.options);
+  if (unknownOption !== undefined) {
+    return { kind: 'help', message: `Unknown option "--${unknownOption}".` };
+  }
+
+  const invalidBooleanOption = findInvalidBooleanOption(parsed.options);
+  if (invalidBooleanOption !== undefined) {
+    return { kind: 'help', message: `Invalid value for "--${invalidBooleanOption}".` };
+  }
+
+  const [command, ...componentNames] = parsed.positionals;
   if (command === undefined || command === 'help') {
     return { kind: 'help', message: null };
   }
 
   if (command === 'list') {
-    return { kind: 'list' };
+    return { kind: 'list', json: readBooleanOption(parsed.options, 'json') };
   }
 
   if (command !== 'add') {
     return { kind: 'help', message: `Unknown command "${command}".` };
   }
 
-  if (componentName === undefined) {
+  return parseAddCommand(parsed, componentNames);
+}
+
+function parseAddCommand(
+  parsed: ParsedArgs,
+  componentNames: readonly string[],
+): ParsedCommand {
+  if (componentNames.length === 0) {
     return { kind: 'help', message: 'Missing component name for "add".' };
+  }
+
+  if (parsed.options['cwd'] === true) {
+    return { kind: 'help', message: 'Missing value for "--cwd".' };
   }
 
   return {
     kind: 'add',
     value: {
-      componentName,
+      componentNames,
       cwd: readStringOption(parsed.options, 'cwd') ?? process.cwd(),
       dryRun: readBooleanOption(parsed.options, 'dry-run'),
       force: readBooleanOption(parsed.options, 'force'),
@@ -154,8 +213,7 @@ function readBooleanOption(
     return true;
   }
 
-  const normalized = value.toLowerCase();
-  return normalized === '1' || normalized === 'true' || normalized === 'yes';
+  return truthyOptionValues.has(value.toLowerCase());
 }
 
 function readStringOption(
@@ -332,19 +390,20 @@ function printDependencyHint(item: RegistryItem): void {
   }
 }
 
-function formatImportHint(item: RegistryItem): string | null {
-  if (item.name !== 'button') {
-    return null;
-  }
+function toPascalCase(name: string): string {
+  return name
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .join('');
+}
 
-  return "Import with: import { TngButton } from './tailng-ui/button';";
+function formatImportHint(item: RegistryItem): string {
+  return `Import with: import { Tng${toPascalCase(item.name)} } from './tailng-ui/${item.name}';`;
 }
 
 function printImportHint(item: RegistryItem): void {
-  const importHint = formatImportHint(item);
-  if (importHint) {
-    writeInfo(importHint);
-  }
+  writeInfo(formatImportHint(item));
 }
 
 function printExistingTargetsError(existingTargets: readonly WriteTarget[]): void {
@@ -382,6 +441,15 @@ function resolveWriteTargets(
   return targets;
 }
 
+function printDryRunCounts(totalCount: number, existingCount: number, force: boolean): void {
+  const createCount = totalCount - existingCount;
+  const overwriteCount = force ? existingCount : 0;
+  const skipCount = force ? 0 : existingCount;
+  writeInfo(
+    `Dry run: ${createCount} to create, ${overwriteCount} to overwrite, ${skipCount} to skip.`,
+  );
+}
+
 function runDryRunPreview(
   targets: readonly WriteTarget[],
   existingTargets: readonly WriteTarget[],
@@ -393,6 +461,7 @@ function runDryRunPreview(
   }
 
   printDryRunSummary(existingTargets.length, force);
+  printDryRunCounts(targets.length, existingTargets.length, force);
 }
 
 async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
@@ -403,14 +472,135 @@ async function writeTargets(targets: readonly WriteTarget[]): Promise<void> {
   }
 }
 
+function getEditDistance(left: string, right: string): number {
+  const distances: number[] = [];
+  for (let column = 0; column <= right.length; column += 1) {
+    distances.push(column);
+  }
+
+  for (let row = 1; row <= left.length; row += 1) {
+    let diagonal = distances[0];
+    distances[0] = row;
+    for (let column = 1; column <= right.length; column += 1) {
+      const above = distances[column];
+      const substitution = diagonal + (left[row - 1] === right[column - 1] ? 0 : 1);
+      distances[column] = Math.min(above + 1, distances[column - 1] + 1, substitution);
+      diagonal = above;
+    }
+  }
+
+  return distances[right.length];
+}
+
+function findClosestName(name: string, candidates: readonly string[]): string | undefined {
+  const normalizedName = name.trim().toLowerCase();
+  let closest: string | undefined;
+  let closestDistance = 3;
+
+  for (const candidate of candidates) {
+    const distance = getEditDistance(normalizedName, candidate);
+    if (distance < closestDistance) {
+      closest = candidate;
+      closestDistance = distance;
+    }
+  }
+
+  return closest;
+}
+
+function printUnknownComponent(name: string, registry: RegistryModule): void {
+  writeError(`Unknown component "${name}".`);
+  const suggestion = findClosestName(name, registry.listRegistryItemNames());
+  if (suggestion) {
+    writeError(`Did you mean "${suggestion}"?`);
+  }
+
+  writeError(`Available components: ${formatComponentNames(registry)}`);
+}
+
+function resolveItems(
+  names: readonly string[],
+  registry: RegistryModule,
+): readonly RegistryItem[] | null {
+  const items: RegistryItem[] = [];
+
+  for (const name of names) {
+    const item = registry.getRegistryItem(name);
+    if (!item) {
+      printUnknownComponent(name, registry);
+      return null;
+    }
+
+    if (!items.includes(item)) {
+      items.push(item);
+    }
+  }
+
+  return items;
+}
+
+function resolveAllWriteTargets(
+  items: readonly RegistryItem[],
+  targetRoot: string,
+): readonly WriteTarget[] | null {
+  const targets: WriteTarget[] = [];
+
+  for (const item of items) {
+    const itemTargets = resolveWriteTargets(item, targetRoot);
+    if (!itemTargets) {
+      return null;
+    }
+
+    targets.push(...itemTargets);
+  }
+
+  return targets;
+}
+
+function printItemHints(items: readonly RegistryItem[]): void {
+  for (const item of items) {
+    printDependencyHint(item);
+    printImportHint(item);
+  }
+}
+
+async function hasSameContent(target: WriteTarget): Promise<boolean> {
+  try {
+    return (await readFile(target.absolutePath, 'utf8')) === target.content;
+  } catch {
+    return false;
+  }
+}
+
+async function splitUnchangedTargets(
+  targets: readonly WriteTarget[],
+): Promise<Readonly<{ changed: readonly WriteTarget[]; unchanged: readonly WriteTarget[] }>> {
+  const changed: WriteTarget[] = [];
+  const unchanged: WriteTarget[] = [];
+
+  for (const target of targets) {
+    if (await hasSameContent(target)) {
+      unchanged.push(target);
+    } else {
+      changed.push(target);
+    }
+  }
+
+  return { changed, unchanged };
+}
+
+function printUnchangedTargets(targets: readonly WriteTarget[]): void {
+  for (const target of targets) {
+    writeInfo(`UNCHANGED ${target.relativePath}`);
+  }
+}
+
 async function runAddCommand(
   command: AddCommand,
   registry: RegistryModule,
 ): Promise<number> {
-  const item = registry.getRegistryItem(command.componentName);
-  if (!item) {
-    writeError(`Unknown component "${command.componentName}".`);
-    writeError(`Available components: ${formatComponentNames(registry)}`);
+  const items = resolveItems(command.componentNames, registry);
+  if (!items) {
     return 1;
   }
 
@@ -419,17 +609,18 @@ async function runAddCommand(
     return 1;
   }
 
-  const targets = resolveWriteTargets(item, targetRoot);
+  const targets = resolveAllWriteTargets(items, targetRoot);
   if (!targets) {
     return 1;
   }
 
-  const existingTargets = await detectExistingTargets(targets);
+  const { changed, unchanged } = await splitUnchangedTargets(targets);
+  printUnchangedTargets(unchanged);
+  const existingTargets = await detectExistingTargets(changed);
 
   if (command.dryRun) {
-    runDryRunPreview(targets, existingTargets, command.force);
-    printDependencyHint(item);
-    printImportHint(item);
+    runDryRunPreview(changed, existingTargets, command.force);
+    printItemHints(items);
     return 0;
   }
 
@@ -438,13 +629,17 @@ async function runAddCommand(
     return 1;
   }
 
-  await writeTargets(targets);
-  printDependencyHint(item);
-  printImportHint(item);
+  await writeTargets(changed);
+  printItemHints(items);
   return 0;
 }
 
-function runListCommand(registry: RegistryModule): number {
+function runListCommand(registry: RegistryModule, json: boolean): number {
+  if (json) {
+    writeInfo(JSON.stringify(registry.listRegistryItemNames()));
+    return 0;
+  }
+
   writeInfo('Available components:');
   for (const name of registry.listRegistryItemNames()) {
     writeInfo(`- ${name}`);
@@ -466,7 +661,7 @@ export async function runCli(
   const registry = dependencies?.registry ?? (await loadRegistryModule());
 
   if (parsedCommand.kind === 'list') {
-    return runListCommand(registry);
+    return runListCommand(registry, parsedCommand.json);
   }
 
   return runAddCommand(parsedCommand.value, registry);

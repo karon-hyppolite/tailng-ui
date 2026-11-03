@@ -36,3 +36,34 @@ describe('resolveTokenValue', () => {
     );
   });
 });
+
+describe('resolveTokenValue maxDepth handling', () => {
+  it('falls back to the default depth for invalid values', () => {
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: Number.NaN }),
+    ).toBe('#2563eb');
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: -1 }),
+    ).toBe('#2563eb');
+  });
+
+  it('respects a small explicit depth', () => {
+    expect(
+      resolveTokenValue(defaultThemePreset, '{semantic.accent.brand}', { maxDepth: 1 }),
+    ).toBe('{color.primary500}');
+  });
+});
+
+describe('resolveTokenValue embedded references', () => {
+  it('resolves references embedded in a larger value', () => {
+    expect(resolveTokenValue(defaultThemePreset, '0 0 0 3px {semantic.focus.ring}')).toBe(
+      '0 0 0 3px #2563eb',
+    );
+  });
+
+  it('resolves multiple references and keeps unknown ones', () => {
+    expect(resolveTokenValue(defaultThemePreset, '{spacing.none} {color.unknown}')).toBe(
+      '0 {color.unknown}',
+    );
+  });
+});

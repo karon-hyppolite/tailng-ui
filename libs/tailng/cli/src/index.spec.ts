@@ -2,7 +2,7 @@ import { getRegistryItem, listRegistryItemNames } from '@tailng-ui/registry';
 import { access, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import * as path from 'node:path';
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { runCli } from './index';
 
 type CliRegistryModule = Readonly<{
@@ -88,6 +88,12 @@ it(
     });
     expect(firstRunExitCode).toBe(0);
 
+    await writeFile(
+      path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'),
+      '// local change\n',
+      'utf8',
+    );
+
     const secondRunExitCode = await runCli(['add', 'button', '--cwd', targetRoot], {
       registry: registryModule,
     });
@@ -114,4 +120,161 @@ it('tailng cli integration: overwrites files when --force is provided', async ()
   const overwrittenContent = await readFile(buttonTsPath, 'utf8');
   expect(overwrittenContent).toContain('export class TngButton');
   expect(overwrittenContent).not.toContain('// stale content');
+});
+
+it('tailng cli: short flags map to long options', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(await runCli(['-h'], { registry: registryModule })).toBe(0);
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '-n'], { registry: registryModule }),
+  ).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});
+
+it('tailng cli: fails when --cwd has no value', async (): Promise<void> => {
+  expect(await runCli(['add', 'button', '--cwd'], { registry: registryModule })).toBe(1);
+});
+
+it('tailng cli: add accepts several names and validates all of them first', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const indexPath = path.join(targetRoot, 'src/app/tailng-ui/button/index.ts');
+
+  expect(
+    await runCli(['add', 'button', 'not-a-component', '--cwd', targetRoot], {
+      registry: registryModule,
+    }),
+  ).toBe(1);
+  expect(await pathExists(indexPath)).toBe(false);
+
+  expect(
+    await runCli(['add', 'button', 'button', '--cwd', targetRoot], { registry: registryModule }),
+  ).toBe(0);
+  expect(await pathExists(indexPath)).toBe(true);
+});
+
+it('tailng cli: rejects unknown options', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--forse'], { registry: registryModule }),
+  ).toBe(1);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});
+
+type CapturedRun = Readonly<{
+  exitCode: number;
+  stderr: string;
+  stdout: string;
+}>;
+
+async function captureOutput(run: () => Promise<number>): Promise<CapturedRun> {
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+  const stdoutSpy = vi
+    .spyOn(process.stdout, 'write')
+    .mockImplementation(((chunk: unknown): boolean =>
+      stdout.push(String(chunk)) > 0) as typeof process.stdout.write);
+  const stderrSpy = vi
+    .spyOn(process.stderr, 'write')
+    .mockImplementation(((chunk: unknown): boolean =>
+      stderr.push(String(chunk)) > 0) as typeof process.stderr.write);
+
+  try {
+    const exitCode = await run();
+    return { exitCode, stderr: stderr.join(''), stdout: stdout.join('') };
+  } finally {
+    stdoutSpy.mockRestore();
+    stderrSpy.mockRestore();
+  }
+}
+
+it('tailng cli: list --json prints component names as JSON', async (): Promise<void> => {
+  const result = await captureOutput(() => runCli(['list', '--json'], { registry: registryModule }));
+
+  expect(result.exitCode).toBe(0);
+  expect(JSON.parse(result.stdout)).toContain('button');
+});
+
+it('tailng cli: re-running add with identical files succeeds without --force', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  expect(await runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule })).toBe(0);
+
+  const result = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule }),
+  );
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain('UNCHANGED src/app/tailng-ui/button/index.ts');
+});
+
+it('tailng cli: prints an import hint derived from the component name', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  const datePicker = {
+    dependencies: [],
+    description: 'Test item',
+    files: [{ content: 'export {};\n', path: 'src/app/tailng-ui/date-picker/index.ts' }],
+    name: 'date-picker',
+  };
+  const fakeRegistry: CliRegistryModule = {
+    getRegistryItem: (name: string) => (name === 'date-picker' ? datePicker : undefined),
+    listRegistryItemNames: () => ['date-picker'],
+  };
+
+  const result = await captureOutput(() =>
+    runCli(['add', 'date-picker', '--cwd', targetRoot], { registry: fakeRegistry }),
+  );
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain("import { TngDatePicker } from './tailng-ui/date-picker'");
+});
+
+it('tailng cli: rejects invalid boolean option values', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--dry-run=maybe'], {
+      registry: registryModule,
+    }),
+  ).toBe(1);
+  expect(
+    await runCli(['add', 'button', '--cwd', targetRoot, '--dry-run=on'], {
+      registry: registryModule,
+    }),
+  ).toBe(0);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'))).toBe(false);
+});
+
+it('tailng cli: dry-run prints a summary of planned changes', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const fresh = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot, '--dry-run'], { registry: registryModule }),
+  );
+  expect(fresh.stdout).toContain('Dry run: 5 to create, 0 to overwrite, 0 to skip.');
+
+  expect(await runCli(['add', 'button', '--cwd', targetRoot], { registry: registryModule })).toBe(0);
+  await writeFile(path.join(targetRoot, 'src/app/tailng-ui/button/index.ts'), '// edit\n', 'utf8');
+
+  const forced = await captureOutput(() =>
+    runCli(['add', 'button', '--cwd', targetRoot, '--dry-run', '--force'], {
+      registry: registryModule,
+    }),
+  );
+  expect(forced.stdout).toContain('Dry run: 0 to create, 1 to overwrite, 0 to skip.');
+});
+
+it('tailng cli: suggests a close component name for typos', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+
+  const typo = await captureOutput(() =>
+    runCli(['add', 'buton', '--cwd', targetRoot], { registry: registryModule }),
+  );
+  expect(typo.exitCode).toBe(1);
+  expect(typo.stderr).toContain('Did you mean "button"?');
+
+  const unrelated = await captureOutput(() =>
+    runCli(['add', 'zzzzzz', '--cwd', targetRoot], { registry: registryModule }),
+  );
+  expect(unrelated.stderr).not.toContain('Did you mean');
 });

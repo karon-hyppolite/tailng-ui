@@ -3,11 +3,11 @@ import type { ThemeDefinition, ThemeOverride } from '../contracts/theme.types';
 
 export function createTheme(
   base: ThemeDefinition,
-  override?: ThemeOverride,
+  ...overrides: readonly (ThemeOverride | undefined)[]
 ): ThemeDefinition {
-  if (!override) {
-    return base;
-  }
-
-  return mergeTheme(base, override);
+  return overrides.reduce(
+    (theme: ThemeDefinition, override: ThemeOverride | undefined): ThemeDefinition =>
+      override ? mergeTheme(theme, override) : theme,
+    base,
+  );
 }

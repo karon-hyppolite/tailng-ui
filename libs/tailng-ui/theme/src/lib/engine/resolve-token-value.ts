@@ -5,6 +5,17 @@ export type ResolveTokenValueOptions = {
   maxDepth?: number;
 };
 
+const defaultMaxDepth = 10;
+const embeddedReferencePattern = /\{([^{}]+)\}/g;
+
+function normalizeMaxDepth(maxDepth: number | undefined): number {
+  if (maxDepth === undefined || !Number.isFinite(maxDepth) || maxDepth < 1) {
+    return defaultMaxDepth;
+  }
+
+  return Math.floor(maxDepth);
+}
+
 function toTokenPath(value: string): string | undefined {
   const trimmed = value.trim();
   if (!trimmed.startsWith('{') || !trimmed.endsWith('}')) {
@@ -12,26 +23,35 @@ function toTokenPath(value: string): string | undefined {
   }
 
   const tokenPath = trimmed.slice(1, -1).trim();
-  if (tokenPath.length === 0) {
+  if (tokenPath.length === 0 || /[{}]/.test(tokenPath)) {
     return undefined;
   }
 
   return tokenPath;
 }
 
-export function resolveTokenValue(
+function resolveEmbeddedReferences(
   theme: ThemeDefinition,
   value: string,
-  options: Readonly<ResolveTokenValueOptions> = {},
+  depthLeft: number,
 ): string {
-  const maxDepth = options.maxDepth ?? 10;
+  if (depthLeft <= 0 || !value.includes('{')) {
+    return value;
+  }
+
+  return value.replace(embeddedReferencePattern, (match: string): string =>
+    resolveWithDepth(theme, match, depthLeft - 1),
+  );
+}
+
+function resolveWithDepth(theme: ThemeDefinition, value: string, maxDepth: number): string {
   let currentValue = value;
   const visited = new Set<string>();
 
   for (let depth = 0; depth < maxDepth; depth += 1) {
     const tokenPath = toTokenPath(currentValue);
     if (!tokenPath) {
-      return currentValue;
+      return resolveEmbeddedReferences(theme, currentValue, maxDepth - depth);
     }
 
     if (visited.has(tokenPath)) {
@@ -48,4 +68,12 @@ export function resolveTokenValue(
   }
 
   return currentValue;
+}
+
+export function resolveTokenValue(
+  theme: ThemeDefinition,
+  value: string,
+  options: Readonly<ResolveTokenValueOptions> = {},
+): string {
+  return resolveWithDepth(theme, value, normalizeMaxDepth(options.maxDepth));
 }
